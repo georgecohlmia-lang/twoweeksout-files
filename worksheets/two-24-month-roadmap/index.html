@@ -1404,18 +1404,55 @@ h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inh
     XLSX.writeFile(wb, `${safeName}_24mo_roadmap_${stamp}.xlsx`);
   }
 
+  // ---------------- Browser-local autosave ----------------
+  const STORAGE_KEY = "two_24_month_roadmap_v1";
+  function persistRoadmap() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (err) {
+      console.warn("Could not save roadmap to this browser.", err);
+    }
+  }
+  function restoreRoadmap() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if (!saved || typeof saved !== "object" || Array.isArray(saved)) return;
+      state = { ...state, ...saved };
+      if (!Array.isArray(state.offers) || !state.offers.length) {
+        state.offers = DEFAULT_OFFERS.map(o => ({ ...o }));
+      }
+      if (!state.closeLikelihoods || typeof state.closeLikelihoods !== "object") {
+        state.closeLikelihoods = {};
+      }
+    } catch (err) {
+      console.warn("Could not restore saved roadmap.", err);
+    }
+  }
+
   // ---------------- Init ----------------
   (function init() {
-    // Default start month: current month
     const today = new Date();
     const iso = today.toISOString().slice(0, 7);
     state.startMonth = iso;
-    document.getElementById("startMonth").value = iso;
+    restoreRoadmap();
+
+    ["company", "startMonth", "growthRate", "defaultClose",
+     "a1", "a1_notes", "a2", "a2_notes", "a3", "a3_notes"].forEach(id => {
+       const field = document.getElementById(id);
+       if (field) field.value = state[id] ?? "";
+     });
 
     renderOffers();
     renderRoadmapHeader();
     renderRoadmapBody();
     updateMeta();
+
+    // Defer persistence until the worksheet's own event handlers finish.
+    ["input", "change", "click"].forEach(eventName => {
+      document.addEventListener(eventName, () => {
+        setTimeout(persistRoadmap, 0);
+      });
+    });
   })();
 </script>
 </body>
