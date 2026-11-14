@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your Management Discipline — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a; --ink-soft:#10131a; --muted:#59616e; --muted-soft:#9ba3af;
+    --border:#e9ecf5; --border-soft:#e9ecf5;
+    --bg:#ffffff; --bg-soft:#fbfaf6;
+    --green:#2747f5; --bright:#2747f5; --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5; --amber:#7d5300;
+    --danger:#b3261e; --danger-soft:#fde9e7;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; color: var(--ink); background: var(--bg-soft); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .sheet { max-width: 880px; margin: 0 auto; padding: 56px 48px 80px; background: var(--bg); }
+  header.brand { border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-bottom: 34px; }
+  .eyebrow { font-size: 11px; letter-spacing: 2.5px; color: var(--green); font-weight: 600; text-transform: uppercase; margin: 0 0 6px; }
+  h1 { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 32px; line-height: 1.2; color: var(--ink); margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; color: var(--ink-soft); font-size: 16px; margin: 0; }
+  .step { margin: 38px 0 0; padding-top: 26px; border-top: 1px solid var(--border); }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .step-num { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 28px;font-weight:800; color: var(--bright); line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px;font-weight:800; color: var(--ink); line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub { color: var(--muted); font-size: 14px; margin: 4px 0 18px; font-style: italic; }
+  label { font-size: 13px; color: var(--ink-soft); font-weight: 500; display: block; margin-bottom: 5px; }
+  input[type="text"], select, textarea { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px; color: var(--ink); background: white; border: 1px solid var(--border); border-radius:0; padding: 9px 11px; width: 100%; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 2px var(--em-soft); }
+  textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+  .field { margin-bottom: 14px; } .field:last-child { margin-bottom: 0; }
+  .role-card { background: var(--em-soft); border-left: 4px solid var(--green); border-radius:0; padding: 16px 20px; }
+  .role-card label { color: var(--green); font-weight: 600; }
+  .role-card input, .role-card select { background: white; }
+  .input-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .input-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .block-card { border: 1px solid var(--border); border-radius:0; padding: 16px 18px; margin-bottom: 12px; background: white; }
+  .block-name { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .block-prompt { font-size: 13px; color: var(--muted); font-style: italic; margin: 0 0 12px; }
+  .toggle-card { background: var(--bg-soft); border: 1px dashed var(--border); border-radius:0; padding: 12px 16px; margin-bottom: 14px; }
+  .toggle-card label { display: flex; align-items: center; gap: 10px; cursor: pointer; margin: 0; font-weight: 500; color: var(--ink-soft); }
+  .toggle-card input[type="checkbox"] { width: auto; accent-color: var(--green); }
+  .pm-hidden { display: none; }
+  .output-section { margin-top: 48px; padding-top: 36px; border-top: 3px solid var(--ink); }
+  .output-header { text-align: center; margin-bottom: 24px; }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 26px;font-weight:800; color: var(--ink); margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p { color: var(--muted); font-size: 14px; margin: 0; font-style: italic; }
+  .output-banner { text-align: center; font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px; color: var(--green); margin-bottom: 28px; padding: 14px 20px; background: var(--em-soft); border-radius:0;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .output-banner small { display: block; font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-soft); margin-top: 6px; letter-spacing: 0.5px; font-style: normal; }
+  .out-block { margin-bottom: 22px; page-break-inside: avoid; }
+  .out-block-title { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .cadence-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .cadence-card { background: var(--bg-soft); border-left: 3px solid var(--green); border-radius:0; padding: 12px 14px; }
+  .cadence-card-name { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px; font-weight: 600; color: var(--green); margin-bottom: 4px; }
+  .cadence-card-when { font-size: 14px; color: var(--ink); font-weight: 500; margin-bottom: 4px; }
+  .cadence-card-meta { font-size: 12px; color: var(--muted); font-style: italic; }
+  .summary-card { background: var(--bg-soft); border-left: 3px solid var(--bright); border-radius:0; padding: 12px 16px; margin-bottom: 10px; }
+  .summary-card-name { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px; font-weight: 600; color: var(--bright); margin-bottom: 6px; }
+  .summary-card-body { font-size: 14px; color: var(--ink-soft); line-height: 1.5; white-space: pre-wrap; }
+  .empty-inline {color:#59616e; font-style: italic; font-size: 13px; }
+  .pm-out-card { background: var(--danger-soft); border-left: 4px solid var(--danger); border-radius:0; padding: 16px 20px; }
+  .pm-out-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.8px; color: var(--danger); font-weight: 700; margin-bottom: 8px; }
+  .pm-out-body { font-size: 14px; color: var(--ink); line-height: 1.55; }
+  .observation { margin-top: 24px; padding: 14px 18px; background: var(--em-soft); border-radius:0; font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+  .observation strong { color: var(--green); }
+  .empty-output { padding: 36px; background: var(--bg-soft); border: 1px dashed var(--border); border-radius:0; text-align: center; color: var(--muted); font-style: italic; }
+  .toolbar { display: flex; gap: 10px; justify-content: flex-end; margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--border); }
+  .btn { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius:0; cursor: pointer; border: 1px solid var(--border); background: white; color: var(--ink-soft); }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary { background: var(--green); color: white;border-color:#ffffff; } .btn-primary:hover { background: #1b36c9; }
+  .btn-example { background: var(--cream-soft); color: var(--amber); border-color: var(--cream-soft); font-weight: 600; } .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 32px 28px; }
+    .toolbar { display: none; }
+    .step { page-break-inside: avoid; }
+    .out-block { page-break-inside: avoid; }
+    input, select, textarea { border: none; border-bottom: 1px solid var(--border); border-radius:0; padding: 4px 0; background: transparent; }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#7C97FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">09 / Build and Lead Your Team</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">Two Weeks Out  ·  Team Building and Leadership Development</p>
+  <h1>Your Management Discipline</h1>
+  <p class="lede">For one direct report — install the cadence, deliver one specific piece of feedback, do one delegation handoff cleanly, and commit to one growth move.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">The direct report</span></div>
+  <p class="step-sub">This worksheet builds the management discipline around one person. Name them so the artifact is real.</p>
+  <div class="role-card">
+    <div class="input-grid-2">
+      <div class="field"><label for="report-name">Name or initials</label><input type="text" id="report-name" placeholder="e.g., M.J."></div>
+      <div class="field"><label for="report-role">Their role</label><input type="text" id="report-role" placeholder="e.g., Account Management Lead"></div>
+    </div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">The operating cadence — install it on the calendar</span></div>
+  <p class="step-sub">As an owner, you are the system. The cadence collapses the moment you stop personally enforcing it. Put it on the calendar before you close this worksheet.</p>
+
+  <div class="block-card">
+    <div class="block-name">Weekly 1:1</div>
+    <p class="block-prompt">30 minutes, same time each week, owned by the report's agenda. Non-negotiable.</p>
+    <div class="input-grid-2">
+      <div class="field"><label for="oo-day">Day</label><select id="oo-day"><option value="">Select…</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option></select></div>
+      <div class="field"><label for="oo-time">Time</label><input type="text" id="oo-time" placeholder="e.g., 9:00 AM"></div>
+    </div>
+  </div>
+
+  <div class="block-card">
+    <div class="block-name">Weekly team meeting</div>
+    <p class="block-prompt">One hour, focused on what is changing this week. Decisions, not status updates.</p>
+    <div class="input-grid-2">
+      <div class="field"><label for="team-day">Day</label><select id="team-day"><option value="">Select…</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option></select></div>
+      <div class="field"><label for="team-time">Time</label><input type="text" id="team-time" placeholder="e.g., 10:00 AM"></div>
+    </div>
+  </div>
+
+  <div class="block-card">
+    <div class="block-name">Monthly review</div>
+    <p class="block-prompt">90 minutes per person. Looking back at the prior month and forward at the next.</p>
+    <div class="input-grid-2">
+      <div class="field"><label for="rev-week">Week of month</label><select id="rev-week"><option value="">Select…</option><option>First week</option><option>Second week</option><option>Third week</option><option>Fourth week</option><option>Last week</option></select></div>
+      <div class="field"><label for="rev-day">Day of week</label><select id="rev-day"><option value="">Select…</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option></select></div>
+    </div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">One piece of feedback to deliver this week</span></div>
+  <p class="step-sub">Direct, specific, in the moment. Name the behavior and the consequence. Don't save it up for a sit-down.</p>
+  <div class="block-card">
+    <div class="field"><label for="fb-behavior">The specific behavior</label><textarea id="fb-behavior" placeholder="Be concrete. Not 'you need to be more strategic' — 'when you led with the tactical roadmap before the strategic context yesterday…'"></textarea></div>
+    <div class="field"><label for="fb-consequence">The consequence — what it produced</label><textarea id="fb-consequence" placeholder="What followed from the behavior, observably. Not interpretation — observation."></textarea></div>
+    <div class="field" style="margin-bottom: 0;"><label for="fb-when">When you'll deliver it</label><input type="text" id="fb-when" placeholder="e.g., Tomorrow's 1:1, first 10 minutes — before the rest of the agenda"></div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">04</span><span class="step-title">One delegation handoff — done cleanly</span></div>
+  <p class="step-sub">Outcome. Constraints. Decision rights. Then follow through — the first time you override a decision they made within the boundaries you set, the delegation is dead.</p>
+  <div class="block-card">
+    <div class="field"><label for="del-outcome">The outcome — what does success look like, observably?</label><textarea id="del-outcome" placeholder="Specific enough that two people would recognize success the same way."></textarea></div>
+    <div class="field"><label for="del-constraints">The constraints — budget, timeline, what is non-negotiable</label><textarea id="del-constraints" placeholder="The boundaries of the box. What is open. What is fixed."></textarea></div>
+    <div class="field" style="margin-bottom: 0;"><label for="del-rights">The decision rights — exactly what they own inside the boundaries</label><textarea id="del-rights" placeholder="Inside these boundaries, they make the calls. You want updates, not approvals. Name what 'updates' means."></textarea></div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">05</span><span class="step-title">One coaching plan — develop the person, not just manage them</span></div>
+  <p class="step-sub">The three questions from the lesson, applied to this specific person. Then engineer the next quarter to deliver on what would actually move them.</p>
+  <div class="block-card">
+    <div class="field"><label for="co-grow">Where do they want to grow? (two-year horizon)</label><textarea id="co-grow" placeholder="Forward-looking, not annual-review feedback. Their words, not yours."></textarea></div>
+    <div class="field"><label for="co-better">What would be visibly better in a quarter if they got better at it?</label><textarea id="co-better" placeholder="One specific area — pick the right thing."></textarea></div>
+    <div class="field" style="margin-bottom: 0;"><label for="co-assignment">What assignment, support, or stretch would actually move them?</label><textarea id="co-assignment" placeholder="The work that would change what they can do — engineered into the next quarter."></textarea></div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">06</span><span class="step-title">Performance-management timeline (only if applicable)</span></div>
+  <p class="step-sub">Only fill if a specific gap needs naming. The lesson's discipline: weeks, not months. The delay damages the team more than the underperformance itself.</p>
+  <div class="toggle-card">
+    <label><input type="checkbox" id="pm-toggle" onchange="togglePM()"><span>This person has a performance gap I need to act on</span></label>
+  </div>
+  <div id="pm-section" class="pm-hidden">
+    <div class="block-card">
+      <div class="field"><label for="pm-gap">The specific gap</label><textarea id="pm-gap" placeholder="Named in plain language. Not 'attitude' — the specific behavior and what it should look like instead."></textarea></div>
+      <div class="field"><label for="pm-close">What would close it</label><textarea id="pm-close" placeholder="Observable change. Specific enough that you'd both agree at the next check-in whether it had happened."></textarea></div>
+      <div class="input-grid-2">
+        <div class="field"><label for="pm-timeline">Timeline</label><select id="pm-timeline"><option value="">Select…</option><option>30 days</option><option>45 days</option><option>60 days</option></select></div>
+        <div class="field" style="margin-bottom: 0;"><label for="pm-next">Next conversation date</label><input type="text" id="pm-next" placeholder="e.g., June 15"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Management Discipline for This Person</h2>
+    <p>The cadence on the calendar, the feedback in the diary, the delegation handed off, the growth move engineered.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Complete the steps above and click Generate to produce your management discipline artifact.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+const EXAMPLE = {
+  name: "M.J.", role: "Account Management Lead",
+  oo: { day: "Tuesday", time: "9:00 AM" },
+  team: { day: "Monday", time: "10:00 AM" },
+  rev: { week: "First week", day: "Friday" },
+  fb: {
+    behavior: "In yesterday's client review for the X account, you led with the tactical execution plan — channel mix, timeline, deliverables — before establishing why we were proposing those moves at all. The client spent the first ten minutes asking foundational questions instead of engaging with the strategy.",
+    consequence: "What was meant as a strategic alignment meeting became a tactics-defense meeting. We left without the strategic buy-in the meeting was for. Worth noting because this is the third client review where the same sequencing has happened.",
+    when: "Tomorrow's 1:1 — first ten minutes, before anything else on your agenda. Brief, specific, then we move on."
+  },
+  del: {
+    outcome: "The Q3 retention review process is built and run by you, end to end. Success looks like: every account at risk identified by week three of the quarter, with a named owner and a written intervention plan, and a 30-day check-in scheduled. I should be able to see the retention pipeline at any point without asking.",
+    constraints: "Budget: existing AM team time only — no new headcount this quarter. Timeline: process built and first run completed in 8 weeks. Non-negotiable: every at-risk account has a written plan, no verbal-only assessments.",
+    rights: "Inside those boundaries, you make every call. Which accounts qualify as at-risk. What interventions to try. Which clients to escalate to me and when. I want a weekly written update — three lines, the pipeline state — not approval requests."
+  },
+  co: {
+    grow: "Wants to run the P&L for a client portfolio, not just the relationships. Two-year horizon: be the VP of Client Services for the agency, with revenue ownership.",
+    better: "Financial fluency in client conversations — speaking to margin, profitability, and the unit economics of an engagement rather than only about scope and timeline. By Q4 client reviews, every account discussion includes the margin picture.",
+    assignment: "Own the Q3 financial review of the AM portfolio with our bookkeeper. By the end of the quarter, can articulate margin contribution for the top eight accounts and recommend two pricing actions. Pair with the bookkeeper monthly until fluent."
+  },
+  pmEnabled: false
+};
+
+function useExample() {
+  const hasContent = !!val("report-name") || !!val("fb-behavior") || !!val("del-outcome");
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+  resetAllFields();
+  setEl("report-name", EXAMPLE.name); setEl("report-role", EXAMPLE.role);
+  setEl("oo-day", EXAMPLE.oo.day); setEl("oo-time", EXAMPLE.oo.time);
+  setEl("team-day", EXAMPLE.team.day); setEl("team-time", EXAMPLE.team.time);
+  setEl("rev-week", EXAMPLE.rev.week); setEl("rev-day", EXAMPLE.rev.day);
+  setEl("fb-behavior", EXAMPLE.fb.behavior); setEl("fb-consequence", EXAMPLE.fb.consequence); setEl("fb-when", EXAMPLE.fb.when);
+  setEl("del-outcome", EXAMPLE.del.outcome); setEl("del-constraints", EXAMPLE.del.constraints); setEl("del-rights", EXAMPLE.del.rights);
+  setEl("co-grow", EXAMPLE.co.grow); setEl("co-better", EXAMPLE.co.better); setEl("co-assignment", EXAMPLE.co.assignment);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function togglePM() {
+  document.getElementById("pm-section").classList.toggle("pm-hidden", !document.getElementById("pm-toggle").checked);
+}
+
+function val(id) { return (document.getElementById(id)?.value || "").trim(); }
+function setEl(id, v) { const e = document.getElementById(id); if (e) e.value = v; }
+
+function generate() {
+  const out = document.getElementById("output-section");
+  const name = val("report-name"); const role = val("report-role");
+  if (!name) { out.innerHTML = '<div class="empty-output">Name the direct report in Step 1 to generate your management artifact.</div>'; out.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+
+  const cadence = {
+    "Weekly 1:1": { when: [val("oo-day"), val("oo-time")].filter(Boolean).join(" · "), meta: "30 minutes, owned by their agenda, non-negotiable" },
+    "Weekly team": { when: [val("team-day"), val("team-time")].filter(Boolean).join(" · "), meta: "One hour, decisions over status" },
+    "Monthly review": { when: [val("rev-week"), val("rev-day")].filter(Boolean).join(" · "), meta: "90 minutes per person, prior month + next month" }
+  };
+  const fb = { behavior: val("fb-behavior"), consequence: val("fb-consequence"), when: val("fb-when") };
+  const del = { outcome: val("del-outcome"), constraints: val("del-constraints"), rights: val("del-rights") };
+  const co = { grow: val("co-grow"), better: val("co-better"), assignment: val("co-assignment") };
+  const pmOn = document.getElementById("pm-toggle").checked;
+  const pm = pmOn ? { gap: val("pm-gap"), close: val("pm-close"), timeline: val("pm-timeline"), next: val("pm-next") } : null;
+
+  let html = `<div class="output-banner">${escapeHtml(name)}${role ? `<small>${escapeHtml(role)}</small>` : ""}</div>`;
+
+  html += `<div class="out-block"><div class="out-block-title">Operating cadence</div><div class="cadence-grid">`;
+  Object.entries(cadence).forEach(([k, v]) => {
+    html += `<div class="cadence-card"><div class="cadence-card-name">${k}</div>${v.when ? `<div class="cadence-card-when">${escapeHtml(v.when)}</div>` : `<div class="empty-inline">Not yet scheduled.</div>`}<div class="cadence-card-meta">${v.meta}</div></div>`;
+  });
+  html += `</div></div>`;
+
+  if (fb.behavior || fb.consequence || fb.when) {
+    html += `<div class="out-block"><div class="out-block-title">Feedback to deliver this week</div>`;
+    if (fb.behavior) html += `<div class="summary-card"><div class="summary-card-name">Behavior</div><div class="summary-card-body">${escapeHtml(fb.behavior)}</div></div>`;
+    if (fb.consequence) html += `<div class="summary-card"><div class="summary-card-name">Consequence</div><div class="summary-card-body">${escapeHtml(fb.consequence)}</div></div>`;
+    if (fb.when) html += `<div class="summary-card"><div class="summary-card-name">When</div><div class="summary-card-body">${escapeHtml(fb.when)}</div></div>`;
+    html += `</div>`;
+  }
+
+  if (del.outcome || del.constraints || del.rights) {
+    html += `<div class="out-block"><div class="out-block-title">Delegation handoff</div>`;
+    if (del.outcome) html += `<div class="summary-card"><div class="summary-card-name">Outcome</div><div class="summary-card-body">${escapeHtml(del.outcome)}</div></div>`;
+    if (del.constraints) html += `<div class="summary-card"><div class="summary-card-name">Constraints</div><div class="summary-card-body">${escapeHtml(del.constraints)}</div></div>`;
+    if (del.rights) html += `<div class="summary-card"><div class="summary-card-name">Decision rights</div><div class="summary-card-body">${escapeHtml(del.rights)}</div></div>`;
+    html += `</div>`;
+  }
+
+  if (co.grow || co.better || co.assignment) {
+    html += `<div class="out-block"><div class="out-block-title">Coaching plan</div>`;
+    if (co.grow) html += `<div class="summary-card"><div class="summary-card-name">Where they want to grow</div><div class="summary-card-body">${escapeHtml(co.grow)}</div></div>`;
+    if (co.better) html += `<div class="summary-card"><div class="summary-card-name">What would be visibly better</div><div class="summary-card-body">${escapeHtml(co.better)}</div></div>`;
+    if (co.assignment) html += `<div class="summary-card"><div class="summary-card-name">The assignment</div><div class="summary-card-body">${escapeHtml(co.assignment)}</div></div>`;
+    html += `</div>`;
+  }
+
+  if (pm && (pm.gap || pm.close || pm.timeline || pm.next)) {
+    html += `<div class="out-block"><div class="pm-out-card"><div class="pm-out-label">PERFORMANCE-MANAGEMENT TIMELINE</div><div class="pm-out-body">`;
+    if (pm.gap) html += `<strong>Gap:</strong> ${escapeHtml(pm.gap)}<br><br>`;
+    if (pm.close) html += `<strong>What closes it:</strong> ${escapeHtml(pm.close)}<br><br>`;
+    if (pm.timeline || pm.next) html += `<strong>Timeline:</strong> ${escapeHtml(pm.timeline)}${pm.next ? `, next conversation ${escapeHtml(pm.next)}` : ""}`;
+    html += `</div></div></div>`;
+  }
+
+  // Observations
+  const obs = [];
+  const cadenceMissing = Object.values(cadence).filter(c => !c.when).length;
+  if (cadenceMissing === 3) obs.push(`<strong>No cadence on the calendar yet.</strong> The cadence is the backbone of the discipline — and the only part that genuinely collapses if you don't enforce it personally. Put the three meetings on the calendar before you close this worksheet.`);
+  else if (cadenceMissing > 0) obs.push(`<strong>${cadenceMissing === 1 ? "One layer of the cadence" : cadenceMissing + " layers of the cadence"} not yet scheduled.</strong> All three matter — the weekly 1:1 most of all. The discipline collapses with the layer you skip first.`);
+  if (!fb.behavior && !fb.consequence) obs.push(`<strong>No feedback drafted.</strong> One piece of direct, specific feedback this week — every week — is how the discipline becomes ordinary instead of a big event.`);
+  if (!del.outcome) obs.push(`<strong>No delegation handed off.</strong> Pick one task or decision you are currently holding that should be theirs. The three-part handoff makes the transfer clean.`);
+
+  obs.forEach(o => { html += `<div class="observation">${o}</div>`; });
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function resetAllFields() {
+  document.querySelectorAll("input[type='text'], select, textarea").forEach(el => el.value = "");
+  document.getElementById("pm-toggle").checked = false;
+  togglePM();
+}
+function clearAll() {
+  if (!confirm("Clear all entries and start over?")) return;
+  resetAllFields();
+  document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your management discipline artifact.</div>';
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+</body>
+</html>

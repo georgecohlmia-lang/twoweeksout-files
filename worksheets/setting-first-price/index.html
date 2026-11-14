@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First Price Worksheet — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10131a;
+    --navy-2:#2c313c;
+    --navy-dk:#10131a;
+    --gold:#2747f5;
+    --gold-dk:#2747f5;
+    --gold-lt:#e9ecf5;
+    --red:#b3261e;
+    --teal:#2747f5;
+    --cream:#e9ecf5;
+    --cream-dk:#d5d9e4;
+    --slate:#9ba3af;
+    --paper:#fbfaf6;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --rule:#d5d9e4;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px; line-height: 1.6;
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+  .frame { max-width: 920px; margin: 0 auto; padding: 56px 40px 120px; }
+
+  .masthead { border-bottom: 1px solid var(--rule); padding-bottom: 36px; margin-bottom: 48px; }
+  .brand-stripe {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .brand-stripe::after { content: ''; flex: 1; height: 1px; background: var(--cream-dk); }
+  h1.title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 56px; line-height: 1.05;letter-spacing:-.03em;
+    color: var(--navy); margin-bottom: 18px;font-style:normal;}
+  h1.title em { font-style: italic; color: var(--gold); font-weight: 500; }
+  .deck { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 19px; color: var(--ink-soft); max-width: 660px; }
+
+  .progress { display: flex; gap: 4px; margin: 40px 0 20px; }
+  .progress-step { flex: 1; height: 3px; background: var(--cream-dk); transition: background 0.4s; }
+  .progress-step.active { background: var(--gold); }
+  .progress-step.done { background: var(--navy); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;color:#59616e; text-transform: uppercase;
+    margin-bottom: 48px; gap: 12px;
+  }
+  .progress-label span.current { color: var(--navy); }
+
+  .panel { display: none; animation: fadeIn 0.4s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel-header { margin-bottom: 36px; }
+  .panel-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; line-height: 1.1; color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .panel-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft); max-width: 660px;
+  }
+
+  .warning-callout {
+    background: var(--navy); color: white;
+    padding: 24px 28px; margin: 24px 0;
+    border-left: 6px solid var(--red);
+  }
+  .warning-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 10px;
+  }
+  .warning-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;font-style:normal;
+    font-size: 20px; color: white; line-height: 1.35;
+  }
+  .warning-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--cream-dk); line-height: 1.55; margin-top: 10px;
+  }
+
+  /* form fields */
+  .field { margin-bottom: 28px; }
+  .field-label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; color: var(--navy); margin-bottom: 6px;
+  }
+  .field-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .field-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;color:#59616e; margin-bottom: 12px;
+    padding-left: 10px; border-left: 2px solid var(--cream-dk);
+    line-height: 1.55;
+  }
+  .field-example.with-copy {
+    display: flex; align-items: flex-start; gap: 12px;
+    justify-content: space-between;
+  }
+  .field-example .ex-text { flex: 1; font-style: italic; color: var(--ink-soft); }
+  .copy-link {
+    flex-shrink: 0; background: transparent;
+    border: 1px solid var(--cream-dk); color: var(--gold-dk);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 5px 10px; cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .copy-link:hover { background: var(--gold-lt); border-color: var(--gold); color: var(--navy); }
+  .copy-link.copied { background: var(--teal);border-color:#ffffff; color: white; }
+
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%; background: white;
+    border: 1px solid var(--cream-dk);
+    border-bottom: 2px solid var(--navy);
+    padding: 13px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 15px;
+    color: var(--navy); border-radius:0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none; border-bottom-color: var(--gold); background: var(--gold-lt);
+  }
+  textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; gap: 0; } }
+
+  .currency-prefix { position: relative; }
+  .currency-prefix::before {
+    content: '$';
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);color:#59616e; font-weight: 600;
+    pointer-events: none; z-index: 1;
+  }
+  .currency-prefix input { padding-left: 30px; }
+
+  .pct-suffix { position: relative; }
+  .pct-suffix::after {
+    content: '%';
+    position: absolute; right: 16px; top: 50%; transform: translateY(-50%);color:#59616e; font-weight: 600;
+    pointer-events: none;
+  }
+  .pct-suffix input { padding-right: 30px; }
+
+  /* sub-cards (cost components, market range) */
+  .sub-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--gold);
+    padding: 24px 26px;
+    margin-bottom: 22px;
+  }
+  .sub-card-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 2px 8px; margin-bottom: 12px;
+    background: var(--gold);color:#ffffff;
+  }
+  .sub-card-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: var(--navy); margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .sub-card-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--ink-soft); margin-bottom: 18px;
+  }
+
+  /* live cost-summing display */
+  .cost-summary {
+    background: var(--paper);
+    border: 1px dashed var(--cream-dk);
+    padding: 14px 18px;
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .cost-summary-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.06em; color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+  .cost-summary-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 26px; color: var(--navy);letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+
+  /* nav */
+  .nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px 28px; cursor: pointer; border: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dk); }
+  .btn-secondary {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--cream-dk);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  /* output */
+  .output { display: none; }
+  .output.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .output-masthead {
+    border-top: 4px solid var(--navy);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 0 28px;
+    margin-bottom: 40px;
+  }
+  .output-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 44px; line-height: 1.05;
+    color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .output-title em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .output-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .output-meta {
+    display: flex; gap: 32px; margin-top: 20px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; letter-spacing: 0.08em; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .output-meta span strong {
+    color: var(--navy); display: block; font-size: 16px;
+    letter-spacing: 0; text-transform: none; margin-top: 2px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; line-height: 1.15; color: var(--navy); margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+  .section p {
+    margin-bottom: 14px; line-height: 1.65; color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .section p strong { color: var(--navy); font-weight: 600; }
+
+  /* ARTIFACT 1 — defensible price card */
+  .price-card {
+    background: var(--gold-lt);
+    border: 2px solid var(--gold);
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .price-card .price-tag {
+    display: inline-block;
+    background: var(--gold);color:#ffffff;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 4px 12px; margin-bottom: 16px;
+  }
+  .price-card h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; color: var(--navy); margin-bottom: 8px;
+    line-height: 1.1;letter-spacing:-.03em;font-style:normal;}
+  .price-card .price-tagline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--ink-soft); margin-bottom: 24px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(39,71,245,0.4);
+  }
+
+  /* the price comparison grid */
+  .price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 16px 0 24px;
+    border: 1px solid rgba(39,71,245,0.5);
+    background: white;
+  }
+  @media (max-width: 600px) { .price-grid { grid-template-columns: 1fr; } }
+  .price-cell {
+    padding: 22px 24px;
+    border-right: 1px solid rgba(39,71,245,0.3);
+  }
+  .price-cell:last-child { border-right: none; }
+  @media (max-width: 600px) {
+    .price-cell { border-right: none; border-bottom: 1px solid rgba(39,71,245,0.3); }
+    .price-cell:last-child { border-bottom: none; }
+  }
+  .price-cell.primary {
+    background: var(--gold-lt);
+  }
+  .price-cell-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .price-cell-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; color: var(--navy); line-height: 1; margin-bottom: 6px;letter-spacing:-.03em;font-style:normal;}
+  .price-cell.primary .price-cell-value {
+    font-size: 44px; color: var(--gold-dk);
+  }
+  .price-cell-detail {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12.5px;
+    color: var(--ink-soft); line-height: 1.5;
+  }
+
+  /* the math line-by-line */
+  .math-block {
+    margin: 20px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed rgba(39,71,245,0.4);
+  }
+  .math-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .math-block-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .math-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 6px 0;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .math-row.total {
+    border-top: 1px solid rgba(39,71,245,0.4);
+    margin-top: 6px; padding-top: 12px;
+    font-weight: 700; color: var(--navy);
+  }
+  .math-row .label { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; }
+  .math-row .value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    color: var(--navy);letter-spacing:-.03em;font-style:normal;}
+  .math-row.total .value { font-size: 20px; }
+
+  /* verdict tier */
+  .verdict {
+    border-left: 6px solid var(--navy);
+    background: white;
+    padding: 22px 26px;
+    margin: 20px 0;
+  }
+  .verdict.green { border-left-color: var(--teal); }
+  .verdict.amber { border-left-color: var(--gold); }
+  .verdict.red { border-left-color: var(--red); }
+  .verdict-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10.5px;
+    letter-spacing: 0.22em; margin-bottom: 8px;
+  }
+  .verdict.green .verdict-label { color: var(--teal); }
+  .verdict.amber .verdict-label { color: var(--gold-dk); }
+  .verdict.red .verdict-label { color: var(--red); }
+  .verdict-headline {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 20px;
+    color: var(--navy); margin-bottom: 8px; line-height: 1.3;letter-spacing:-.03em;font-style:normal;}
+  .verdict-body {
+    color: var(--ink-soft); font-size: 14.5px; line-height: 1.6;
+  }
+
+  /* ARTIFACT 2 — framing language card (navy) */
+  .framing-card {
+    background: var(--navy); color: white;
+    padding: 36px 40px; margin: 20px 0;
+  }
+  .framing-card .framing-header {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em;color:#93abff; margin-bottom: 6px;
+  }
+  .framing-card h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 24px; color: white; margin-bottom: 8px;letter-spacing:-.03em;font-style:normal;}
+  .framing-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--cream-dk); margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .framing-block {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .framing-block:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .framing-block-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--gold); margin-bottom: 8px;
+  }
+  .framing-quote {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 19px; color: white; line-height: 1.5;
+    padding-left: 16px; border-left: 3px solid var(--gold);
+    margin-bottom: 14px;
+  }
+  .framing-coach {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--cream-dk); line-height: 1.55;
+  }
+  .framing-coach strong { color: var(--gold); }
+
+  /* moves card */
+  .moves-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 28px 32px;
+    margin-top: 24px;
+  }
+  .moves-card ol { margin: 16px 0 0 22px; }
+  .moves-card ol li {
+    margin-bottom: 14px;
+    color: var(--ink-soft); font-size: 15px; line-height: 1.6;
+  }
+  .moves-card ol li strong { color: var(--navy); }
+
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+  .signature {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;color:#59616e;
+  }
+  .signature .left { color: var(--gold); font-weight: 700; }
+  .hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--red); margin-top: 6px;
+  }
+
+  /* print */
+  @media print {
+    @page { margin: 0.5in; size: letter; }
+    body { background: white; font-size: 10.5pt; }
+    .frame { padding: 0; max-width: none; }
+    .panel, .progress, .progress-label, .actions, .nav, .masthead { display: none !important; }
+    .output { display: block !important; }
+    .output-title { font-size: 28pt; }
+    .section-title { font-size: 16pt; }
+    .price-card, .framing-card, .moves-card, .warning-callout, .verdict, .price-grid {
+      page-break-inside: avoid; box-shadow: none;
+    }
+    .framing-card { background: white !important; color: var(--navy) !important; border: 2px solid var(--navy); }
+    .framing-card h3, .framing-quote { color: var(--navy) !important; }
+    .framing-card .framing-sub, .framing-coach { color: var(--ink-soft) !important; }
+    .framing-coach strong, .framing-header, .framing-block-label { color: var(--gold-dk) !important; }
+    .section { margin-bottom: 28px; }
+    .signature { page-break-inside: avoid; }
+    #artifact-2, #artifact-3 { page-break-before: always; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#9B9BFF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.warning-callout div.warning-label{color:#93abff}
+div.price-card span.label > span{color:#10131a !important}
+div.framing-card p.framing-sub{color:#fbfaf6}
+div.framing-card div.framing-block-label{color:#93abff}
+div.framing-card div.framing-coach > strong{color:#93abff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">04 / Price for Profit</span></div>
+<div class="frame">
+
+<header class="masthead" id="masthead">
+  <div class="brand-stripe">Two Weeks Out  ·  FIRST PRICE WORKSHEET</div>
+  <h1 class="title">Set a <em>Defensible</em><br>First Price.</h1>
+  <p class="deck">Build your price from four real inputs — what it costs you, the margin you need, what the market charges, and what you're really delivering. The worksheet does the math. You walk away with a price you can defend, the way to talk about it, and the future increase already built into your first conversation.</p>
+</header>
+
+<div id="progress-wrap">
+  <div class="progress">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+  </div>
+  <div class="progress-label">
+    <span class="current">01 — Your Business</span>
+    <span>02 — The Four Inputs</span>
+    <span>03 — Framing &amp; Future Increase</span>
+  </div>
+</div>
+
+<!-- ============ PANEL 1 ============ -->
+<section class="panel active" id="panel-1">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP ONE  ·  YOUR BUSINESS &amp; YOUR GUT NUMBER</div>
+    <h2 class="panel-title">A few details — and the price you'd set today.</h2>
+    <p class="panel-intro">Your gut estimate is calibration for the diagnostic. After the four inputs, the worksheet shows you the gap between your gut and the defensible number. The session's example: owner's gut $65, defensible $109 — a 68% gap that determined whether her business worked.</p>
+  </div>
+
+  <div class="warning-callout">
+    <div class="warning-label">THE PRINCIPLE THIS WORKSHEET PROTECTS AGAINST</div>
+    <div class="warning-headline">Underpricing is more dangerous than overpricing — because underpricing is silent.</div>
+    <div class="warning-body">If you price too high, someone will tell you. They'll hesitate, push back, or walk away. You'll know to adjust. If you price too low, no one says anything. Clients sign on, work begins, and you're stuck at a number that doesn't fund your business. From then on, every price conversation starts from that floor. This worksheet is built to keep you from defaulting to the safe-feeling number.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-name">Business or product name</label>
+    <input type="text" id="biz-name" placeholder="What you&#39;d call it talking to a friend">
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="what-priced">What are you pricing?</label>
+    <p class="field-help">A single offer at a single price point. If you have multiple offers, run the worksheet once per offer.</p>
+    <p class="field-example">e.g., "Skincare protocol kit" / "Bookkeeping retainer for service businesses" / "Coaching engagement, six months"</p>
+    <input type="text" id="what-priced" maxlength="120" placeholder="The specific offer this price applies to">
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="gut-price">Your gut estimate — what would you charge today?</label>
+      <p class="field-help">Honest answer. The number that feels safe, before any analysis.</p>
+      <div class="currency-prefix">
+        <input type="number" id="gut-price" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="unit-name">Unit you're pricing</label>
+      <p class="field-help">"per kit" / "per month" / "per project" / "per engagement"</p>
+      <input type="text" id="unit-name" maxlength="30" placeholder="per kit">
+    </div>
+  </div>
+
+  <div class="nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(2)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 2 — THE FOUR INPUTS ============ -->
+<section class="panel" id="panel-2">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP TWO  ·  THE FOUR INPUTS</div>
+    <h2 class="panel-title">Build the price from four real numbers.</h2>
+    <p class="panel-intro">A defensible first price comes from four inputs working together. The worksheet does the math; you provide the honest numbers.</p>
+  </div>
+
+  <!-- INPUT 1: FULLY LOADED COST -->
+  <div class="sub-card">
+    <div class="sub-card-tag">INPUT 01  ·  FULLY LOADED UNIT COST</div>
+    <div class="sub-card-title">Every cost that goes into delivering one unit.</div>
+    <p class="sub-card-help">Pick the business type that matches what you're delivering. The cost categories adjust to fit. owners routinely undercount their own time and effort — the session is direct: include it. Without your fully loaded cost, you can't set a defensible price.</p>
+
+    <div class="field" style="margin-bottom: 22px;">
+      <label class="field-label" for="biz-type">What type of business is this?</label>
+      <p class="field-help">The cost structure differs significantly by type. Picking the right one surfaces the categories that actually apply to your delivery.</p>
+      <select id="biz-type" onchange="renderCostFields()">
+        <option value="">— Pick one —</option>
+        <option value="product">Physical product — something you manufacture, package, and ship</option>
+        <option value="service">Service — work delivered by you and/or subcontractors</option>
+        <option value="saas">Software / SaaS — a digital product with hosting and infrastructure</option>
+      </select>
+    </div>
+
+    <div id="cost-fields-container">
+      <p style="font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 14px; color: var(--slate); padding: 14px 0;">Pick a business type above to see the cost categories that apply.</p>
+    </div>
+
+    <div class="cost-summary">
+      <span class="cost-summary-label">Fully loaded unit cost</span>
+      <span class="cost-summary-value" id="cost-total">$0</span>
+    </div>
+  </div>
+
+  <!-- INPUT 2: TARGET MARGIN -->
+  <div class="sub-card">
+    <div class="sub-card-tag">INPUT 02  ·  TARGET GROSS MARGIN</div>
+    <div class="sub-card-title">Margin enough to fund the business — not a ceiling.</div>
+    <p class="sub-card-help">Pick your industry to anchor against the typical gross-margin range for that category. The dropdown auto-fills the midpoint; you can adjust the number to match what your specific business actually needs. The session's threshold: the margin funds your marketing, channel discounts, returns, and your draw — start with what the business needs, not what the market lets you get away with.</p>
+
+    <div class="field" style="margin-bottom: 18px;">
+      <label class="field-label" for="industry-bench">Industry benchmark</label>
+      <p class="field-help">Pick the closest match. Each option shows the typical gross-margin range for sustainable businesses in that category. “Custom” lets you enter any number directly.</p>
+      <select id="industry-bench" onchange="applyIndustryBenchmark()">
+        <option value="">— Pick one —</option>
+        <option value="saas" data-low="70" data-high="85" data-mid="78">Software / SaaS  —  typical gross margin: 70 to 85%</option>
+        <option value="hardware" data-low="30" data-high="45" data-mid="38">IT hardware  —  typical gross margin: 30 to 45%</option>
+        <option value="healthcare" data-low="55" data-high="70" data-mid="63">Healthcare products / devices  —  typical gross margin: 55 to 70%</option>
+        <option value="beauty" data-low="60" data-high="80" data-mid="70">Beauty / personal care  —  typical gross margin: 60 to 80%</option>
+        <option value="manufacturing" data-low="25" data-high="40" data-mid="33">Manufacturing  —  typical gross margin: 25 to 40%</option>
+        <option value="automotive" data-low="15" data-high="25" data-mid="20">Automotive  —  typical gross margin: 15 to 25%</option>
+        <option value="education" data-low="60" data-high="75" data-mid="68">Education / training  —  typical gross margin: 60 to 75%</option>
+        <option value="retail" data-low="30" data-high="50" data-mid="40">Retail  —  typical gross margin: 30 to 50%</option>
+        <option value="foodservice" data-low="60" data-high="70" data-mid="65">Food service  —  typical gross margin: 60 to 70%</option>
+        <option value="services" data-low="45" data-high="60" data-mid="53">Professional services  —  typical gross margin: 45 to 60%</option>
+        <option value="custom" data-low="" data-high="" data-mid="">Custom  —  enter my own gross margin</option>
+      </select>
+      <p class="field-help" id="industry-range-note" style="margin-top: 8px; display: none;"></p>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="target-margin">Target gross margin (%)</label>
+      <p class="field-help">Auto-filled to the midpoint of your industry's typical range. Adjust freely — the right answer is the margin your specific business actually needs.</p>
+      <div class="pct-suffix">
+        <input type="number" id="target-margin" placeholder="—" min="0" max="95" step="1">
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT 3: MARKET SIGNALS -->
+  <div class="sub-card">
+    <div class="sub-card-tag">INPUT 03  ·  MARKET SIGNALS  ·  COMPARABLE PRICES</div>
+    <div class="sub-card-title">What comparable products in your tier actually charge.</div>
+    <p class="sub-card-help">Not the bottom of the market. The most credible peer set — products at your quality and category, sold to similar buyers. Two prices: low end of credible peers, high end of credible peers.</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label" for="market-low">Low end of credible peer set</label>
+        <p class="field-help">The cheapest comparable product you'd take seriously as a peer.</p>
+        <div class="currency-prefix">
+          <input type="number" id="market-low" placeholder="0" min="0" step="any">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="market-high">High end of credible peer set</label>
+        <p class="field-help">The premium end of your peer category — not the absolute top of the market.</p>
+        <div class="currency-prefix">
+          <input type="number" id="market-high" placeholder="0" min="0" step="any">
+        </div>
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="market-source">How did you research this?</label>
+      <p class="field-help">A sentence on where the comparison data comes from. Specific. The price recommendation is only as good as this research.</p>
+      <p class="field-example">e.g., "Three direct competitor websites and two clinical-grade brands sold through specialty retailers."</p>
+      <input type="text" id="market-source" maxlength="200" placeholder="Where the comparable prices come from">
+    </div>
+  </div>
+
+  <!-- INPUT 4: VALUE TO BUYER -->
+  <div class="sub-card">
+    <div class="sub-card-tag">INPUT 04  ·  VALUE TO THE BUYER</div>
+    <div class="sub-card-title">What problem you're actually solving — for whom — in what state.</div>
+    <p class="sub-card-help">The session's example: a patient managing chemo skin toxicity isn't making a discretionary purchase. They're managing a medical side effect that affects their treatment. Price honestly against what you're delivering — not against what feels comfortable to ask.</p>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="value-statement">In one sentence: what problem are you solving, for whom, in what state?</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"A patient managing chemotherapy skin toxicity, navigating active treatment, looking for products that address neuropathy, dryness, and inflammation that off-the-shelf skincare doesn't touch."</span>
+        <button type="button" class="copy-link" data-example="A patient managing chemotherapy skin toxicity, navigating active treatment, looking for products that address neuropathy, dryness, and inflammation that off-the-shelf skincare doesn&#39;t touch." onclick="useExample(this, &#39;value-statement&#39;)">Use example</button>
+      </p>
+      <textarea id="value-statement" maxlength="280" placeholder="Specific. Customer + their state + the problem they&#39;re solving. Not generic value language."></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">←  Back</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Continue  →</button>
+  </div>
+  <p class="hint" id="inputs-hint" hidden="" style="text-align:right;">Please complete all four inputs before continuing.</p>
+</section>
+
+<!-- ============ PANEL 3 — FRAMING ============ -->
+<section class="panel" id="panel-3">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP THREE  ·  FRAMING &amp; FUTURE INCREASE</div>
+    <h2 class="panel-title">Two pieces of language. The early-adopter framing, and the future-increase trigger.</h2>
+    <p class="panel-intro">The session's argument: your first price isn't low because you're worth less. It's a deliberate founding-client offer. The framing matters as much as the number, and the future increase needs to be named at the start — not surprising clients twelve months later.</p>
+  </div>
+
+  <!-- FOUNDING-CLIENT POSITIONING -->
+  <div class="sub-card" style="border-left-color: var(--teal);">
+    <div class="sub-card-tag" style="background: var(--teal); color: white;">PIECE 01  ·  EARLY-ADOPTER POSITIONING</div>
+    <div class="sub-card-title">The one sentence that frames the founding-client offer.</div>
+    <p class="sub-card-help">The session is direct: <em>"Introductory rate while we build our clinical reference base"</em> sounds completely different from <em>"we're still figuring out what to charge."</em> One is deliberate. The other is uncertain. Write your version.</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label" for="discount-pct">Founding-client discount (%)</label>
+        <p class="field-help">The session's example: 20% off the defensible price. Standard range: 15–25%. Below 10% isn't enough to feel like a deliberate offer; above 30% structurally undermines the price.</p>
+        <div class="pct-suffix">
+          <input type="number" id="discount-pct" placeholder="20" min="0" max="50" step="1">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="cohort-name">What you call the early-adopter group</label>
+        <p class="field-help">"Founding clinics" / "Founding members" / "Charter clients" / "Early-access cohort"</p>
+        <input type="text" id="cohort-name" maxlength="60" placeholder="Founding clinics">
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="positioning-statement">Your one-sentence positioning statement</label>
+      <p class="field-help">What you're building, why the founding cohort matters, what they get in return. The deliberate framing.</p>
+      <p class="field-example with-copy">
+        <span class="ex-text">"Introductory rate for founding clinics while we build our clinical outcomes documentation — a deliberate choice to establish reference relationships in exchange for feedback and referrals."</span>
+        <button type="button" class="copy-link" data-example="Introductory rate for founding clinics while we build our clinical outcomes documentation — a deliberate choice to establish reference relationships in exchange for feedback and referrals." onclick="useExample(this, &#39;positioning-statement&#39;)">Use example</button>
+      </p>
+      <textarea id="positioning-statement" maxlength="280" placeholder="Deliberate. Specific. Names the trade — founding-client price for early reference value."></textarea>
+    </div>
+  </div>
+
+  <!-- FUTURE-INCREASE LANGUAGE -->
+  <div class="sub-card" style="border-left-color: var(--gold);">
+    <div class="sub-card-tag">PIECE 02  ·  THE FUTURE-INCREASE TRIGGER</div>
+    <div class="sub-card-title">Build the price increase into the first conversation.</div>
+    <p class="sub-card-help">The session is direct: owners who skip this come back twelve months later with thirty clients at a price they can't raise. Name the trigger and timeframe at the start. The increase is expected, not surprising.</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label" for="trigger-event">What milestone triggers the price increase?</label>
+        <p class="field-help">Specific and observable. Not "when we feel ready." Examples: "first clinical outcomes documentation complete" / "fifty paying clients reached" / "v2 launch shipped."</p>
+        <input type="text" id="trigger-event" maxlength="160" placeholder="The specific event that moves the price">
+      </div>
+      <div class="field">
+        <label class="field-label" for="trigger-timeframe">Approximate timeframe</label>
+        <p class="field-help">When you expect the trigger to fire. Honest estimate, not aspirational.</p>
+        <input type="text" id="trigger-timeframe" maxlength="60" placeholder="e.g., 6 months / Q3 2026 / 12 months">
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="lockin-language">What founding clients get for joining now (the lock-in incentive)</label>
+      <p class="field-help">The session's example: "Clinics that come on board now lock in the founding rate for their first year." A specific protection that turns the future increase into an incentive to act now.</p>
+      <p class="field-example with-copy">
+        <span class="ex-text">"Clinics that come on board now lock in the founding rate for their first twelve months, regardless of when the price increase takes effect."</span>
+        <button type="button" class="copy-link" data-example="Clinics that come on board now lock in the founding rate for their first twelve months, regardless of when the price increase takes effect." onclick="useExample(this, &#39;lockin-language&#39;)">Use example</button>
+      </p>
+      <textarea id="lockin-language" maxlength="240" placeholder="What protection do founding clients get? Be specific about duration."></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">←  Back</button>
+    <button class="btn btn-primary" id="generate-btn" onclick="generateOutput()">Generate My First Price  →</button>
+  </div>
+  <p class="hint" id="generate-hint" hidden="" style="text-align:right;">Please complete all fields before generating.</p>
+</section>
+
+<!-- ============ OUTPUT ============ -->
+<section class="output" id="output"></section>
+
+</div>
+
+<script>
+  let currentStep = 1;
+  let costValues = {}; // persists across business-type changes if same field IDs
+
+  // cost field schemas per business type
+  const COST_SCHEMAS = {
+    product: {
+      fields: [
+        { id: 'cost-materials', label: 'Materials / ingredients / direct inputs', help: 'Per unit. The physical things that go into the product.', row: 1 },
+        { id: 'cost-packaging', label: 'Packaging', help: 'Boxes, labels, inserts, anything that ships with the product.', row: 1 },
+        { id: 'cost-fulfillment', label: 'Fulfillment / shipping', help: 'Carrier costs, third-party logistics, handling fees per unit.', row: 2 },
+        { id: 'cost-overhead', label: 'Overhead allocation', help: 'A realistic share of fixed costs per unit (rent, software, insurance). Start with 10\u201315% of the other costs combined if unsure.', row: 2 },
+        { id: 'cost-time', label: 'Your time, at a realistic rate', help: 'Hours per unit \u00d7 what you\'d pay someone else with your skill. Not the rate you wish you earned. The most undercounted line.', row: 3, full: true }
+      ]
+    },
+    service: {
+      fields: [
+        { id: 'cost-time', label: 'Your time, at a realistic rate', help: 'Hours per engagement \u00d7 what you\'d pay someone else with your skill. The most undercounted line for service owners.', row: 1 },
+        { id: 'cost-subcontract', label: 'Subcontract labor', help: 'External professionals or contractors you bring in to deliver the work \u2014 specialists, freelancers, agencies. Per engagement.', row: 1 },
+        { id: 'cost-tools', label: 'Software &amp; tools used in delivery', help: 'Per-engagement cost of platforms specific to delivering this service \u2014 e.g., a CRM seat, a design tool, a video platform. Not your general overhead.', row: 2 },
+        { id: 'cost-onboarding', label: 'Onboarding &amp; client materials', help: 'Welcome packets, intake materials, kickoff documents, anything you produce per client. Zero if not applicable.', row: 2 },
+        { id: 'cost-overhead', label: 'Overhead allocation', help: 'A realistic share of fixed costs per engagement (rent, general software, insurance, admin). Start with 10\u201315% of the other costs combined if unsure.', row: 3, full: true }
+      ]
+    },
+    saas: {
+      fields: [
+        { id: 'cost-hosting', label: 'Hosting &amp; infrastructure', help: 'Per-customer cloud, server, database, and CDN costs. If you bill annually, divide annual infrastructure cost by customer count.', row: 1 },
+        { id: 'cost-thirdparty', label: 'Third-party APIs &amp; services', help: 'Per-customer cost of services your product depends on \u2014 e.g., email delivery, geocoding, AI inference, analytics, search. Most underestimated line in SaaS.', row: 1 },
+        { id: 'cost-payment', label: 'Payment processing', help: 'Per-transaction fees from Stripe, PayPal, ACH provider. Roughly 2.9% + $0.30 per transaction is typical for cards.', row: 2 },
+        { id: 'cost-support', label: 'Customer support cost per customer', help: 'Per-customer share of support staff time, ticketing tools, help-center costs. If you support customers personally, your time goes here.', row: 2 },
+        { id: 'cost-time', label: 'Your time on retention &amp; success', help: 'owner-led activities that scale per customer \u2014 onboarding calls, account reviews, escalations. At what you\'d pay someone else with your skill.', row: 3, full: true }
+      ]
+    }
+  };
+
+  function renderCostFields() {
+    const type = document.getElementById('biz-type').value;
+    const container = document.getElementById('cost-fields-container');
+    if (!type || !COST_SCHEMAS[type]) {
+      container.innerHTML = '<p style="font-family: var(--font-display); font-style: italic; font-size: 14px; color: var(--slate); padding: 14px 0;">Pick a business type above to see the cost categories that apply.</p>';
+      updateCostSummary();
+      return;
+    }
+
+    // save current values from any visible inputs before re-rendering
+    container.querySelectorAll('input[data-cost-field]').forEach(inp => {
+      const v = parseFloat(inp.value);
+      if (!isNaN(v)) costValues[inp.id] = v;
+      else if (inp.value === '') delete costValues[inp.id];
+    });
+
+    const schema = COST_SCHEMAS[type];
+
+    // group fields by row
+    const rows = {};
+    schema.fields.forEach(f => {
+      if (!rows[f.row]) rows[f.row] = [];
+      rows[f.row].push(f);
+    });
+
+    let html = '';
+    Object.keys(rows).sort((a, b) => parseInt(a) - parseInt(b)).forEach(rowKey => {
+      const fieldsInRow = rows[rowKey];
+      const isFullWidth = fieldsInRow.length === 1 && fieldsInRow[0].full;
+      if (isFullWidth) {
+        const f = fieldsInRow[0];
+        const val = costValues[f.id] !== undefined ? costValues[f.id] : '';
+        html += `
+          <div class="field" style="margin-bottom: 18px;">
+            <label class="field-label" for="${f.id}">${f.label}</label>
+            <p class="field-help">${f.help}</p>
+            <div class="currency-prefix">
+              <input type="number" id="${f.id}" data-cost-field="1" placeholder="0" min="0" step="any" value="${val}" oninput="updateCostSummary()">
+            </div>
+          </div>
+        `;
+      } else {
+        html += '<div class="field-row">';
+        fieldsInRow.forEach(f => {
+          const val = costValues[f.id] !== undefined ? costValues[f.id] : '';
+          html += `
+            <div class="field">
+              <label class="field-label" for="${f.id}">${f.label}</label>
+              <p class="field-help">${f.help}</p>
+              <div class="currency-prefix">
+                <input type="number" id="${f.id}" data-cost-field="1" placeholder="0" min="0" step="any" value="${val}" oninput="updateCostSummary()">
+              </div>
+            </div>
+          `;
+        });
+        html += '</div>';
+      }
+    });
+
+    container.innerHTML = html;
+    updateCostSummary();
+  }
+
+  function applyIndustryBenchmark() {
+    const sel = document.getElementById('industry-bench');
+    const opt = sel.options[sel.selectedIndex];
+    const note = document.getElementById('industry-range-note');
+    const marginInput = document.getElementById('target-margin');
+
+    if (!sel.value) {
+      note.style.display = 'none';
+      return;
+    }
+    if (sel.value === 'custom') {
+      note.textContent = 'Custom \u2014 enter the gross margin your specific business needs.';
+      note.style.display = 'block';
+      marginInput.focus();
+      return;
+    }
+    const low = opt.getAttribute('data-low');
+    const high = opt.getAttribute('data-high');
+    const mid = opt.getAttribute('data-mid');
+    if (mid) {
+      marginInput.value = mid;
+    }
+    note.innerHTML = `<strong style="color: var(--navy);">Typical range for ${escape(opt.textContent.split('  \u2014  ')[0].trim())}:</strong> ${low} to ${high}%. The midpoint (${mid}%) is filled in. Adjust freely if your specific business needs more or less.`;
+    note.style.display = 'block';
+  }
+
+  function updateCostSummary() {
+    let total = 0;
+    document.querySelectorAll('input[data-cost-field]').forEach(inp => {
+      const v = parseFloat(inp.value);
+      if (!isNaN(v)) total += v;
+    });
+    document.getElementById('cost-total').textContent = '$' + fmt(total);
+  }
+
+  function goTo(n) {
+    if (n > currentStep && !validate(currentStep)) return;
+    currentStep = n;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    document.querySelectorAll('.progress-step').forEach(s => {
+      const step = parseInt(s.dataset.step);
+      s.classList.remove('active', 'done');
+      if (step < n) s.classList.add('done');
+      else if (step === n) s.classList.add('active');
+    });
+    document.querySelectorAll('.progress-label span').forEach((l, i) => {
+      l.classList.toggle('current', (i + 1) === n);
+    });
+  }
+
+  function validate(step) {
+    if (step === 1) {
+      const required = ['biz-name', 'what-priced', 'gut-price', 'unit-name'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el.value || el.value.toString().trim() === '') { el.focus(); return false; }
+      }
+      return true;
+    }
+    if (step === 2) {
+      // require business type picked
+      const bizType = document.getElementById('biz-type').value;
+      if (!bizType) {
+        document.getElementById('inputs-hint').hidden = false;
+        document.getElementById('biz-type').focus();
+        return false;
+      }
+      // require at least one cost field with a positive value
+      const costInputs = document.querySelectorAll('input[data-cost-field]');
+      let totalCost = 0;
+      costInputs.forEach(inp => {
+        const v = parseFloat(inp.value);
+        if (!isNaN(v)) totalCost += v;
+      });
+      if (totalCost <= 0) {
+        document.getElementById('inputs-hint').hidden = false;
+        if (costInputs.length > 0) costInputs[0].focus();
+        return false;
+      }
+      const required = ['target-margin', 'market-low', 'market-high', 'market-source', 'value-statement'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el.value || el.value.toString().trim() === '') {
+          document.getElementById('inputs-hint').hidden = false;
+          el.focus();
+          return false;
+        }
+      }
+      return true;
+    }
+    return true;
+  }
+
+  function generateOutput() {
+    const required = ['discount-pct', 'cohort-name', 'positioning-statement', 'trigger-event', 'trigger-timeframe', 'lockin-language'];
+    for (const id of required) {
+      const el = document.getElementById(id);
+      if (!el.value || el.value.toString().trim() === '') {
+        document.getElementById('generate-hint').hidden = false;
+        el.focus();
+        return;
+      }
+    }
+    const data = collect();
+    document.getElementById('output').innerHTML = renderOutput(data);
+    document.getElementById('output').classList.add('active');
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function collect() {
+    const num = id => {
+      const el = document.getElementById(id);
+      if (!el) return 0;
+      const v = parseFloat(el.value);
+      return isNaN(v) ? 0 : v;
+    };
+    const str = id => {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    };
+    // collect cost line items as a list of {label, amount} for whichever fields are visible
+    const bizType = str('biz-type');
+    const schema = COST_SCHEMAS[bizType];
+    const costLines = [];
+    if (schema) {
+      schema.fields.forEach(f => {
+        const v = num(f.id);
+        // strip HTML entities from label for display in the math block
+        const cleanLabel = f.label.replace(/&amp;/g, '&');
+        costLines.push({ label: cleanLabel, amount: v });
+      });
+    }
+    const totalCost = costLines.reduce((s, l) => s + l.amount, 0);
+
+    // industry
+    const industrySel = document.getElementById('industry-bench');
+    const industryValue = industrySel.value;
+    const industryLabel = industryValue && industrySel.selectedIndex > 0
+      ? industrySel.options[industrySel.selectedIndex].textContent.split('  \u2014  ')[0].trim()
+      : '';
+    const industryRange = industryValue && industryValue !== 'custom' && industrySel.selectedIndex > 0
+      ? `${industrySel.options[industrySel.selectedIndex].getAttribute('data-low')} to ${industrySel.options[industrySel.selectedIndex].getAttribute('data-high')}%`
+      : '';
+
+    return {
+      bizName: str('biz-name'),
+      whatPriced: str('what-priced'),
+      gutPrice: num('gut-price'),
+      unitName: str('unit-name'),
+      bizType: bizType,
+      // cost
+      costLines: costLines,
+      totalCost: totalCost,
+      // margin
+      targetMargin: num('target-margin'),
+      industryLabel: industryLabel,
+      industryRange: industryRange,
+      // market
+      marketLow: num('market-low'),
+      marketHigh: num('market-high'),
+      marketSource: str('market-source'),
+      // value
+      valueStatement: str('value-statement'),
+      // framing
+      discountPct: num('discount-pct'),
+      cohortName: str('cohort-name'),
+      positioningStatement: str('positioning-statement'),
+      triggerEvent: str('trigger-event'),
+      triggerTimeframe: str('trigger-timeframe'),
+      lockinLanguage: str('lockin-language')
+    };
+  }
+
+  function renderOutput(d) {
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // ---- THE MATH ----
+    const totalCost = d.totalCost;
+    const marginDecimal = d.targetMargin / 100;
+    // floor price = cost / (1 - margin)
+    const floorPrice = marginDecimal >= 1 ? totalCost : totalCost / (1 - marginDecimal);
+
+    // defensible price = max(floor, market low) typically, but check if floor exceeds market high
+    const floorBelowMarketLow = floorPrice < d.marketLow;
+    const floorWithinMarket = floorPrice >= d.marketLow && floorPrice <= d.marketHigh;
+    const floorAboveMarketHigh = floorPrice > d.marketHigh;
+
+    // recommend defensible price
+    let defensiblePrice;
+    let verdictTier, verdictLabel, verdictHead, verdictBody;
+    if (floorBelowMarketLow) {
+      // floor is below market — set defensible at low end of credible peer set
+      defensiblePrice = d.marketLow;
+      verdictTier = 'green';
+      verdictLabel = 'GREEN  ·  YOU HAVE ROOM TO PRICE HIGHER';
+      verdictHead = `Your cost-margin floor is $${fmt(floorPrice)} \u2014 below the market low of $${fmt(d.marketLow)}.`;
+      verdictBody = `That's good news. You could price below the market and still hit your margin, but you shouldn't. Pricing below your peer group with no good reason just leaves money on the table. The recommendation below sets your price at $${fmt(d.marketLow)} \u2014 the low end of the market \u2014 so you're inside your peer group while still funding the business.`;
+    } else if (floorWithinMarket) {
+      defensiblePrice = floorPrice;
+      verdictTier = 'green';
+      verdictLabel = 'GREEN  ·  YOUR NUMBERS AND THE MARKET AGREE';
+      verdictHead = `Your cost-margin floor is $${fmt(floorPrice)} \u2014 inside the market range of $${fmt(d.marketLow)} to $${fmt(d.marketHigh)}.`;
+      verdictBody = `This is the cleanest case. The price your business needs lands right inside what the market actually pays. The recommendation below is your floor \u2014 the lowest you can go and still fund the business \u2014 which sits naturally in your peer group. Nothing structural to fix.`;
+    } else {
+      // floor above market high — structural cost problem
+      defensiblePrice = floorPrice;
+      verdictTier = 'red';
+      verdictLabel = 'RED  ·  YOUR COSTS ARE TOO HIGH FOR THE MARKET';
+      verdictHead = `Your cost-margin floor is $${fmt(floorPrice)} \u2014 above the market high of $${fmt(d.marketHigh)}.`;
+      verdictBody = `This is a cost problem, not a pricing problem. To match the market high of $${fmt(d.marketHigh)}, you'd have to accept a margin below what your business needs. To hit your floor, you'd have to price above your peer group \u2014 hard to do without a track record. The fix is to lower your costs before setting a price. The most common places to find savings: your time per unit, your overhead allocation, or your fulfillment costs. The math below still shows your floor, so you can see the gap clearly.`;
+    }
+
+    const founderClientPrice = defensiblePrice * (1 - d.discountPct / 100);
+    const futureIncrease = defensiblePrice - founderClientPrice;
+    const futureIncreasePct = founderClientPrice > 0 ? Math.round((futureIncrease / founderClientPrice) * 100) : 0;
+
+    // gap from gut to defensible
+    const gutGap = defensiblePrice - d.gutPrice;
+    const gutGapPct = d.gutPrice > 0 ? Math.round((gutGap / d.gutPrice) * 100) : 0;
+    let gutNote = '';
+    if (d.gutPrice > 0 && Math.abs(gutGap) > 0.01) {
+      if (gutGap > 0) {
+        // defensible is higher than gut
+        gutNote = `<p style="margin-top: 18px;"><strong>Your gut vs. the math.</strong> You said you'd charge $${fmt(d.gutPrice)} today. The math says $${fmt(defensiblePrice)} \u2014 ${gutGapPct}% higher. This is the exact pattern the session warns about: owners are way more afraid of pricing too high than too low, and they default to low when the conversation gets uncomfortable. Your numbers say your gut was light. Trust the math.</p>`;
+      } else {
+        // defensible is lower than gut
+        gutNote = `<p style="margin-top: 18px;"><strong>Your gut vs. the math.</strong> You said you'd charge $${fmt(d.gutPrice)} today. The math says $${fmt(defensiblePrice)} \u2014 ${Math.abs(gutGapPct)}% lower than your gut. That's unusual. Either your costs and margin are lower than they should be, or you're comparing yourself against a peer group that's priced below where you actually belong. If your gut feels closer to right, go back to Step 2 and check your peer set \u2014 you may be looking at the wrong tier.</p>`;
+      }
+    }
+
+    return `
+      <header class="output-masthead">
+        <div class="brand-stripe">Two Weeks Out  ·  YOUR FIRST PRICE</div>
+        <h1 class="output-title">First Price<br>for <em>${escape(d.bizName)}</em></h1>
+        <p class="output-sub">${escape(d.whatPriced)}</p>
+        <div class="output-meta">
+          <span>Generated<strong>${today}</strong></span>
+          <span>Defensible price<strong>$${fmt(defensiblePrice)} ${escape(d.unitName)}</strong></span>
+          <span>Founding rate<strong>$${fmt(founderClientPrice)} ${escape(d.unitName)}</strong></span>
+          <span>Future increase<strong>+${futureIncreasePct}% on trigger</strong></span>
+        </div>
+      </header>
+
+      <!-- ARTIFACT 1: THE PRICE -->
+      <div class="section" id="artifact-1">
+        <div class="section-eyebrow">ARTIFACT 01  ·  YOUR DEFENSIBLE FIRST PRICE</div>
+        <h2 class="section-title">Built from your four inputs.</h2>
+        <p>Below is your price, and the math that got you there. Every number comes from what you entered. This isn't a guess \u2014 it's what your business actually needs, checked against what your market actually pays.</p>
+
+        <div class="price-card">
+          <div class="price-tag">DEFENSIBLE FIRST PRICE  ·  ${escape(d.bizName).toUpperCase()}</div>
+          <h3>${escape(d.whatPriced)}</h3>
+          <p class="price-tagline">Built from what it costs you to deliver, the margin you need, the market range, and the problem you solve.</p>
+
+          <div class="price-grid">
+            <div class="price-cell primary">
+              <div class="price-cell-label">YOUR FULL PRICE</div>
+              <div class="price-cell-value">$${fmt(defensiblePrice)}</div>
+              <div class="price-cell-detail">What you'll charge once your founding clients are signed up. ${escape(d.unitName)}.</div>
+            </div>
+            <div class="price-cell">
+              <div class="price-cell-label">FOUNDING-CLIENT RATE</div>
+              <div class="price-cell-value">$${fmt(founderClientPrice)}</div>
+              <div class="price-cell-detail">${d.discountPct}% off your full price. What ${escape(d.cohortName)} pay. ${escape(d.unitName)}.</div>
+            </div>
+          </div>
+
+          <div class="math-block">
+            <div class="math-block-label">THE MATH  ·  HOW THE FLOOR WAS BUILT</div>
+            ${d.costLines.map(line => `
+              <div class="math-row">
+                <span class="label">${escape(line.label)}</span>
+                <span class="value">$${fmt(line.amount)}</span>
+              </div>
+            `).join('')}
+            <div class="math-row total">
+              <span class="label">Fully loaded unit cost</span>
+              <span class="value">$${fmt(totalCost)}</span>
+            </div>
+            <div class="math-row" style="margin-top: 10px;">
+              <span class="label">Cost \u00f7 (1 \u2212 ${d.targetMargin}%)  =  cost-margin floor${d.industryLabel ? ` <span style="color: var(--slate); font-size: 12px;">(${escape(d.industryLabel)} typical range: ${escape(d.industryRange)})</span>` : ''}</span>
+              <span class="value">$${fmt(floorPrice)}</span>
+            </div>
+            <div class="math-row">
+              <span class="label">Credible peer-set range</span>
+              <span class="value">$${fmt(d.marketLow)} \u2013 $${fmt(d.marketHigh)}</span>
+            </div>
+            <div class="math-row total">
+              <span class="label">Defensible price (the recommendation)</span>
+              <span class="value">$${fmt(defensiblePrice)}</span>
+            </div>
+          </div>
+
+          <div class="math-block">
+            <div class="math-block-label">WHO YOU'RE HELPING  ·  AND WITH WHAT</div>
+            <p style="font-family: var(--font-display); font-style: italic; font-size: 16px; color: var(--ink-soft); line-height: 1.5; padding-left: 16px; border-left: 3px solid var(--gold); margin: 0;">
+              ${escape(d.valueStatement)}
+            </p>
+            <p style="font-family: var(--font-body); font-size: 13px; color: var(--ink-soft); line-height: 1.55; margin-top: 12px;">
+              The math gives you the floor. This sentence is why your price can sit above it. Read it before any pricing conversation \u2014 it reminds you what your customer is really getting.
+            </p>
+          </div>
+        </div>
+
+        <div class="verdict ${verdictTier}">
+          <div class="verdict-label">${verdictLabel}</div>
+          <div class="verdict-headline">${verdictHead}</div>
+          <div class="verdict-body">${verdictBody}</div>
+        </div>
+
+        ${gutNote}
+      </div>
+
+      <!-- ARTIFACT 2: FRAMING LANGUAGE -->
+      <div class="section" id="artifact-2">
+        <div class="section-eyebrow">ARTIFACT 02  ·  HOW TO TALK ABOUT YOUR PRICE</div>
+        <h2 class="section-title">Three pieces of language for your early conversations.</h2>
+        <p>Your price is half the work. How you talk about it is the other half. These three pieces make the founding-client offer sound like a real plan \u2014 not a sign you're still guessing \u2014 and put the future increase on the table from day one, so it never feels like a surprise later.</p>
+
+        <div class="framing-card">
+          <div class="framing-header">PRICING LANGUAGE  ·  USE IN EVERY EARLY CONVERSATION</div>
+          <h3>What you'll say. Every time.</h3>
+          <p class="framing-sub">Use these as written, or adjust to your voice. The discipline is saying it the same way each time \u2014 if you change it up, you sound unsure.</p>
+
+          <div class="framing-block">
+            <div class="framing-block-label">PIECE 01  ·  HOW YOU FRAME THE FOUNDING-CLIENT PRICE</div>
+            <div class="framing-quote">"${escape(d.positioningStatement)}"</div>
+            <div class="framing-coach">
+              <strong>Why this works:</strong> it makes the lower price sound like a choice you made \u2014 not a sign you don't know what to charge. The session puts it plainly: <em>"Introductory rate while we build our reference base"</em> sounds completely different from <em>"we're still figuring out what to charge."</em> One sounds like a plan. The other sounds like uncertainty. Buyers go with owners who sound like they have a plan.
+            </div>
+          </div>
+
+          <div class="framing-block">
+            <div class="framing-block-label">PIECE 02  ·  THE PRICE INCREASE  ·  TELL THEM ON DAY ONE</div>
+            <div class="framing-quote">"We're launching at $${fmt(founderClientPrice)} for ${escape(d.cohortName.toLowerCase())}. Once ${escape(d.triggerEvent.replace(/^[A-Z]/, c => c.toLowerCase()).replace(/\.$/, ''))} \u2014 about ${escape(d.triggerTimeframe.toLowerCase())} from now \u2014 the price moves to $${fmt(defensiblePrice)}. ${escape(d.lockinLanguage.replace(/\.$/, ''))}."</div>
+            <div class="framing-coach">
+              <strong>Why this works:</strong> when you name the increase up front, it stops being a surprise later. It becomes a reason to act now. The trigger is something they can actually see happening. The lock-in protects them. The whole thing turns the future increase into part of the offer, not a warning.
+            </div>
+          </div>
+
+          <div class="framing-block">
+            <div class="framing-block-label">PIECE 03  ·  THE SHORT VERSION  ·  FOR EMAIL OR A PROPOSAL</div>
+            <div class="framing-quote">"Our founding rate of $${fmt(founderClientPrice)} ${escape(d.unitName)} is open to ${escape(d.cohortName.toLowerCase())} until ${escape(d.triggerEvent.toLowerCase())} \u2014 expected within ${escape(d.triggerTimeframe.toLowerCase())}. After that, the rate is $${fmt(defensiblePrice)}. Founding clients keep the early rate per the terms above."</div>
+            <div class="framing-coach">
+              <strong>Why this works:</strong> the same message, two sentences. Use it in email signatures, proposal cover lines, or one slide of a pitch deck. Same pieces in the same order: today's price, what triggers the change, the new price, and the protection for early clients.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTIFACT 3: NEXT MOVES -->
+      <div class="section" id="artifact-3">
+        <div class="section-eyebrow">ARTIFACT 03  ·  YOUR NEXT MOVES</div>
+        <h2 class="section-title">Three things to do before your next pricing conversation.</h2>
+
+        <div class="moves-card">
+          <ol>
+            <li><strong>Read your script out loud.</strong> Read the founding-client framing and the price-increase trigger to yourself, at the speed you'd actually say them. Listen for hesitation. Listen for soft words sneaking in \u2014 \u201Cjust,\u201D \u201Cfor now,\u201D \u201Cwe're flexible.\u201D Every soft word tells the buyer you don't believe your price. If your sentences come out clean, you're ready.</li>
+            <li><strong>Show your math to one person who knows your business.</strong> Walk them through the cost breakdown, the floor, the market range, and the recommendation. Ask one question: <em>"Where am I wrong?"</em> The most common error owners catch here is undercounted time \u2014 either time per unit or your hourly rate. A second pair of eyes is the protection.</li>
+            <li><strong>Use your next real conversation as the test.</strong> Lead with the founding-client framing. Say the price. Name the trigger and the future increase. Then stop talking. The first time will feel uncomfortable \u2014 not because the price is wrong, but because saying any price out loud feels like sticking your neck out. By the third conversation, the discomfort fades. You'll learn more from three real conversations than from three more weeks of analysis.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn btn-secondary" onclick="restart()">Start Over</button>
+        <button class="btn btn-primary" onclick="window.print()">Save / Print as PDF</button>
+      </div>
+
+      <div class="signature">
+        <div class="left">Two Weeks Out</div>
+        <div>First Price Worksheet  ·  Setting a First Price When You Have No Track Record  ·  Generated ${today}</div>
+      </div>
+    `;
+  }
+
+  function restart() {
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('output').classList.remove('active');
+    document.getElementById('progress-wrap').style.display = '';
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
+    document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
+    document.getElementById('cost-total').textContent = '$0';
+    document.getElementById('inputs-hint').hidden = true;
+    document.getElementById('generate-hint').hidden = true;
+    document.getElementById('industry-range-note').style.display = 'none';
+    costValues = {};
+    renderCostFields();
+    goTo(1);
+  }
+
+  function useExample(button, fieldId) {
+    const text = button.getAttribute('data-example') || '';
+    if (!text) return;
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+    el.value = text;
+    el.focus();
+    const originalText = button.textContent;
+    button.textContent = 'Inserted';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('copied');
+    }, 1400);
+    document.getElementById('inputs-hint').hidden = true;
+    document.getElementById('generate-hint').hidden = true;
+  }
+
+  function escape(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function fmt(n) {
+    if (!isFinite(n)) return '0';
+    // round to 2 decimals if there's cents, otherwise integer
+    const rounded = Math.round(n * 100) / 100;
+    if (rounded === Math.floor(rounded)) {
+      return Math.floor(rounded).toLocaleString('en-US');
+    }
+    return rounded.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+</script>
+
+
+
+</body></html>

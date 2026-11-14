@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Price-Raise Strategy Worksheet — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10131a;
+    --navy-2:#2c313c;
+    --navy-dk:#10131a;
+    --gold:#2747f5;
+    --gold-dk:#2747f5;
+    --gold-lt:#e9ecf5;
+    --red:#b3261e;
+    --teal:#2747f5;
+    --cream:#e9ecf5;
+    --cream-dk:#d5d9e4;
+    --slate:#9ba3af;
+    --paper:#fbfaf6;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --rule:#d5d9e4;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px; line-height: 1.6;
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+  .frame { max-width: 920px; margin: 0 auto; padding: 56px 40px 120px; }
+
+  /* masthead */
+  .masthead { border-bottom: 1px solid var(--rule); padding-bottom: 36px; margin-bottom: 48px; }
+  .brand-stripe {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .brand-stripe::after { content: ''; flex: 1; height: 1px; background: var(--cream-dk); }
+  h1.title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 56px; line-height: 1.05;letter-spacing:-.03em;
+    color: var(--navy); margin-bottom: 18px;font-style:normal;}
+  h1.title em { font-style: italic; color: var(--gold); font-weight: 500; }
+  .deck { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 19px; color: var(--ink-soft); max-width: 660px; }
+
+  /* progress */
+  .progress { display: flex; gap: 4px; margin: 40px 0 20px; }
+  .progress-step { flex: 1; height: 3px; background: var(--cream-dk); transition: background 0.4s; }
+  .progress-step.active { background: var(--gold); }
+  .progress-step.done { background: var(--navy); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;color:#59616e; text-transform: uppercase;
+    margin-bottom: 48px; gap: 12px;
+  }
+  .progress-label span.current { color: var(--navy); }
+
+  /* panels */
+  .panel { display: none; animation: fadeIn 0.4s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel-header { margin-bottom: 36px; }
+  .panel-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; line-height: 1.1; color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .panel-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft); max-width: 660px;
+  }
+
+  /* warning callout */
+  .warning-callout {
+    background: var(--navy); color: white;
+    padding: 24px 28px; margin: 24px 0;
+    border-left: 6px solid var(--red);
+  }
+  .warning-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 10px;
+  }
+  .warning-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;font-style:normal;
+    font-size: 20px; color: white; line-height: 1.35;
+  }
+  .warning-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--cream-dk); line-height: 1.55; margin-top: 10px;
+  }
+
+  /* form fields */
+  .field { margin-bottom: 28px; }
+  .field-label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; color: var(--navy); margin-bottom: 6px;
+  }
+  .field-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .field-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;color:#59616e; margin-bottom: 12px;
+    padding-left: 10px; border-left: 2px solid var(--cream-dk);
+    line-height: 1.55;
+  }
+  .field-example.with-copy {
+    display: flex; align-items: flex-start; gap: 12px;
+    justify-content: space-between;
+  }
+  .field-example .ex-text { flex: 1; font-style: italic; color: var(--ink-soft); }
+  .copy-link {
+    flex-shrink: 0; background: transparent;
+    border: 1px solid var(--cream-dk); color: var(--gold-dk);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 5px 10px; cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .copy-link:hover { background: var(--gold-lt); border-color: var(--gold); color: var(--navy); }
+  .copy-link.copied { background: var(--teal);border-color:#ffffff; color: white; }
+
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%; background: white;
+    border: 1px solid var(--cream-dk);
+    border-bottom: 2px solid var(--navy);
+    padding: 13px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 15px;
+    color: var(--navy); border-radius:0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none; border-bottom-color: var(--gold); background: var(--gold-lt);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; gap: 0; } }
+
+  .currency-prefix { position: relative; }
+  .currency-prefix::before {
+    content: '$';
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);color:#59616e; font-weight: 600;
+    pointer-events: none; z-index: 1;
+  }
+  .currency-prefix input { padding-left: 30px; }
+
+  /* trigger picker (custom radio cards) */
+  .trigger-picker { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 6px; }
+  .trigger-option {
+    background: white;
+    border: 2px solid var(--cream-dk);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: block;
+  }
+  .trigger-option:hover { border-color: var(--gold); }
+  .trigger-option input { display: none; }
+  .trigger-option:has(input:checked) {
+    border-color: var(--navy); background: var(--gold-lt);
+  }
+  .trigger-option-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 18px; color: var(--navy); margin-bottom: 4px;
+  }
+  .trigger-option-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--ink-soft); line-height: 1.5;
+  }
+
+  /* secondary triggers (checkboxes) */
+  .secondary-triggers { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 6px; }
+  .secondary-trigger-option {
+    background: var(--paper);
+    border: 1px solid var(--cream-dk);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13.5px;
+    color: var(--ink-soft); line-height: 1.5;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .secondary-trigger-option:hover { border-color: var(--gold); }
+  .secondary-trigger-option input { margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+  .secondary-trigger-option:has(input:checked) {
+    background: var(--gold-lt); border-color: var(--gold); color: var(--navy);
+  }
+  .secondary-trigger-option strong { color: var(--navy); font-weight: 600; }
+
+  /* sub-cards */
+  .sub-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--gold);
+    padding: 24px 26px;
+    margin-bottom: 22px;
+  }
+  .sub-card-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 2px 8px; margin-bottom: 12px;
+    background: var(--gold);color:#ffffff;
+  }
+  .sub-card-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: var(--navy); margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .sub-card-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--ink-soft); margin-bottom: 18px;
+  }
+
+  /* nav */
+  .nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px 28px; cursor: pointer; border: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dk); }
+  .btn-secondary {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--cream-dk);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  /* output */
+  .output { display: none; }
+  .output.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .output-masthead {
+    border-top: 4px solid var(--navy);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 0 28px;
+    margin-bottom: 40px;
+  }
+  .output-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 44px; line-height: 1.05;
+    color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .output-title em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .output-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .output-meta {
+    display: flex; gap: 32px; margin-top: 20px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; letter-spacing: 0.08em; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .output-meta span strong {
+    color: var(--navy); display: block; font-size: 16px;
+    letter-spacing: 0; text-transform: none; margin-top: 2px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; line-height: 1.15; color: var(--navy); margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+  .section p {
+    margin-bottom: 14px; line-height: 1.65; color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .section p strong { color: var(--navy); font-weight: 600; }
+
+  /* ARTIFACT 1 — the trigger card */
+  .trigger-card {
+    background: var(--gold-lt);
+    border: 2px solid var(--gold);
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .trigger-card h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 26px; color: var(--navy); margin-bottom: 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .trigger-card .trigger-tagline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--ink-soft); margin-bottom: 24px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(39,71,245,0.4);
+  }
+  .trigger-component {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px dashed rgba(39,71,245,0.4);
+  }
+  .trigger-component:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .trigger-component-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .trigger-component-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 22px; color: var(--navy); line-height: 1.3;
+    margin-bottom: 6px;letter-spacing:-.03em;font-style:normal;}
+  .trigger-component-detail {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--ink-soft); line-height: 1.6;
+  }
+
+  /* price-jump visualization */
+  .price-jump {
+    display: flex; align-items: center; gap: 18px;
+    margin: 8px 0;
+    flex-wrap: wrap;
+  }
+  .price-pill {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; color: var(--navy);
+    background: white; padding: 12px 22px;
+    border: 1px solid var(--cream-dk);letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .price-pill.from { color: var(--ink-soft); }
+  .price-pill.to { color: var(--gold-dk); border-color: var(--gold); background: var(--gold-lt); }
+  .price-arrow {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 24px;
+    color: var(--gold-dk);font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .price-delta {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--ink-soft); letter-spacing: 0.04em;
+  }
+  .price-delta strong { color: var(--navy); font-weight: 700; }
+
+  /* ARTIFACT 2 — script blocks (navy) */
+  .script-doc {
+    background: var(--navy); color: white;
+    padding: 36px 40px; margin: 20px 0;
+  }
+  .script-header {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 6px;
+  }
+  .script-doc h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 24px; color: white; margin-bottom: 8px;letter-spacing:-.03em;font-style:normal;}
+  .script-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--cream-dk); margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .script-quote {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; line-height: 1.55; color: white;
+    padding: 16px 0 16px 18px;
+    border-left: 3px solid var(--gold);
+    margin-bottom: 14px;
+  }
+  .script-coach {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--cream-dk); line-height: 1.55;
+  }
+  .script-coach strong { color: var(--gold); }
+  .script-section {
+    margin-bottom: 26px;
+    padding-bottom: 26px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .script-section:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .script-section-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--gold); margin-bottom: 6px;
+  }
+  .script-section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: white; margin-bottom: 14px;letter-spacing:-.03em;font-style:normal;}
+  .script-redflag {
+    background: rgba(179,38,30,0.18);
+    border-left: 3px solid var(--red);
+    padding: 14px 18px;
+    margin-top: 24px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: rgba(255,255,255,0.92); line-height: 1.6;
+  }
+  .script-redflag strong { color: white; font-weight: 700; }
+
+  /* ARTIFACT 3 — telegraph plan (white card with checklist) */
+  .telegraph-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 28px 32px;
+    margin-top: 24px;
+  }
+  .telegraph-card ol { margin: 16px 0 0 22px; }
+  .telegraph-card ol li {
+    margin-bottom: 14px;
+    color: var(--ink-soft); font-size: 15px; line-height: 1.6;
+  }
+  .telegraph-card ol li strong { color: var(--navy); }
+
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+  .signature {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;color:#59616e;
+  }
+  .signature .left { color: var(--gold); font-weight: 700; }
+  .hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--red); margin-top: 6px;
+  }
+
+  /* print */
+  @media print {
+    @page { margin: 0.5in; size: letter; }
+    body { background: white; font-size: 10.5pt; }
+    .frame { padding: 0; max-width: none; }
+    .panel, .progress, .progress-label, .actions, .nav, .masthead { display: none !important; }
+    .output { display: block !important; }
+    .output-title { font-size: 28pt; }
+    .section-title { font-size: 16pt; }
+    .trigger-card, .script-doc, .telegraph-card, .warning-callout {
+      page-break-inside: avoid; box-shadow: none;
+    }
+    .script-doc { background: white !important; color: var(--navy) !important; border: 2px solid var(--navy); }
+    .script-doc h3, .script-section-title, .script-quote { color: var(--navy) !important; }
+    .script-doc .script-sub, .script-coach { color: var(--ink-soft) !important; }
+    .script-coach strong, .script-header, .script-section-label { color: var(--gold-dk) !important; }
+    .script-redflag { color: var(--navy) !important; background: #fbfaf6 !important; }
+    .script-redflag strong { color: var(--red) !important; }
+    .section { margin-bottom: 28px; }
+    .signature { page-break-inside: avoid; }
+    #artifact-2, #artifact-3 { page-break-before: always; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#9B9BFF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.warning-callout div.warning-label{color:#93abff}
+div.script-doc div.script-header{color:#93abff}
+div.script-doc p.script-sub{color:#fbfaf6}
+div.script-doc div.script-section-label{color:#93abff}
+div.script-doc div.script-coach > strong{color:#93abff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">04 / Price for Profit</span></div>
+<div class="frame">
+
+<header class="masthead" id="masthead">
+  <div class="brand-stripe">Two Weeks Out  ·  PRICE-RAISE WORKSHEET</div>
+  <h1 class="title">Raise Your Prices<br>Without <em>Drift</em>.</h1>
+  <p class="deck">Define the trigger now. Telegraph it to clients today. Execute the increase without hesitation when the moment arrives — and without losing the relationships you've built.</p>
+</header>
+
+<div id="progress-wrap">
+  <div class="progress">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+  </div>
+  <div class="progress-label">
+    <span class="current">01 — Where You Are</span>
+    <span>02 — Your Trigger</span>
+    <span>03 — The Conversation</span>
+  </div>
+</div>
+
+<!-- ============ PANEL 1: WHERE YOU ARE ============ -->
+<section class="panel active" id="panel-1">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP ONE  ·  WHERE YOU ARE TODAY</div>
+    <h2 class="panel-title">Your founding price and where you want to land.</h2>
+    <p class="panel-intro">Two prices. One you're charging now, one the market evidence supports. The gap between them is what you're walking your clients across.</p>
+  </div>
+
+  <div class="warning-callout">
+    <div class="warning-label">THE TRAP THIS WORKSHEET PROTECTS AGAINST</div>
+    <div class="warning-headline">Raising prices is uncomfortable. The business feels fragile. Every month makes the anchor feel more permanent.</div>
+    <div class="warning-body">owners who do the early pricing work right still drift into staying at founding rates indefinitely — not because they planned to, but because no single moment ever feels right to raise. By the time they try, the anchor has set. This worksheet is calibrated to define the moment now, in advance, so you don't drift.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-name">Business or product name</label>
+    <input type="text" id="biz-name" placeholder="What you&#39;d call it talking to a friend">
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="what-sold">What are you pricing?</label>
+    <p class="field-help">A single offer with a single price point. Not your whole catalog — the one offer this raise applies to.</p>
+    <p class="field-example">e.g., "Skincare protocol kit" / "Monthly gym membership" / "Coaching retainer" / "SaaS Pro plan"</p>
+    <input type="text" id="what-sold" maxlength="120" placeholder="The offer this price applies to">
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="current-price">Current founding price</label>
+      <p class="field-help">What you're charging today.</p>
+      <div class="currency-prefix">
+        <input type="number" id="current-price" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="target-price">Target price after the raise</label>
+      <p class="field-help">What the market evidence supports — what the product is worth.</p>
+      <div class="currency-prefix">
+        <input type="number" id="target-price" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="months-in">Months at the founding price</label>
+      <p class="field-help">How long has this price been in market?</p>
+      <input type="number" id="months-in" placeholder="0" min="0" step="1">
+    </div>
+    <div class="field">
+      <label class="field-label" for="founding-clients">Number of founding clients today</label>
+      <p class="field-help">People paying the founding rate right now. Estimate is fine.</p>
+      <input type="number" id="founding-clients" placeholder="0" min="0" step="1">
+    </div>
+  </div>
+
+  <div class="nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(2)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 2: YOUR TRIGGER ============ -->
+<section class="panel" id="panel-2">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP TWO  ·  YOUR TRIGGER</div>
+    <h2 class="panel-title">Pick the trigger that fits your business.</h2>
+    <p class="panel-intro">The lesson gives three triggers. Any one of them, consistently present, is enough. Pick the one that's most natural for what you're building — that becomes your <em>primary</em> trigger. The others stay in the background as supporting evidence.</p>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Your primary trigger:</label>
+    <p class="field-help">Pick the one that's most likely to fire first for your business. This is what you'll write down and tell every new client about.</p>
+
+    <div class="trigger-picker">
+      <label class="trigger-option">
+        <input type="radio" name="primary-trigger" value="milestone">
+        <div class="trigger-option-label">A specific milestone you've named publicly.</div>
+        <div class="trigger-option-help">"When clinical outcomes documentation is complete." "When we ship version 2.0." "When we hit 50 active members." A named, observable event your clients are already expecting. The strongest trigger when it applies — because the conversation is already had.</div>
+      </label>
+
+      <label class="trigger-option">
+        <input type="radio" name="primary-trigger" value="closerate">
+        <div class="trigger-option-label">Your close rate sits consistently above 50%.</div>
+        <div class="trigger-option-help">More than half of qualified conversations are converting. The market is absorbing your price without friction. That's a clear signal you have room to move.</div>
+      </label>
+
+      <label class="trigger-option">
+        <input type="radio" name="primary-trigger" value="capacity">
+        <div class="trigger-option-label">You're turning work away or capacity is strained.</div>
+        <div class="trigger-option-help">Too busy to take new clients. Booked out for weeks. Subsidizing your own scarcity. Raising your price until demand balances is the rational move — even though it'll feel aggressive.</div>
+      </label>
+    </div>
+  </div>
+
+  <!-- The specific trigger detail (varies by primary trigger) -->
+  <div class="sub-card" id="trigger-detail-card" style="display:none;">
+    <div class="sub-card-tag">YOUR TRIGGER  ·  WRITTEN AS A SPECIFIC EVENT</div>
+    <div class="sub-card-title" id="trigger-detail-title">Write your trigger as something specific and observable.</div>
+    <p class="sub-card-help" id="trigger-detail-help">A condition you'll know when you see. Not a feeling.</p>
+
+    <div class="field" style="margin-bottom: 18px;">
+      <label class="field-label" for="trigger-text">My trigger:</label>
+      <p class="field-example with-copy" id="trigger-example-row">
+        <span class="ex-text" id="trigger-example-text">— pick a primary trigger above —</span>
+        <button type="button" class="copy-link" id="trigger-copy-btn" data-example="" onclick="useExample(this, &#39;trigger-text&#39;)" disabled="" style="opacity:0.4; cursor:not-allowed;">Use example</button>
+      </p>
+      <textarea id="trigger-text" maxlength="240" placeholder="Specific. Observable. Something you&#39;ll know when you see it."></textarea>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="expected-when">Roughly when do you expect this trigger to fire?</label>
+      <p class="field-help">A real timeframe — even if approximate. Helps you and your clients plan.</p>
+      <input type="text" id="expected-when" maxlength="100" placeholder="e.g., Within 4–6 weeks / End of Q2 / By January 1">
+    </div>
+  </div>
+
+  <!-- Secondary triggers (also true) -->
+  <div class="field">
+    <label class="field-label">Are any of these also true today? (Optional — pick all that apply)</label>
+    <p class="field-help">Other triggers happening alongside your primary one make the case stronger. They become supporting evidence in your raise communication.</p>
+
+    <div class="secondary-triggers">
+      <label class="secondary-trigger-option">
+        <input type="checkbox" name="secondary" value="closerate">
+        <span><strong>Close rate is above 50%.</strong> More than half of qualified conversations are converting.</span>
+      </label>
+      <label class="secondary-trigger-option">
+        <input type="checkbox" name="secondary" value="capacity">
+        <span><strong>Capacity is strained.</strong> Turning work away, booked out for weeks, or subsidizing your own scarcity.</span>
+      </label>
+      <label class="secondary-trigger-option">
+        <input type="checkbox" name="secondary" value="milestone">
+        <span><strong>A named milestone is at or near completion.</strong> Something you committed to that clients are already expecting.</span>
+      </label>
+      <label class="secondary-trigger-option">
+        <input type="checkbox" name="secondary" value="reference-base">
+        <span><strong>Reference base is established.</strong> You have outcomes data, case studies, or testimonials that validate the product at the higher price.</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">←  Back</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Continue  →</button>
+  </div>
+  <p class="hint" id="trigger-hint" hidden="" style="text-align:right;">Please pick a primary trigger and write it out before continuing.</p>
+</section>
+
+<!-- ============ PANEL 3: THE CONVERSATION ============ -->
+<section class="panel" id="panel-3">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP THREE  ·  THE CONVERSATION</div>
+    <h2 class="panel-title">Two pieces of language. The notice, and the pushback handler.</h2>
+    <p class="panel-intro">Most owners dread this conversation. In the lesson's experience, it almost never goes the way they fear — when the increase was telegraphed from the beginning and the communication is clear.</p>
+  </div>
+
+  <div class="sub-card" style="border-left-color: var(--teal);">
+    <div class="sub-card-tag" style="background: var(--teal); color: white;">PIECE 01  ·  THE NOTICE</div>
+    <div class="sub-card-title">What you'll say to existing founding clients.</div>
+    <p class="sub-card-help">Most of your script is generated from the inputs you've already provided. We just need one piece in your voice: how you'll acknowledge what these founding clients have meant to the business.</p>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="acknowledgment">In one sentence — how do you want to acknowledge their founding-partner status?</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"As a founding practice, you've been essential to getting us here — your early belief in this product is what made the next stage possible."</span>
+        <button type="button" class="copy-link" data-example="As a founding practice, you&#39;ve been essential to getting us here — your early belief in this product is what made the next stage possible." onclick="useExample(this, &#39;acknowledgment&#39;)">Use example</button>
+      </p>
+      <textarea id="acknowledgment" maxlength="240" placeholder="Sincere. Specific to what these clients did for the business. One sentence."></textarea>
+    </div>
+  </div>
+
+  <div class="sub-card" style="border-left-color: var(--gold);">
+    <div class="sub-card-tag">PIECE 02  ·  THE PUSHBACK HANDLER</div>
+    <div class="sub-card-title">What you'll offer if a client resists the increase.</div>
+    <p class="sub-card-help">Some clients will push back. The lesson is direct: don't walk the price back — that trains clients that pushback works, and every future increase becomes harder. Offer a transition period instead, with a clear end date.</p>
+
+    <div class="field" style="margin-bottom: 18px;">
+      <label class="field-label" for="transition-length">Maximum transition period you're willing to offer:</label>
+      <p class="field-help">A bridge from old price to new, with a hard end date. Shorter is safer.</p>
+      <select id="transition-length">
+        <option value="">— Pick one —</option>
+        <option value="30 days">30 days</option>
+        <option value="60 days">60 days</option>
+        <option value="90 days">90 days</option>
+        <option value="end of current contract">End of their current contract or term</option>
+      </select>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="transition-cap">How many existing clients can get a transition (max)?</label>
+      <p class="field-help">A cap protects you. If everyone asks and you say yes to all, the transition becomes a permanent tier you didn't choose. Common: 25-50% of your founding base.</p>
+      <input type="number" id="transition-cap" placeholder="0" min="0" step="1">
+    </div>
+  </div>
+
+  <div class="sub-card" style="border-left-color: var(--red);">
+    <div class="sub-card-tag" style="background: var(--red); color: white;">PIECE 03  ·  THE NEW-CLIENT FRAMING</div>
+    <div class="sub-card-title">How you'll describe the price to clients who arrive after the raise.</div>
+    <p class="sub-card-help">The framing shifts from "founding rate" to "price our product is worth." Honest about what's changed: you're not asking anyone to take a chance on something new — you're offering something with demonstrated results.</p>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="reference-evidence">What evidence do you have today that validates the new price?</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"Twelve practices using the product daily, clinical outcomes documentation showing 40% reduction in appointment time, and three case studies published this quarter."</span>
+        <button type="button" class="copy-link" data-example="Twelve practices using the product daily, clinical outcomes documentation showing 40% reduction in appointment time, and three case studies published this quarter." onclick="useExample(this, &#39;reference-evidence&#39;)">Use example</button>
+      </p>
+      <textarea id="reference-evidence" maxlength="280" placeholder="Specific. Outcomes data, case studies, customer references, retention numbers. What you&#39;d point to in a pitch."></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">←  Back</button>
+    <button class="btn btn-primary" id="generate-btn" onclick="generateOutput()">Generate My Strategy  →</button>
+  </div>
+  <p class="hint" id="generate-hint" hidden="" style="text-align:right;">Please complete each field before generating.</p>
+</section>
+
+<!-- ============ OUTPUT ============ -->
+<section class="output" id="output"></section>
+
+</div>
+
+<script>
+  let currentStep = 1;
+  let triggerExamples = {
+    'milestone': {
+      title: 'Name the milestone — what specifically completes, ships, or hits a number.',
+      help: 'The strongest trigger when it applies. The conversation with clients was already had — you just need to keep the commitment.',
+      example: 'When the clinical outcomes documentation is complete and published — currently on track for 4-6 weeks from today.',
+      shortLabel: 'Milestone-based trigger'
+    },
+    'closerate': {
+      title: 'Name the close-rate threshold — and the period over which it must hold.',
+      help: 'A 50%+ rate over one good month is noise. Sustained over 2-3 months is signal.',
+      example: 'When close rate stays above 55% for three consecutive months on qualified conversations — currently at 42% over the last 90 days.',
+      shortLabel: 'Close-rate trigger'
+    },
+    'capacity': {
+      title: 'Name the capacity condition — what specifically is strained.',
+      help: 'Be specific. "Booked out X weeks." "Turning away N clients per month." "Wait list of M people." Real numbers, not feelings.',
+      example: 'When wait list exceeds 12 prospects and we are turning away an average of 4 qualified inquiries per month — currently at 7 on the wait list.',
+      shortLabel: 'Capacity-strain trigger'
+    }
+  };
+
+  // update detail card when primary trigger changes
+  document.querySelectorAll('input[name="primary-trigger"]').forEach(r => {
+    r.addEventListener('change', e => {
+      const v = e.target.value;
+      const ex = triggerExamples[v];
+      if (!ex) return;
+      document.getElementById('trigger-detail-card').style.display = 'block';
+      document.getElementById('trigger-detail-title').textContent = ex.title;
+      document.getElementById('trigger-detail-help').textContent = ex.help;
+      document.getElementById('trigger-example-text').textContent = ex.example;
+      const btn = document.getElementById('trigger-copy-btn');
+      btn.setAttribute('data-example', ex.example);
+      btn.disabled = false;
+      btn.style.opacity = '';
+      btn.style.cursor = '';
+      document.getElementById('trigger-hint').hidden = true;
+    });
+  });
+
+  function goTo(n) {
+    if (n > currentStep && !validate(currentStep)) return;
+    currentStep = n;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    document.querySelectorAll('.progress-step').forEach(s => {
+      const step = parseInt(s.dataset.step);
+      s.classList.remove('active', 'done');
+      if (step < n) s.classList.add('done');
+      else if (step === n) s.classList.add('active');
+    });
+    document.querySelectorAll('.progress-label span').forEach((l, i) => {
+      l.classList.toggle('current', (i + 1) === n);
+    });
+  }
+
+  function validate(step) {
+    if (step === 1) {
+      const required = ['biz-name', 'what-sold', 'current-price', 'target-price', 'months-in'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (el.value === '' || el.value === null || el.value.toString().trim() === '') {
+          el.focus();
+          return false;
+        }
+      }
+      // target must be > current
+      const cp = parseFloat(document.getElementById('current-price').value);
+      const tp = parseFloat(document.getElementById('target-price').value);
+      if (tp <= cp) {
+        alert('The target price should be higher than the current price for a price raise to make sense. If your target is the same or lower, this worksheet isn\'t the right tool.');
+        document.getElementById('target-price').focus();
+        return false;
+      }
+      return true;
+    }
+    if (step === 2) {
+      const primary = document.querySelector('input[name="primary-trigger"]:checked');
+      if (!primary) {
+        document.getElementById('trigger-hint').hidden = false;
+        return false;
+      }
+      const tt = document.getElementById('trigger-text');
+      if (!tt.value || tt.value.trim() === '') {
+        document.getElementById('trigger-hint').hidden = false;
+        tt.focus();
+        return false;
+      }
+      const ew = document.getElementById('expected-when');
+      if (!ew.value || ew.value.trim() === '') {
+        ew.focus();
+        return false;
+      }
+      return true;
+    }
+    return true;
+  }
+
+  function generateOutput() {
+    const required = ['acknowledgment', 'transition-length', 'transition-cap', 'reference-evidence'];
+    for (const id of required) {
+      const el = document.getElementById(id);
+      if (!el.value || el.value.toString().trim() === '') {
+        document.getElementById('generate-hint').hidden = false;
+        el.focus();
+        return;
+      }
+    }
+    const data = collect();
+    document.getElementById('output').innerHTML = renderOutput(data);
+    document.getElementById('output').classList.add('active');
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function collect() {
+    const num = id => {
+      const v = parseFloat(document.getElementById(id).value);
+      return isNaN(v) ? 0 : v;
+    };
+    const str = id => document.getElementById(id).value.trim();
+    const sel = id => document.getElementById(id).value;
+    const checkedSecondary = Array.from(document.querySelectorAll('input[name="secondary"]:checked')).map(c => c.value);
+    return {
+      bizName: str('biz-name'),
+      whatSold: str('what-sold'),
+      currentPrice: num('current-price'),
+      targetPrice: num('target-price'),
+      monthsIn: num('months-in'),
+      foundingClients: num('founding-clients'),
+      primaryTrigger: document.querySelector('input[name="primary-trigger"]:checked').value,
+      triggerText: str('trigger-text'),
+      expectedWhen: str('expected-when'),
+      secondaryTriggers: checkedSecondary,
+      acknowledgment: str('acknowledgment'),
+      transitionLength: sel('transition-length'),
+      transitionCap: num('transition-cap'),
+      referenceEvidence: str('reference-evidence')
+    };
+  }
+
+  function renderOutput(d) {
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const priceDelta = d.targetPrice - d.currentPrice;
+    const pricePct = d.currentPrice > 0 ? Math.round((priceDelta / d.currentPrice) * 100) : 0;
+    const triggerLabel = triggerExamples[d.primaryTrigger]?.shortLabel || 'Trigger';
+
+    // secondary trigger labels
+    const secondaryLabels = {
+      'closerate': 'Close rate above 50%',
+      'capacity': 'Capacity strained',
+      'milestone': 'A named milestone is at or near completion',
+      'reference-base': 'Reference base established (outcomes data, case studies)'
+    };
+    // remove primary from secondary if it's also checked there
+    const filteredSecondary = d.secondaryTriggers.filter(s => s !== d.primaryTrigger);
+
+    // months-in advisory
+    let monthsAdvisory = '';
+    if (d.monthsIn >= 18) {
+      monthsAdvisory = `<p style="margin-top: 14px;"><strong>Note:</strong> You've been at the founding price for <strong>${d.monthsIn} months</strong>. The lesson explicitly warns about this exact pattern — owners who stay at intro pricing for two years because no single moment ever felt right. The trigger you've defined here is the structural fix. The longer you wait, the harder the anchor sets.</p>`;
+    } else if (d.monthsIn >= 12) {
+      monthsAdvisory = `<p style="margin-top: 14px;"><strong>Note:</strong> You're at <strong>${d.monthsIn} months</strong> at the founding price — past the typical 6-12 month founding window. The trigger you've defined is the protection against drifting indefinitely.</p>`;
+    } else {
+      monthsAdvisory = `<p style="margin-top: 14px;"><strong>Timing note:</strong> You're at month <strong>${d.monthsIn}</strong> of founding pricing. That's still in the natural window. The trigger you've defined now is exactly when this work should be done — calmly, in advance, before the months stack up.</p>`;
+    }
+
+    return `
+      <header class="output-masthead">
+        <div class="brand-stripe">Two Weeks Out  ·  PRICE-RAISE STRATEGY</div>
+        <h1 class="output-title">Price Raise Plan<br>for <em>${escape(d.bizName)}</em></h1>
+        <p class="output-sub">Strategy for moving ${escape(d.whatSold)} from founding rate to standard price.</p>
+        <div class="output-meta">
+          <span>Generated<strong>${today}</strong></span>
+          <span>Current → Target<strong>$${fmt(d.currentPrice)} → $${fmt(d.targetPrice)}</strong></span>
+          <span>Increase<strong>${pricePct}%</strong></span>
+          <span>Primary trigger<strong>${escape(triggerLabel)}</strong></span>
+        </div>
+      </header>
+
+      <!-- =============== ARTIFACT 1: TRIGGER CARD =============== -->
+      <div class="section" id="artifact-1">
+        <div class="section-eyebrow">ARTIFACT 01  ·  YOUR PRICE-RAISE TRIGGER</div>
+        <h2 class="section-title">Defined now, in advance — the moment you don't drift past.</h2>
+        <p>This is the document you keep visible. When the trigger fires, the decision is already made. You're executing a plan, not making a call under pressure.</p>
+
+        <div class="trigger-card">
+          <h3>${escape(d.bizName)} — Price Raise Trigger</h3>
+          <p class="trigger-tagline">Defined ${today}. Tell every new client about this trigger before they sign.</p>
+
+          <div class="trigger-component">
+            <div class="trigger-component-label">01  ·  THE PRICE MOVE</div>
+            <div class="price-jump">
+              <span class="price-pill from">$${fmt(d.currentPrice)}</span>
+              <span class="price-arrow">→</span>
+              <span class="price-pill to">$${fmt(d.targetPrice)}</span>
+              <span class="price-delta">A <strong>$${fmt(priceDelta)}</strong> increase  ·  <strong>+${pricePct}%</strong></span>
+            </div>
+          </div>
+
+          <div class="trigger-component">
+            <div class="trigger-component-label">02  ·  THE TRIGGER  ·  ${escape(triggerLabel.toUpperCase())}</div>
+            <div class="trigger-component-value">${escape(d.triggerText)}</div>
+            <div class="trigger-component-detail">
+              <strong style="color: var(--navy);">Expected when:</strong> ${escape(d.expectedWhen)}.<br>
+              When this condition is observably true, the price moves to $${fmt(d.targetPrice)} on a 30–60 day notice. The decision is already made — execution is what's left.
+            </div>
+          </div>
+
+          ${filteredSecondary.length > 0 ? `
+          <div class="trigger-component">
+            <div class="trigger-component-label">03  ·  SUPPORTING EVIDENCE  ·  ALSO TRUE</div>
+            <div class="trigger-component-detail">
+              ${filteredSecondary.map(s => `<div style="margin-bottom: 8px;">→ ${escape(secondaryLabels[s])}</div>`).join('')}
+              <div style="margin-top: 12px; font-style: italic;">When the primary trigger fires, these strengthen the case that the move is overdue. They are not the trigger themselves — that's the discipline. Any one of them alone could be enough, but you've named one as primary so you don't drift between candidates.</div>
+            </div>
+          </div>
+          ` : ''}
+        </div>
+
+        ${monthsAdvisory}
+      </div>
+
+      <!-- =============== ARTIFACT 2: THE NOTICE SCRIPT =============== -->
+      <div class="section" id="artifact-2">
+        <div class="section-eyebrow">ARTIFACT 02  ·  THE NOTICE — WHAT TO SAY EXISTING CLIENTS</div>
+        <h2 class="section-title">The conversation owners dread — that almost never goes the way they fear.</h2>
+        <p>This script is calibrated to your numbers, your trigger, and your acknowledgment language. Send it as an email or use it on a call. The structure is what the lesson teaches: meaningful notice, lead with what changed, acknowledge their status, give them a concrete option.</p>
+
+        <div class="script-doc">
+          <div class="script-header">PRICE-RAISE NOTICE  ·  FOR EXISTING FOUNDING CLIENTS</div>
+          <h3>What to say when the trigger fires.</h3>
+          <p class="script-sub">30 days minimum notice. 60 days better. Send as email — they can re-read it.</p>
+
+          <div class="script-section">
+            <div class="script-section-label">Subject Line</div>
+            <div class="script-section-title">Pricing update for ${escape(d.whatSold)} — effective [date]</div>
+            <div class="script-coach">
+              <strong>Why this works:</strong> Plain. Not "exciting news." Not buried. owners who hide the topic in a longer subject train clients to expect bad news. Naming it directly signals confidence.
+            </div>
+          </div>
+
+          <div class="script-section">
+            <div class="script-section-label">The Body</div>
+            <div class="script-quote">"[Greeting] — when we started working together, I mentioned that the founding rate of $${fmt(d.currentPrice)} would move to $${fmt(d.targetPrice)} once ${escape(d.triggerText.replace(/^[A-Z]/, c => c.toLowerCase()).replace(/\.$/, ''))}.<br><br>That trigger has now ${d.expectedWhen.toLowerCase().includes('week') || d.expectedWhen.toLowerCase().includes('day') ? 'arrived' : 'been met'}. Effective [date — first of next month is standard], the price for ${escape(d.whatSold)} moves to $${fmt(d.targetPrice)}.<br><br>${escape(d.acknowledgment)}<br><br>The product and the relationship don't change — only the price. If the timing creates difficulty for you specifically, please let me know and we can talk through it.<br><br>[Signoff]"</div>
+            <div class="script-coach">
+              <strong>Why this works — line by line:</strong> The opening references the original commitment, so the increase reads as <em>fulfilling</em> a promise, not breaking one. The trigger is named explicitly. The price is stated directly with no apology. Their founding-partner status is acknowledged before the close. The last line opens the door to a transition conversation without inviting one — most clients won't take it, but the option being there matters.
+            </div>
+          </div>
+
+          <div class="script-redflag">
+            <strong>What's deliberately not in this message:</strong> the words <em>sorry</em>, <em>unfortunately</em>, <em>I know this is hard</em>, <em>after a lot of consideration</em>, or any explanation that exceeds two sentences. None of those frame the increase correctly. The increase was earned, expected, and on schedule — apology language reframes it as something that requires forgiveness.
+          </div>
+        </div>
+      </div>
+
+      <!-- =============== ARTIFACT 3: PUSHBACK + NEW CLIENT =============== -->
+      <div class="section" id="artifact-3">
+        <div class="section-eyebrow">ARTIFACT 03  ·  PUSHBACK HANDLING + NEW-CLIENT FRAMING</div>
+        <h2 class="section-title">Two more conversations. Both calibrated in advance.</h2>
+        <p>Some clients will push back. New clients will arrive after the raise. Both conversations have a structure — and a clear line you don't cross.</p>
+
+        <div class="script-doc">
+          <div class="script-header">IF A FOUNDING CLIENT PUSHES BACK</div>
+          <h3>The first response is a question.</h3>
+          <p class="script-sub">Don't walk the price back immediately. That trains pushback. Get specific first.</p>
+
+          <div class="script-section">
+            <div class="script-section-label">First — Always — Ask</div>
+            <div class="script-quote">"Help me understand what's making this challenging — is it the per-unit cost, the order volume, or the timing of the increase?"</div>
+            <div class="script-coach">
+              <strong>Why this matters:</strong> The answer determines what you can offer. "Per-unit cost" is a price problem — you may not be able to help. "Timing" is a scheduling problem — you can probably help with a short transition. "Volume" is an operational issue — different conversation entirely. Don't react before you know which one it is.
+            </div>
+          </div>
+
+          <div class="script-section">
+            <div class="script-section-label">If the Concern Is Real and Worth Accommodating</div>
+            <div class="script-quote">"We can keep you at $${fmt(d.currentPrice)} for ${escape(d.transitionLength)}, and move to $${fmt(d.targetPrice)} after that. That gives us both time to plan around it. After ${escape(d.transitionLength)}, the price is $${fmt(d.targetPrice)} — same as everyone else."</div>
+            <div class="script-coach">
+              <strong>Why this matters:</strong> A transition with a hard end date is a professional accommodation. A permanent exception becomes a tier you didn't choose and can't manage. The end date in your sentence is what protects you.
+            </div>
+          </div>
+
+          <div class="script-redflag">
+            <strong>The line you don't cross:</strong> Permanent exceptions. If you say "we'll keep you at the founding rate" with no end date, you've just created a pricing tier you didn't plan for. Future clients who learn about it will demand the same. Your stated cap on transitions is <strong>${fmt(d.transitionCap)} clients maximum</strong> — past that, the answer is no, and the conversation is "I appreciate you raising this, and the new price is $${fmt(d.targetPrice)} starting [date]."
+          </div>
+        </div>
+
+        <div class="script-doc">
+          <div class="script-header">FOR NEW CLIENTS WHO ARRIVE AFTER THE RAISE</div>
+          <h3>The framing shifts. The price doesn't.</h3>
+          <p class="script-sub">No more "founding rate." No more "introductory" framing. The price is $${fmt(d.targetPrice)} because that's what the product is worth.</p>
+
+          <div class="script-section">
+            <div class="script-section-label">When Asked About the Price</div>
+            <div class="script-quote">"The price for ${escape(d.whatSold)} is $${fmt(d.targetPrice)}. We don't have an introductory rate anymore — at this point we have ${escape(d.referenceEvidence)} The price reflects the validated product, not a bet on a new one."</div>
+            <div class="script-coach">
+              <strong>Why this is a cleaner sell:</strong> You're not asking anyone to take a chance on something untested. You have evidence. The new client gets to evaluate a proven offering. That's a stronger position than the founding-rate sale ever was — even though it costs more.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =============== ARTIFACT 4: 90-DAY PLAN =============== -->
+      <div class="section">
+        <div class="section-eyebrow">ARTIFACT 04  ·  YOUR NEXT 90 DAYS</div>
+        <h2 class="section-title">Three things to do this week — before the trigger fires.</h2>
+
+        <div class="telegraph-card">
+          <ol>
+            <li><strong>Tell every new client about the trigger before they sign.</strong> The script is direct: <em>"the increase was expected because she told them to expect it."</em> If a client signs today at $${fmt(d.currentPrice)} and the trigger is six weeks away, they need to hear about the move now — not in the notice email later. The exact line: <em>"Our founding rate is $${fmt(d.currentPrice)} — that moves to $${fmt(d.targetPrice)} when ${escape(d.triggerText.replace(/^[A-Z]/, c => c.toLowerCase()).replace(/\.$/, ''))}, which we expect ${escape(d.expectedWhen.toLowerCase())}."</em></li>
+            <li><strong>Audit your existing ${fmt(d.foundingClients)} founding clients.</strong> Who was told about the trigger at the start? Who wasn't? The ones who weren't told are the ones who need a heads-up <em>now</em>, not when the trigger fires. A short message: "When we started, I should have mentioned this — our founding rate moves to $${fmt(d.targetPrice)} when [trigger]. I'm letting you know now so it's not a surprise later."</li>
+            <li><strong>Print the trigger card and put it where you'll see it.</strong> The whole worksheet is built to keep you from drifting past the moment. The card from Artifact 01 belongs somewhere visible — desk, dashboard, calendar reminder. The trap doesn't announce itself; that's why it works. Visible reminders are how you don't drift into it.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn btn-secondary" onclick="restart()">Start Over</button>
+        <button class="btn btn-primary" onclick="window.print()">Save / Print as PDF</button>
+      </div>
+
+      <div class="signature">
+        <div class="left">Two Weeks Out</div>
+        <div>Price-Raise Worksheet  ·  Generated ${today}</div>
+      </div>
+    `;
+  }
+
+  function restart() {
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('output').classList.remove('active');
+    document.getElementById('progress-wrap').style.display = '';
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
+    document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(i => i.checked = false);
+    document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
+    document.getElementById('generate-hint').hidden = true;
+    document.getElementById('trigger-hint').hidden = true;
+    document.getElementById('trigger-detail-card').style.display = 'none';
+    goTo(1);
+  }
+
+  function useExample(button, fieldId) {
+    const text = button.getAttribute('data-example') || '';
+    if (!text) return;
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+    el.value = text;
+    el.focus();
+    const originalText = button.textContent;
+    button.textContent = 'Inserted';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('copied');
+    }, 1400);
+    document.getElementById('generate-hint').hidden = true;
+    document.getElementById('trigger-hint').hidden = true;
+  }
+
+  function escape(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function fmt(n) {
+    if (!isFinite(n)) return '0';
+    return Math.round(n).toLocaleString('en-US');
+  }
+</script>
+
+
+
+</body></html>

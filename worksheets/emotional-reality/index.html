@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Two Weeks Out — The Emotional Reality of Founder Finances</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf6;
+    --card:#ffffff;
+    --ink:#10131a;
+    --ink-soft:#59616e;
+    --ink-muted:#59616e;
+    --accent:#2747f5;
+    --accent-soft:#e9ecf5;
+    --line:#e9ecf5;
+    --good:#0d6b4c;
+    --good-bg:#e2f5ea;
+    --warn:#7d5300;
+    --warn-bg:#fff3cd;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  /* HEADER */
+  header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+
+  .deck {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    max-width: 620px;
+  }
+
+  .howto {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin-top: 32px;
+    border-radius:0;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  .howto strong { color: var(--ink); }
+
+  /* SECTION */
+  .section {
+    margin-top: 56px;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 4px 10px;
+    border-radius:0;
+    margin-bottom: 14px;
+  }
+
+  h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 26px;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+
+  .section-intro {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    line-height: 1.65;
+    max-width: 640px;
+  }
+
+  /* PROMPT CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 24px 26px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .card:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .card-question {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .card-helper {
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
+    line-height: 1.55;
+  }
+
+  textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 12px 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #ffffff;
+  }
+
+  textarea::placeholder {
+    color: #9ba3af;
+  }
+
+  /* USE EXAMPLE LINK */
+  .use-example {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 0 0;
+    transition: color 0.15s ease;
+  }
+
+  .use-example:hover { color: #1b36c9; text-decoration: underline; }
+
+  .use-example::before {
+    content: "↵";
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .use-example.filled { color: var(--good); }
+  .use-example.filled::before { content: "✓"; }
+
+  .assignment .use-example {color:#ffd23f; }
+  .assignment .use-example:hover { color: #ffd23f; }
+  .assignment .use-example.filled { color: #6fdca3; }
+
+  /* PATTERN CARDS */
+  .pattern {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 24px 26px;
+    margin-bottom: 18px;
+  }
+
+  .pattern-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  .pattern-num {
+    flex: 0 0 32px;
+    height: 32px;
+    background: var(--accent);
+    color: #ffffff;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+
+  .pattern-name {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px;
+    color: var(--ink);letter-spacing:-.03em;font-style:normal;}
+
+  .pattern-feel {
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  .pattern-name-block { display: flex; flex-direction: column; }
+
+  .pattern-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 18px;
+    padding-left: 46px;
+    border-left: 2px solid var(--line);
+    margin-left: 14px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .pattern-body {
+    padding-left: 46px;
+  }
+
+  .pattern-quote {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    border-left: 3px solid var(--accent);
+    padding: 8px 14px;
+    margin: 14px 0 18px 14px;
+    background: var(--accent-soft);
+    border-radius:0;
+  }
+
+  .rate-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-left: 46px;
+  }
+
+  .rate-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    padding-left: 46px;
+  }
+
+  .rate-btn {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .rate-btn:hover {
+    border-color: var(--accent);
+    color: var(--ink);
+  }
+
+  .rate-btn.selected {
+    background: var(--accent);
+    color: #ffffff;border-color:#ffffff;
+  }
+
+  .pattern-prompt {
+    padding-left: 46px;
+    margin-top: 12px;
+  }
+
+  .pattern-prompt-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .pattern-prompt-helper {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+    line-height: 1.55;
+  }
+
+  /* COMMITMENT BOX */
+  .commitment {
+    background: #fff3cd;
+    border: 1px solid #ffd23f;
+    border-radius:0;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+  }
+
+  .commitment-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7d5300;
+    margin-bottom: 8px;
+  }
+
+  .commitment-question {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .commitment-helper {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+
+  /* SCHEDULE PICKER */
+  .schedule-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .schedule-field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .schedule-field select,
+  .schedule-field input[type="time"] {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    transition: border-color 0.15s ease;
+  }
+
+  .schedule-field select:focus,
+  .schedule-field input[type="time"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #ffffff;
+  }
+
+  /* THREE-YEAR ZOOM-OUT */
+  .zoomout {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 24px 26px;
+    margin-bottom: 16px;
+  }
+
+  .zoomout-prompt {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .zoomout-helper {
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+
+  /* ASSIGNMENT */
+  .assignment {
+    background: var(--ink);
+    color: #fbfaf6;
+    border-radius:0;
+    padding: 36px 32px;
+    margin-top: 56px;
+  }
+
+  .assignment .eyebrow {color:#ffd23f; }
+  .assignment h2 { color: #fbfaf6; margin-bottom: 16px; }
+  .assignment p { color: #d5d9e4; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+
+  .assignment textarea {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.15);
+    color: #ffffff;
+  }
+  .assignment textarea:focus {
+    border-color: #7d5300;
+    background: rgba(255,255,255,0.08);
+  }
+  .assignment textarea::placeholder { color: #9ba3af; }
+
+  .assignment-step { margin-bottom: 22px; }
+  .assignment-step:last-child { margin-bottom: 0; }
+
+  .step-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #7d5300;
+    margin-bottom: 6px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: #d5d9e4;
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  /* SCORECARD */
+  .scorecard {
+    margin-top: 64px;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius:0;
+    overflow: hidden;
+    box-shadow:none;
+  }
+
+  .sc-header {
+    background: var(--ink);
+    color: #ffffff;
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .sc-title-block .sc-eyebrow {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #7d5300;
+    margin-bottom: 6px;
+  }
+
+  .sc-title-block h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    color: #ffffff;
+    font-size: 22px;
+    margin: 0;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+
+  .sc-score-block {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .sc-score {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 56px;
+    line-height: 1;
+    color: #ffffff;letter-spacing:-.03em;font-style:normal;}
+
+  .sc-total { font-size: 16px;color:#59616e; }
+
+  .sc-tier {
+    padding: 16px 32px;
+    background: #fbfaf6;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .sc-tier-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius:0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .sc-tier-pill.t1 { background: #fbfaf6; color: #b3261e; }
+  .sc-tier-pill.t2 { background: #fff3cd; color: #7d5300; }
+  .sc-tier-pill.t3 { background: #e2f5ea; color: #0d6b4c; }
+  .sc-tier-pill.t4 { background: #fbfaf6; color: #2747f5; }
+
+  .sc-tier-text {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .sc-scale {
+    padding: 24px 32px 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .sc-scale-track {
+    position: relative;
+    height: 8px;
+    background: var(--line);
+    border-radius:0;
+    margin: 24px 0 12px;
+  }
+
+  .sc-scale-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #b3261e;
+    border-radius:0;
+    transition: width 0.5s ease;
+  }
+
+  .sc-scale-marker {
+    position: absolute;
+    top: -4px;
+    width: 4px;
+    height: 16px;
+    background: var(--ink);
+    border-radius:0;
+    transition: left 0.5s ease;
+    transform: translateX(-2px);
+  }
+
+  .sc-scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+
+  .sc-dimensions {
+    padding: 24px 32px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
+  }
+
+  .sc-dim {
+    border-left: 3px solid var(--line);
+    padding-left: 14px;
+    transition: border-color 0.3s ease;
+  }
+
+  .sc-dim.d-low { border-left-color: #b3261e; }
+  .sc-dim.d-mid { border-left-color: #7d5300; }
+  .sc-dim.d-high { border-left-color: #0d6b4c; }
+  .sc-dim.d-top { border-left-color: var(--accent); }
+
+  .sc-dim-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+    gap: 8px;
+  }
+
+  .sc-dim-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .sc-dim-score {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .sc-dim-score .sc-dim-max {
+    color: var(--ink-muted);
+    font-weight: 400;
+    font-size: 13px;
+  }
+
+  .sc-dim-feedback {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  .sc-bic {
+    padding: 18px 32px 24px;
+    background: #fbfaf6;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  .sc-bic strong { color: var(--ink); font-weight: 600; }
+
+  /* ACTIONS */
+  .actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius:0;
+    padding: 12px 22px;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn:hover { background: #1b36c9; transform: translateY(-1px); }
+
+  .btn.secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .btn.secondary:hover { background: var(--card); border-color: var(--accent); color: var(--accent); }
+
+  .saved-indicator {
+    display: none;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--good);
+  }
+
+  .saved-indicator.show { display: block; }
+
+  /* RESPONSIVE */
+  @media (max-width: 540px) {
+    .container { padding: 32px 16px 64px; }
+    .pattern-desc, .rate-label, .rate-options, .pattern-prompt { padding-left: 0; margin-left: 0; border-left: none; }
+    .pattern-body { padding-left: 0; }
+    .schedule-picker { grid-template-columns: 1fr; }
+    .sc-header { padding: 22px 20px; }
+    .sc-tier, .sc-scale, .sc-dimensions, .sc-bic { padding-left: 20px; padding-right: 20px; }
+    .sc-dimensions { grid-template-columns: 1fr; }
+    .sc-score { font-size: 44px; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#FFD23F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sc-scale-fill{background:#2747f5}
+h1{text-wrap:balance}
+/* contrast on dark and tinted blocks */
+section.assignment div.step-label{color:#ffd23f}
+div.sc-header div.sc-eyebrow{color:#ffd23f}
+div.sc-header div.sc-total{color:#c9ced8}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">01 / Thinking Like an Owner</span></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow">Two Weeks Out · Worksheet</div>
+    <h1>The Emotional Reality of Founder Finances</h1>
+    <p class="deck">The hardest part of founder finance isn't the numbers — it's what the numbers do to your head. This worksheet helps you recognize the three patterns that derail founder decisions in year one, and pre-commit to how you'll respond when the financial weather turns.</p>
+    <div class="howto"><strong>How to use this worksheet:</strong> Work through it while things are calm. The decisions you make here protect you when they aren't. Your answers save automatically.</div>
+  </header>
+
+  <!-- SECTION 1: THE FRAME -->
+  <section class="section">
+    <div class="section-tag">Part 1</div>
+    <h2>What's Happening to You vs. What's Happening to the Business</h2>
+    <p class="section-intro">When the financial weather turns, two problems show up at once — and they feel like the same problem from the inside. Founders who make it learn to separate them. Start by naming what makes the difference hard for <em>you</em>.</p>
+
+    <div class="card">
+      <div class="card-question">When you imagine a hard month — revenue down, cash tight — what's the first thing that happens in your head?</div>
+      <div class="card-helper">Not what you'd want to do. What you actually feel. Be honest. Nobody's reading this but you.</div>
+      <textarea data-key="f1" placeholder="e.g., I get tight in my chest, start mentally cutting things, and feel an urgent need to do something — anything — that looks like decisive action..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-question">Who in your life will feel the weight of those moments alongside you?</div>
+      <div class="card-helper">A spouse, kids, a co-founder, early employees. Naming them now changes how seriously you take what comes next.</div>
+      <textarea data-key="f2" placeholder="e.g., My spouse, who's giving up a salary while I do this. My two kids who don't know what's happening but feel it. The first hire I'm hoping to make in month four..."></textarea>
+    </div>
+  </section>
+
+  <!-- SECTION 2: THE THREE PATTERNS -->
+  <section class="section">
+    <div class="section-tag">Part 2</div>
+    <h2>The Three Patterns That Derail Founders</h2>
+    <p class="section-intro">For each of the three patterns, rate how vulnerable you think you are — and write down where you've already seen it in yourself, in this venture or a past role. The honest answer is the useful one.</p>
+
+    <!-- PATTERN 1: PANIC-CUTTING -->
+    <div class="pattern">
+      <div class="pattern-head">
+        <div class="pattern-num">1</div>
+        <div class="pattern-name-block">
+          <div class="pattern-name">Panic-Cutting</div>
+          <div class="pattern-feel">Feels like decisiveness. The calm is the trap.</div>
+        </div>
+      </div>
+      <div class="pattern-desc">When revenue drops, the instinct is to cut hard and fast. Some of those cuts are right and well-timed. Others get made because cutting <em>feels</em> like doing something — and doing something feels better than sitting with the fear. The cuts that are easiest to make are often the ones most expensive to undo.</div>
+      <div class="pattern-quote">"Cutting under panic is not the same as cutting under a plan. From the outside they look identical. From the inside, only one includes the question: what is this cut going to cost me to undo?"</div>
+
+      <div class="rate-label">How vulnerable are you to panic-cutting?</div>
+      <div class="rate-options" data-pattern="p1">
+        <button class="rate-btn" data-val="low">Not very</button>
+        <button class="rate-btn" data-val="some">Somewhat</button>
+        <button class="rate-btn" data-val="high">Quite</button>
+        <button class="rate-btn" data-val="very">This is me</button>
+      </div>
+
+      <div class="pattern-prompt">
+        <div class="pattern-prompt-label">Where have you already seen this in yourself?</div>
+        <div class="pattern-prompt-helper">A past role. A current decision. A budget cut that felt productive but you can't quite defend.</div>
+        <textarea data-key="p1n" placeholder="e.g., In my last corporate role I killed a research project the week the budget got squeezed — it was the easiest line to cut. We rebuilt it 18 months later at three times the cost. I felt decisive that day. I was flinching..."></textarea>
+      </div>
+    </div>
+
+    <!-- PATTERN 2: AVOIDANCE -->
+    <div class="pattern">
+      <div class="pattern-head">
+        <div class="pattern-num">2</div>
+        <div class="pattern-name-block">
+          <div class="pattern-name">Avoidance</div>
+          <div class="pattern-feel">The numbers don't get better in private.</div>
+        </div>
+      </div>
+      <div class="pattern-desc">There are stretches where you won't want to look at the bank account. You'll know what's in it. You won't want to see it confirmed. Looking doesn't change the number — but somehow not looking makes it feel like maybe, somehow, it'll be different next time. It won't.</div>
+      <div class="pattern-quote">"If you only look at your numbers when you feel ready to look at them, you have a problem you don't know about yet."</div>
+
+      <div class="rate-label">How vulnerable are you to financial avoidance?</div>
+      <div class="rate-options" data-pattern="p2">
+        <button class="rate-btn" data-val="low">Not very</button>
+        <button class="rate-btn" data-val="some">Somewhat</button>
+        <button class="rate-btn" data-val="high">Quite</button>
+        <button class="rate-btn" data-val="very">This is me</button>
+      </div>
+
+      <div class="pattern-prompt">
+        <div class="pattern-prompt-label">Where have you already seen this in yourself?</div>
+        <div class="pattern-prompt-helper">Personal finances count too. Credit card statements you let pile up. A bill you stopped opening. A metric at work you stopped checking.</div>
+        <textarea data-key="p2n" placeholder="e.g., When my credit card balance crept up two years ago, I stopped opening the statements. I told myself I knew roughly where it was. I was off by almost double when I finally looked..."></textarea>
+      </div>
+    </div>
+
+    <!-- PATTERN 3: IMPATIENCE -->
+    <div class="pattern">
+      <div class="pattern-head">
+        <div class="pattern-num">3</div>
+        <div class="pattern-name-block">
+          <div class="pattern-name">Impatience</div>
+          <div class="pattern-feel">Makes wrong deals look reasonable.</div>
+        </div>
+      </div>
+      <div class="pattern-desc">You'll keep thinking you should already be through it. Three months in. Six. Nine. You'll have a timeline in your head about how long recovery should take, and reality will keep failing to meet it. That gap will start to feel like a personal failure instead of just what's happening — and that's when bad deals start to look like good ones.</div>
+      <div class="pattern-quote">"Impatience doesn't make you take stupid deals. It makes deals that should look stupid look reasonable, because sitting still feels worse than being wrong."</div>
+
+      <div class="rate-label">How vulnerable are you to impatience?</div>
+      <div class="rate-options" data-pattern="p3">
+        <button class="rate-btn" data-val="low">Not very</button>
+        <button class="rate-btn" data-val="some">Somewhat</button>
+        <button class="rate-btn" data-val="high">Quite</button>
+        <button class="rate-btn" data-val="very">This is me</button>
+      </div>
+
+      <div class="pattern-prompt">
+        <div class="pattern-prompt-label">Where have you already seen this in yourself?</div>
+        <div class="pattern-prompt-helper">A deal you took because you needed proof of progress. A hire you rushed. A pivot you announced before you'd thought it through.</div>
+        <textarea data-key="p3n" placeholder="e.g., Two years ago I took a consulting engagement I shouldn't have because I needed the revenue to show the spouse the venture was working. The work pulled me off the actual product for four months..."></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: WHICH ONE IS MOST LIKELY -->
+  <section class="section">
+    <div class="section-tag">Part 3</div>
+    <h2>Which One Is Yours?</h2>
+    <p class="section-intro">All three patterns will visit you. One of them is most likely to drive the decision you'll regret. Naming it now is half the work of catching it later.</p>
+
+    <div class="card">
+      <div class="card-question">Of the three patterns, which is most likely to be yours?</div>
+      <div class="card-helper">Not the one that sounds worst. The one that, if you're being honest, you've already seen in yourself.</div>
+      <div class="rate-options" data-pattern="primary" style="padding-left:0;">
+        <button class="rate-btn" data-val="panic">Panic-Cutting</button>
+        <button class="rate-btn" data-val="avoid">Avoidance</button>
+        <button class="rate-btn" data-val="impatience">Impatience</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-question">What will tip you off that this pattern is showing up — before the decision is made?</div>
+      <div class="card-helper">A physical signal, a phrase you tell yourself, a kind of email you start writing. The earlier you can name it, the better.</div>
+      <textarea data-key="t1" placeholder="e.g., I notice I'm composing the email before I've actually thought through the decision. I'll feel a kind of urgency that's not really tied to the calendar — just to the discomfort of waiting..."></textarea>
+    </div>
+  </section>
+
+  <!-- SECTION 4: THE THREE COMMITMENTS -->
+  <section class="section">
+    <div class="section-tag">Part 4</div>
+    <h2>Three Commitments You Make Now</h2>
+    <p class="section-intro">These are the lesson's three commitments — written down while things are calm, so they're already in place when they aren't. They are the most important thing on this page.</p>
+
+    <!-- Commitment 1: Cost-to-undo rule -->
+    <div class="commitment">
+      <div class="commitment-label">Commitment 1 · The Cost-to-Undo Rule</div>
+      <div class="commitment-question">Before any cut, you'll ask: what would it cost me — in time and money — to put this back?</div>
+      <div class="commitment-helper">If you can't answer that question, you're not cutting. You're flinching. Write your version of the rule below — in language that will land for you in the moment.</div>
+      <textarea data-key="c1" placeholder="e.g., Before I cut anything over $500/month, I write down two numbers: what it costs to keep, and what it would cost to rebuild from scratch in six months. If I can't write the second number, I don't cut..."></textarea>
+    </div>
+
+    <!-- Commitment 2: Named person -->
+    <div class="commitment">
+      <div class="commitment-label">Commitment 2 · Your Named Person</div>
+      <div class="commitment-question">When the financial weather turns, who is the one person you'll talk to?</div>
+      <div class="commitment-helper">A spouse. A co-founder. An advisor. A former boss. One person. Named. Pick now — you won't pick well in the moment.</div>
+      <textarea data-key="c2" placeholder="e.g., My former CFO Mark — he ran his own consultancy for fifteen years and is the only person who's seen me at my worst and still has perspective on the numbers..."></textarea>
+    </div>
+
+    <!-- Commitment 3: Schedule -->
+    <div class="commitment">
+      <div class="commitment-label">Commitment 3 · The Numbers Schedule</div>
+      <div class="commitment-question">What day and time, every week, will you look at the numbers — whether you want to or not?</div>
+      <div class="commitment-helper">Cash position, receivables, payables, runway. Twenty minutes. Especially the weeks you don't want to.</div>
+
+      <div class="schedule-picker">
+        <div class="schedule-field">
+          <label for="sched-day">Day</label>
+          <select id="sched-day" data-key="sched-day">
+            <option value="">Choose a day...</option>
+            <option>Monday</option>
+            <option>Tuesday</option>
+            <option>Wednesday</option>
+            <option>Thursday</option>
+            <option>Friday</option>
+            <option>Saturday</option>
+            <option>Sunday</option>
+          </select>
+        </div>
+        <div class="schedule-field">
+          <label for="sched-time">Time</label>
+          <input type="time" id="sched-time" data-key="sched-time">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: THE THREE-YEAR ZOOM-OUT -->
+  <section class="section">
+    <div class="section-tag">Part 5</div>
+    <h2>The Three-Year Zoom-Out</h2>
+    <p class="section-intro">In a twelve-month window, every decision looks like either a triumph or a disaster — and impatience thrives in that picture. In a three-year window, most of what feels catastrophic in month four doesn't even show up. Practice the zoom-out now, on something that feels urgent right now.</p>
+
+    <div class="zoomout">
+      <div class="zoomout-prompt">What's the financial decision or worry that feels most urgent today?</div>
+      <div class="zoomout-helper">Be specific. A number, a deadline, a deal, a hire.</div>
+      <textarea data-key="z1" placeholder="e.g., Whether to take the bridge consulting engagement that would generate $40k but pull me off the product for two months..."></textarea>
+    </div>
+
+    <div class="zoomout">
+      <div class="zoomout-prompt">Now — three years from today — will this even be on the page?</div>
+      <div class="zoomout-helper">Most of what makes you impatient today won't be. Some of it absolutely will. Be honest about which this is.</div>
+      <textarea data-key="z2" placeholder="e.g., The $40k won't be on the page. The two months of lost product progress probably will be — that's the timing that lets a competitor get ahead of us..."></textarea>
+    </div>
+
+    <div class="zoomout">
+      <div class="zoomout-prompt">Knowing that, what does the right decision look like?</div>
+      <div class="zoomout-helper">No need to commit to it here. Just notice how the answer changes when the window does.</div>
+      <textarea data-key="z3" placeholder="e.g., I pass on the bridge engagement and find a smaller, shorter contract that bridges cash without pulling me off the product for two months..."></textarea>
+    </div>
+  </section>
+
+  <!-- ASSIGNMENT -->
+  <section class="assignment">
+    <div class="eyebrow">Your Assignment</div>
+    <h2>Three Things Before You Move On</h2>
+    <p>The three commitments above only protect you if they leave this worksheet and enter your week. Pull each one into your real life — calendar, contacts, a place you'll actually see them.</p>
+
+    <div class="assignment-step">
+      <div class="step-label">1. Put your numbers schedule on your calendar</div>
+      <div class="step-desc">Make it recurring. Twenty minutes, weekly, the day and time you committed to above. Write below what the calendar entry will say.</div>
+      <textarea data-key="asn1" placeholder="e.g., Friday 8:00 AM — 'Numbers (cash, receivables, payables, runway). 20 min. Look whether or not I want to.'"></textarea>
+    </div>
+
+    <div class="assignment-step">
+      <div class="step-label">2. Send a short note to your named person</div>
+      <div class="step-desc">Tell them you've named them as the person you'll call when the financial weather turns. Draft the note here — short, clear, and true.</div>
+      <textarea data-key="asn2" placeholder="e.g., 'I'm a few months into the venture and I want you to know I've picked you as the person I'll call when the numbers get scary. Not asking anything now. Just want you to know it's coming, and to ask if you're up for it...'"></textarea>
+    </div>
+
+    <div class="assignment-step">
+      <div class="step-label">3. Write the cost-to-undo rule somewhere you'll see it</div>
+      <div class="step-desc">A note on your desk. The top of your weekly review doc. The lock screen on your phone. Where will yours live?</div>
+      <textarea data-key="asn3" placeholder="e.g., Top of my Monday planning doc, in bold: 'Before any cut over $500/month — write the cost to put it back. If I can't, I don't cut.'"></textarea>
+    </div>
+  </section>
+
+  <!-- SCORECARD -->
+  <section class="scorecard" id="scorecard">
+    <div class="sc-header">
+      <div class="sc-title-block">
+        <div class="sc-eyebrow">Emotional Readiness Scorecard</div>
+        <h2>How prepared you are for the weather</h2>
+      </div>
+      <div class="sc-score-block">
+        <div class="sc-score" id="sc-score">0</div>
+        <div class="sc-total">/ 100</div>
+      </div>
+    </div>
+
+    <div class="sc-tier">
+      <span class="sc-tier-pill t1" id="sc-tier-pill">Not yet started</span>
+      <div class="sc-tier-text" id="sc-tier-text">Complete the worksheet to see how prepared you are for the emotional reality of year one.</div>
+    </div>
+
+    <div class="sc-scale">
+      <div class="sc-scale-track">
+        <div class="sc-scale-fill" id="sc-scale-fill" style="width: 0%;"></div>
+        <div class="sc-scale-marker" id="sc-scale-marker" style="left: 0%;"></div>
+      </div>
+      <div class="sc-scale-labels">
+        <span>Exposed<br><span style="opacity:0.6;">0–40</span></span>
+        <span>Aware<br><span style="opacity:0.6;">41–65</span></span>
+        <span>Prepared<br><span style="opacity:0.6;">66–85</span></span>
+        <span>Best-in-Class<br><span style="opacity:0.6;">86–100</span></span>
+      </div>
+    </div>
+
+    <div class="sc-dimensions">
+      <div class="sc-dim" id="dim-self">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Self-Awareness</div>
+          <div class="sc-dim-score"><span id="s-self">0</span><span class="sc-dim-max"> / 25</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-self">Recognize the patterns in yourself before they show up under pressure.</div>
+      </div>
+
+      <div class="sc-dim" id="dim-pattern">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Pattern Recognition</div>
+          <div class="sc-dim-score"><span id="s-pattern">0</span><span class="sc-dim-max"> / 25</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-pattern">Name which of the three patterns is most likely to be yours — and the early signal that says it's happening.</div>
+      </div>
+
+      <div class="sc-dim" id="dim-commit">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Pre-Commitments</div>
+          <div class="sc-dim-score"><span id="s-commit">0</span><span class="sc-dim-max"> / 25</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-commit">Make the three commitments — cost-to-undo rule, named person, numbers schedule — concrete and specific.</div>
+      </div>
+
+      <div class="sc-dim" id="dim-perspective">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Perspective</div>
+          <div class="sc-dim-score"><span id="s-perspective">0</span><span class="sc-dim-max"> / 25</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-perspective">Practice the three-year zoom-out on something that feels urgent today.</div>
+      </div>
+    </div>
+
+    <div class="sc-bic">
+      <strong>What best-in-class looks like:</strong> Honest about which pattern is most likely to be theirs. A specific physical or behavioral signal that tips them off in the moment. Three written commitments — a cost-to-undo rule, a named person, a weekly numbers schedule — already in their calendar and contacts. And the practiced ability to zoom out from twelve months to three years when the financial weather turns.
+    </div>
+  </section>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+    <button class="btn secondary" onclick="resetWorksheet()">Reset Worksheet</button>
+  </div>
+  <div class="saved-indicator" id="saved">✓ Your progress is saved automatically</div>
+
+</div>
+
+<script>
+  // ========== STATE ==========
+  let state = {};
+  try {
+    state = JSON.parse(localStorage.getItem("ws12") || "{}");
+  } catch (e) { state = {}; }
+
+  function save() {
+    try {
+      localStorage.setItem("ws12", JSON.stringify(state));
+      const saved = document.getElementById("saved");
+      saved.classList.add("show");
+      clearTimeout(saved._t);
+      saved._t = setTimeout(() => saved.classList.remove("show"), 1500);
+    } catch (e) {}
+    if (typeof renderScorecard === "function") renderScorecard();
+  }
+
+  // ========== TEXTAREAS ==========
+  document.querySelectorAll("textarea[data-key]").forEach(t => {
+    const k = t.dataset.key;
+    if (state[k]) t.value = state[k];
+    t.addEventListener("input", () => {
+      state[k] = t.value;
+      save();
+    });
+
+    const placeholder = t.getAttribute("placeholder") || "";
+    const exampleMatch = placeholder.match(/^e\.g\.,?\s*(.+?)(\.\.\.)?$/i);
+    if (exampleMatch) {
+      const exampleText = exampleMatch[1].trim();
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "use-example";
+      btn.textContent = "Use this example";
+      btn.title = "Paste this example into the field — then edit it to make it yours";
+
+      btn.addEventListener("click", () => {
+        if (t.value.trim() === exampleText) {
+          t.value = "";
+        } else {
+          t.value = exampleText;
+        }
+        state[k] = t.value;
+        save();
+        t.focus();
+        t.setSelectionRange(t.value.length, t.value.length);
+        updateExampleBtn(t, btn, exampleText);
+      });
+
+      t.insertAdjacentElement("afterend", btn);
+      updateExampleBtn(t, btn, exampleText);
+      t.addEventListener("input", () => updateExampleBtn(t, btn, exampleText));
+    }
+  });
+
+  function updateExampleBtn(textarea, btn, exampleText) {
+    if (textarea.value.trim() === exampleText) {
+      btn.classList.add("filled");
+      btn.textContent = "Example pasted — click to clear";
+    } else {
+      btn.classList.remove("filled");
+      btn.textContent = "Use this example";
+    }
+  }
+
+  // ========== RATING BUTTONS ==========
+  document.querySelectorAll(".rate-options").forEach(group => {
+    const patternKey = group.dataset.pattern;
+    if (state[patternKey]) {
+      const btn = group.querySelector(`[data-val="${state[patternKey]}"]`);
+      if (btn) btn.classList.add("selected");
+    }
+    group.querySelectorAll(".rate-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        group.querySelectorAll(".rate-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        state[patternKey] = btn.dataset.val;
+        save();
+      });
+    });
+  });
+
+  // ========== SELECT + TIME ==========
+  ["sched-day", "sched-time"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (state[id]) el.value = state[id];
+    el.addEventListener("change", () => {
+      state[id] = el.value;
+      save();
+    });
+    el.addEventListener("input", () => {
+      state[id] = el.value;
+      save();
+    });
+  });
+
+  // ========== RESET ==========
+  function resetWorksheet() {
+    if (!confirm("Clear all your answers? This can't be undone.")) return;
+    state = {};
+    localStorage.removeItem("ws12");
+    document.querySelectorAll("textarea[data-key]").forEach(t => t.value = "");
+    document.querySelectorAll(".rate-btn.selected").forEach(b => b.classList.remove("selected"));
+    document.querySelectorAll(".use-example").forEach(b => {
+      b.classList.remove("filled");
+      b.textContent = "Use this example";
+    });
+    const day = document.getElementById("sched-day");
+    const time = document.getElementById("sched-time");
+    if (day) day.value = "";
+    if (time) time.value = "";
+    renderScorecard();
+  }
+
+  // ========== SCORING ==========
+  function qualityOf(text) {
+    if (!text) return 0;
+    const t = text.trim();
+    if (t.length < 15) return 0.15;
+    if (t.length < 50) return 0.5;
+    if (t.length < 120) return 0.85;
+    return 1.0;
+  }
+
+  function isStillExample(key, value) {
+    const el = document.querySelector(`textarea[data-key="${key}"]`);
+    if (!el) return false;
+    const placeholder = el.getAttribute("placeholder") || "";
+    const m = placeholder.match(/^e\.g\.,?\s*(.+?)(\.\.\.)?$/i);
+    if (!m) return false;
+    return value && value.trim() === m[1].trim();
+  }
+
+  function realQuality(key) {
+    const v = state[key] || "";
+    const q = qualityOf(v);
+    return isStillExample(key, v) ? q * 0.4 : q;
+  }
+
+  function calculateScore() {
+    // ---- Self-Awareness (25 pts) ----
+    // f1, f2 (Part 1) up to 6 each = 12
+    // pattern notes (p1n, p2n, p3n) average up to 13
+    const f1 = realQuality("f1") * 6;
+    const f2 = realQuality("f2") * 6;
+    const noteAvg = (realQuality("p1n") + realQuality("p2n") + realQuality("p3n")) / 3;
+    const self = f1 + f2 + noteAvg * 13;
+
+    // ---- Pattern Recognition (25 pts) ----
+    // Three pattern ratings completed (9 pts; 3 each)
+    // Honesty bonus: choosing 'high' or 'very' on at least one (4 pts)
+    // Primary pattern selected (6 pts)
+    // Tipoff signal (t1) up to 6 pts
+    const ratings = ["p1", "p2", "p3"].filter(k => state[k]).length;
+    const ratingsScore = ratings * 3;
+    const honestPatterns = ["p1", "p2", "p3"].filter(k => state[k] === "high" || state[k] === "very").length;
+    const honestyBonus = honestPatterns >= 1 ? 4 : 0;
+    const primaryScore = state["primary"] ? 6 : 0;
+    const tipoffScore = realQuality("t1") * 6;
+    const pattern = ratingsScore + honestyBonus + primaryScore + tipoffScore;
+
+    // ---- Pre-Commitments (25 pts) ----
+    // c1 (cost-to-undo) up to 9
+    // c2 (named person) up to 8 + bonus 2 for naming a specific person (proper noun-ish)
+    // schedule day + time = 6 (3 each)
+    const c1score = realQuality("c1") * 9;
+    let c2score = realQuality("c2") * 8;
+    const c2text = state["c2"] || "";
+    // Bonus for what looks like a proper name (capitalized word that's not at sentence start, or first word + 5+ chars)
+    const hasName = /\b[A-Z][a-z]{2,}/.test(c2text) && qualityOf(c2text) > 0.4 && !isStillExample("c2", c2text);
+    if (hasName) c2score += 2;
+    const dayScore = state["sched-day"] ? 3 : 0;
+    const timeScore = state["sched-time"] ? 3 : 0;
+    const commit = Math.min(c1score + c2score + dayScore + timeScore, 25);
+
+    // ---- Perspective (25 pts) ----
+    // z1 (urgent thing) up to 6
+    // z2 (3-year view) up to 9
+    // z3 (right decision) up to 6
+    // assignments (asn1, asn2, asn3) avg up to 4
+    const z1 = realQuality("z1") * 6;
+    const z2 = realQuality("z2") * 9;
+    const z3 = realQuality("z3") * 6;
+    const asnAvg = (realQuality("asn1") + realQuality("asn2") + realQuality("asn3")) / 3;
+    const perspective = z1 + z2 + z3 + asnAvg * 4;
+
+    return {
+      self: Math.round(self),
+      pattern: Math.round(pattern),
+      commit: Math.round(commit),
+      perspective: Math.round(perspective),
+      total: Math.round(self + pattern + commit + perspective),
+    };
+  }
+
+  function tierFor(score) {
+    if (score === 0) return { name: "Not yet started", className: "t1",
+      message: "Complete the worksheet to see how prepared you are for the emotional reality of year one." };
+    if (score <= 40) return { name: "Exposed", className: "t1",
+      message: "You're heading into the weather without a plan. The patterns will visit you — keep working through the worksheet so they don't catch you unprepared." };
+    if (score <= 65) return { name: "Aware", className: "t2",
+      message: "You see the patterns coming. Now make your commitments more specific — they only protect you if they're concrete." };
+    if (score <= 85) return { name: "Prepared", className: "t3",
+      message: "You've named the patterns, made commitments, and practiced the zoom-out. You're ready for the weather when it turns." };
+    return { name: "Best-in-Class", className: "t4",
+      message: "Honest pattern recognition, specific commitments, and a working three-year view. This is the readiness that lets founders survive year one." };
+  }
+
+  function dimClass(score) {
+    if (score < 8) return "d-low";
+    if (score < 16) return "d-mid";
+    if (score < 22) return "d-high";
+    return "d-top";
+  }
+
+  function feedbackFor(dim, score) {
+    const fb = {
+      self: {
+        low: "Get honest, in writing, about what happens to you when the financial weather turns.",
+        mid: "Good start. Push deeper into where you've already seen these patterns in yourself.",
+        high: "You see your own patterns clearly. That's most of the protection you need.",
+        top: "Best-in-class self-awareness. You can name what's happening to you, separately from the business."
+      },
+      pattern: {
+        low: "Rate yourself honestly on each pattern — and pick the one most likely to be yours.",
+        mid: "You're recognizing the patterns. Now identify the early signal that tips you off in the moment.",
+        high: "You know which pattern is yours and how it shows up. That's how you catch it in time.",
+        top: "Honest naming, specific tipoff signal. You'll see this coming before it costs you."
+      },
+      commit: {
+        low: "Make the three commitments — cost-to-undo rule, named person, numbers schedule — concrete.",
+        mid: "Your commitments are forming. Make them specific enough to act on without thinking.",
+        high: "Real commitments, in real language. They'll hold up when the moment comes.",
+        top: "Three specific, written, calendar-ready commitments. This is what readiness looks like."
+      },
+      perspective: {
+        low: "Practice the three-year zoom-out on something that feels urgent right now.",
+        mid: "You're starting to see past the twelve-month window. Push further on what won't be on the page.",
+        high: "You can shift from twelve months to three years on demand. That muscle protects you.",
+        top: "You apply the three-year view to your most urgent decision. This is the perspective that survives year one."
+      }
+    };
+    let band;
+    if (score < 8) band = "low";
+    else if (score < 16) band = "mid";
+    else if (score < 22) band = "high";
+    else band = "top";
+    return fb[dim][band];
+  }
+
+  function renderScorecard() {
+    const s = calculateScore();
+    document.getElementById("sc-score").textContent = s.total;
+    document.getElementById("s-self").textContent = s.self;
+    document.getElementById("s-pattern").textContent = s.pattern;
+    document.getElementById("s-commit").textContent = s.commit;
+    document.getElementById("s-perspective").textContent = s.perspective;
+
+    const tier = tierFor(s.total);
+    const pill = document.getElementById("sc-tier-pill");
+    pill.textContent = tier.name;
+    pill.className = "sc-tier-pill " + tier.className;
+    document.getElementById("sc-tier-text").textContent = tier.message;
+
+    document.getElementById("sc-scale-fill").style.width = s.total + "%";
+    document.getElementById("sc-scale-marker").style.left = s.total + "%";
+
+    const dims = [
+      ["self", s.self],
+      ["pattern", s.pattern],
+      ["commit", s.commit],
+      ["perspective", s.perspective],
+    ];
+    dims.forEach(([key, score]) => {
+      document.getElementById("dim-" + key).className = "sc-dim " + dimClass(score);
+      document.getElementById("f-" + key).textContent = feedbackFor(key, score);
+    });
+  }
+
+  renderScorecard();
+</script>
+</body>
+</html>

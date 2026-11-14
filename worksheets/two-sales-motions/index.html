@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Diagnose Your Motion(s) — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#10131a;--ink-soft:#10131a;--muted:#59616e;--muted-soft:#9ba3af;--border:#e9ecf5;--border-soft:#e9ecf5;--bg:#ffffff;--bg-soft:#fbfaf6;--green:#2747f5;--bright:#2747f5;--em-soft:#e9ecf5;--cream-soft:#e9ecf5;--amber:#7d5300;--font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  *{box-sizing:border-box;}html,body{margin:0;padding:0;}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg-soft);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:880px;margin:0 auto;padding:56px 48px 80px;background:var(--bg);}
+  header.brand{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:34px;}
+  .eyebrow{font-size:11px;letter-spacing:2.5px;color:var(--green);font-weight:600;text-transform:uppercase;margin:0 0 6px;}
+  h1{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:32px;line-height:1.2;color:var(--ink);margin:0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;color:var(--ink-soft);font-size:16px;margin:0;}
+  .step{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--border);}
+  .step:first-of-type{border-top:none;padding-top:0;}
+  .step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .step-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:28px;font-weight:800;color:var(--bright);line-height:1;letter-spacing:-.03em;font-style:normal;}
+  .step-title{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:22px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub{color:var(--muted);font-size:14px;margin:4px 0 18px;font-style:italic;}
+  label{font-size:13px;color:var(--ink-soft);font-weight:500;display:block;margin-bottom:5px;}
+  .field-def{font-size:12px;color:var(--muted);font-style:italic;line-height:1.45;margin-bottom:7px;}
+  .field-example{font-size:12px;color:#59616e;line-height:1.45;margin-top:6px;}
+  .field-example .ex-tag{color:var(--bright);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;margin-right:6px;}
+  input[type="text"],textarea,select{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);background:white;border:1px solid var(--border);border-radius:0;padding:9px 11px;width:100%;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--em-soft);}
+  textarea{resize:vertical;min-height:64px;line-height:1.5;}
+  .field{margin-bottom:14px;}
+  /* Offer card */
+  .offer-card{border:2px solid var(--border);border-radius:0;padding:20px 22px;margin-bottom:18px;background:white;}
+  .offer-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;border-bottom:1px solid var(--border-soft);padding-bottom:12px;}
+  .offer-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:20px;font-weight:800;color:var(--green);letter-spacing:-.03em;font-style:normal;}
+  .offer-remove{background:none;border:none;color:#59616e;font-size:18px;cursor:pointer;}
+  .offer-remove:hover{color:var(--amber);}
+  .q-row{margin-bottom:12px;}
+  .q-row label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);font-weight:600;margin-bottom:4px;}
+  .q-row .q-def{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:6px;}
+  .verdict-bar{margin-top:14px;padding:12px 14px;border-radius:0;background:var(--bg-soft);border-left:4px solid var(--border);font-size:13px;color:var(--muted);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;}
+  .verdict-bar.transactional{background:var(--em-soft);border-left-color:var(--green);color:var(--green);font-style:normal;font-weight:600;}
+  .verdict-bar.consultative{background:var(--em-soft);border-left-color:var(--green);color:var(--green);font-style:normal;font-weight:600;}
+  .verdict-bar.mixed{background:var(--cream-soft);border-left-color:var(--amber);color:var(--amber);font-style:normal;font-weight:600;}
+  .mismatch-field{margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);}
+  .add-row-btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:500;color:var(--green);background:none;border:1px dashed var(--border);border-radius:0;padding:10px 14px;cursor:pointer;margin-top:6px;width:100%;}
+  .add-row-btn:hover{background:var(--em-soft);border-color:var(--green);}
+  /* Output */
+  .output-section{margin-top:48px;padding-top:36px;border-top:3px solid var(--ink);}
+  .output-header{text-align:center;margin-bottom:28px;}
+  .output-header .eyebrow{color:var(--bright);}
+  .output-header h2{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--ink);margin:4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p{color:var(--muted);font-size:14px;margin:0;font-style:italic;}
+  .strategy-doc{border:2px solid var(--ink);border-radius:0;padding:32px 36px;background:white;}
+  .offer-output{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+  .offer-output:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .offer-output .oh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px;}
+  .offer-output .oname{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:18px;font-weight:600;color:var(--ink);}
+  .verdict-badge{font-size:10px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;padding:5px 12px;border-radius:0;}
+  .verdict-badge.transactional{background:var(--em-soft);color:var(--green);}
+  .verdict-badge.consultative{background:var(--em-soft);color:var(--green);}
+  .verdict-badge.mixed{background:var(--cream-soft);color:var(--amber);}
+  .answer-row{display:grid;grid-template-columns:130px 1fr 120px;gap:12px;padding:6px 0;border-bottom:1px solid var(--border-soft);font-size:13px;}
+  .answer-row:last-of-type{border-bottom:none;}
+  .answer-row .qlabel{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-weight:600;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:1.2px;align-self:center;}
+  .answer-row .qval{color:var(--ink-soft);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;align-self:center;}
+  .answer-row .qpoints{text-align:right;font-size:11px;color:#59616e;align-self:center;font-style:italic;}
+  .mismatch-out{background:var(--bg-soft);border-left:3px solid var(--ink);padding:12px 16px;border-radius:0;margin-top:12px;font-size:13px;color:var(--ink-soft);line-height:1.55;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  .mismatch-out.warn{background:var(--cream-soft);border-left-color:var(--amber);color:var(--amber);}
+  .mismatch-out .mlabel{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;color:inherit;}
+  .observation{margin-top:24px;padding:14px 18px;background:var(--em-soft);border-radius:0;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .observation strong{color:var(--green);}
+  .observation.warn{background:var(--cream-soft);}
+  .observation.warn strong{color:var(--amber);}
+  .empty-output{padding:36px;background:var(--bg-soft);border:1px dashed var(--border);border-radius:0;text-align:center;color:var(--muted);font-style:italic;}
+  .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-top:36px;padding-top:22px;border-top:1px solid var(--border);}
+  .btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:0;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink-soft);}
+  .btn:hover{background:var(--bg-soft);}
+  .btn-primary{background:var(--green);color:white;border-color:#ffffff;}
+  .btn-primary:hover{background:#1b36c9;}
+  .btn-example{background:var(--cream-soft);color:var(--amber);border-color:var(--cream-soft);}
+  .btn-example:hover{background:#d5d9e4;}
+  .btn-ghost{color:var(--muted);}
+  @media print{body{background:white;}.sheet{max-width:none;padding:28px 24px;}.toolbar{display:none;}input,textarea,select{border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;background:transparent;}.empty-output{display:none;}.step,.strategy-doc,.offer-output{page-break-inside:avoid;}}
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#FF7C98;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">08 / Turn Interest Into Revenue</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Sales Strategy and Execution Excellence</p>
+  <h1>Diagnose Your Motion(s)</h1>
+  <p class="lede">Three questions per offer. Honest answers. The diagnosis points to one motion every time — or names a structural mismatch in the offer itself.</p>
+  <div style="margin-top:14px;"><button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button></div>
+</header>
+
+<!-- Step 1 — Diagnose -->
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">Diagnose each offer</span></div>
+  <p class="step-sub">List every offer you sell. Run each one through the three questions. The answers should point to one motion — if they don't, the offer itself has a structural mismatch.</p>
+  <div id="offer-list"></div>
+  <button class="add-row-btn" type="button" onclick="addOffer()">+ Add another offer</button>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Motion Diagnosis</h2>
+    <p>The verdict for each offer, the mismatch you named, and where to look next.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Complete at least one offer and click Generate.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+<script>
+// Each question: value 1 = transactional indicator, value 3 = consultative indicator, value 2 = ambiguous
+const QUESTIONS=[
+  {id:"cycle",label:"Cycle length",def:"How long, honestly, between the buyer first encountering you and making the decision?",options:[
+    {v:"1",text:"Under an hour, same conversation",pts:1},
+    {v:"2",text:"A few hours to a day",pts:2},
+    {v:"3",text:"Days to weeks of contemplation",pts:3},
+  ]},
+  {id:"deciders",label:"Decider count",def:"When the buyer is making the decision, can they make it fully alone?",options:[
+    {v:"1",text:"Yes, fully on their own",pts:1},
+    {v:"2",text:"Mostly alone, but sometimes checks in",pts:2},
+    {v:"3",text:"Needs to consult someone whose opinion changes theirs",pts:3},
+  ]},
+  {id:"clarity",label:"Buyer's clarity",def:"How clearly can the buyer describe what they're buying before they meet you?",options:[
+    {v:"1",text:"Walks in knowing what they want",pts:1},
+    {v:"2",text:"Has a general idea but needs guidance",pts:2},
+    {v:"3",text:"Describes a problem, not a product",pts:3},
+  ]},
+];
+
+const EXAMPLE=[
+  {name:"Personal-training memberships (6 of 8 locations)",cycle:"3",deciders:"3",clarity:"3",mismatch:"Acquired locations are pitching the PT package on the first tour instead of running discovery. The proposal arrives before the buyer has named what they're actually trying to fix \u2014 so it sits for two weeks and dies."},
+  {name:"Gym-access memberships (2 of 8 locations)",cycle:"1",deciders:"1",clarity:"1",mismatch:"None on the motion itself \u2014 it's correctly transactional. Mismatch is in the process: front desk is reading a consultative discovery script the corporate team wrote, asking 6 questions of a buyer who already wants to join. Lengthens the close, costs walk-outs."},
+  {name:"Corporate wellness contracts (pilot)",cycle:"3",deciders:"3",clarity:"2",mismatch:"Correctly consultative \u2014 but no formal discovery process. Marcus is the only one in the building who knows how to run the conversation, which means it doesn't scale past him. Need a documented discovery framework before adding sellers."},
+];
+
+function val(id){return (document.getElementById(id)?.value||"").toString().trim();}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function addOffer(data){
+  const list=document.getElementById("offer-list");
+  const idx=list.children.length;
+  const card=document.createElement("div");card.className="offer-card";
+  let qhtml="";
+  QUESTIONS.forEach(q=>{
+    qhtml+=`<div class="q-row"><label>${escapeHtml(q.label)}</label><div class="q-def">${escapeHtml(q.def)}</div>`+
+      `<select class="q-select" data-q="${q.id}" onchange="updateVerdict(this)">`+
+      `<option value="">Choose\u2026</option>`+
+      q.options.map(o=>`<option value="${o.v}">${escapeHtml(o.text)}</option>`).join("")+
+      `</select></div>`;
+  });
+  card.innerHTML=`<div class="offer-head"><span class="offer-num">Offer ${idx+1}</span>`+
+    `<button class="offer-remove" type="button" onclick="this.closest('.offer-card').remove();renumberOffers()">\u00D7</button></div>`+
+    `<div class="q-row"><label>Offer name</label><input type="text" class="offer-name" placeholder="What you sell\u2026"></div>`+
+    qhtml+
+    `<div class="verdict-bar">Answer the three questions to see the verdict.</div>`+
+    `<div class="mismatch-field"><label>The mismatch \u2014 process or structural?</label>`+
+    `<div class="field-def">If the verdict is clean (Transactional or Consultative), name the one part of your current sales process that's mismatched to that motion. If the verdict is Mixed, name the structural mismatch in the offer itself \u2014 where what you're selling and how you're selling it have diverged.</div>`+
+    `<textarea class="offer-mismatch" placeholder="The specific mismatch\u2026"></textarea></div>`;
+  list.appendChild(card);
+  if(data){
+    card.querySelector(".offer-name").value=data.name||"";
+    card.querySelectorAll(".q-select").forEach(sel=>{const q=sel.dataset.q;if(data[q])sel.value=data[q];updateVerdict(sel);});
+    card.querySelector(".offer-mismatch").value=data.mismatch||"";
+  }
+}
+
+function renumberOffers(){
+  document.querySelectorAll("#offer-list .offer-card").forEach((c,i)=>{c.querySelector(".offer-num").textContent="Offer "+(i+1);});
+}
+
+function getOffers(){
+  return Array.from(document.querySelectorAll("#offer-list .offer-card")).map(c=>{
+    const o={name:c.querySelector(".offer-name").value.trim(),mismatch:c.querySelector(".offer-mismatch").value.trim()};
+    c.querySelectorAll(".q-select").forEach(sel=>{o[sel.dataset.q]=sel.value;});
+    return o;
+  });
+}
+
+function diagnose(o){
+  const c=parseInt(o.cycle||"0"),d=parseInt(o.deciders||"0"),cl=parseInt(o.clarity||"0");
+  if(!c||!d||!cl)return{verdict:"incomplete",label:"Answer all three to see the verdict",total:0};
+  const total=c+d+cl;
+  // 3-4 strongly transactional; 8-9 strongly consultative; 5-7 mixed/borderline
+  if(total<=4)return{verdict:"transactional",label:"Transactional motion \u2014 short cycle, single decision, low stakes",total};
+  if(total>=8)return{verdict:"consultative",label:"Consultative motion \u2014 long cycle, multiple touches, higher stakes",total};
+  return{verdict:"mixed",label:"Mixed signals \u2014 the offer likely has a structural mismatch",total};
+}
+
+function updateVerdict(sel){
+  const card=sel.closest(".offer-card");
+  const o={};card.querySelectorAll(".q-select").forEach(s=>{o[s.dataset.q]=s.value;});
+  const v=diagnose(o);
+  const bar=card.querySelector(".verdict-bar");
+  bar.className="verdict-bar "+v.verdict;
+  bar.textContent=v.label;
+}
+
+function useExample(){
+  const has=getOffers().some(o=>o.name||o.mismatch);
+  if(has&&!confirm("This will replace what you've entered with a worked example. Continue?"))return;
+  document.getElementById("offer-list").innerHTML="";
+  EXAMPLE.forEach(addOffer);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function generate(){
+  const out=document.getElementById("output-section");
+  const offers=getOffers().filter(o=>o.name);
+  if(!offers.length){
+    out.innerHTML='<div class="empty-output">Add at least one offer with a name to generate the diagnosis.</div>';
+    out.scrollIntoView({behavior:"smooth",block:"start"});return;
+  }
+  let html='<div class="strategy-doc">';
+  const verdictCounts={transactional:0,consultative:0,mixed:0,incomplete:0};
+  offers.forEach((o,i)=>{
+    const v=diagnose(o);verdictCounts[v.verdict]++;
+    html+=`<div class="offer-output"><div class="oh"><span class="oname">${escapeHtml(o.name)}</span>`;
+    if(v.verdict!=="incomplete")html+=`<span class="verdict-badge ${v.verdict}">${v.verdict==="mixed"?"Mixed":(v.verdict==="transactional"?"Transactional":"Consultative")}</span>`;
+    html+=`</div>`;
+    // Per-question table
+    QUESTIONS.forEach(q=>{
+      const v2=o[q.id];const opt=q.options.find(x=>x.v===v2);
+      html+=`<div class="answer-row"><span class="qlabel">${escapeHtml(q.label)}</span><span class="qval">${opt?escapeHtml(opt.text):"\u2014 not answered"}</span><span class="qpoints">${opt?(opt.pts===1?"transactional":opt.pts===3?"consultative":"ambiguous"):""}</span></div>`;
+    });
+    if(o.mismatch){
+      html+=`<div class="mismatch-out ${v.verdict==="mixed"?"warn":""}"><div class="mlabel">${v.verdict==="mixed"?"Structural mismatch":"Process mismatch"}</div>${escapeHtml(o.mismatch)}</div>`;
+    }
+    html+=`</div>`;
+  });
+  html+='</div>';
+
+  // Observations
+  const obs=[];
+  if(verdictCounts.mixed>0)obs.push({warn:true,text:`<strong>${verdictCounts.mixed} of your offers came back as Mixed.</strong> That's a structural problem in the offer itself \u2014 you're selling something consultative through a transactional channel, or vice versa. Sales execution won't fix this. The fix is either the motion or the offer. Pick which.`});
+  if(verdictCounts.transactional>0 && verdictCounts.consultative>0)obs.push(`<strong>You're running both motions across your offers.</strong> That's allowed \u2014 Marcus does the same. But it means you need two playbooks, not one. The trap is standardizing across motions instead of within them. Every later lesson in this module will assume you've named which is which.`);
+  if(verdictCounts.incomplete>0)obs.push({warn:true,text:`<strong>${verdictCounts.incomplete} ${verdictCounts.incomplete===1?"offer is":"offers are"} incomplete.</strong> All three answers are needed for the diagnosis. If you can't answer one, sit with it \u2014 not knowing your buyer's typical decision time, decider count, or clarity at first contact is itself the finding.`});
+  const noMismatch=offers.filter(o=>o.name&&!o.mismatch);
+  if(noMismatch.length>0)obs.push(`<strong>${noMismatch.length} of your offers don't have a mismatch named yet.</strong> The diagnostic is only half the work \u2014 naming the specific mismatch is what makes it actionable. Until you write down where the process or offer has drifted, nothing changes.`);
+  // Universal-playbook check: if all offers are same verdict
+  if(offers.length>1 && verdictCounts.transactional===offers.length && verdictCounts.mixed===0)obs.push(`<strong>All your offers diagnose as Transactional.</strong> One playbook is correct here. The universal-playbook trap doesn't apply to you \u2014 standardize aggressively within the transactional motion and move on to lesson two.`);
+  if(offers.length>1 && verdictCounts.consultative===offers.length && verdictCounts.mixed===0)obs.push(`<strong>All your offers diagnose as Consultative.</strong> One playbook is correct here. Standardize aggressively within the consultative motion \u2014 the discovery conversation in lesson two is where most of your conversion lives.`);
+
+  obs.forEach(o=>{
+    if(typeof o==="string")html+=`<div class="observation">${o}</div>`;
+    else html+=`<div class="observation ${o.warn?'warn':''}">${o.text}</div>`;
+  });
+
+  out.innerHTML=html;
+  out.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function clearAll(){
+  if(!confirm("Clear all entries and start over?"))return;
+  document.getElementById("offer-list").innerHTML="";addOffer();
+  document.getElementById("output-section").innerHTML='<div class="empty-output">Complete at least one offer and click Generate.</div>';
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// INIT
+addOffer();
+</script>
+</body>
+</html>

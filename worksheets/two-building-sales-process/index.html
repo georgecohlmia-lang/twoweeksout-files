@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Draw Your Skeleton. Run the Test. — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#10131a;--ink-soft:#10131a;--muted:#59616e;--muted-soft:#9ba3af;--border:#e9ecf5;--border-soft:#e9ecf5;--bg:#ffffff;--bg-soft:#fbfaf6;--green:#2747f5;--bright:#2747f5;--em-soft:#e9ecf5;--cream-soft:#e9ecf5;--amber:#7d5300;--font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  *{box-sizing:border-box;}html,body{margin:0;padding:0;}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg-soft);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:920px;margin:0 auto;padding:56px 48px 80px;background:var(--bg);}
+  header.brand{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:34px;}
+  .eyebrow{font-size:11px;letter-spacing:2.5px;color:var(--green);font-weight:600;text-transform:uppercase;margin:0 0 6px;}
+  h1{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:32px;line-height:1.2;color:var(--ink);margin:0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;color:var(--ink-soft);font-size:16px;margin:0;}
+  .step{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--border);}
+  .step:first-of-type{border-top:none;padding-top:0;}
+  .step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .step-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:28px;font-weight:800;color:var(--bright);line-height:1;letter-spacing:-.03em;font-style:normal;}
+  .step-title{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:22px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub{color:var(--muted);font-size:14px;margin:4px 0 18px;font-style:italic;}
+  label{font-size:13px;color:var(--ink-soft);font-weight:500;display:block;margin-bottom:5px;}
+  .field-def{font-size:12px;color:var(--muted);font-style:italic;line-height:1.45;margin-bottom:7px;}
+  input[type="text"],textarea,select{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);background:white;border:1px solid var(--border);border-radius:0;padding:9px 11px;width:100%;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--em-soft);}
+  textarea{resize:vertical;min-height:54px;line-height:1.5;}
+  .field{margin-bottom:14px;}
+  .block-card{border:1px solid var(--border);border-radius:0;padding:16px 18px;margin-bottom:12px;background:white;}
+  .block-card.green-edge{border-left:4px solid var(--green);}
+  .block-card.amber-edge{border-left:4px solid var(--amber);}
+  /* Motion picker */
+  .motion-picker{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+  .motion-radio{border:1px solid var(--border);border-radius:0;padding:12px 14px;background:white;cursor:pointer;font-size:13px;color:var(--ink-soft);display:flex;align-items:center;gap:8px;}
+  .motion-radio input{accent-color:var(--green);cursor:pointer;}
+  .motion-radio:hover{border-color:var(--green);background:var(--em-soft);}
+  .motion-radio.selected{border-color:var(--green);background:var(--em-soft);font-weight:600;color:var(--ink);}
+  /* Stage grid */
+  .stage-card{border:1px solid var(--border);border-radius:0;padding:14px 16px;background:white;margin-bottom:10px;border-left:4px solid var(--green);}
+  .stage-card.close{border-left-color:var(--amber);}
+  .stage-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .stage-num{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:18px;font-weight:600;color:white;background:var(--green);border-radius:0;width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
+  .stage-card.close .stage-num{background:var(--amber);}
+  .stage-name{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:18px;font-weight:600;color:var(--ink);}
+  .stage-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .stage-fields .field{margin-bottom:0;}
+  .stage-artifact{margin-top:10px;}
+  /* Inherit test */
+  .test-block{background:var(--cream-soft);border:1px solid var(--amber);border-radius:0;padding:16px 18px;margin-bottom:10px;}
+  .test-block .field-def{margin-bottom:10px;}
+  /* Output */
+  .output-section{margin-top:48px;padding-top:36px;border-top:3px solid var(--ink);}
+  .output-header{text-align:center;margin-bottom:28px;}
+  .output-header .eyebrow{color:var(--bright);}
+  .output-header h2{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--ink);margin:4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p{color:var(--muted);font-size:14px;margin:0;font-style:italic;}
+  .strategy-doc{border:2px solid var(--ink);border-radius:0;padding:32px 36px;background:white;}
+  .strategy-block{margin-bottom:28px;}
+  .strategy-block:last-child{margin-bottom:0;}
+  .strategy-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .skel-out{display:grid;grid-template-columns:55px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-soft);}
+  .skel-out:last-of-type{border-bottom:none;}
+  .skel-out .so-num{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:18px;font-weight:600;color:var(--green);}
+  .skel-out .so-content .so-name{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+  .skel-out .so-content .so-criteria{display:grid;grid-template-columns:60px 1fr;gap:8px;font-size:13px;color:var(--ink-soft);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;margin-top:3px;}
+  .skel-out .so-content .so-criteria .so-key{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:600;padding-top:2px;}
+  .skel-out .so-content .so-criteria .so-val.empty{color:#59616e;font-style:italic;}
+  .skel-out .so-content .so-artifact{margin-top:6px;font-size:13px;color:var(--green);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  .skel-out .so-content .so-artifact .so-key{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);font-weight:700;margin-right:6px;}
+  .gap-out{background:var(--cream-soft);border-left:4px solid var(--amber);padding:14px 18px;border-radius:0;}
+  .gap-out .gap-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber);margin-bottom:6px;}
+  .gap-out .gap-text{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);line-height:1.55;}
+  .observation{margin-top:24px;padding:14px 18px;background:var(--em-soft);border-radius:0;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .observation strong{color:var(--green);}
+  .observation.warn{background:var(--cream-soft);}
+  .observation.warn strong{color:var(--amber);}
+  .empty-output{padding:36px;background:var(--bg-soft);border:1px dashed var(--border);border-radius:0;text-align:center;color:var(--muted);font-style:italic;}
+  .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-top:36px;padding-top:22px;border-top:1px solid var(--border);}
+  .btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:0;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink-soft);}
+  .btn:hover{background:var(--bg-soft);}
+  .btn-primary{background:var(--green);color:white;border-color:#ffffff;}
+  .btn-primary:hover{background:#1b36c9;}
+  .btn-example{background:var(--cream-soft);color:var(--amber);border-color:var(--cream-soft);}
+  .btn-example:hover{background:#d5d9e4;}
+  .btn-ghost{color:var(--muted);}
+  @media print{body{background:white;}.sheet{max-width:none;padding:28px 24px;}.toolbar{display:none;}input,textarea,select{border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;background:transparent;}.empty-output{display:none;}.step,.strategy-doc{page-break-inside:avoid;}}
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#FF7C98;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">08 / Turn Interest Into Revenue</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Sales Strategy and Execution Excellence</p>
+  <h1>Draw Your Skeleton. Run the Test.</h1>
+  <p class="lede">Map the four stages of your sales process. Name the artifact each one produces. Then check whether a new hire could actually run it in week two.</p>
+  <div style="margin-top:14px;"><button class="btn btn-example" type="button" onclick="useExample()">Use Marcus's example to start</button></div>
+</header>
+
+<!-- STEP 1 — Skeleton -->
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">Draw the four-stage skeleton</span></div>
+  <p class="step-sub">For one specific motion you actually run. Name the entry and exit criteria sharply — vague criteria mean the stage isn't real yet.</p>
+
+  <div class="block-card green-edge">
+    <p class="field-def" style="margin-bottom:8px;">Which motion is this for?</p>
+    <div class="motion-picker" id="motion-picker">
+      <label class="motion-radio"><input type="radio" name="motion-type" value="transactional"> Transactional — short cycle, single decision, lower stakes</label>
+      <label class="motion-radio"><input type="radio" name="motion-type" value="consultative"> Consultative — long cycle, multiple touches, higher stakes</label>
+    </div>
+    <div class="field">
+      <label for="motion-name">What's this motion called in your business? (e.g., "PT package sales," "Membership tours")</label>
+      <input type="text" id="motion-name" placeholder="A short label for the motion you're mapping.">
+    </div>
+  </div>
+
+  <!-- Stage 1 -->
+  <div class="stage-card">
+    <div class="stage-head"><div class="stage-num">1</div><div class="stage-name">Prospect</div></div>
+    <div class="stage-fields">
+      <div class="field"><label for="s1-entry">Entry criteria</label><p class="field-def">What makes someone a prospect (vs. just a name)?</p><textarea id="s1-entry" placeholder="What has to be true for them to enter this stage."></textarea></div>
+      <div class="field"><label for="s1-exit">Exit criteria</label><p class="field-def">What tells you they're ready to move into discovery?</p><textarea id="s1-exit" placeholder="What has to be true for them to leave this stage."></textarea></div>
+    </div>
+    <div class="stage-artifact field"><label for="s1-artifact">The artifact this stage produces</label><p class="field-def">A concrete thing the rep can show you. A name + qualifying notes, a logged contact, etc.</p><input type="text" id="s1-artifact" placeholder="The concrete output of this stage."></div>
+  </div>
+
+  <!-- Stage 2 -->
+  <div class="stage-card">
+    <div class="stage-head"><div class="stage-num">2</div><div class="stage-name">Discover</div></div>
+    <div class="stage-fields">
+      <div class="field"><label for="s2-entry">Entry criteria</label><p class="field-def">What has to be true to start discovery (not just "we scheduled a call")?</p><textarea id="s2-entry" placeholder=""></textarea></div>
+      <div class="field"><label for="s2-exit">Exit criteria</label><p class="field-def">What tells you discovery is done? (Hint: the criteria from lesson 2.)</p><textarea id="s2-exit" placeholder=""></textarea></div>
+    </div>
+    <div class="stage-artifact field"><label for="s2-artifact">The artifact this stage produces</label><p class="field-def">Discovery notes, a captured shape, a recorded conversation, etc.</p><input type="text" id="s2-artifact" placeholder=""></div>
+  </div>
+
+  <!-- Stage 3 -->
+  <div class="stage-card">
+    <div class="stage-head"><div class="stage-num">3</div><div class="stage-name">Propose</div></div>
+    <div class="stage-fields">
+      <div class="field"><label for="s3-entry">Entry criteria</label><p class="field-def">What has to be true to start the proposal? (Earned the right.)</p><textarea id="s3-entry" placeholder=""></textarea></div>
+      <div class="field"><label for="s3-exit">Exit criteria</label><p class="field-def">What tells you the proposal is presented and a decision is being made?</p><textarea id="s3-exit" placeholder=""></textarea></div>
+    </div>
+    <div class="stage-artifact field"><label for="s3-artifact">The artifact this stage produces</label><p class="field-def">A four-part proposal document, a presented offer, etc.</p><input type="text" id="s3-artifact" placeholder=""></div>
+  </div>
+
+  <!-- Stage 4 -->
+  <div class="stage-card close">
+    <div class="stage-head"><div class="stage-num">4</div><div class="stage-name">Close</div></div>
+    <div class="stage-fields">
+      <div class="field"><label for="s4-entry">Entry criteria</label><p class="field-def">What has to be true to attempt the close?</p><textarea id="s4-entry" placeholder=""></textarea></div>
+      <div class="field"><label for="s4-exit">Exit criteria</label><p class="field-def">What tells you the deal is actually closed — not "they'll get back to us"?</p><textarea id="s4-exit" placeholder=""></textarea></div>
+    </div>
+    <div class="stage-artifact field"><label for="s4-artifact">The artifact this stage produces</label><p class="field-def">Signed agreement + booked first action. Both, not one.</p><input type="text" id="s4-artifact" placeholder=""></div>
+  </div>
+</section>
+
+<!-- STEP 2 — Inherit test -->
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">Run the documented-enough-to-inherit test</span></div>
+  <p class="step-sub">Imagine a new hire starting Monday. Could they run your process in week two with what currently exists?</p>
+
+  <div class="test-block">
+    <p class="field-def" style="margin-bottom:14px;">For each capability, mark whether your current documentation would let a week-2 hire do it. Be honest — this is the diagnostic.</p>
+    <div id="inherit-list" style="display:grid;gap:8px;">
+      <label style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--ink-soft);cursor:pointer;"><input type="checkbox" id="inh-1" style="accent-color:var(--green);width:18px;height:18px;cursor:pointer;"> Run a real discovery call using your discovery shape</label>
+      <label style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--ink-soft);cursor:pointer;"><input type="checkbox" id="inh-2" style="accent-color:var(--green);width:18px;height:18px;cursor:pointer;"> Build a four-part proposal from discovery notes</label>
+      <label style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--ink-soft);cursor:pointer;"><input type="checkbox" id="inh-3" style="accent-color:var(--green);width:18px;height:18px;cursor:pointer;"> Present the price and hold the silence</label>
+      <label style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--ink-soft);cursor:pointer;"><input type="checkbox" id="inh-4" style="accent-color:var(--green);width:18px;height:18px;cursor:pointer;"> Handle a price-shock or timing objection without dropping price</label>
+      <label style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--ink-soft);cursor:pointer;"><input type="checkbox" id="inh-5" style="accent-color:var(--green);width:18px;height:18px;cursor:pointer;"> Close a deal and log it correctly</label>
+    </div>
+  </div>
+
+  <div class="block-card amber-edge">
+    <div class="field"><label for="biggest-gap">The biggest gap you found</label><p class="field-def">The one thing that, if documented, would close the largest hole in your process.</p><textarea id="biggest-gap" placeholder="Name the gap honestly. Not aspirationally."></textarea></div>
+    <div class="field" style="margin-bottom:0;"><label for="gap-action">What it would take to close it</label><p class="field-def">A concrete action, not "we should think about it."</p><textarea id="gap-action" placeholder="The specific thing you (or your team) would do."></textarea></div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Sales Process</h2>
+    <p>The skeleton, the artifacts, the test result, the gap.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Map at least one stage and run the inherit test to generate.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+<script>
+const EXAMPLE={
+  motionType:"consultative",
+  motionName:"PT-package sales at the Topeka location",
+  s1Entry:"Walked into the gym OR booked a tour through the website OR was referred by a current member \u2014 AND named a specific reason for wanting to change something (lost weight, doctor told me, marathon next year, etc.). 'Just looking' is not entry.",
+  s1Exit:"They've confirmed a real, named reason to be in the conversation \u2014 specific enough that we can plausibly help (or not). Not 'they showed up.' They have to articulate something.",
+  s1Artifact:"Logged contact in CRM with the named reason captured in their words (one sentence).",
+  s2Entry:"Real reason confirmed. They've sat down in the consultation room and we've agreed to spend 20-30 minutes on a conversation, not a pitch.",
+  s2Exit:"We've heard the real reason underneath the surface reason (peel 4 times), 2-3 unspoken decision criteria, and the consequence of inaction in their words.",
+  s2Artifact:"Discovery notes captured on the consultant tablet \u2014 sections for real reason, unspoken criteria, stakes answer, success language. Reviewable by the location manager.",
+  s3Entry:"All three discovery exit criteria met. Consultant can articulate the buyer's real reason back to them in their words and the buyer has confirmed it.",
+  s3Exit:"One specific package presented (not options), price stated clearly with no hedge, silence held, and the buyer has had a chance to respond. Objections handled per response pattern.",
+  s3Artifact:"Proposal in writing on a one-page document: situation paragraph (in their words), the one recommended package, the price, and the next step. Handed to the buyer at the end of the conversation.",
+  s4Entry:"Buyer is decision-ready \u2014 they've articulated agreement with the situation, asked clarifying questions about the package, and not raised an unaddressed objection.",
+  s4Exit:"Signed PT agreement, first session booked on the calendar with the named trainer, intake forms sent. All three, not one.",
+  s4Artifact:"Signed agreement in CRM + first session on the trainer's calendar + intake-form email sent. Documented on the close confirmation form.",
+  inh:[true,true,true,false,true],
+  biggestGap:"Handling objections without dropping price \u2014 specifically the 'I need to think about it' timing objection. Our consultants either drop price ('we have a payment plan'), or accept the delay and lose the deal in follow-up.",
+  gapAction:"Build the four-objection response pattern card (from lesson 3) and post it in every consultation room. Run a 30-minute role-play with all consultants on Friday using actual scripts. Manager listens to the next 5 calls each and flags when the pattern wasn't followed.",
+};
+
+function val(id){return (document.getElementById(id)?.value||"").toString().trim();}
+function checked(id){return !!document.getElementById(id)?.checked;}
+function setEl(id,v){const e=document.getElementById(id);if(e)e.value=v==null?"":v;}
+function setCheck(id,v){const e=document.getElementById(id);if(e)e.checked=!!v;}
+function setRadio(name,v){const e=document.querySelector(`input[name="${name}"][value="${v}"]`);if(e){e.checked=true;updateMotionPicker();}}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function updateMotionPicker(){
+  document.querySelectorAll(".motion-radio").forEach(lab=>{
+    const input=lab.querySelector('input[type="radio"]');
+    lab.classList.toggle("selected", input.checked);
+  });
+}
+document.addEventListener("change", e=>{
+  if(e.target.matches('input[name="motion-type"]')) updateMotionPicker();
+});
+
+function useExample(){
+  const has=val("motion-name")||val("s1-entry")||val("biggest-gap");
+  if(has&&!confirm("This will replace what you've entered with a worked example. Continue?"))return;
+  setRadio("motion-type",EXAMPLE.motionType);
+  setEl("motion-name",EXAMPLE.motionName);
+  setEl("s1-entry",EXAMPLE.s1Entry);setEl("s1-exit",EXAMPLE.s1Exit);setEl("s1-artifact",EXAMPLE.s1Artifact);
+  setEl("s2-entry",EXAMPLE.s2Entry);setEl("s2-exit",EXAMPLE.s2Exit);setEl("s2-artifact",EXAMPLE.s2Artifact);
+  setEl("s3-entry",EXAMPLE.s3Entry);setEl("s3-exit",EXAMPLE.s3Exit);setEl("s3-artifact",EXAMPLE.s3Artifact);
+  setEl("s4-entry",EXAMPLE.s4Entry);setEl("s4-exit",EXAMPLE.s4Exit);setEl("s4-artifact",EXAMPLE.s4Artifact);
+  EXAMPLE.inh.forEach((v,i)=>setCheck(`inh-${i+1}`,v));
+  setEl("biggest-gap",EXAMPLE.biggestGap);
+  setEl("gap-action",EXAMPLE.gapAction);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function getMotion(){
+  const r=document.querySelector('input[name="motion-type"]:checked');
+  return r?r.value:"";
+}
+
+function generate(){
+  const out=document.getElementById("output-section");
+  const data={
+    motionType:getMotion(),motionName:val("motion-name"),
+    stages:[1,2,3,4].map(i=>({
+      n:i,
+      name:["Prospect","Discover","Propose","Close"][i-1],
+      entry:val(`s${i}-entry`),
+      exit:val(`s${i}-exit`),
+      artifact:val(`s${i}-artifact`),
+    })),
+    inh:[1,2,3,4,5].map(i=>checked(`inh-${i}`)),
+    biggestGap:val("biggest-gap"),
+    gapAction:val("gap-action"),
+  };
+
+  const stagesAtLeastPartial=data.stages.filter(s=>s.entry||s.exit||s.artifact).length;
+  if(stagesAtLeastPartial===0){
+    out.innerHTML='<div class="empty-output">Map at least one stage to generate the result.</div>';
+    out.scrollIntoView({behavior:"smooth",block:"start"});return;
+  }
+
+  let html='<div class="strategy-doc">';
+
+  // Skeleton output
+  const motionLabel=data.motionType?({transactional:"Transactional",consultative:"Consultative"}[data.motionType]):"";
+  html+=`<div class="strategy-block"><div class="strategy-label">Your four-stage skeleton${data.motionName?' \u2014 '+escapeHtml(data.motionName):''}${motionLabel?' \u00B7 '+motionLabel+' motion':''}</div>`;
+  data.stages.forEach(stg=>{
+    html+=`<div class="skel-out"><span class="so-num">${stg.n}</span><div class="so-content">`;
+    html+=`<div class="so-name">${escapeHtml(stg.name)}</div>`;
+    html+=`<div class="so-criteria"><span class="so-key">Entry</span><span class="so-val ${stg.entry?'':'empty'}">${stg.entry?escapeHtml(stg.entry):'\u2014 not yet defined'}</span></div>`;
+    html+=`<div class="so-criteria"><span class="so-key">Exit</span><span class="so-val ${stg.exit?'':'empty'}">${stg.exit?escapeHtml(stg.exit):'\u2014 not yet defined'}</span></div>`;
+    if(stg.artifact){html+=`<div class="so-artifact"><span class="so-key">Artifact</span>${escapeHtml(stg.artifact)}</div>`;}
+    else{html+=`<div class="so-artifact"><span class="so-key">Artifact</span><span style="color:var(--muted-soft);font-style:italic;">\u2014 not yet defined</span></div>`;}
+    html+=`</div></div>`;
+  });
+  html+=`</div>`;
+
+  // Inherit test summary
+  const inhPass=data.inh.filter(Boolean).length;
+  if(inhPass>0||data.biggestGap){
+    html+=`<div class="strategy-block"><div class="strategy-label">Documented-enough-to-inherit test</div>`;
+    const items=["Run a real discovery call","Build a four-part proposal","Present price and hold silence","Handle an objection without dropping price","Close and log a deal"];
+    items.forEach((t,i)=>{
+      const mark=data.inh[i]?"\u2713":"\u2717";
+      const color=data.inh[i]?"var(--green)":"var(--amber)";
+      html+=`<div style="display:grid;grid-template-columns:40px 1fr;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-soft);font-family:var(--font-display);font-size:14px;color:var(--ink);">
+        <span style="color:${color};font-weight:700;font-size:18px;">${mark}</span><span>${escapeHtml(t)}</span></div>`;
+    });
+    html+=`<div style="margin-top:10px;font-size:13px;color:var(--muted);font-style:italic;">${inhPass} of 5 capabilities pass the test.</div>`;
+    html+=`</div>`;
+
+    if(data.biggestGap){
+      html+=`<div class="strategy-block"><div class="strategy-label">The biggest gap and how to close it</div>`;
+      html+=`<div class="gap-out"><div class="gap-label">THE GAP</div><div class="gap-text">${escapeHtml(data.biggestGap)}</div>`;
+      if(data.gapAction){
+        html+=`<div class="gap-label" style="margin-top:14px;">CLOSE IT BY</div><div class="gap-text">${escapeHtml(data.gapAction)}</div>`;
+      }
+      html+=`</div></div>`;
+    }
+  }
+
+  html+='</div>';
+
+  // Teaching detectors
+  const obs=[];
+
+  // Detector 1: vague entry/exit criteria — flag stages where entry or exit is < 8 words
+  const vagueStages=data.stages.filter(s=>(s.entry&&s.entry.split(/\s+/).length<8)||(s.exit&&s.exit.split(/\s+/).length<8));
+  if(vagueStages.length>0){
+    obs.push({warn:true,text:`<strong>${vagueStages.length} stage${vagueStages.length===1?"":"s"} ha${vagueStages.length===1?"s":"ve"} vague entry or exit criteria.</strong> "Form filled out," "had a call," "showed interest" \u2014 these are not criteria. Sharp criteria look like "they've confirmed a specific reason to be here" or "we've heard the real reason, the unspoken criteria, and the stakes answer." If you can't write the criteria sharply, the stage isn't real yet.`});
+  }
+
+  // Detector 2: missing artifacts
+  const missingArtifacts=data.stages.filter(s=>(s.entry||s.exit)&&!s.artifact);
+  if(missingArtifacts.length>0){
+    obs.push({warn:true,text:`<strong>${missingArtifacts.length} stage${missingArtifacts.length===1?"":"s"} ${missingArtifacts.length===1?"has":"have"} no defined artifact.</strong> If a stage doesn't produce a concrete artifact \u2014 something a rep can physically show you \u2014 it's not a stage. It's an activity. The most-missed artifact is usually the close one (signed agreement + booked first action, both, not one).`});
+  }
+
+  // Detector 3: vague artifacts ("follow-up," "nurture," etc.)
+  const vagueArtifactRegex=/\b(follow-up|nurture|engagement|outreach|touch|conversation)\b/i;
+  const vagueArtifacts=data.stages.filter(s=>s.artifact&&vagueArtifactRegex.test(s.artifact));
+  if(vagueArtifacts.length>0){
+    obs.push({warn:true,text:`<strong>${vagueArtifacts.length} artifact${vagueArtifacts.length===1?"":"s"} read${vagueArtifacts.length===1?"s":""} as an activity, not a deliverable.</strong> "Follow-up," "nurture," "engagement," "outreach" \u2014 these are things that happen, not things that exist afterward. A real artifact is a document, a signed agreement, a logged record, captured notes. Something you can physically show.`});
+  }
+
+  // Detector 4: All four stages mapped completely = a real skeleton
+  const fullStages=data.stages.filter(s=>s.entry&&s.exit&&s.artifact).length;
+  if(fullStages===4){
+    obs.push(`<strong>All four stages fully mapped.</strong> This is the skeleton most owners never actually build. Print it. Post it where the team can see it. Then start running real deals against it for one full cycle before you change anything \u2014 the data will tell you which criteria need sharpening.`);
+  } else if(fullStages>0){
+    obs.push(`<strong>${fullStages} of 4 stages fully mapped.</strong> The skeleton only works if all four are real. The most-skipped is usually stage 1 (Prospect entry) \u2014 owners assume "anyone who shows up" is a prospect, which is how the pipeline fills up with people who weren't going to buy anyway.`);
+  }
+
+  // Detector 5: Inherit-test score
+  if(inhPass===5){
+    obs.push(`<strong>5 of 5 inherit-test capabilities pass.</strong> Your process is documented at the bar. The test now is whether it actually holds when you put a week-2 hire on it \u2014 the only real validation. Most processes that pass on paper still fail in practice because the artifacts exist but aren't easy to find or follow.`);
+  } else if(inhPass>=3){
+    obs.push(`<strong>${inhPass} of 5 inherit-test capabilities pass.</strong> Most of the way there, but a week-2 hire would struggle with ${5-inhPass} thing${5-inhPass===1?"":"s"}. The gap you named below is the place to start \u2014 closing one gap usually unblocks two or three downstream issues.`);
+  } else if(inhPass>0){
+    obs.push({warn:true,text:`<strong>Only ${inhPass} of 5 inherit-test capabilities pass.</strong> The process exists in your head, not in the business. The day you can\u2019t take a vacation without conversion dropping ten points is the day you discover that. Use the gap below as a starting point, but you\u2019ll need to build out the documentation for more than just one capability.`});
+  }
+
+  // Detector 6: Gap action is vague
+  if(data.gapAction){
+    const vagueActionRegex=/\b(we should|think about|consider|maybe|eventually|at some point|figure out|work on)\b/i;
+    if(vagueActionRegex.test(data.gapAction)){
+      obs.push({warn:true,text:`<strong>Your gap-close action reads like intention, not commitment.</strong> "We should think about," "consider," "eventually," "figure out" \u2014 these don\u2019t close gaps. A real action has a verb someone could do this week (build, write, post, role-play, schedule, hand off). Rewrite it concretely.`});
+    }
+  }
+
+  obs.forEach(o=>{
+    if(typeof o==="string")html+=`<div class="observation">${o}</div>`;
+    else html+=`<div class="observation ${o.warn?'warn':''}">${o.text}</div>`;
+  });
+
+  out.innerHTML=html;
+  out.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function clearAll(){
+  if(!confirm("Clear all entries and start over?"))return;
+  ["motion-name","biggest-gap","gap-action"].forEach(id=>setEl(id,""));
+  [1,2,3,4].forEach(i=>{setEl(`s${i}-entry`,"");setEl(`s${i}-exit`,"");setEl(`s${i}-artifact`,"");});
+  [1,2,3,4,5].forEach(i=>setCheck(`inh-${i}`,false));
+  document.querySelectorAll('input[name="motion-type"]').forEach(r=>r.checked=false);
+  updateMotionPicker();
+  document.getElementById("output-section").innerHTML='<div class="empty-output">Map at least one stage and run the inherit test to generate.</div>';
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>

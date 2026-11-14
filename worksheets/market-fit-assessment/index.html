@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product-Market Fit Worksheet · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+
+:root{
+  --ink:#10131a; --paper:#fbfaf6; --white:#ffffff; --cobalt:#2747f5; --cobalt2:#1b36c9; --signal:#ff5a1f;
+  --slate:#59616e; --fog:#9ba3af; --sky:#93abff; --mist:#e9ecf5; --line:#d5d9e4; --inkline:#2c313c; --onink:#c9ced8;
+  --good:#0d6b4c; --good-tint:#e2f5ea; --warn:#7d5300; --warn-tint:#fff3cd; --danger:#b3261e; --danger-tint:#fde9e7;
+  --module:#F986DD;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+  --text:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--module);border-bottom:2px solid var(--ink)}
+.two-wm{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.two-mod{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header.top{padding:52px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.deck{font-size:18px;color:var(--slate);max-width:700px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.btn{border:2px solid var(--ink);background:var(--white);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.btn.primary:hover{background:var(--cobalt2);border-color:var(--cobalt2)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.ink:hover{background:var(--inkline)}
+.btn.quiet{border-color:var(--line);color:var(--slate);font-weight:500}
+.saved{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);margin-left:auto}
+.meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:22px}
+.meta label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date],select,textarea{width:100%;background:var(--white);border:1px solid var(--line);border-bottom:2px solid var(--ink);padding:10px 12px;border-radius:0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--mist)}
+textarea{resize:vertical;min-height:64px;line-height:1.5;overflow:hidden}
+::placeholder{color:#8a919c}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-top:28px}
+.progress .wrap{display:flex;gap:6px;padding:12px 24px;flex-wrap:wrap}
+.step-pill{flex:1 1 180px;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--white);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--slate);text-decoration:none}
+.step-pill b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog)}
+.step-pill.done{border-color:var(--good);color:var(--good);background:var(--good-tint)}
+.step-pill.done b{color:var(--good)}
+
+section.step{padding:52px 0 8px}
+.step-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.step-num{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--cobalt)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);line-height:1.05;letter-spacing:-.035em}
+.intro{color:var(--slate);max-width:720px;margin:10px 0 22px}
+.group-label{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px;display:flex;gap:12px;align-items:center}
+.group-label::after{content:"";flex:1;height:2px;background:var(--ink)}
+.group-note{font-size:14px;color:var(--slate);margin:-4px 0 14px;max-width:720px}
+
+.box{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:12px}
+.box.money{border-left-color:var(--cobalt)}
+.box-top{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-bottom:12px}
+.box-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.box-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.box-q{grid-column:2;font-size:14px;color:var(--slate)}
+.box-q b{color:var(--ink);font-weight:600}
+.len{font-size:12px;color:var(--fog);margin-top:6px;min-height:18px}
+.len.long{color:var(--warn)}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.marks .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark:hover{border-color:var(--ink)}
+.mark[aria-pressed=true][data-m=known]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=assumed]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.mark[aria-pressed=true][data-m=unknown]{background:var(--mist);border-color:var(--ink);color:var(--ink)}
+.evidence{margin-top:12px;display:none}
+.evidence.show{display:block}
+.evidence label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.evidence label span{font-weight:400;color:var(--slate)}
+.flag{font-size:13px;margin-top:8px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.flag.show{display:block}
+
+.callout{background:var(--ink);color:var(--paper);padding:22px 26px;margin:6px 0 18px}
+.callout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.callout p{color:var(--onink);font-size:15px}
+.callout p b{color:#fff}
+
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 14px}
+.tally div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.tally .v{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.tally .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.tally .known .v{color:var(--good)} .tally .assumed .v{color:var(--warn)}
+.read{padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:760px}
+.read.alert{border-left-color:var(--danger);background:var(--danger-tint)}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pick label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.pick label:hover{border-color:var(--ink)}
+.pick input{margin-top:3px;accent-color:var(--cobalt)}
+.pick label.on{border:2px solid var(--signal);padding:11px 13px}
+.pick small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.pick small.known{color:var(--good)} .pick small.assumed{color:var(--warn)} .pick small.unknown{color:var(--slate)}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.field .help{font-size:13px;color:var(--slate);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:grid;gap:8px;margin:6px 0 4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--white);border:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--good)}
+.reopen{display:flex;flex-wrap:wrap;gap:8px}
+.reopen label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:7px 12px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.reopen input{accent-color:var(--cobalt)}
+
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.summary div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.summary h5{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.summary p{font-size:14.5px;white-space:pre-wrap}
+.next{margin:44px 0 70px;padding:24px 26px;border:2px solid var(--ink);background:var(--white)}
+.next .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px}
+.next p{color:var(--slate)}
+.print-only{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;display:none;z-index:50}
+.toast.show{display:block}
+@media print{input[type=date]::-webkit-calendar-picker-indicator{display:none}select{background-image:none}}
+
+.meta{grid-template-columns:2fr 1fr}
+.hidden{display:none!important}
+.note{font-size:14px;padding:12px 16px;border-left:4px solid var(--cobalt);background:var(--mist);margin:4px 0 14px;max-width:800px}
+.note.alert{border-left-color:var(--warn);background:var(--warn-tint);color:#5c3d00}
+.note.good{border-left-color:var(--good);background:var(--good-tint);color:#0a4f38}
+.ex-note{display:none;margin:0 0 16px;padding:12px 16px;background:var(--warn-tint);color:var(--warn);font-size:14px;max-width:800px}
+.ex-note.show{display:block}
+.kind{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 14px}
+.kind label{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.kind label.on{border:2px solid var(--signal);padding:13px 15px}
+.kind input{margin-top:4px;accent-color:var(--signal)}
+.kind b{display:block;font-size:15px}
+.kind small{display:block;font-size:13px;color:var(--slate);margin-top:2px}
+.grp{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:16px 18px;margin-bottom:12px}
+.grp.best{outline:3px solid var(--signal);outline-offset:-1px}
+.g-top{display:grid;grid-template-columns:28px 1fr 140px auto;gap:10px;align-items:end}
+.g-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog);padding-bottom:10px}
+.g-top label,.g-m label{display:block;font-size:12.5px;font-weight:600;margin-bottom:4px}
+.g-top label span,.g-m label span{font-weight:400;color:var(--slate)}
+.g-top input.name{font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-.02em}
+.g-m{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 0 38px}
+.calc{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--slate);margin-top:5px;min-height:16px}
+.calc.num{color:var(--cobalt)}
+.ibtn{border:1px solid var(--line);background:var(--paper);min-width:34px;height:40px;padding:0 10px;font-size:13px;font-weight:600;cursor:pointer}
+.ibtn:hover{border-color:var(--ink)}
+.counter{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 4px}
+.counter .count{font-size:14px;color:var(--slate)}
+.win{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.win label{display:flex;gap:8px;align-items:center;padding:9px 13px;background:var(--white);border:1px solid var(--line);font-size:14px;font-weight:600;cursor:pointer}
+.win label.on{border:2px solid var(--signal);padding:8px 12px}
+.win input{accent-color:var(--cobalt)}
+/* chart */
+.chart{background:var(--white);border:2px solid var(--ink);padding:18px 20px}
+.legend{display:flex;gap:18px;font-size:12.5px;color:var(--slate);margin-bottom:12px}
+.legend i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px}
+.crow{display:grid;grid-template-columns:200px 1fr;gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.crow:first-of-type{border-top:none}
+.crow.avg{background:var(--mist);margin:0 -20px;padding:10px 20px}
+.crow .gl{font-weight:700;font-size:14px;line-height:1.3}
+.crow .gl small{display:block;font-weight:500;font-size:12px;color:var(--slate)}
+.crow.best .gl::after{content:"Strongest";display:inline-block;margin-top:4px;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--signal);color:var(--ink);padding:2px 6px}
+.bars{display:grid;gap:5px}
+.bar{display:grid;grid-template-columns:1fr 230px;gap:10px;align-items:center}
+.track{height:16px;background:var(--mist);position:relative}
+.fill{position:absolute;left:0;top:0;bottom:0}
+.fill.stay{background:var(--cobalt)}
+.fill.send{background:var(--ink)}
+.bar .lab{font-size:12.5px;color:var(--slate);line-height:1.3}
+.bar .lab b{color:var(--ink)}
+.picks{display:grid;gap:8px;margin-bottom:14px}
+.picks label{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:15px;font-weight:600}
+.picks label.on{border:2px solid var(--signal);padding:11px 13px}
+.picks small{display:block;font-weight:500;font-size:12.5px;color:var(--slate)}
+.picks input{margin-top:4px;accent-color:var(--signal)}
+.e{color:var(--fog)}
+.odec{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;background:var(--ink);border:2px solid var(--ink);margin-top:12px}
+.odec div{background:var(--white);padding:14px 16px}
+.odec h5{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.odec p{font-size:14px;white-space:pre-wrap}
+.odec .pk p{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em}
+@media (max-width:760px){
+  .meta,.grid2,.summary,.kind,.g-m,.odec{grid-template-columns:1fr}
+  .g-top{grid-template-columns:28px 1fr}
+  .g-top > *:not(.g-n){grid-column:2}
+  .g-m{margin-left:0}
+  .crow{grid-template-columns:1fr}
+  .crow.avg{margin:0 -20px}
+  .bar{grid-template-columns:1fr 130px}
+  .progress{position:static}
+}
+@media print{
+  @page{size:letter landscape;margin:.4in}
+  body{background:#fff;font-size:10pt}
+  .two-band,.toolbar,.progress,section.step,.next,.toast,.saved,.no-print{display:none!important}
+  header.top{padding:0 0 8px;border-bottom:2px solid #000}
+  h1{font-size:18pt;margin:2px 0}
+  .eyebrow{font-size:8pt}
+  .deck{display:none}
+  .meta{margin-top:6px}
+  .meta label{font-size:7pt;margin-bottom:2px}
+  .meta input{border:none;border-bottom:1px solid #999;padding:2px 0}
+  #out{display:block!important;padding-top:8px}
+  #out h2{font-size:13pt;margin-bottom:4px}
+  .chart{padding:10px 14px}.crow{padding:6px 0}.crow.avg{margin:0 -14px;padding:6px 14px}
+  .odec div{padding:8px 12px}.odec p{font-size:9pt}.odec .pk p{font-size:13pt}
+  .chart,.track,.fill,.crow.avg,.crow.best .gl::after,.odec,.odec div,.legend i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .chart,.odec{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">06 / Build What Customers Want</span></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Worksheet · Product-Market Fit Assessment</div>
+  <h1>The average <em>lies.</em></h1>
+  <p class="deck">Half the room freezing, half boiling, and the thermostat reads seventy. Split your customers into two or three groups before you measure anything, check whether each group stays and sends people, and find the group the business is really working for.</p>
+  <div class="toolbar">
+    <button class="btn primary" id="useExample" type="button">Use the lesson’s example</button>
+    <button class="btn ink" id="printBtn" type="button">Print / Save as PDF</button>
+    <button class="btn" id="xlsxBtn" type="button">Download to Excel</button>
+    <button class="btn quiet" id="clearBtn" type="button">Clear all</button>
+    <span class="saved" id="saved">Saves automatically in this browser</span>
+  </div>
+  <div class="meta">
+    <div><label for="bizName">Business</label><input type="text" id="bizName" data-k="bizName" placeholder="Your business, or the one you’re planning"></div>
+    <div><label for="pDate">Date</label><input type="date" id="pDate" data-k="pDate"></div>
+  </div>
+</header>
+</div>
+
+<nav class="progress" aria-label="Progress">
+  <div class="wrap">
+    <a class="step-pill" id="p1" href="#s1"><b>01</b><span>Split into groups <span id="p1n">0</span></span></a>
+    <a class="step-pill" id="p2" href="#s2"><b>02</b><span>Do they stay? <span id="p2n">0/0</span></span></a>
+    <a class="step-pill" id="p3" href="#s2"><b>03</b><span>Do they send people? <span id="p3n">0/0</span></span></a>
+    <a class="step-pill" id="p4" href="#s3"><b>04</b><span>Pick the group, stop one thing</span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section class="step" id="s1">
+  <div class="step-head"><span class="step-num">STEP 01</span></div>
+  <h2>Split your customers into two or three groups.</h2>
+  <p class="intro">The easiest split is usually how they came to you: a referral, word of mouth, or they came on their own. From here on, every number gets run for each group separately. Never for everybody at once.</p>
+  <div class="kind" id="kindPick">
+    <label id="k-named"><input type="radio" name="kind" data-k="kind" value="named"><span><b>I know every customer by name</b><small>An advisor, a clinic, a membership club.</small></span></label>
+    <label id="k-volume"><input type="radio" name="kind" data-k="kind" value="volume"><span><b>High volume</b><small>A coffee shop, a restaurant. Work from a sample.</small></span></label>
+    <label id="k-pre"><input type="radio" name="kind" data-k="kind" value="pre"><span><b>I’m pre-launch</b><small>Use your test group.</small></span></label>
+  </div>
+  <div class="note" id="kindNote">Choose the kind of business above. The questions are the same for every kind. How you get the answers is different.</div>
+  <div class="ex-note" id="exNote">From the lesson: Upstream split four hundred members three ways and checked both things in an afternoon. The lesson gives the results in words, not exact figures or group sizes, so the example keeps its words. The worksheet reads numbers out of phrases like “nine in ten” or “about half,” and leaves the rest without a bar. The lesson doesn’t say what Upstream stopped spending on, so step three is left for you.</div>
+  <div id="groups"></div>
+  <div class="counter"><button class="btn" type="button" id="addGroup">+ Add a group</button><span class="count" id="groupCount"></span></div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head"><span class="step-num">STEP 02</span></div>
+  <h2>For each group, check two things.</h2>
+  <p class="intro"><b>Do they stay?</b> What share are still with you after twelve months, or since you opened if that’s sooner. That’s the one that can’t be faked. <b>Do they send people?</b> What share of them have sent you someone. Money can buy attention. It can’t buy that. Rough numbers are fine: a count, a percentage, or “about half.”</p>
+  <div class="win" id="winPick">
+    <label id="w-12"><input type="radio" name="win" data-k="win" value="12"> Still with us after twelve months</label>
+    <label id="w-open"><input type="radio" name="win" data-k="win" value="open"> Still with us since we opened (less than twelve months)</label>
+  </div>
+  <div class="callout">
+    <div class="k">Kind words aren’t a measurement</div>
+    <p>Both checks are things customers do, not things they say. People say generous things right after you’ve helped them, and some of them leave four months later. <b>Gratitude and staying are different measurements.</b> So is a wall of testimonials.</p>
+  </div>
+  <div class="chart" id="chart"></div>
+  <div class="note alert hidden" id="avgNote" style="margin-top:12px"></div>
+  <div class="field" style="margin-top:20px">
+    <label>Who sent you?</label>
+    <p class="help">If you don’t know who’s referred whom, start asking every new customer this one question, this week.</p>
+    <div class="checks"><label><input type="checkbox" data-k="askWho"> I ask every new customer who sent them.</label></div>
+  </div>
+  <div class="grid2" id="askBox">
+    <div class="field"><label for="askStart">Asking since</label><input type="date" id="askStart" data-k="askStart"></div>
+    <div class="field"><label for="askWhere">Where the answer gets written</label><input type="text" id="askWhere" data-k="askWhere" placeholder="e.g., A field on the intake form"></div>
+  </div>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head"><span class="step-num">STEP 03</span></div>
+  <h2>Pick the group where both numbers are strongest.</h2>
+  <div class="picks" id="pickList"></div>
+  <div class="note hidden" id="suggest"></div>
+  <div class="field"><label for="stop">One thing I’d stop spending on the others</label><p class="help">Money, time or attention going to a group that doesn’t stay or send anyone.</p><textarea id="stop" data-k="stop" placeholder="e.g., The paid search ads that bring in walk-ins who don’t come back"></textarea></div>
+  <div class="field"><label for="why">What I need to understand about why this group works</label><p class="help">Stay with the strong group until you understand why it works. That tells you where to get more of them.</p><textarea id="why" data-k="why" placeholder="e.g., What the referring advisors say to them before they call"></textarea></div>
+  <div class="callout">
+    <div class="k">The trap · fixing the weak group first</div>
+    <p>It feels responsible. But you don’t know yet whether the weak group is fixable or just different. Fixing them is a guess. Understanding the strong group isn’t. <b>It isn’t giving up on part of the business. It’s putting your money where the evidence is.</b></p>
+  </div>
+  <div class="checks"><label><input type="checkbox" data-k="noFix"> I’m not putting money into fixing the weak group until I understand why the strong one works.</label></div>
+</section>
+
+<section id="out" class="step">
+  <div class="step-head"><span class="step-num">YOUR FIT</span></div>
+  <h2 id="outTitle">Where the business has fit</h2>
+  <div class="chart" id="chartOut"></div>
+  <div class="odec">
+    <div class="pk"><h5>The group that works</h5><p id="oPick">Not picked yet.</p></div>
+    <div><h5>Stop spending on the others</h5><p id="oStop"></p></div>
+    <div><h5>Understand why it works</h5><p id="oWhy"></p></div>
+  </div>
+  <p id="oAsk" style="font-size:13px;color:var(--slate);margin-top:10px"></p>
+</section>
+
+<div class="next no-print">
+  <div class="k">Next session</div>
+  <p><b style="color:var(--ink)">Go-to-Market.</b> Bring the group that works. You’ll decide how to get more of them.</p>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY='two_pmf_v1';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  var savedEl=document.getElementById('saved'),t0,tt;
+  function flash(s){savedEl.textContent=s;clearTimeout(t0);t0=setTimeout(function(){savedEl.textContent='Saves automatically in this browser'},1200)}
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));flash('Saved')}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function plusDays(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+  function nice(s){if(!s)return '';var p=s.split('-');if(p.length!==3)return s;var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1];return m+' '+(+p[2])+', '+p[0]}
+  function toast(s){var el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2800)}
+  function t(v){return String(v==null?'':v).trim()}
+  function bindStatic(){
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var k=el.dataset.k,v=state[k];
+      if(el.type==='checkbox') el.checked=!!v;
+      else if(el.type==='radio') el.checked=(v===el.value);
+      else el.value=v!=null?v:'';
+    });
+  }
+  function onField(e){
+    var el=e.target,k=el.dataset&&el.dataset.k;
+    if(!k)return false;
+    if(el.type==='radio'){if(!el.checked)return true;state[k]=el.value}
+    else state[k]=el.type==='checkbox'?el.checked:el.value;
+    persist();render();return true;
+  }
+  function fileName(base,suffix){return ((t(state.bizName)||base).replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||base)+(suffix||'')+'.xlsx'}
+  function sheet(rows,cols){var ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=cols.map(function(w){return{wch:w}});return ws}
+  function grow(el){if(el.offsetParent===null)return;el.style.height='auto';el.style.height=(el.scrollHeight+3)+'px'}
+  function growAll(){document.querySelectorAll('textarea').forEach(grow)}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target)});
+  var rzT;window.addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(growAll,120)});
+  setTimeout(growAll,0);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(growAll);
+  function wire(opts){
+    document.getElementById('useExample').addEventListener('click',function(){
+      if(opts.hasData()&&!confirm('Replace what you’ve entered with the lesson’s example? Your current answers will be cleared.'))return;
+      state=opts.example();opts.rebuild();persist();render();growAll();toast('The lesson’s example is loaded. Edit anything to make it yours.');
+    });
+    document.getElementById('clearBtn').addEventListener('click',function(){
+      if(!confirm('Clear every answer on this worksheet? This can’t be undone.'))return;
+      try{localStorage.removeItem(KEY)}catch(e){}
+      state=opts.fresh();opts.rebuild();persist();render();growAll();
+    });
+    document.getElementById('printBtn').addEventListener('click',function(){render();window.print()});
+    document.getElementById('xlsxBtn').addEventListener('click',function(){
+      if(typeof XLSX==='undefined'){toast('The Excel export couldn’t load. Check your connection and try again.');return}
+      opts.xlsx();
+    });
+  }
+
+  var uid=function(){return 'g'+Math.random().toString(36).slice(2,9)};
+  var KIND={
+    named:'Pull your customer list from your billing and mark each name by hand. No software needed. With forty customers, you can do most of it in one sitting.',
+    volume:'You can’t list everyone. Work with a sample: your regulars, or the people on your loyalty program. For them, staying means coming back.',
+    pre:'You don’t have twelve months yet. Split your test group the same way and watch who comes back and who brings someone. It’s early, but it’s the same question.'};
+  var WORDS={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12};
+  function parsePct(v,n){
+    var s=t(v).toLowerCase();if(!s)return null;
+    s=s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b/g,function(w){return WORDS[w]});
+    var m;
+    if((m=s.match(/(\d+(?:\.\d+)?)\s*%/)))return Math.min(100,+m[1]);
+    if((m=s.match(/(\d+(?:\.\d+)?)\s*(?:of|in|out of|\/)\s*(\d+(?:\.\d+)?)/))&&+m[2]>0)return Math.min(100,Math.round(+m[1]/+m[2]*100));
+    if(/two[- ]thirds|2 thirds/.test(s))return 67;if(/\ba third\b|one[- ]third|1 third/.test(s))return 33;if(/\bhalf\b/.test(s))return 50;if(/\ba quarter\b|one[- ]quarter/.test(s))return 25;if(/three[- ]quarters|3 quarters/.test(s))return 75;
+    if(/\b(almost |nearly )?(nobody|no one|none)\b/.test(s))return 0;if(/\b(almost |nearly )?(everybody|everyone|all)\b/.test(s))return /almost|nearly/.test(s)?97:100;
+    if((m=s.match(/(\d+(?:\.\d+)?)/))){var x=+m[1],nn=parseFloat(n);if(nn>0)return Math.min(100,Math.round(x/nn*100));if(x<=100)return x}
+    return null;
+  }
+  function fresh(){return{pDate:iso(new Date()),win:'12',groups:[{id:uid(),name:'Referred by someone',how:'',n:'',stay:'',send:''},{id:uid(),name:'Word of mouth from a customer',how:'',n:'',stay:'',send:''},{id:uid(),name:'Came on their own',how:'',n:'',stay:'',send:''}]}}
+  var EXAMPLE=function(){var a=uid();return{bizName:'Upstream Medicine (the lesson’s example)',pDate:iso(new Date()),ex:true,kind:'named',win:'12',
+    groups:[{id:a,name:'Referred by a physician',how:'Another physician sent them',n:'',stay:'More than nine in ten',send:'A third'},
+            {id:uid(),name:'Word of mouth from another member',how:'A current member sent them',n:'',stay:'In between, closer to the physician group',send:'In between, closer to the physician group'},
+            {id:uid(),name:'Came on their own',how:'Mostly through the website',n:'',stay:'About half',send:'Almost nobody'}],
+    pick:a,stop:'',why:'',noFix:false,askWho:false}};
+  if(!state.groups){var f=fresh();Object.keys(f).forEach(function(k){if(state[k]==null)state[k]=f[k]})}
+  var gEl=document.getElementById('groups');
+  function gHTML(g,i){
+    return '<div class="grp" id="gr'+i+'"><div class="g-top"><span class="g-n">'+String(i+1).padStart(2,'0')+'</span>'+
+      '<div><label>Group</label><input type="text" class="name" data-g="'+i+'" data-f="name" value="'+esc(g.name)+'" placeholder="e.g., Referred by an advisor"></div>'+
+      '<div><label>How many <span>· optional</span></label><input type="text" inputmode="numeric" data-g="'+i+'" data-f="n" value="'+esc(g.n)+'" placeholder="e.g., 40"></div>'+
+      '<button type="button" class="ibtn" data-gdel="'+i+'" aria-label="Remove group">✕</button></div>'+
+      '<div class="g-m"><div style="grid-column:1/-1"><label>How they came to you</label><input type="text" data-g="'+i+'" data-f="how" value="'+esc(g.how)+'" placeholder="e.g., Their accountant sent them"></div>'+
+      '<div><label>Do they stay? <span>· share still with you</span></label><input type="text" data-g="'+i+'" data-f="stay" value="'+esc(g.stay)+'" placeholder="e.g., 34 of 40, 85%, about half"><div class="calc" id="cs'+i+'"></div></div>'+
+      '<div><label>Do they send people? <span>· share who’ve sent someone</span></label><input type="text" data-g="'+i+'" data-f="send" value="'+esc(g.send)+'" placeholder="e.g., 12 of 40, a third"><div class="calc" id="cd'+i+'"></div></div></div></div>';
+  }
+  function build(){gEl.innerHTML=state.groups.map(gHTML).join('')}
+  function rebuild(){bindStatic();build()}
+  gEl.addEventListener('input',function(e){var el=e.target;if(el.dataset.g==null)return;state.groups[+el.dataset.g][el.dataset.f]=el.value;persist();render()});
+  gEl.addEventListener('click',function(e){var b=e.target.closest('[data-gdel]');if(!b)return;var i=+b.dataset.gdel,g=state.groups[i];if((t(g.stay)||t(g.send))&&!confirm('Remove this group?'))return;if(state.pick===g.id)state.pick='';state.groups.splice(i,1);build();persist();render()});
+  document.getElementById('addGroup').addEventListener('click',function(){state.groups.push({id:uid(),name:'',how:'',n:'',stay:'',send:''});build();persist();render();var a=gEl.querySelectorAll('input.name');a[a.length-1].focus()});
+  document.addEventListener('input',function(e){if(e.target.closest('#groups'))return;if(e.target.type==='checkbox'||e.target.type==='radio'||e.target.tagName==='SELECT')return;onField(e)});
+  document.addEventListener('change',function(e){if(e.target.closest('#groups'))return;if(e.target.name==='pick'){state.pick=e.target.value;persist();render();return}if(e.target.type==='checkbox'||e.target.type==='radio'||e.target.tagName==='SELECT')onField(e)});
+
+  function metrics(g){return{stay:parsePct(g.stay,g.n),send:parsePct(g.send,g.n)}}
+  function best(){
+    var G=state.groups.map(function(g){return{g:g,m:metrics(g)}}).filter(function(x){return x.m.stay!=null&&x.m.send!=null&&t(x.g.name)});
+    if(G.length<2)return null;
+    var top=G.slice().sort(function(a,b){return (b.m.stay+b.m.send)-(a.m.stay+a.m.send)})[0];
+    var both=G.every(function(x){return x===top||(top.m.stay>=x.m.stay&&top.m.send>=x.m.send)});
+    return{g:top.g,clear:both};
+  }
+  function chartHTML(){
+    var G=state.groups.filter(function(g){return t(g.name)||t(g.stay)||t(g.send)});
+    if(!G.length)return '<p class="e">Add your groups and the two checks to see them side by side.</p>';
+    var bst=best(),h='<div class="legend"><span><i style="background:var(--cobalt)"></i>Stay ('+(state.win==='open'?'since we opened':'after twelve months')+')</span><span><i style="background:var(--ink)"></i>Have sent someone</span></div>';
+    function bar(cls,p,raw){return '<div class="bar"><div class="track">'+(p!=null?'<div class="fill '+cls+'" style="width:'+Math.max(p,0.8)+'%"></div>':'')+'</div><div class="lab">'+(p!=null?'<b>≈'+p+'%</b> · ':'')+esc(t(raw)||'not checked')+'</div></div>'}
+    G.forEach(function(g){var m=metrics(g);h+='<div class="crow'+(bst&&bst.clear&&bst.g===g?' best':'')+'"><div class="gl">'+esc(t(g.name)||'Unnamed group')+(t(g.n)?'<small>'+esc(g.n)+' customers</small>':'')+'</div><div class="bars">'+bar('stay',m.stay,g.stay)+bar('send',m.send,g.send)+'</div></div>'});
+    var av=avg();if(av)h+='<div class="crow avg"><div class="gl">Everyone together<small>The thermostat reading</small></div><div class="bars">'+bar('stay',av.stay,'averaged')+bar('send',av.send,'averaged')+'</div></div>';
+    return h;
+  }
+  function avg(){
+    var G=state.groups.filter(function(g){return t(g.name)});if(G.length<2)return null;var N=0,S=0,D=0;
+    for(var i=0;i<G.length;i++){var n=parseFloat(G[i].n),m=metrics(G[i]);if(!(n>0)||m.stay==null||m.send==null)return null;N+=n;S+=m.stay*n;D+=m.send*n}
+    return{stay:Math.round(S/N),send:Math.round(D/N)};
+  }
+  function render(){
+    ['named','volume','pre'].forEach(function(k){document.getElementById('k-'+k).classList.toggle('on',state.kind===k)});
+    ['12','open'].forEach(function(k){document.getElementById('w-'+k).classList.toggle('on',state.win===k)});
+    document.getElementById('kindNote').textContent=state.kind?KIND[state.kind]:'Choose the kind of business above. The questions are the same for every kind. How you get the answers is different.';
+    document.getElementById('exNote').classList.toggle('show',!!state.ex);
+    var G=state.groups,named=G.filter(function(g){return t(g.name)}).length,st=0,sd=0;
+    G.forEach(function(g,i){var m=metrics(g);if(t(g.stay))st++;if(t(g.send))sd++;
+      var cs=document.getElementById('cs'+i),cd=document.getElementById('cd'+i);
+      if(cs){cs.textContent=t(g.stay)?(m.stay!=null?'≈ '+m.stay+'%':'Kept as words'):'';cs.className='calc'+(m.stay!=null?' num':'')}
+      if(cd){cd.textContent=t(g.send)?(m.send!=null?'≈ '+m.send+'%':'Kept as words'):'';cd.className='calc'+(m.send!=null?' num':'')}
+    });
+    document.getElementById('groupCount').textContent=G.length+' group'+(G.length===1?'':'s')+(G.length>3?' · two or three is usually enough':G.length<2?' · split into at least two':'');
+    document.getElementById('chart').innerHTML=chartHTML();document.getElementById('chartOut').innerHTML=chartHTML();
+    var av=avg(),an=document.getElementById('avgNote');
+    if(av){var ms=G.map(metrics),spread=Math.max.apply(null,ms.map(function(m){return m.stay}))-Math.min.apply(null,ms.map(function(m){return m.stay}));
+      if(spread>=20){an.textContent='Averaged, '+av.stay+'% stay. Split, the groups are '+spread+' points apart. That’s the seventy-degree room: the average describes nobody.';an.classList.remove('hidden')}else an.classList.add('hidden')}else an.classList.add('hidden');
+    document.getElementById('askBox').classList.toggle('hidden',!state.askWho);
+    var bst=best();
+    document.getElementById('pickList').innerHTML=G.filter(function(g){return t(g.name)}).map(function(g){var m=metrics(g),on=state.pick===g.id;return '<label class="'+(on?'on':'')+'"><input type="radio" name="pick" value="'+g.id+'"'+(on?' checked':'')+'><span>'+esc(g.name)+'<small>Stay: '+esc(t(g.stay)||'not checked')+' · Send: '+esc(t(g.send)||'not checked')+'</small></span></label>'}).join('')||'<p class="e">Name your groups in step one.</p>';
+    var sg=document.getElementById('suggest');
+    if(bst){sg.textContent=bst.clear?'On your numbers, “'+t(bst.g.name)+'” is strongest on both.':'No group leads on both numbers. Pick the one where both are strongest together, and note what you’d need to know to be sure.';sg.className='note'+(bst.clear?' good':' alert');}else sg.className='note hidden';
+    [['p1',named>=2],['p2',G.length>0&&st===G.length],['p3',G.length>0&&sd===G.length],['p4',!!(state.pick&&t(state.stop))]].forEach(function(p){document.getElementById(p[0]).classList.toggle('done',p[1])});
+    document.getElementById('p1n').textContent=named;document.getElementById('p2n').textContent=st+'/'+G.length;document.getElementById('p3n').textContent=sd+'/'+G.length;
+    var biz=t(state.bizName);document.getElementById('outTitle').textContent=biz?biz+': where the business has fit':'Where the business has fit';
+    var pg=G.filter(function(g){return g.id===state.pick})[0];
+    function put(id,v,e){var el=document.getElementById(id);el.textContent=v||e;el.className=v?'':'e'}
+    put('oPick',pg?t(pg.name):'','Not picked yet.');put('oStop',t(state.stop),'Not written yet.');put('oWhy',t(state.why),'Not written yet.');
+    document.getElementById('oAsk').textContent=state.askWho?'Asking every new customer who sent them'+(state.askStart?' since '+nice(state.askStart):'')+(t(state.askWhere)?', written in '+t(state.askWhere).charAt(0).toLowerCase()+t(state.askWhere).slice(1):'')+'.':'';
+  }
+  function hasData(){return !!(t(state.bizName)||state.kind||state.groups.some(function(g){return t(g.stay)||t(g.send)||t(g.n)})||t(state.stop))}
+  function xlsx(){
+    var wb=XLSX.utils.book_new();
+    var a=[['Two Weeks Out · Product-Market Fit Assessment'],['Business',state.bizName||''],['Date',state.pDate||''],['Kind of business',({named:'Knows every customer by name',volume:'High volume: a sample',pre:'Pre-launch: test group'})[state.kind]||''],['Stay measured',state.win==='open'?'Since we opened':'After twelve months'],[],
+      ['Group','How they came','How many','Do they stay? (as entered)','Stay %','Do they send people? (as entered)','Send %','Picked']];
+    state.groups.forEach(function(g){var m=metrics(g);a.push([g.name||'',g.how||'',g.n||'',g.stay||'',m.stay==null?'':m.stay/100,g.send||'',m.send==null?'':m.send/100,state.pick===g.id?'Yes':''])});
+    var av=avg();if(av)a.push(['Everyone together (the thermostat reading)','','','',av.stay/100,'',av.send/100,'']);
+    var ws=sheet(a,[34,30,10,30,9,30,9,8]);
+    Object.keys(ws).forEach(function(k){if(k[0]!=='!'&&/^[EG]\d+$/.test(k)&&typeof ws[k].v==='number'){ws[k].z='0%'}});
+    XLSX.utils.book_append_sheet(wb,ws,'Groups');
+    var pg=state.groups.filter(function(g){return g.id===state.pick})[0];
+    var b=[['The group that works',pg?pg.name:''],['One thing I’d stop spending on the others',state.stop||''],['What I need to understand about why it works',state.why||''],['Not fixing the weak group first',state.noFix?'Yes':'No'],[],['Asking every new customer who sent them',state.askWho?'Yes':'No'],['Since',state.askStart||''],['Where it’s written',state.askWhere||'']];
+    XLSX.utils.book_append_sheet(wb,sheet(b,[44,90]),'Decision');
+    XLSX.writeFile(wb,fileName('Product_Market_Fit','_PMF'));
+  }
+  wire({hasData:hasData,example:EXAMPLE,fresh:fresh,rebuild:rebuild,xlsx:xlsx});
+  rebuild();render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Build Your Discovery Shape — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#10131a;--ink-soft:#10131a;--muted:#59616e;--muted-soft:#9ba3af;--border:#e9ecf5;--border-soft:#e9ecf5;--bg:#ffffff;--bg-soft:#fbfaf6;--green:#2747f5;--bright:#2747f5;--em-soft:#e9ecf5;--cream-soft:#e9ecf5;--amber:#7d5300;--font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  *{box-sizing:border-box;}html,body{margin:0;padding:0;}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg-soft);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:880px;margin:0 auto;padding:56px 48px 80px;background:var(--bg);}
+  header.brand{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:34px;}
+  .eyebrow{font-size:11px;letter-spacing:2.5px;color:var(--green);font-weight:600;text-transform:uppercase;margin:0 0 6px;}
+  h1{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:32px;line-height:1.2;color:var(--ink);margin:0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;color:var(--ink-soft);font-size:16px;margin:0;}
+  .step{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--border);}
+  .step:first-of-type{border-top:none;padding-top:0;}
+  .step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .step-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:28px;font-weight:800;color:var(--bright);line-height:1;letter-spacing:-.03em;font-style:normal;}
+  .step-title{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:22px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub{color:var(--muted);font-size:14px;margin:4px 0 18px;font-style:italic;}
+  label{font-size:13px;color:var(--ink-soft);font-weight:500;display:block;margin-bottom:5px;}
+  .field-def{font-size:12px;color:var(--muted);font-style:italic;line-height:1.45;margin-bottom:7px;}
+  .field-example{font-size:12px;color:#59616e;line-height:1.45;margin-top:6px;}
+  .field-example .ex-tag{color:var(--bright);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;margin-right:6px;}
+  input[type="text"],textarea,select{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);background:white;border:1px solid var(--border);border-radius:0;padding:9px 11px;width:100%;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--em-soft);}
+  textarea{resize:vertical;min-height:64px;line-height:1.5;}
+  .field{margin-bottom:14px;}
+  .block-card{border:1px solid var(--border);border-radius:0;padding:16px 18px;margin-bottom:12px;background:white;}
+  .block-card.green-edge{border-left:4px solid var(--green);}
+  .block-card.amber-edge{border-left:4px solid var(--amber);}
+  .block-name{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;font-weight:600;color:var(--green);margin-bottom:4px;}
+  .block-card.amber-edge .block-name{color:var(--amber);}
+  .block-prompt{font-size:13px;color:var(--muted);font-style:italic;margin:0 0 12px;}
+  /* Question type card grid */
+  .qtypes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;}
+  .qtype-card{border:1px solid var(--border);border-radius:0;padding:13px 15px;background:var(--bg-soft);}
+  .qtype-card .qt-tag{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);font-weight:700;margin-bottom:4px;}
+  .qtype-card .qt-name{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+  .qtype-card .qt-def{font-size:12px;color:var(--muted);font-style:italic;line-height:1.5;margin-bottom:8px;}
+  .qtype-card textarea{min-height:54px;font-size:13px;}
+  /* Layer-deep capture for step 3 */
+  .layer-row{display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:start;margin-bottom:8px;}
+  .layer-row .layer-tag{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);font-weight:700;padding-top:11px;}
+  /* Output */
+  .output-section{margin-top:48px;padding-top:36px;border-top:3px solid var(--ink);}
+  .output-header{text-align:center;margin-bottom:28px;}
+  .output-header .eyebrow{color:var(--bright);}
+  .output-header h2{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--ink);margin:4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p{color:var(--muted);font-size:14px;margin:0;font-style:italic;}
+  .strategy-doc{border:2px solid var(--ink);border-radius:0;padding:32px 36px;background:white;}
+  .strategy-block{margin-bottom:28px;}
+  .strategy-block:last-child{margin-bottom:0;}
+  .strategy-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .shape-line{display:grid;grid-template-columns:130px 1fr;gap:14px;padding:8px 0;border-bottom:1px solid var(--border-soft);}
+  .shape-line:last-child{border-bottom:none;}
+  .shape-line .sl-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);padding-top:3px;}
+  .shape-line .sl-val{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);line-height:1.55;}
+  .shape-line .sl-val.empty{color:#59616e;font-style:italic;}
+  .shape-line .sl-val .qex{display:block;color:var(--ink-soft);font-style:italic;font-size:13px;margin-top:3px;}
+  .observation{margin-top:24px;padding:14px 18px;background:var(--em-soft);border-radius:0;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .observation strong{color:var(--green);}
+  .observation.warn{background:var(--cream-soft);}
+  .observation.warn strong{color:var(--amber);}
+  .empty-output{padding:36px;background:var(--bg-soft);border:1px dashed var(--border);border-radius:0;text-align:center;color:var(--muted);font-style:italic;}
+  .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-top:36px;padding-top:22px;border-top:1px solid var(--border);}
+  .btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:0;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink-soft);}
+  .btn:hover{background:var(--bg-soft);}
+  .btn-primary{background:var(--green);color:white;border-color:#ffffff;}
+  .btn-primary:hover{background:#1b36c9;}
+  .btn-example{background:var(--cream-soft);color:var(--amber);border-color:var(--cream-soft);}
+  .btn-example:hover{background:#d5d9e4;}
+  .btn-ghost{color:var(--muted);}
+  @media print{body{background:white;}.sheet{max-width:none;padding:28px 24px;}.toolbar{display:none;}input,textarea,select{border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;background:transparent;}.empty-output{display:none;}.step,.strategy-doc{page-break-inside:avoid;}}
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#FF7C98;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">08 / Turn Interest Into Revenue</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Sales Strategy and Execution Excellence</p>
+  <h1>Build Your Discovery Shape</h1>
+  <p class="lede">Map the discovery you actually run. Design the shape you want. Then go run the peel-four rule on your next live call.</p>
+  <div style="margin-top:14px;"><button class="btn btn-example" type="button" onclick="useExample()">Use Marcus's example to start</button></div>
+</header>
+
+<!-- STEP 1 — Map -->
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">Map your current discovery</span></div>
+  <p class="step-sub">Honestly, not aspirationally. Most owners are shocked by how little discovery they're doing once they actually look.</p>
+  <div class="block-card amber-edge">
+    <div class="block-name">Your honest baseline</div>
+    <p class="block-prompt">Walk through your most recent discovery conversation from memory. What did you actually do?</p>
+    <div class="field">
+      <label for="map-open">Your opening line (the first thing you say after introductions)</label>
+      <input type="text" id="map-open" placeholder="What you actually say to start the conversation…">
+    </div>
+    <div class="field">
+      <label for="map-count">How many questions did you ask before you started talking about your offer?</label>
+      <select id="map-count">
+        <option value="">Choose…</option>
+        <option value="0">0 — I started with the pitch</option>
+        <option value="1-2">1–2 questions</option>
+        <option value="3-5">3–5 questions</option>
+        <option value="6-10">6–10 questions</option>
+        <option value="10+">10+ questions</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="map-style">Were you peeling on one thread, or surface-skimming across many?</label>
+      <select id="map-style">
+        <option value="">Choose…</option>
+        <option value="surface">Surface-skimming — different questions, one each</option>
+        <option value="mixed">Mixed — some peeling, but I moved around</option>
+        <option value="peeling">Peeling — went 3+ layers deep on at least one thread</option>
+      </select>
+    </div>
+    <div class="field" style="margin-bottom:0;">
+      <label for="map-pitch">When did you first start pitching your offer (in minutes from the start of the conversation)?</label>
+      <input type="text" id="map-pitch" placeholder="e.g., 3 minutes / 8 minutes / didn't pitch on this call">
+    </div>
+  </div>
+</section>
+
+<!-- STEP 2 — Design the shape -->
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">Design your discovery shape</span></div>
+  <p class="step-sub">Opening line. Four question types in your own language. Playback line. Transition. If it doesn't fit on one page, it's already a script.</p>
+
+  <div class="block-card green-edge">
+    <div class="block-name">The shape</div>
+    <p class="block-prompt">Write each line in your own voice — not what you think a sales trainer would say.</p>
+
+    <div class="field">
+      <label for="design-open">Opening line (set the contract: "I'll ask a lot of questions today")</label>
+      <input type="text" id="design-open" placeholder='e.g., "Before I tell you about what we do, I want to understand your situation. I&#39;ll ask a lot of questions…"'>
+    </div>
+
+    <p style="font-size:13px;color:var(--ink-soft);font-weight:600;margin:18px 0 6px;">The four question types — in your language</p>
+    <div class="qtypes">
+      <div class="qtype-card">
+        <div class="qt-tag">OPENER</div>
+        <div class="qt-name">Get them talking</div>
+        <div class="qt-def">Wide and easy. Its job is to give you something to peel.</div>
+        <textarea id="q-opener" placeholder="Your opening question…"></textarea>
+      </div>
+      <div class="qtype-card">
+        <div class="qt-tag">PEELER</div>
+        <div class="qt-name">Go a layer deeper</div>
+        <div class="qt-def">The workhorse. Takes what they just said and asks them to go deeper.</div>
+        <textarea id="q-peeler" placeholder="Your go-to peeling question…"></textarea>
+      </div>
+      <div class="qtype-card">
+        <div class="qt-tag">STAKES</div>
+        <div class="qt-name">Cost of inaction</div>
+        <div class="qt-def">Uncomfortable to ask. The discomfort is the value.</div>
+        <textarea id="q-stakes" placeholder="Your stakes question…"></textarea>
+      </div>
+      <div class="qtype-card">
+        <div class="qt-tag">SUCCESS</div>
+        <div class="qt-name">Their language for the win</div>
+        <div class="qt-def">How they'll describe it when this is solved.</div>
+        <textarea id="q-success" placeholder="Your success question…"></textarea>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:18px;">
+      <label for="design-playback">Your playback line ("Here's what I'm hearing. Tell me if I have this right.")</label>
+      <input type="text" id="design-playback" placeholder="Your version of the playback line…">
+    </div>
+
+    <div class="field" style="margin-bottom:0;">
+      <label for="design-transition">Your transition out ("Based on what you've told me, here's what makes sense…")</label>
+      <input type="text" id="design-transition" placeholder="Your transition into the specific recommendation…">
+    </div>
+  </div>
+</section>
+
+<!-- STEP 3 — Run the peel-four rule -->
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">Run the peel-four rule</span></div>
+  <p class="step-sub">On your next discovery call, peel four times out loud on one thread. Capture what you heard in layers 2–4 that you'd never heard before.</p>
+
+  <div class="block-card green-edge">
+    <div class="block-name">What you heard in the deeper layers</div>
+    <p class="block-prompt">The surface answer is layer one. What did your buyer say at layers 2, 3, and 4 that changed your understanding?</p>
+    <div class="layer-row">
+      <div class="layer-tag">Layer 1<br><span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--muted);font-style:italic;">(the surface)</span></div>
+      <textarea id="layer-1" placeholder="What they said first — the surface reason…"></textarea>
+    </div>
+    <div class="layer-row">
+      <div class="layer-tag">Layer 2</div>
+      <textarea id="layer-2" placeholder="What surfaced after the first peel…"></textarea>
+    </div>
+    <div class="layer-row">
+      <div class="layer-tag">Layer 3</div>
+      <textarea id="layer-3" placeholder="What surfaced after the second peel…"></textarea>
+    </div>
+    <div class="layer-row">
+      <div class="layer-tag">Layer 4<br><span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--muted);font-style:italic;">(the real reason)</span></div>
+      <textarea id="layer-4" placeholder="What the buyer was actually trying to fix…"></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Discovery Shape</h2>
+    <p>The baseline, the shape, and what you heard when you actually peeled.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Complete at least the design step and click Generate.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+<script>
+const EXAMPLE={
+  mapOpen:"So, what brings you in?",
+  mapCount:"1-2",
+  mapStyle:"surface",
+  mapPitch:"3 minutes",
+  designOpen:"Before I tell you about how we work here, I want to understand your situation. I'm going to ask a lot of questions \u2014 that's the conversation today. Sound good?",
+  qOpener:"What made you start looking right now?",
+  qPeeler:"Tell me more about that \u2014 what does that look like day-to-day?",
+  qStakes:"If nothing changes in the next six months, what does that mean for you?",
+  qSuccess:"When this is working the way you want, what's different about your morning?",
+  designPlayback:"Okay \u2014 here's what I'm hearing back from you. Tell me if I have this right.",
+  designTransition:"Based on what you've told me, here's what I think makes sense for you specifically.",
+  layer1:"I want to feel better.",
+  layer2:"My back has been hurting and I'm tired all the time.",
+  layer3:"My doctor told me at my last physical that I'm pre-diabetic and I need to do something about it.",
+  layer4:"I want to be there for my son's soccer games and right now I can't even get through one without sitting down. I don't want him to remember me as the dad who couldn't keep up.",
+};
+
+function val(id){return (document.getElementById(id)?.value||"").toString().trim();}
+function setEl(id,v){const e=document.getElementById(id);if(e)e.value=v==null?"":v;}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function useExample(){
+  const hasContent=val("design-open")||val("q-opener")||val("layer-1");
+  if(hasContent&&!confirm("This will replace what you've entered with a worked example. Continue?"))return;
+  setEl("map-open",EXAMPLE.mapOpen);setEl("map-count",EXAMPLE.mapCount);setEl("map-style",EXAMPLE.mapStyle);setEl("map-pitch",EXAMPLE.mapPitch);
+  setEl("design-open",EXAMPLE.designOpen);setEl("q-opener",EXAMPLE.qOpener);setEl("q-peeler",EXAMPLE.qPeeler);setEl("q-stakes",EXAMPLE.qStakes);setEl("q-success",EXAMPLE.qSuccess);setEl("design-playback",EXAMPLE.designPlayback);setEl("design-transition",EXAMPLE.designTransition);
+  setEl("layer-1",EXAMPLE.layer1);setEl("layer-2",EXAMPLE.layer2);setEl("layer-3",EXAMPLE.layer3);setEl("layer-4",EXAMPLE.layer4);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function generate(){
+  const out=document.getElementById("output-section");
+  const data={
+    mapOpen:val("map-open"),mapCount:val("map-count"),mapStyle:val("map-style"),mapPitch:val("map-pitch"),
+    designOpen:val("design-open"),qOpener:val("q-opener"),qPeeler:val("q-peeler"),qStakes:val("q-stakes"),qSuccess:val("q-success"),
+    designPlayback:val("design-playback"),designTransition:val("design-transition"),
+    layer1:val("layer-1"),layer2:val("layer-2"),layer3:val("layer-3"),layer4:val("layer-4"),
+  };
+  const qCount=[data.qOpener,data.qPeeler,data.qStakes,data.qSuccess].filter(Boolean).length;
+  const layerCount=[data.layer1,data.layer2,data.layer3,data.layer4].filter(Boolean).length;
+  if(!data.designOpen && qCount===0){
+    out.innerHTML='<div class="empty-output">Design at least the opening line and one question type to generate.</div>';
+    out.scrollIntoView({behavior:"smooth",block:"start"});return;
+  }
+
+  let html='<div class="strategy-doc">';
+
+  // Baseline block
+  if(data.mapOpen||data.mapCount||data.mapStyle||data.mapPitch){
+    html+=`<div class="strategy-block"><div class="strategy-label">Your baseline \u2014 what you're doing now</div>`;
+    if(data.mapOpen)html+=`<div class="shape-line"><span class="sl-label">Opening line</span><span class="sl-val">\u201C${escapeHtml(data.mapOpen)}\u201D</span></div>`;
+    if(data.mapCount)html+=`<div class="shape-line"><span class="sl-label">Questions before pitching</span><span class="sl-val">${escapeHtml(data.mapCount)}</span></div>`;
+    if(data.mapStyle){
+      const styleLabel={surface:"Surface-skimming",mixed:"Mixed",peeling:"Peeling"}[data.mapStyle];
+      html+=`<div class="shape-line"><span class="sl-label">Question style</span><span class="sl-val">${escapeHtml(styleLabel)}</span></div>`;
+    }
+    if(data.mapPitch)html+=`<div class="shape-line"><span class="sl-label">Pitch started at</span><span class="sl-val">${escapeHtml(data.mapPitch)}</span></div>`;
+    html+=`</div>`;
+  }
+
+  // The shape
+  html+=`<div class="strategy-block"><div class="strategy-label">Your discovery shape</div>`;
+  html+=`<div class="shape-line"><span class="sl-label">Open</span><span class="sl-val ${data.designOpen?'':'empty'}">${data.designOpen?'\u201C'+escapeHtml(data.designOpen)+'\u201D':"\u2014 not yet defined"}</span></div>`;
+  const qSlots=[
+    {label:"Opener",val:data.qOpener},{label:"Peeler",val:data.qPeeler},
+    {label:"Stakes",val:data.qStakes},{label:"Success",val:data.qSuccess},
+  ];
+  qSlots.forEach(q=>{
+    html+=`<div class="shape-line"><span class="sl-label">${q.label}</span><span class="sl-val ${q.val?'':'empty'}">${q.val?'\u201C'+escapeHtml(q.val)+'\u201D':"\u2014 not yet defined"}</span></div>`;
+  });
+  html+=`<div class="shape-line"><span class="sl-label">Playback</span><span class="sl-val ${data.designPlayback?'':'empty'}">${data.designPlayback?'\u201C'+escapeHtml(data.designPlayback)+'\u201D':"\u2014 not yet defined"}</span></div>`;
+  html+=`<div class="shape-line"><span class="sl-label">Transition</span><span class="sl-val ${data.designTransition?'':'empty'}">${data.designTransition?'\u201C'+escapeHtml(data.designTransition)+'\u201D':"\u2014 not yet defined"}</span></div>`;
+  html+=`</div>`;
+
+  // Peel-four results
+  if(layerCount>0){
+    html+=`<div class="strategy-block"><div class="strategy-label">What you heard when you peeled</div>`;
+    const layers=[
+      {n:"Layer 1 (surface)",val:data.layer1},{n:"Layer 2",val:data.layer2},
+      {n:"Layer 3",val:data.layer3},{n:"Layer 4 (the real reason)",val:data.layer4},
+    ];
+    layers.forEach(l=>{
+      if(l.val)html+=`<div class="shape-line"><span class="sl-label">${l.n}</span><span class="sl-val">${escapeHtml(l.val)}</span></div>`;
+    });
+    html+=`</div>`;
+  }
+
+  html+='</div>';
+
+  // Observations — teaching detectors
+  const obs=[];
+
+  // Baseline vs. design tension
+  if(data.mapCount==="0"||data.mapCount==="1-2"){
+    obs.push({warn:true,text:`<strong>Your honest baseline shows you're pitching almost immediately.</strong> 0\u20132 questions before pitching means you're producing proposals that answer questions your buyer hasn't yet decided are the right questions. The shape you just designed is the corrective \u2014 but it only works if you actually run it.`});
+  }
+  if(data.mapStyle==="surface"){
+    obs.push({warn:true,text:`<strong>You're surface-skimming.</strong> That's the most common discovery failure \u2014 5 different questions, one each, instead of going 3+ layers deep on one. The peel-four rule on the next call is the most portable thing in this lesson. Use it.`});
+  }
+
+  // Script-detection: are the designed questions overly long / scripted?
+  const wordy=[data.qOpener,data.qPeeler,data.qStakes,data.qSuccess].filter(q=>q.split(/\s+/).length>22);
+  if(wordy.length>0){
+    obs.push({warn:true,text:`<strong>${wordy.length} of your question${wordy.length===1?"":"s"} look long enough to feel scripted.</strong> The shape works because the questions are short and natural \u2014 something you'd actually say. If you'd never say it out loud as-is, rewrite it shorter. Train the shape; refuse the script.`});
+  }
+
+  // Question completeness
+  if(qCount<4){
+    obs.push(`<strong>You've designed ${qCount} of 4 question types.</strong> Each does a different job: openers start the talk, peelers go deep, stakes surface the cost of inaction, success gives you their language. Skipping one leaves a gap your buyer will fall into.`);
+  } else {
+    obs.push(`<strong>All four question types designed.</strong> Now the discipline is using them in the right order \u2014 and resisting the urge to add a fifth, or build a checklist. Four question types is the small set that does almost all the work.`);
+  }
+
+  // Layer-depth check
+  if(layerCount===4){
+    if(data.layer1.length>data.layer4.length){
+      obs.push(`<strong>Layer 4 is shorter than layer 1.</strong> That can mean two things: either the real reason was surprisingly simple once you got there (good), or you stopped peeling before you reached it (likely). A real layer-4 answer usually has a specific moment, number, or person in it. Check what you wrote.`);
+    } else {
+      obs.push(`<strong>You peeled four layers and reached something specific.</strong> Notice how different layer 4 is from layer 1 \u2014 that's the conversation you would have missed by pitching at minute three. Mark that pattern. Run it again on your next call.`);
+    }
+  }
+  if(layerCount>0 && layerCount<4){
+    obs.push({warn:true,text:`<strong>You captured ${layerCount} of 4 layers.</strong> If you didn't get to layer 4, either the buyer ended the conversation early, or you stopped peeling too soon. Both are signals worth noting. The next call: stay in it one peel longer than feels comfortable.`});
+  }
+
+  // Playback / transition discipline
+  if(qCount>=3 && !data.designPlayback){
+    obs.push({warn:true,text:`<strong>You designed the questions but skipped the playback line.</strong> The playback is the most-skipped step in discovery and the one that separates owners who close from ones who follow up forever. Write the line. It signals to the buyer that you actually heard them.`});
+  }
+  if(qCount>=3 && !data.designTransition){
+    obs.push(`<strong>You haven't defined your transition out yet.</strong> Discovery has to end. The transition language ("Based on what you've told me, here's what I think makes sense") signals the shift to recommendation \u2014 and forces you to make a specific call, not a menu.`);
+  }
+
+  obs.forEach(o=>{
+    if(typeof o==="string")html+=`<div class="observation">${o}</div>`;
+    else html+=`<div class="observation ${o.warn?'warn':''}">${o.text}</div>`;
+  });
+
+  out.innerHTML=html;
+  out.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function clearAll(){
+  if(!confirm("Clear all entries and start over?"))return;
+  ["map-open","map-count","map-style","map-pitch","design-open","q-opener","q-peeler","q-stakes","q-success","design-playback","design-transition","layer-1","layer-2","layer-3","layer-4"].forEach(id=>setEl(id,""));
+  document.getElementById("output-section").innerHTML='<div class="empty-output">Complete at least the design step and click Generate.</div>';
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>

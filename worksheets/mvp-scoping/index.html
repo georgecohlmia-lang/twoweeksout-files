@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MVP Scoping Worksheet · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+
+:root{
+  --ink:#10131a; --paper:#fbfaf6; --white:#ffffff; --cobalt:#2747f5; --cobalt2:#1b36c9; --signal:#ff5a1f;
+  --slate:#59616e; --fog:#9ba3af; --sky:#93abff; --mist:#e9ecf5; --line:#d5d9e4; --inkline:#2c313c; --onink:#c9ced8;
+  --good:#0d6b4c; --good-tint:#e2f5ea; --warn:#7d5300; --warn-tint:#fff3cd; --danger:#b3261e; --danger-tint:#fde9e7;
+  --module:#F986DD;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+  --text:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--module);border-bottom:2px solid var(--ink)}
+.two-wm{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.two-mod{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header.top{padding:52px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.deck{font-size:18px;color:var(--slate);max-width:700px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.btn{border:2px solid var(--ink);background:var(--white);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.btn.primary:hover{background:var(--cobalt2);border-color:var(--cobalt2)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.ink:hover{background:var(--inkline)}
+.btn.quiet{border-color:var(--line);color:var(--slate);font-weight:500}
+.saved{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);margin-left:auto}
+.meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:22px}
+.meta label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date],select,textarea{width:100%;background:var(--white);border:1px solid var(--line);border-bottom:2px solid var(--ink);padding:10px 12px;border-radius:0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--mist)}
+textarea{resize:vertical;min-height:64px;line-height:1.5;overflow:hidden}
+::placeholder{color:#8a919c}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-top:28px}
+.progress .wrap{display:flex;gap:6px;padding:12px 24px;flex-wrap:wrap}
+.step-pill{flex:1 1 180px;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--white);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--slate);text-decoration:none}
+.step-pill b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog)}
+.step-pill.done{border-color:var(--good);color:var(--good);background:var(--good-tint)}
+.step-pill.done b{color:var(--good)}
+
+section.step{padding:52px 0 8px}
+.step-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.step-num{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--cobalt)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);line-height:1.05;letter-spacing:-.035em}
+.intro{color:var(--slate);max-width:720px;margin:10px 0 22px}
+.group-label{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px;display:flex;gap:12px;align-items:center}
+.group-label::after{content:"";flex:1;height:2px;background:var(--ink)}
+.group-note{font-size:14px;color:var(--slate);margin:-4px 0 14px;max-width:720px}
+
+.box{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:12px}
+.box.money{border-left-color:var(--cobalt)}
+.box-top{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-bottom:12px}
+.box-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.box-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.box-q{grid-column:2;font-size:14px;color:var(--slate)}
+.box-q b{color:var(--ink);font-weight:600}
+.len{font-size:12px;color:var(--fog);margin-top:6px;min-height:18px}
+.len.long{color:var(--warn)}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.marks .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark:hover{border-color:var(--ink)}
+.mark[aria-pressed=true][data-m=known]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=assumed]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.mark[aria-pressed=true][data-m=unknown]{background:var(--mist);border-color:var(--ink);color:var(--ink)}
+.evidence{margin-top:12px;display:none}
+.evidence.show{display:block}
+.evidence label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.evidence label span{font-weight:400;color:var(--slate)}
+.flag{font-size:13px;margin-top:8px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.flag.show{display:block}
+
+.callout{background:var(--ink);color:var(--paper);padding:22px 26px;margin:6px 0 18px}
+.callout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.callout p{color:var(--onink);font-size:15px}
+.callout p b{color:#fff}
+
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 14px}
+.tally div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.tally .v{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.tally .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.tally .known .v{color:var(--good)} .tally .assumed .v{color:var(--warn)}
+.read{padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:760px}
+.read.alert{border-left-color:var(--danger);background:var(--danger-tint)}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pick label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.pick label:hover{border-color:var(--ink)}
+.pick input{margin-top:3px;accent-color:var(--cobalt)}
+.pick label.on{border:2px solid var(--signal);padding:11px 13px}
+.pick small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.pick small.known{color:var(--good)} .pick small.assumed{color:var(--warn)} .pick small.unknown{color:var(--slate)}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.field .help{font-size:13px;color:var(--slate);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:grid;gap:8px;margin:6px 0 4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--white);border:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--good)}
+.reopen{display:flex;flex-wrap:wrap;gap:8px}
+.reopen label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:7px 12px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.reopen input{accent-color:var(--cobalt)}
+
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.summary div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.summary h5{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.summary p{font-size:14.5px;white-space:pre-wrap}
+.next{margin:44px 0 70px;padding:24px 26px;border:2px solid var(--ink);background:var(--white)}
+.next .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px}
+.next p{color:var(--slate)}
+.print-only{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;display:none;z-index:50}
+.toast.show{display:block}
+@media print{input[type=date]::-webkit-calendar-picker-indicator{display:none}select{background-image:none}}
+
+.claimbox{background:var(--white);border:2px solid var(--ink);padding:22px 24px}
+.claimbox textarea{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em;line-height:1.3;min-height:84px}
+.hints{display:grid;gap:6px;margin-top:10px}
+.hint{font-size:13px;padding:8px 12px;background:var(--warn-tint);color:var(--warn)}
+.hint.good{background:var(--good-tint);color:var(--good)}
+.boxes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 10px}
+.boxes label{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.boxes label.on{border:2px solid var(--signal);padding:10px 12px}
+.boxes small{display:block;font-weight:500;font-size:12px;color:var(--slate)}
+.boxes input{margin-top:3px;accent-color:var(--signal)}
+.map3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 18px}
+.map3 div{background:var(--mist);padding:12px 14px;font-size:13.5px}
+.map3 b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:3px}
+.cut{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:14px}
+.cut.price{border-left-color:var(--cobalt)}
+.cut-top{display:flex;gap:14px;align-items:baseline;margin-bottom:6px}
+.cut-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.cut-name{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.03em;line-height:1.1}
+.cut p.q{font-size:14px;color:var(--slate);margin-bottom:14px;max-width:760px}
+.inline{display:grid;grid-template-columns:140px 1fr;gap:14px}
+.choice{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
+.choice label{display:flex;gap:8px;align-items:center;padding:9px 13px;background:var(--paper);border:1px solid var(--line);font-size:14px;font-weight:600;cursor:pointer}
+.choice label.on{border:2px solid var(--signal);padding:8px 12px;background:var(--white)}
+.choice input{accent-color:var(--cobalt)}
+.note{font-size:14px;padding:12px 16px;border-left:4px solid var(--cobalt);background:var(--mist);margin:4px 0 12px;max-width:780px}
+.note.alert{border-left-color:var(--warn);background:var(--warn-tint);color:#5c3d00}
+.note.danger{border-left-color:var(--danger);background:var(--danger-tint);color:#7a1a14}
+.note.good{border-left-color:var(--good);background:var(--good-tint);color:#0a4f38}
+.hidden{display:none!important}
+.endline{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-top:8px}
+.endline b{color:var(--ink)}
+.killrow{display:grid;grid-template-columns:auto 90px auto 90px 1fr;gap:10px;align-items:center;font-weight:600}
+.killrow input{text-align:left}
+.killthen{margin-top:10px;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;font-weight:600}
+.killout{margin:16px 0 6px;background:var(--ink);color:#fff;padding:20px 22px}
+.killout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:6px}
+.killout p{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.025em;line-height:1.2}
+.killout p.empty{color:var(--fog);font-weight:600;font-size:18px}
+.traps{display:grid;gap:8px;margin-top:6px}
+/* output card */
+.card{background:var(--white);border:2px solid var(--ink)}
+.card-claim{padding:20px 22px;border-bottom:2px solid var(--ink)}
+.card-claim .k,.cg .k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.card-claim p{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.025em;line-height:1.2}
+.tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--signal);color:var(--ink);padding:2px 7px}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);background:var(--line);gap:1px}
+.cg{background:var(--white);padding:14px 16px}
+.cg p{font-size:13.5px;white-space:pre-wrap;line-height:1.45}
+.cg p.e{color:var(--fog)}
+.cg.wide{grid-column:span 2}
+.card-kill{padding:18px 22px;border-top:2px solid var(--ink);background:var(--ink);color:#fff}
+.card-kill .k{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);margin-bottom:6px}
+.card-kill p{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.02em;line-height:1.25}
+.card-kill small{display:block;margin-top:6px;color:var(--onink);font-size:13px}
+@media (max-width:760px){
+  .meta,.grid2,.summary,.boxes,.map3,.cgrid{grid-template-columns:1fr}
+  .cg.wide{grid-column:auto}
+  .inline{grid-template-columns:1fr}
+  .killrow{grid-template-columns:auto 1fr;}
+  .killthen{grid-template-columns:1fr}
+  .progress{position:static}
+}
+@media print{
+  @page{size:letter landscape;margin:.4in}
+  body{background:#fff;font-size:10pt}
+  .two-band,.toolbar,.progress,section.step,.next,.toast,.saved,.no-print{display:none!important}
+  header.top{padding:0 0 8px;border-bottom:2px solid #000}
+  h1{font-size:18pt;margin:2px 0}
+  .eyebrow{font-size:8pt}
+  .deck{display:none}
+  .meta{grid-template-columns:2fr 2fr 1fr;margin-top:6px}
+  .meta label{font-size:7pt;margin-bottom:2px}
+  .meta input{border:none;border-bottom:1px solid #999;padding:2px 0}
+  #out{display:block!important;padding-top:8px}
+  #out h2{font-size:13pt;margin-bottom:6px}
+  .card-claim{padding:10px 14px}.card-claim p{font-size:14pt}
+  .cg{padding:8px 12px}.cg p{font-size:8.5pt}
+  .card-kill{padding:10px 14px}.card-kill p{font-size:13pt}
+  .card,.cg,.card-kill,.tag,.cgrid{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .card{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">06 / Build What Customers Want</span></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Worksheet · Minimum Viable Product Scoping</div>
+  <h1>The smallest thing that <em>settles a claim.</em></h1>
+  <p class="deck">Not a small version of the offering. Name the one claim you haven’t tested, cut scope, audience and duration until only the test is left, and write the number that means stop before anything runs.</p>
+  <div class="toolbar">
+    <button class="btn primary" id="useExample" type="button">Use the lesson’s example</button>
+    <button class="btn ink" id="printBtn" type="button">Print / Save as PDF</button>
+    <button class="btn" id="xlsxBtn" type="button">Download to Excel</button>
+    <button class="btn quiet" id="clearBtn" type="button">Clear all</button>
+    <span class="saved" id="saved">Saves automatically in this browser</span>
+  </div>
+  <div class="meta">
+    <div><label for="bizName">Business</label><input type="text" id="bizName" data-k="bizName" placeholder="Your business, or the one you’re planning"></div>
+    <div><label for="concept">The concept</label><input type="text" id="concept" data-k="concept" placeholder="The idea you’ve been turning over"></div>
+    <div><label for="mDate">Date</label><input type="date" id="mDate" data-k="mDate"></div>
+  </div>
+</header>
+</div>
+
+<nav class="progress" aria-label="Progress">
+  <div class="wrap">
+    <a class="step-pill" id="p1" href="#s1"><b>01</b><span>Name the claim and its box</span></a>
+    <a class="step-pill" id="p2" href="#s2"><b>02</b><span>Make three cuts <span id="p2n">0/3</span></span></a>
+    <a class="step-pill" id="p3" href="#s3"><b>03</b><span>Write the kill criterion</span></a>
+    <a class="step-pill" id="p4" href="#s4"><b>04</b><span>Check it can fail</span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section class="step" id="s1">
+  <div class="step-head"><span class="step-num">STEP 01</span></div>
+  <h2>Write the claim as a sentence somebody could disagree with.</h2>
+  <p class="intro">Not a goal. A claim, with a subject and, where possible, a number. <b>“Our existing members would pay a meaningful annual premium for a structured longevity program”</b> is a claim. “Launch a longevity offering” isn’t.</p>
+  <div class="field">
+    <label for="wanted">First, what you’d build if nobody stopped you</label>
+    <p class="help">Get the full version out of your head. You’ll cut it in step two.</p>
+    <textarea id="wanted" data-k="wanted" placeholder="Every component, promise, system and hire you’ve been picturing, and how long it would take before anyone could buy it."></textarea>
+  </div>
+  <div class="claimbox">
+    <label class="qlabel" for="claim" style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px">The claim</label>
+    <textarea id="claim" data-k="claim" placeholder="e.g., Owners of 5 to 20 person firms will pay $400 a month for payroll they never have to think about."></textarea>
+    <div class="hints" id="claimHints"></div>
+  </div>
+
+  <div class="group-label">Which box does it live in? One claim, one box.</div>
+  <div class="map3">
+    <div><b>Who’ll buy</b>Customer segments</div>
+    <div><b>How much they’ll pay</b>Revenue streams</div>
+    <div><b>Whether you can deliver it</b>Key activities and key resources</div>
+  </div>
+  <div class="boxes" id="boxPick"></div>
+  <div class="field">
+    <label for="boxNote">Anything underneath it</label>
+    <p class="help">If one box rests on another, say so. That’s different from testing both.</p>
+    <input type="text" id="boxNote" data-k="boxNote" placeholder="e.g., Revenue, with customer segments underneath it">
+  </div>
+  <div class="field">
+    <label for="parked">Other claims riding along</label>
+    <p class="help">Park them here. One test can’t settle four. Each one gets its own test later.</p>
+    <textarea id="parked" data-k="parked" placeholder="e.g., That we can deliver it without a new hire. That people outside our list would want it."></textarea>
+  </div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head"><span class="step-num">STEP 02</span></div>
+  <h2>Make all three cuts. Protect the claim, not the scope.</h2>
+  <p class="intro">Most owners only cut scope. The best tests cut all three at once. Write what’s left, and write what you’re leaving out on purpose.</p>
+
+  <div class="cut">
+    <div class="cut-top"><span class="cut-n">CUT 1</span><span class="cut-name">Scope</span></div>
+    <p class="q">Fewer components, fewer promises, and no new systems or hires. The people who already work here run it by hand.</p>
+    <div class="grid2">
+      <div class="field"><label for="scopeIn">What’s left</label><p class="help">Only what the claim needs.</p><textarea id="scopeIn" data-k="scopeIn" rows="4" placeholder="One per line"></textarea></div>
+      <div class="field"><label for="scopeOut">What I’m leaving out on purpose</label><p class="help">Not cancelled. Not part of this test.</p><textarea id="scopeOut" data-k="scopeOut" rows="4" placeholder="One per line"></textarea></div>
+    </div>
+    <div class="checks">
+      <label><input type="checkbox" data-k="sc1"> No new systems</label>
+      <label><input type="checkbox" data-k="sc2"> No new hires</label>
+      <label><input type="checkbox" data-k="sc3"> People who already work here can run it by hand</label>
+    </div>
+  </div>
+
+  <div class="cut">
+    <div class="cut-top"><span class="cut-n">CUT 2</span><span class="cut-name">Audience</span></div>
+    <p class="q">Twelve of the right people settle a claim faster than two hundred of the wrong ones. You’re not measuring how many. You’re finding out whether anyone will, and why. Right for what depends on the claim.</p>
+    <div class="choice" id="audTypePick">
+      <label id="at-existing"><input type="radio" name="audType" data-k="audType" value="existing"> The claim is about people who already buy from me</label>
+      <label id="at-new"><input type="radio" name="audType" data-k="audType" value="new"> The claim is about people who’ve never heard of me</label>
+    </div>
+    <div class="note hidden" id="audExisting">Your own list is the right place. The claim is that they’ll do something new, and only they can answer it.</div>
+    <div class="hidden" id="audNew">
+      <div class="note alert">Your own list will fool you. They say yes because they like you. You need people with no reason to be kind to you. One stranger saying yes at full price tells you more than ten warm yeses.</div>
+      <div class="checks" style="margin-bottom:14px">
+        <label><input type="checkbox" data-k="src1"> People already paying somebody else</label>
+        <label><input type="checkbox" data-k="src2"> People who asked about me and didn’t buy</label>
+        <label><input type="checkbox" data-k="src3"> Whoever the referral partners in my market send work to</label>
+      </div>
+    </div>
+    <div class="inline">
+      <div class="field"><label for="audN">How many</label><input type="text" inputmode="numeric" id="audN" data-k="audN" placeholder="12"></div>
+      <div class="field"><label for="audWho">Exactly who</label><textarea id="audWho" data-k="audWho" rows="2" placeholder="e.g., Twelve clients who’ve been with us more than a year"></textarea></div>
+    </div>
+  </div>
+
+  <div class="cut">
+    <div class="cut-top"><span class="cut-n">CUT 3</span><span class="cut-name">Duration</span></div>
+    <p class="q">Ninety days with a defined end. A test has an end date. A launch doesn’t, and that difference is how a bad idea survives for two years.</p>
+    <div class="grid2">
+      <div class="inline" style="grid-template-columns:110px 1fr">
+        <div class="field"><label for="days">Days</label><input type="text" inputmode="numeric" id="days" data-k="days" placeholder="90"></div>
+        <div class="field"><label for="start">Starts</label><input type="date" id="start" data-k="start"></div>
+      </div>
+      <div class="field"><label for="afterEnd">What happens to the people in it when it ends</label><textarea id="afterEnd" data-k="afterEnd" rows="2" placeholder="e.g., They keep what they paid for, whatever we decide"></textarea></div>
+    </div>
+    <div class="endline" id="endLine"></div>
+  </div>
+
+  <div class="cut price">
+    <div class="cut-top"><span class="cut-n">AND</span><span class="cut-name">The price</span></div>
+    <p class="q">A test at the real price tells you whether people will pay. A test at a discount tells you whether people like a discount.</p>
+    <div class="choice" id="priceTypePick">
+      <label id="pt-real"><input type="radio" name="priceType" data-k="priceType" value="real"> The real price</label>
+      <label id="pt-discount"><input type="radio" name="priceType" data-k="priceType" value="discount"> A discount</label>
+      <label id="pt-free"><input type="radio" name="priceType" data-k="priceType" value="free"> Free</label>
+    </div>
+    <div class="field"><label for="price">The price, as you’ll quote it</label><input type="text" id="price" data-k="price" placeholder="e.g., $1,200 for the year"></div>
+    <div class="note danger hidden" id="priceWarn"></div>
+  </div>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head"><span class="step-num">STEP 03</span></div>
+  <h2>Write the result that means stop. Before you know the answer.</h2>
+  <p class="intro">A number, agreed by everyone with a vote, recorded where you’ll find it later. Once a test is running, everyone wants it to work. Without a number set in advance, six of twelve becomes momentum and three of twelve becomes early days.</p>
+  <div class="killrow">
+    <span>Fewer than</span><input type="text" inputmode="numeric" id="killN" data-k="killN" placeholder="5" aria-label="Fewer than">
+    <span>of</span><input type="text" inputmode="numeric" id="killOf" data-k="killOf" placeholder="12" aria-label="Out of">
+    <input type="text" id="killWhat" data-k="killWhat" placeholder="what they do, e.g., enroll" aria-label="What they do">
+  </div>
+  <div class="killthen"><span>and we</span><input type="text" id="killThen" data-k="killThen" placeholder="e.g., stop selling it" aria-label="And we"></div>
+  <div class="killout"><div class="k">Kill criterion</div><p id="killSentence" class="empty">Fill in the line above.</p></div>
+  <div class="hints" id="killHints"></div>
+  <div class="grid2" style="margin-top:18px">
+    <div class="field"><label for="voters">Everyone with a vote</label><p class="help">Partners, a spouse, a key employee: anyone who could overrule the result later.</p><input type="text" id="voters" data-k="voters" placeholder="Names"></div>
+    <div class="field"><label for="where">Where it’s recorded</label><p class="help">Somewhere you’ll find it in ninety days.</p><input type="text" id="where" data-k="where" placeholder="e.g., Top of the test doc; on the whiteboard"></div>
+  </div>
+  <div class="checks">
+    <label><input type="checkbox" data-k="agreed"> Every one of them agreed to this number before the test started.</label>
+  </div>
+</section>
+
+<section class="step" id="s4">
+  <div class="step-head"><span class="step-num">STEP 04</span></div>
+  <h2>The trap: the test that can’t fail.</h2>
+  <div class="callout">
+    <div class="k">The check</div>
+    <p><b>What result would make you abandon this, and can the test you designed produce it?</b> If nothing could come back that would stop you, you’ve built a rollout with a small number of people in it.</p>
+  </div>
+  <div class="field">
+    <label for="abandon">The result that would make me abandon this</label>
+    <textarea id="abandon" data-k="abandon" placeholder="e.g., Fewer than five of twelve sign up at the real price."></textarea>
+  </div>
+  <div class="field">
+    <label>Can the test I designed produce it?</label>
+    <div class="choice" id="canPick">
+      <label id="cp-yes"><input type="radio" name="can" data-k="can" value="yes"> Yes</label>
+      <label id="cp-no"><input type="radio" name="can" data-k="can" value="no"> No</label>
+      <label id="cp-unsure"><input type="radio" name="can" data-k="can" value="unsure"> Not sure</label>
+    </div>
+  </div>
+  <div class="traps" id="traps"></div>
+
+  <div class="group-label" style="margin-top:34px">When the ninety days are up</div>
+  <div class="field"><label for="result">What came back</label><p class="help">What people did, with the number.</p><textarea id="result" data-k="result" placeholder="e.g., 8 of 12 enrolled."></textarea></div>
+  <div class="field">
+    <label>Against the kill line</label>
+    <div class="choice" id="linePick">
+      <label id="ln-above"><input type="radio" name="line" data-k="line" value="above"> Cleared it</label>
+      <label id="ln-below"><input type="radio" name="line" data-k="line" value="below"> Fell below it: we stop</label>
+    </div>
+  </div>
+  <div class="field"><label for="nextQ">The question this result didn’t answer</label><p class="help">One test settles one claim. Name the next one.</p><textarea id="nextQ" data-k="nextQ" placeholder="e.g., Whether we can deliver it at this shape"></textarea></div>
+</section>
+
+<section id="out" class="step">
+  <div class="step-head"><span class="step-num">YOUR TEST</span></div>
+  <h2 id="outTitle">Your MVP, on one page</h2>
+  <div class="card">
+    <div class="card-claim"><div class="k"><span>The claim</span><span class="tag" id="oBox">No box yet</span></div><p id="oClaim">Not written yet.</p><div id="oBoxNote" style="font-size:13px;color:var(--slate);margin-top:6px"></div></div>
+    <div class="cgrid">
+      <div class="cg"><div class="k">Scope: what’s left</div><p id="oIn"></p></div>
+      <div class="cg"><div class="k">Left out on purpose</div><p id="oOut"></p></div>
+      <div class="cg"><div class="k">Audience</div><p id="oAud"></p></div>
+      <div class="cg"><div class="k">Duration</div><p id="oDur"></p></div>
+      <div class="cg"><div class="k">Price</div><p id="oPrice"></p></div>
+      <div class="cg"><div class="k">Parked for later tests</div><p id="oPark"></p></div>
+    </div>
+    <div class="card-kill"><div class="k">Kill criterion</div><p id="oKill">Not written yet.</p><small id="oAgreed"></small></div>
+    <div class="cgrid">
+      <div class="cg wide"><div class="k">What came back</div><p id="oResult"></p></div>
+      <div class="cg"><div class="k">Next question</div><p id="oNext"></p></div>
+    </div>
+  </div>
+</section>
+
+<div class="next no-print">
+  <div class="k">Next session</div>
+  <p><b style="color:var(--ink)">Rapid Prototyping and User Testing.</b> Bring this page. You’ll run the scope you just wrote with real people and track what it costs you to deliver.</p>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY='two_mvp_v1';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  var savedEl=document.getElementById('saved'),t0,tt;
+  function flash(s){savedEl.textContent=s;clearTimeout(t0);t0=setTimeout(function(){savedEl.textContent='Saves automatically in this browser'},1200)}
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));flash('Saved')}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function plusDays(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+  function nice(s){if(!s)return '';var p=s.split('-');if(p.length!==3)return s;var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1];return m+' '+(+p[2])+', '+p[0]}
+  function toast(s){var el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2800)}
+  function t(v){return String(v==null?'':v).trim()}
+  function bindStatic(){
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var k=el.dataset.k,v=state[k];
+      if(el.type==='checkbox') el.checked=!!v;
+      else if(el.type==='radio') el.checked=(v===el.value);
+      else el.value=v!=null?v:'';
+    });
+  }
+  function onField(e){
+    var el=e.target,k=el.dataset&&el.dataset.k;
+    if(!k)return false;
+    if(el.type==='radio'){if(!el.checked)return true;state[k]=el.value}
+    else state[k]=el.type==='checkbox'?el.checked:el.value;
+    persist();render();return true;
+  }
+  function fileName(base,suffix){return ((t(state.bizName)||base).replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||base)+(suffix||'')+'.xlsx'}
+  function sheet(rows,cols){var ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=cols.map(function(w){return{wch:w}});return ws}
+  function grow(el){if(el.offsetParent===null)return;el.style.height='auto';el.style.height=(el.scrollHeight+3)+'px'}
+  function growAll(){document.querySelectorAll('textarea').forEach(grow)}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target)});
+  var rzT;window.addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(growAll,120)});
+  setTimeout(growAll,0);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(growAll);
+  function wire(opts){
+    document.getElementById('useExample').addEventListener('click',function(){
+      if(opts.hasData()&&!confirm('Replace what you’ve entered with the lesson’s example? Your current answers will be cleared.'))return;
+      state=opts.example();opts.rebuild();persist();render();growAll();toast('The lesson’s example is loaded. Edit anything to make it yours.');
+    });
+    document.getElementById('clearBtn').addEventListener('click',function(){
+      if(!confirm('Clear every answer on this worksheet? This can’t be undone.'))return;
+      try{localStorage.removeItem(KEY)}catch(e){}
+      state=opts.fresh();opts.rebuild();persist();render();growAll();
+    });
+    document.getElementById('printBtn').addEventListener('click',function(){render();window.print()});
+    document.getElementById('xlsxBtn').addEventListener('click',function(){
+      if(typeof XLSX==='undefined'){toast('The Excel export couldn’t load. Check your connection and try again.');return}
+      opts.xlsx();
+    });
+  }
+
+  var BOXES=[['segments','Customer segments','Who’ll buy'],['revenue','Revenue streams','How much they’ll pay'],['value','Value proposition','What they get'],
+             ['channels','Channels','How they find and buy'],['relationships','Customer relationships','Contact after they arrive'],['activities','Key activities','Can you deliver it'],
+             ['resources','Key resources','Can you deliver it'],['partners','Key partners','Who you depend on'],['cost','Cost structure','What it costs to run']];
+  function boxName(id){var b=BOXES.filter(function(x){return x[0]===id})[0];return b?b[1]:''}
+  function fresh(){return{mDate:iso(new Date()),start:iso(new Date()),audN:'12',days:'90'}}
+  var EXAMPLE=function(){return{
+    bizName:'Upstream Medicine (the lesson’s example)',concept:'A longevity program for members',mDate:iso(new Date()),start:iso(new Date()),
+    wanted:'Blood work, fitness testing, body scans, a sleep study, diet plans, a coach, and quarterly reviews with a doctor. New equipment, new hires, and about nine months before anyone could sign up.',
+    claim:'Members already with us will pay extra, on top of membership, for a longevity program run by their own doctor.',
+    box:'revenue',boxNote:'Revenue, with customer segments underneath it. It has nothing to do with whether we can run a sleep study.',
+    parked:'Whether we can deliver it at that shape. That’s a different question, and it needs a different kind of test.',
+    scopeIn:'A biomarker panel through our existing lab partner\nA diet-led review\nA fitness-led review with a trainer we already refer to\nOne live online hour a month on a single longevity topic',
+    scopeOut:'Body scans\nA sleep study\nA coach\nNew equipment\nNew hires',
+    sc1:true,sc2:true,sc3:true,
+    audType:'existing',audN:'12',audWho:'Members who’ve been with the practice more than a year: the group that stopped weighing the cost and started noticing what we don’t offer yet',
+    days:'90',afterEnd:'Anyone who enrolls gets the full year, whatever the partners decide. No new enrollments while it runs.',
+    priceType:'real',price:'$2,995 for a full year',
+    killN:'5',killOf:'12',killWhat:'enroll',killThen:'put the concept back on the shelf',
+    voters:'The partners',where:'On the whiteboard, before the first invitation',agreed:true,
+    abandon:'Fewer than five of the twelve enroll at the real price.',can:'yes',
+    result:'Eight of twelve enrolled. That answered the demand question.',line:'above',
+    nextQ:'Whether we can deliver it at that shape. That needs a different kind of test.'
+  }};
+  if(!state.mDate){var f=fresh();Object.keys(f).forEach(function(k){if(state[k]==null)state[k]=f[k]})}
+  document.getElementById('boxPick').innerHTML=BOXES.map(function(b){return '<label id="bx-'+b[0]+'"><input type="radio" name="box" data-k="box" value="'+b[0]+'"><span>'+b[1]+'<small>'+b[2]+'</small></span></label>'}).join('');
+  document.addEventListener('input',function(e){if(e.target.type!=='radio'&&e.target.type!=='checkbox')onField(e)});
+  document.addEventListener('change',function(e){if(e.target.type==='radio'||e.target.type==='checkbox'||e.target.tagName==='SELECT')onField(e)});
+
+  function num(v){var n=parseInt(String(v||'').replace(/[^0-9]/g,''),10);return isNaN(n)?null:n}
+  function lines(v){return t(v).split(/\n+/).map(function(s){return s.trim()}).filter(Boolean)}
+  function endDate(){var d=num(state.days);if(!state.start||!d)return '';var p=state.start.split('-');var dt=new Date(+p[0],+p[1]-1,+p[2]);dt.setDate(dt.getDate()+d);return iso(dt)}
+  function killText(){
+    var n=t(state.killN),o=t(state.killOf),w=t(state.killWhat),th=t(state.killThen);
+    if(!n||!w)return '';
+    return 'Fewer than '+n+(o?' of '+o:'')+' '+w+(th?', and we '+th.replace(/[.]$/,''):'')+'.';
+  }
+  function setOn(prefix,key,vals){vals.forEach(function(v){var el=document.getElementById(prefix+v);if(el)el.classList.toggle('on',state[key]===v)})}
+  function hint(cls,s){return '<div class="'+(cls?'hint '+cls:'hint')+'">'+esc(s)+'</div>'}
+  function render(){
+    var c=t(state.claim),h=[];
+    if(c){
+      if(/^\s*(launch|build|create|start|offer|add|open|roll out|develop|introduce|make|test|try|grow|expand|sell)\b/i.test(c))h.push(hint('','That reads like a goal. A claim says something about people that could turn out to be false.'));
+      if(!/\d|\b(one|two|three|four|five|six|seven|eight|nine|ten|twelve|twenty|hundred|thousand|half|most|majority)\b/i.test(c))h.push(hint('','No number yet. Add one where you can: how many, how much, how often.'));
+      if(/\b(and|also|plus)\b.*\b(and|also|plus)\b/i.test(c))h.push(hint('','More than one “and.” Check that this is one claim, not two riding together.'));
+      if(!h.length)h.push(hint('good','Somebody could disagree with that. Good.'));
+    }
+    document.getElementById('claimHints').innerHTML=h.join('');
+    BOXES.forEach(function(b){document.getElementById('bx-'+b[0]).classList.toggle('on',state.box===b[0])});
+    setOn('at-','audType',['existing','new']);setOn('pt-','priceType',['real','discount','free']);setOn('cp-','can',['yes','no','unsure']);setOn('ln-','line',['above','below']);
+    document.getElementById('audExisting').classList.toggle('hidden',state.audType!=='existing');
+    document.getElementById('audNew').classList.toggle('hidden',state.audType!=='new');
+    var pw=document.getElementById('priceWarn');
+    if(state.priceType==='free'){pw.textContent='Free means people say yes at no cost, and you learn nothing about whether they’d pay. That’s the test that can’t fail.';pw.classList.remove('hidden')}
+    else if(state.priceType==='discount'){pw.textContent='A discount tells you whether people like a discount. Charge the number you’d charge anyway.';pw.classList.remove('hidden')}
+    else pw.classList.add('hidden');
+    var ed=endDate();document.getElementById('endLine').innerHTML=ed?'Ends <b>'+esc(nice(ed))+'</b>'+(num(state.days)>120?' · longer than ninety days. Can you cut it?':''):'Set the days and a start date to see the end date.';
+    // kill
+    var ks=killText(),ke=document.getElementById('killSentence');ke.textContent=ks||'Fill in the line above.';ke.className=ks?'':'empty';
+    var kh=[],kn=num(state.killN),ko=num(state.killOf),an=num(state.audN);
+    if(kn!=null&&ko!=null&&kn>ko)kh.push(hint('','The threshold is bigger than the group. Check the numbers.'));
+    if(ko!=null&&an!=null&&ko>an)kh.push(hint('','“Of '+ko+'” is more people than the '+an+' in your audience.'));
+    if(ks&&!t(state.voters))kh.push(hint('','Name everyone with a vote. A number only one person agreed to gets renegotiated later.'));
+    if(ks&&t(state.voters)&&!state.agreed)kh.push(hint('','Get every one of them to agree before the test starts.'));
+    document.getElementById('killHints').innerHTML=kh.join('');
+    // traps
+    var tr=[];
+    if(state.priceType==='free')tr.push(['danger','The offer is free. People can say yes at no cost, so you won’t learn whether they’d pay.']);
+    if(state.priceType==='discount')tr.push(['alert','The test runs at a discount. A yes tells you people like the discount.']);
+    if(state.audType==='new'&&!(state.src1||state.src2||state.src3))tr.push(['alert','The claim is about strangers, but you haven’t said where they’ll come from. If they come from your own list, the test proves nothing.']);
+    if(!ks)tr.push(['alert','No kill criterion yet. Without a number set in advance, any result reads as encouraging.']);
+    if(!ed)tr.push(['alert','No end date. A test has one. A launch doesn’t.']);
+    if(state.can==='no'||state.can==='unsure')tr.push(['danger','If the test can’t produce the result that would stop you, it’s a rollout with a small number of people in it. Change the audience, the price or the kill line until it can.']);
+    if(!tr.length&&state.can==='yes')tr.push(['good','This test can come back no. Run it.']);
+    document.getElementById('traps').innerHTML=tr.map(function(x){return '<div class="note '+x[0]+'">'+esc(x[1])+'</div>'}).join('');
+    // progress
+    var cuts=[lines(state.scopeIn).length>0,!!(num(state.audN)&&t(state.audWho)),!!ed].filter(Boolean).length;
+    [['p1',!!(c&&state.box)],['p2',cuts===3],['p3',!!(ks&&state.agreed)],['p4',!!(t(state.abandon)&&state.can==='yes')]].forEach(function(p){document.getElementById(p[0]).classList.toggle('done',p[1])});
+    document.getElementById('p2n').textContent=cuts+'/3';
+    // output
+    var biz=t(state.bizName),con=t(state.concept);
+    document.getElementById('outTitle').textContent=(con?con:'Your MVP')+(biz?' · '+biz:'');
+    function put(id,v,empty){var el=document.getElementById(id);el.textContent=v||empty;el.className=v?'':'e'}
+    document.getElementById('oClaim').textContent=c||'Not written yet.';
+    document.getElementById('oBox').textContent=state.box?boxName(state.box):'No box yet';
+    document.getElementById('oBoxNote').textContent=t(state.boxNote);
+    put('oIn',lines(state.scopeIn).map(function(s){return '· '+s}).join('\n'),'Not cut yet.');
+    put('oOut',lines(state.scopeOut).map(function(s){return '· '+s}).join('\n'),'Nothing named.');
+    put('oAud',(t(state.audN)?t(state.audN)+' people':'')+(t(state.audWho)?(t(state.audN)?'. ':'')+t(state.audWho):'')+(state.audType?'\n'+(state.audType==='existing'?'Already buy from us.':'Never heard of us.'):''),'Not cut yet.');
+    put('oDur',ed?(t(state.days)+' days: '+nice(state.start)+' to '+nice(ed))+(t(state.afterEnd)?'\n'+t(state.afterEnd):''):'',"No end date yet.");
+    put('oPrice',(t(state.price)||'')+(state.priceType?(t(state.price)?' · ':'')+({real:'Real price',discount:'Discount',free:'Free'})[state.priceType]:''),'Not set.');
+    put('oPark',t(state.parked),'Nothing parked.');
+    document.getElementById('oKill').textContent=ks||'Not written yet.';
+    document.getElementById('oAgreed').textContent=ks?((t(state.voters)?'Agreed by: '+t(state.voters)+(state.agreed?' · before the test started':' · not yet agreed'):'Nobody named as agreeing yet.')+(t(state.where)?' · Recorded: '+t(state.where):'')):'';
+    put('oResult',t(state.result)+(state.line?(t(state.result)?'\n':'')+(state.line==='above'?'Cleared the kill line.':'Fell below the kill line. We stop.'):''),'Not run yet.');
+    put('oNext',t(state.nextQ),'Not written yet.');
+  }
+  function hasData(){return ['bizName','concept','wanted','claim','box','scopeIn','scopeOut','audWho','price','killN','killWhat','voters','abandon','result'].some(function(k){return t(state[k])})}
+  function xlsx(){
+    var wb=XLSX.utils.book_new(),ed=endDate();
+    var a=[['Two Weeks Out · Minimum Viable Product Scoping'],['Business',state.bizName||''],['Concept',state.concept||''],['Date',state.mDate||''],[],
+      ['What I’d build if nobody stopped me',state.wanted||''],[],['The claim',state.claim||''],['Canvas box',boxName(state.box)],['Underneath it',state.boxNote||''],['Other claims parked for later',state.parked||''],[],
+      ['CUT 1 · Scope'],['What’s left',lines(state.scopeIn).join('\n')],['Left out on purpose',lines(state.scopeOut).join('\n')],['No new systems',state.sc1?'Yes':'No'],['No new hires',state.sc2?'Yes':'No'],['Run by hand by people already here',state.sc3?'Yes':'No'],[],
+      ['CUT 2 · Audience'],['The claim is about',state.audType==='existing'?'People who already buy from me':state.audType==='new'?'People who’ve never heard of me':''],['How many',state.audN||''],['Exactly who',state.audWho||'']];
+    if(state.audType==='new')a.push(['Sources: paying someone else',state.src1?'Yes':'No'],['Sources: asked and didn’t buy',state.src2?'Yes':'No'],['Sources: referral partners’ clients',state.src3?'Yes':'No']);
+    a=a.concat([[],['CUT 3 · Duration'],['Days',state.days||''],['Starts',state.start||''],['Ends',ed],['When it ends',state.afterEnd||''],[],['Price',state.price||''],['Price type',({real:'Real price',discount:'Discount',free:'Free'})[state.priceType]||'']]);
+    XLSX.utils.book_append_sheet(wb,sheet(a,[38,100]),'Claim and cuts');
+    var b=[['Kill criterion',killText()],['Everyone with a vote',state.voters||''],['All agreed before it started',state.agreed?'Yes':'No'],['Where it’s recorded',state.where||''],[],
+      ['Result that would make me abandon this',state.abandon||''],['Can the test produce it?',({yes:'Yes',no:'No',unsure:'Not sure'})[state.can]||''],[],
+      ['What came back',state.result||''],['Against the kill line',state.line==='above'?'Cleared it':state.line==='below'?'Fell below it: we stop':''],['Next question',state.nextQ||'']];
+    XLSX.utils.book_append_sheet(wb,sheet(b,[38,100]),'Kill criterion and result');
+    XLSX.writeFile(wb,fileName('MVP_Scope','_MVP'));
+  }
+  wire({hasData:hasData,example:EXAMPLE,fresh:fresh,rebuild:bindStatic,xlsx:xlsx});
+  bindStatic();render();
+})();
+</script>
+</body>
+</html>

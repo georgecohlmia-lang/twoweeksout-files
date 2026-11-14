@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Expansion Playbook · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --accent:#2747f5;
+    --accent-light:#2747f5;
+    --accent-soft:#e9ecf5;
+    --accent-faint:#fbfaf6;
+    --emerald:#0d6b4c;
+    --emerald-bright:#0d6b4c;
+    --emerald-soft:#e2f5ea;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#fbfaf6;
+    --bg:#fbfaf6;
+    --warn:#7d5300;
+    --warn-soft:#fff3cd;
+    --warn-border:#ffd23f;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* === HEADER === */
+  .header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 36px;font-weight:800;
+    color: var(--ink);
+    margin: 0 0 8px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .subtitle { font-size: 16px; color: var(--muted); font-style: italic; }
+
+  /* === LIVE PANEL === */
+  .live-panel {
+    position: sticky;
+    top: 0;
+    padding: 14px 24px;
+    margin: -40px -24px 36px;
+    z-index: 100;
+    display: none;
+    color: white;
+    background: var(--accent);
+  }
+  .live-panel.active { display: block; }
+  .live-panel.verdict-go { background: var(--emerald); }
+  .live-panel.verdict-wait { background: var(--warn); }
+  .live-panel-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .live-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .live-verdict {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .live-detail { font-size: 13px; opacity: 0.9; }
+
+  /* === SECTIONS === */
+  .section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--accent-faint);
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    flex-shrink: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    margin: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .section-body { padding: 28px; }
+
+  /* === FORM ELEMENTS === */
+  .field { margin-bottom: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .label-hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 2px;
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  textarea { resize: vertical; min-height: 60px; }
+
+  /* === USE EXAMPLE BUTTON === */
+  .use-example-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .use-example-btn:hover { background: var(--accent-soft); }
+  .use-example-btn:active { transform: translateY(1px); }
+  .label-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    gap: 12px;
+  }
+  .label-row label { margin-bottom: 0; }
+  .example-btn-wrap { margin-left: auto; }
+
+  /* === MODEL SWITCH === */
+  .model-switch {
+    margin-bottom: 22px;
+  }
+  .model-switch-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .model-switch-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .model-switch-btn {
+    border: 1.5px solid var(--border);
+    background: white;
+    border-radius:0;
+    padding: 14px 18px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .model-switch-btn:hover { border-color: var(--accent-light); }
+  .model-switch-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .model-switch-btn-name {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .model-switch-btn.active .model-switch-btn-name { color: var(--accent); }
+  .model-switch-btn-desc {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .model-switch-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  /* === PRECONDITION GATE === */
+  .precondition {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    background: white;
+    transition: border-color 0.2s;
+  }
+  .precondition.answered-yes { border-color: var(--emerald); border-left: 4px solid var(--emerald); }
+  .precondition.answered-almost { border-color: var(--warn-border); border-left: 4px solid var(--warn); }
+  .precondition.answered-no { border-color: var(--danger); border-left: 4px solid var(--danger); }
+  .precondition-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .precondition-num {
+    background: var(--accent);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .precondition-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .precondition-test {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .precondition-q {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .answer-toggle {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .answer-btn {
+    flex: 1;
+    min-width: 110px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    background: white;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--ink-soft);
+  }
+  .answer-btn:hover { border-color: var(--muted); }
+  .answer-btn.sel-yes { border-color: var(--emerald); background: var(--emerald-soft); color: var(--emerald); }
+  .answer-btn.sel-almost { border-color: var(--warn); background: var(--warn-soft); color: var(--warn); }
+  .answer-btn.sel-no { border-color: var(--danger); background: var(--danger-soft); color: var(--danger); }
+  .precondition-evidence { margin-top: 14px; }
+
+  /* === VERDICT BANNER === */
+  .verdict-banner {
+    margin-top: 8px;
+    padding: 22px 26px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .verdict-banner.go { background: var(--emerald-soft); border: 1px solid var(--emerald); }
+  .verdict-banner.wait { background: var(--warn-soft); border: 1px solid var(--warn-border); }
+  .verdict-banner.incomplete { background: var(--accent-faint); border: 1px dashed var(--border); }
+  .verdict-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .verdict-banner.go .verdict-icon { background: var(--emerald); color: white; }
+  .verdict-banner.wait .verdict-icon { background: var(--warn); color: white; }
+  .verdict-banner.incomplete .verdict-icon { background: var(--muted-soft); color: white; }
+  .verdict-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .verdict-banner.go .verdict-title { color: var(--emerald); }
+  .verdict-banner.wait .verdict-title { color: var(--warn); }
+  .verdict-banner.incomplete .verdict-title { color: var(--muted); }
+  .verdict-text { font-size: 14px; color: var(--ink-soft); }
+
+  /* === PLANNING-MODE WARNING === */
+  .planning-warning {
+    background: var(--warn-soft);
+    border: 1px solid var(--warn-border);
+    border-left: 4px solid var(--warn);
+    border-radius:0;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    display: none;
+  }
+  .planning-warning.active { display: block; }
+  .planning-warning strong { color: var(--warn); }
+
+  /* === SETUP CARDS === */
+  .setup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .setup-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 18px 20px;
+    background: white;
+  }
+  .setup-card-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .setup-card .field:last-child { margin-bottom: 0; }
+
+  /* === SEQUENCE === */
+  .sequence-list { display: flex; flex-direction: column; gap: 14px; }
+  .sequence-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 18px 20px;
+    background: white;
+  }
+  .sequence-step.is-first { border-color: var(--emerald); border-left: 4px solid var(--emerald); }
+  .sequence-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .sequence-dot {
+    width: 36px;
+    height: 36px;
+    border-radius:0;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .sequence-step.is-first .sequence-dot { background: var(--emerald); }
+  .sequence-content { flex: 1; }
+  .sequence-stage-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .sequence-stage-def {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+
+  /* === TABLE-FREE INFO STRIP === */
+  .info-strip {
+    background: var(--accent-soft);
+    border-radius:0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .info-strip strong { color: var(--accent); }
+
+  /* === COMMIT CARD === */
+  .commit-card {
+    background: var(--accent);
+    color: white;
+    padding: 28px;
+    border-radius:0;
+    margin-top: 16px;
+  }
+  .commit-card label { color: rgba(255,255,255,0.85); }
+  .commit-card input, .commit-card textarea, .commit-card select {
+    background: rgba(255,255,255,0.95);
+    border-color: transparent;
+  }
+  .commit-card .commit-city {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 19px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .commit-card .commit-city-name { font-style: normal; font-weight: 600; }
+
+  /* === DOWNLOAD BAR === */
+  .download-bar {
+    margin-top: 32px;
+    padding: 28px;
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius:0;
+    text-align: center;
+  }
+  .download-bar h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .download-bar p { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .download-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 12px 24px;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-secondary {
+    background: white;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-secondary:hover { background: var(--accent-soft); }
+  .btn-icon { font-size: 18px; }
+
+  /* === CLEAR ALL — quiet, de-emphasized destructive control === */
+  .clear-all-wrap {
+    margin-top: 16px;
+    text-align: center;
+  }
+  .btn-clear {
+    background: transparent;
+    border: none;color:#59616e;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .btn-clear:hover { color: var(--danger); background: var(--danger-soft); }
+
+  /* === SAVE INDICATOR === */
+  .save-indicator {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: white;
+    padding: 10px 16px;
+    border-radius:0;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .save-indicator.show { opacity: 0.85; transform: translateY(0); }
+
+  /* === PDF DOCUMENT === */
+  .pdf-document {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 8.5in;
+    background: white;
+    padding: 0.7in 0.8in;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+  }
+  .pdf-document .pdf-header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .pdf-document .pdf-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pdf-document h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .pdf-document .pdf-subtitle { font-size: 13px; color: var(--muted); font-style: italic; }
+  .pdf-document .pdf-meta { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+  .pdf-document .pdf-verdict {
+    padding: 14px 18px;
+    border-radius:0;
+    margin-bottom: 20px;
+  }
+  .pdf-document .pdf-verdict.go { background: var(--emerald-soft); border: 1px solid var(--emerald); }
+  .pdf-document .pdf-verdict.wait { background: var(--warn-soft); border: 1px solid var(--warn-border); }
+  .pdf-document .pdf-verdict-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .pdf-document .pdf-verdict.go .pdf-verdict-title { color: var(--emerald); }
+  .pdf-document .pdf-verdict.wait .pdf-verdict-title { color: var(--warn); }
+  .pdf-document .pdf-verdict-text { font-size: 11px; color: var(--ink-soft); }
+  .pdf-document .pdf-section-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pdf-document table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin: 6px 0;
+  }
+  .pdf-document table th {
+    background: var(--accent);
+    color: white;
+    padding: 7px 8px;
+    text-align: left;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .pdf-document table td {
+    border: 1px solid var(--border);
+    padding: 7px 8px;
+    vertical-align: top;
+  }
+  .pdf-document table td.precond-yes { color: var(--emerald); font-weight: 700; }
+  .pdf-document table td.precond-almost { color: var(--warn); font-weight: 700; }
+  .pdf-document table td.precond-no { color: var(--danger); font-weight: 700; }
+  .pdf-document .pdf-city {
+    background: var(--accent);
+    color: white;
+    padding: 16px 20px;
+    border-radius:0;
+    margin: 8px 0;
+  }
+  .pdf-document .pdf-city-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pdf-document .pdf-city-name {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .pdf-document .pdf-setup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .pdf-document .pdf-setup-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+  .pdf-document .pdf-setup-card-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pdf-document .pdf-seq-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 11px;
+  }
+  .pdf-document .pdf-seq-n {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 700;
+    color: var(--accent);
+    width: 18px;
+    flex-shrink: 0;
+  }
+  .pdf-document .pdf-seq-name { font-weight: 700; }
+  .pdf-document .pdf-principle {
+    margin-top: 24px;
+    padding: 14px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  .pdf-document .pdf-footer {
+    margin-top: 26px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;color:#59616e;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 24px 16px 60px; }
+    h1 { font-size: 28px; }
+    .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    .setup-grid { grid-template-columns: 1fr; }
+    .download-buttons { flex-direction: column; }
+    .section-body { padding: 20px; }
+    .answer-btn { min-width: 0; }
+  }
+
+  /* === PRINT — render only the playbook document === */
+  @page {
+    size: letter;
+    margin: 0.7in 0.8in;
+  }
+  @media print {
+    /* Hide the interactive worksheet entirely */
+    .live-panel,
+    .container,
+    .save-indicator,
+    .help-floating { display: none !important; }
+
+    /* Reveal the playbook document as normal flowed content */
+    .pdf-document {
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      visibility: visible !important;
+      padding: 0 !important;
+      z-index: auto !important;
+    }
+    html, body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    /* Avoid awkward breaks inside tables and cards */
+    .pdf-document table { page-break-inside: auto; }
+    .pdf-document tr { page-break-inside: avoid; }
+    .pdf-document .pdf-section-title { page-break-after: avoid; }
+    .pdf-document .pdf-principle { page-break-inside: avoid; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#BFE34F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.live-panel{margin:0 0 36px}
+/* contrast on dark and tinted blocks */
+div.commit-card button.use-example-btn{color:#ffffff}
+div.commit-card div.label-hint{color:#e6eaff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">10 / Grow Without Losing Control</span></div>
+
+<div class="live-panel" id="livePanel">
+  <div class="live-panel-inner">
+    <div>
+      <div class="live-label">Expansion readiness</div>
+      <div class="live-verdict" id="liveVerdict">—</div>
+    </div>
+    <div class="live-detail" id="liveDetail">—</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">Worksheet · Market Expansion</div>
+    <h1>Build Your Market Expansion Playbook</h1>
+    <div class="subtitle">Earn the right before you cross the border. One city, not a region.</div>
+  </div>
+
+  <!-- SECTION 1 — CONTEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <h2 class="section-title">Your business — at a glance</h2>
+        <div class="section-sub">Anchor the playbook to your specific business and current footprint.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field">
+          <label for="businessName">Business name</label>
+          <input type="text" id="businessName" placeholder="e.g. Acme Advisory">
+        </div>
+        <div class="field">
+          <label for="ownerName">Your name</label>
+          <input type="text" id="ownerName" placeholder="e.g. David Chen">
+        </div>
+      </div>
+      <div class="field-row-3">
+        <div class="field">
+          <label for="homeMarket">Home market</label>
+          <input type="text" id="homeMarket" placeholder="e.g. Denver metro">
+        </div>
+        <div class="field">
+          <label for="currentRevenue">Current annual revenue</label>
+          <input type="text" id="currentRevenue" placeholder="e.g. $2.4M">
+        </div>
+        <div class="field">
+          <label for="coreService">Core service / offering</label>
+          <input type="text" id="coreService" placeholder="e.g. Fractional CFO services">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — THE PRECONDITION GATE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <h2 class="section-title">The precondition gate</h2>
+        <div class="section-sub">All three must be true. Two of three is a yellow light — all three is the only green light.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="model-switch">
+        <div class="model-switch-label">How do you reach customers in a new market?</div>
+        <div class="model-switch-controls">
+          <button class="model-switch-btn" data-model="b2b" type="button">
+            <span class="model-switch-btn-name">B2B</span>
+            <span class="model-switch-btn-desc">You sell to businesses — named accounts, signed engagements</span>
+          </button>
+          <button class="model-switch-btn" data-model="b2c" type="button">
+            <span class="model-switch-btn-name">B2C</span>
+            <span class="model-switch-btn-desc">You sell to consumers — locations, audiences, foot traffic</span>
+          </button>
+        </div>
+        <div class="model-switch-note">This tailors the three preconditions below to how your business actually grows.</div>
+      </div>
+
+      <div class="info-strip">
+        Be honest here. <strong>Treat "Almost" as a no.</strong> Expansion fails most often when a owner lets "almost" stand in for "yes." This gate exists to protect you from an expensive mistake — not to slow you down.
+      </div>
+
+      <div id="preconditionList"></div>
+
+      <div class="verdict-banner incomplete" id="verdictBanner">
+        <div class="verdict-icon" id="verdictIcon">—</div>
+        <div>
+          <div class="verdict-title" id="verdictTitle">Answer all three preconditions</div>
+          <div class="verdict-text" id="verdictText">Your readiness verdict appears here once all three are answered.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — NAME THE CITY -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <h2 class="section-title">Name the city</h2>
+        <div class="section-sub">Not a region. Not three options. One metro by name — the beachhead.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="planning-warning" id="planningWarning3">
+        <strong>Your preconditions aren't fully met.</strong> You can still map this out — but treat what follows as planning, not a decision. Until all three preconditions are a clear yes, expansion waits.
+      </div>
+
+      <div class="info-strip">
+        The beachhead is <strong>not the smaller version of the expansion — it is the expansion</strong>. Pick the one city where you already have a foothold, not the one the market data says is biggest.
+      </div>
+
+      <div class="field">
+        <label for="cityName">The one city</label>
+        <div class="label-hint">A single named metro. If you're tempted to name two, you haven't picked yet.</div>
+        <input type="text" id="cityName" placeholder="e.g. Phoenix, AZ">
+      </div>
+      <div class="field">
+        <div class="label-row">
+          <label for="cityWhy">Why this city</label>
+          <div class="example-btn-wrap">
+            <button class="use-example-btn" data-example="cityWhy" type="button">Use example</button>
+          </div>
+        </div>
+        <div class="label-hint">What makes this the beachhead — usually an existing relationship, not market size.</div>
+        <textarea id="cityWhy" placeholder="e.g. An existing portfolio client is expanding into Phoenix and needs local CFO presence. That anchor relationship is the reason — not the size of the Phoenix market."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — THE BEACHHEAD SETUP -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <h2 class="section-title">The beachhead setup</h2>
+        <div class="section-sub">How you'll establish presence — modeled on a disciplined, capital-light entry.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="planning-warning" id="planningWarning4">
+        <strong>Your preconditions aren't fully met.</strong> Treat this setup as planning, not a commitment.
+      </div>
+
+      <div class="setup-grid">
+        <div class="setup-card">
+          <div class="setup-card-label">Anchor relationship</div>
+          <div class="field">
+            <div class="label-row">
+              <label for="setupAnchor">Who is your anchor in the new city?</label>
+              <div class="example-btn-wrap">
+                <button class="use-example-btn" data-example="setupAnchor" type="button">Use example</button>
+              </div>
+            </div>
+            <textarea id="setupAnchor" placeholder="e.g. Existing portfolio company opening a Phoenix office — a signed engagement that justifies the trip."></textarea>
+          </div>
+        </div>
+        <div class="setup-card">
+          <div class="setup-card-label">Cadence</div>
+          <div class="field">
+            <div class="label-row">
+              <label for="setupCadence">How will you show up — without a new office?</label>
+              <div class="example-btn-wrap">
+                <button class="use-example-btn" data-example="setupCadence" type="button">Use example</button>
+              </div>
+            </div>
+            <textarea id="setupCadence" placeholder="e.g. Monthly senior visits. No new office. Existing team supports the engagement remotely between visits."></textarea>
+          </div>
+        </div>
+        <div class="setup-card">
+          <div class="setup-card-label">Target</div>
+          <div class="field">
+            <div class="label-row">
+              <label for="setupTarget">What's the 12-month target for this city?</label>
+              <div class="example-btn-wrap">
+                <button class="use-example-btn" data-example="setupTarget" type="button">Use example</button>
+              </div>
+            </div>
+            <textarea id="setupTarget" placeholder="e.g. Three client engagements in twelve months. Modest, specific, and a clear signal of whether the model travels."></textarea>
+          </div>
+        </div>
+        <div class="setup-card">
+          <div class="setup-card-label">Budget guardrail</div>
+          <div class="field">
+            <div class="label-row">
+              <label for="setupBudget">What's the cap on capital and attention?</label>
+              <div class="example-btn-wrap">
+                <button class="use-example-btn" data-example="setupBudget" type="button">Use example</button>
+              </div>
+            </div>
+            <textarea id="setupBudget" placeholder="e.g. Under 10% of group capacity. No senior hires until the city's revenue justifies it. Preserve capital for the next move."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — THE SEQUENCE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <h2 class="section-title">The expansion sequence</h2>
+        <div class="section-sub">Beachhead → Foothold → Second city → Regional. Each stage earns the next.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="planning-warning" id="planningWarning5">
+        <strong>Your preconditions aren't fully met.</strong> This sequence is a plan to grow into — not a schedule to start now.
+      </div>
+      <div class="sequence-list" id="sequenceList"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 — THE 90-DAY COMMITMENT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div>
+        <h2 class="section-title">The first 90 days</h2>
+        <div class="section-sub">Concrete first actions. Owner. A success signal you can actually measure.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="planning-warning" id="planningWarning6">
+        <strong>Your preconditions aren't fully met.</strong> Use this to think through the first moves — but don't start the clock until the gate is green.
+      </div>
+
+      <div class="commit-card">
+        <div class="commit-city">
+          Beachhead city:
+          <span class="commit-city-name" id="commitCityName">— name your city in Section 3</span>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="commitOwner">Who owns the beachhead?</label>
+            <input type="text" id="commitOwner" placeholder="e.g. Owner, with account lead support">
+          </div>
+          <div class="field">
+            <label for="commitStart">When does it start?</label>
+            <input type="date" id="commitStart">
+          </div>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="commitActions">First three concrete actions</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="commitActions" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">Specific, schedulable actions — not goals.</div>
+          <textarea id="commitActions" placeholder="e.g. 1) Sign the anchor engagement letter by week 2. 2) Schedule monthly on-site cadence through month 12. 3) Identify 5 referral targets in the anchor's network."></textarea>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="commitSuccess">What does success look like at 12 months?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="commitSuccess" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">A specific number that tells you the model travels.</div>
+          <textarea id="commitSuccess" placeholder="e.g. 3+ active engagements in the city, sourced beyond the anchor, with zero senior hires required."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD BAR -->
+  <div class="download-bar">
+    <h2>Save or print your playbook</h2>
+    <p>The PDF is your formal playbook — its header reflects your readiness verdict. The Excel sheet is the beachhead plan as an editable operating doc.</p>
+    <div class="download-buttons">
+      <button class="btn btn-primary" id="downloadPdfBtn">
+        <span class="btn-icon">🖨️</span> Save / Print Playbook
+      </button>
+      <button class="btn btn-secondary" id="downloadXlsxBtn">
+        <span class="btn-icon">📊</span> Download Beachhead Plan (Excel)
+      </button>
+    </div>
+  </div>
+
+  <div class="clear-all-wrap">
+    <button class="btn-clear" id="clearAllBtn" type="button">Clear all and start over</button>
+  </div>
+
+</div>
+
+<div class="save-indicator" id="saveIndicator">Saved</div>
+<div class="pdf-document" id="pdfDocument"></div>
+
+<script>
+'use strict';
+
+const STORAGE_KEY = 'Two Weeks Out_marketExpansion_v1';
+
+// === PRECONDITION DEFINITIONS ===
+// Two sets — same three keys so the verdict engine stays model-agnostic.
+const PRECONDITION_SETS = {
+  b2b: [
+    {
+      key: 'harvested',
+      title: 'Home market is fully harvested',
+      test: 'You\'ve extracted the realistic revenue from where you already are.',
+      question: 'If you could still grow 20% in your home market without expanding — you haven\'t earned the right yet. Have you genuinely harvested home?',
+      evidenceHint: 'What tells you the home market is near its realistic ceiling?',
+      evidenceExample: 'Home market share is roughly 18% of serviceable accounts; the realistic ceiling is ~22%. Growth has flattened to single digits despite a full pipeline. The remaining gap is too small to absorb another year of focus.',
+    },
+    {
+      key: 'travels',
+      title: 'The delivery model travels',
+      test: 'Your playbook works without you personally in the room.',
+      question: 'Can a senior associate run a full engagement, start to finish, without the owner present? Have you actually tested it?',
+      evidenceHint: 'What proof do you have that the model runs without you?',
+      evidenceExample: 'Ran a 30-day test: handed a mid-tier client fully to a senior associate, no owner involvement. The engagement held — one process gap surfaced and was documented. The model is portable, with a written playbook to support it.',
+    },
+    {
+      key: 'anchor',
+      title: 'One anchor relationship in the new market',
+      test: 'A real, signed customer waiting in the new market.',
+      question: 'Not "we think there\'s demand." Do you have one signed engagement, or a warm referral ready to commit, in the target city?',
+      evidenceHint: 'Name the anchor. What stage is it actually at?',
+      evidenceExample: 'An existing portfolio client is opening a Phoenix office and has verbally committed to a local engagement; engagement letter expected within 30 days. This anchor alone covers the cost of the monthly travel cadence.',
+    },
+  ],
+  b2c: [
+    {
+      key: 'harvested',
+      title: 'Home market is fully harvested',
+      test: 'You\'ve captured the realistic share of your local catchment.',
+      question: 'If you could still meaningfully grow within your current catchment — more members, more visits, more spend per customer — you haven\'t earned the right yet. Have you genuinely harvested home?',
+      evidenceHint: 'What tells you the local catchment is near its realistic ceiling?',
+      evidenceExample: 'The studio is at ~85% of practical capacity at peak hours; off-peak is the only slack left. Membership growth has flattened despite steady local marketing spend. Squeezing more from this catchment means discounting — not real growth.',
+    },
+    {
+      key: 'travels',
+      title: 'The model replicates, not just the staff',
+      test: 'The location economics and operating model work in a new market — not just "someone can run it."',
+      question: 'Does the unit economics travel? Rent-to-revenue ratio, local marketing motion, staffing model — would the whole model hold up in a different market, not just the day-to-day operations?',
+      evidenceHint: 'What proof do you have that the model — not just the staffing — replicates?',
+      evidenceExample: 'Built a unit-economics model for the target market: rent runs 20% higher but membership pricing supports it, keeping rent-to-revenue under 15%. A second location ran for 6 months under a manager with the owner off-site — the operating playbook held, with documented SOPs.',
+    },
+    {
+      key: 'anchor',
+      title: 'A beachhead foothold in the new market',
+      test: 'A proven site, an existing audience, or real referral density — not a cold start.',
+      question: 'Not "we think there\'s demand." Do you have a concrete foothold — a secured location with the right demographics, an existing email list or social following in that market, or a waitlist of interested customers?',
+      evidenceHint: 'Name the foothold. How real and how large is it?',
+      evidenceExample: 'A 1,400-strong email list in the target metro, built from event attendees and online content over 18 months. A pre-launch waitlist already has 60 sign-ups. A site is identified in a neighborhood matching our core member demographics — letter of intent signed.',
+    },
+  ],
+};
+
+function activePreconditions() {
+  return PRECONDITION_SETS[state.model] || PRECONDITION_SETS.b2b;
+}
+
+// === SEQUENCE STAGES ===
+const SEQUENCE_STAGES = [
+  { name: 'Beachhead', def: 'One city, one anchor. Establish presence and prove the model travels.', timingExample: 'Months 0–9' },
+  { name: 'Foothold', def: 'Repeat business and referrals in the beachhead city. The city stands on its own.', timingExample: 'Months 9–18' },
+  { name: 'Second city', def: 'Apply the proven playbook to a second metro. Easier — you\'ve done it once.', timingExample: 'Months 18–30' },
+  { name: 'Regional', def: 'A cluster of cities operating on the same model. Now it\'s a region.', timingExample: 'Months 30+' },
+];
+
+// === EXAMPLE TEXT ===
+const EXAMPLES = {
+  cityWhy: 'An existing portfolio client is expanding into Phoenix and needs local CFO presence. That anchor relationship is the reason — not the size of the Phoenix market. We already have a foothold; we are not starting cold.',
+  setupAnchor: 'An existing portfolio company opening a Phoenix office. They\'ve verbally committed to a local engagement, with the letter expected within 30 days — a signed reason to be in the city.',
+  setupCadence: 'Monthly senior visits, two days each. No new office, no local lease. The existing team supports the engagement remotely between visits; we travel only for relationship and review work.',
+  setupTarget: 'Three active client engagements in the city within twelve months, at least two sourced beyond the original anchor. Modest and specific — enough to prove the model travels.',
+  setupBudget: 'Capped at under 10% of total group capacity. No senior hires in the new city until its revenue clearly justifies the cost. Capital stays preserved for the next move.',
+  seqTiming: ['Months 0–9', 'Months 9–18', 'Months 18–30', 'Months 30+'],
+  commitActions: '1) Counter-sign the anchor engagement letter by end of week 2. 2) Lock the monthly on-site cadence on the calendar through month 12. 3) Build a list of 5 referral targets in the anchor\'s local network and request warm introductions.',
+  commitSuccess: 'Three or more active engagements in the city at 12 months, with at least two sourced beyond the anchor — and zero senior hires required to deliver them. That combination proves the model travels.',
+};
+
+// === STATE ===
+// preconditions: answer is shared across models (same concept, same key);
+// evidence is stored per-model since the question wording differs.
+function makePrecondState() {
+  return { answer: '', evidence: { b2b: '', b2c: '' } };
+}
+let state = {
+  business: { name: '', owner: '', home: '', revenue: '', service: '' },
+  model: 'b2b',
+  preconditions: { harvested: makePrecondState(), travels: makePrecondState(), anchor: makePrecondState() },
+  city: { name: '', why: '' },
+  setup: { anchor: '', cadence: '', target: '', budget: '' },
+  sequence: SEQUENCE_STAGES.map(() => ({ timing: '', note: '' })),
+  commit: { owner: '', start: '', actions: '', success: '' },
+};
+
+// Read/write evidence for the currently-active model
+function getEvidence(key) {
+  const e = state.preconditions[key].evidence;
+  return (e && typeof e === 'object') ? (e[state.model] || '') : '';
+}
+function setEvidence(key, val) {
+  const pc = state.preconditions[key];
+  if (!pc.evidence || typeof pc.evidence !== 'object') pc.evidence = { b2b: '', b2c: '' };
+  pc.evidence[state.model] = val;
+}
+
+// === PERSISTENCE ===
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    flashSaved();
+  } catch (e) { console.warn('Save failed:', e); }
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const p = JSON.parse(raw);
+    if (p.business) state.business = { ...state.business, ...p.business };
+    if (p.model === 'b2b' || p.model === 'b2c') state.model = p.model;
+    if (p.preconditions) {
+      Object.keys(state.preconditions).forEach(k => {
+        const saved = p.preconditions[k];
+        if (!saved) return;
+        if (typeof saved.answer === 'string') state.preconditions[k].answer = saved.answer;
+        // Evidence may be an old plain string or the new per-model object
+        if (typeof saved.evidence === 'string') {
+          // Migrate: old single-string evidence becomes the b2b slot
+          state.preconditions[k].evidence = { b2b: saved.evidence, b2c: '' };
+        } else if (saved.evidence && typeof saved.evidence === 'object') {
+          state.preconditions[k].evidence = {
+            b2b: saved.evidence.b2b || '',
+            b2c: saved.evidence.b2c || '',
+          };
+        }
+      });
+    }
+    if (p.city) state.city = { ...state.city, ...p.city };
+    if (p.setup) state.setup = { ...state.setup, ...p.setup };
+    if (Array.isArray(p.sequence) && p.sequence.length === SEQUENCE_STAGES.length) state.sequence = p.sequence;
+    if (p.commit) state.commit = { ...state.commit, ...p.commit };
+  } catch (e) { console.warn('Load failed:', e); }
+}
+function flashSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// === VERDICT LOGIC ===
+function computeVerdict() {
+  const answers = activePreconditions().map(p => state.preconditions[p.key].answer);
+  const answered = answers.filter(a => a !== '').length;
+  if (answered < 3) {
+    return { status: 'incomplete', answered };
+  }
+  const yesCount = answers.filter(a => a === 'yes').length;
+  if (yesCount === 3) {
+    return { status: 'go', answered };
+  }
+  return { status: 'wait', answered, yesCount };
+}
+
+// === RENDER ===
+function render() {
+  renderBusiness();
+  renderModelSwitch();
+  renderPreconditions();
+  renderVerdict();
+  renderCity();
+  renderSetup();
+  renderSequence();
+  renderCommit();
+  renderPlanningWarnings();
+  updateLivePanel();
+}
+
+function renderModelSwitch() {
+  document.querySelectorAll('.model-switch-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.model === state.model);
+  });
+}
+
+function renderBusiness() {
+  document.getElementById('businessName').value = state.business.name || '';
+  document.getElementById('ownerName').value = state.business.owner || '';
+  document.getElementById('homeMarket').value = state.business.home || '';
+  document.getElementById('currentRevenue').value = state.business.revenue || '';
+  document.getElementById('coreService').value = state.business.service || '';
+}
+
+function renderPreconditions() {
+  const list = document.getElementById('preconditionList');
+  list.innerHTML = '';
+  activePreconditions().forEach((p, i) => {
+    const data = state.preconditions[p.key];
+    const answerClass = data.answer ? `answered-${data.answer}` : '';
+    const evidence = getEvidence(p.key);
+    const div = document.createElement('div');
+    div.className = `precondition ${answerClass}`;
+    div.innerHTML = `
+      <div class="precondition-head">
+        <div class="precondition-num">${i + 1}</div>
+        <div>
+          <div class="precondition-title">${escapeHtml(p.title)}</div>
+          <div class="precondition-test">${escapeHtml(p.test)}</div>
+        </div>
+      </div>
+      <div class="precondition-q">${escapeHtml(p.question)}</div>
+      <div class="answer-toggle">
+        <button class="answer-btn ${data.answer === 'yes' ? 'sel-yes' : ''}" data-precond="${p.key}" data-answer="yes" type="button">Yes</button>
+        <button class="answer-btn ${data.answer === 'almost' ? 'sel-almost' : ''}" data-precond="${p.key}" data-answer="almost" type="button">Almost</button>
+        <button class="answer-btn ${data.answer === 'no' ? 'sel-no' : ''}" data-precond="${p.key}" data-answer="no" type="button">No</button>
+      </div>
+      <div class="precondition-evidence">
+        <div class="label-row">
+          <label>Evidence</label>
+          <div class="example-btn-wrap">
+            <button class="use-example-btn" data-precond-example="${p.key}" type="button">Use example</button>
+          </div>
+        </div>
+        <div class="label-hint">${escapeHtml(p.evidenceHint)}</div>
+        <textarea data-precond-evidence="${p.key}" placeholder="${escapeHtml(p.evidenceExample)}">${escapeHtml(evidence)}</textarea>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+
+  // Answer buttons
+  list.querySelectorAll('[data-answer]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.precond;
+      const ans = e.target.dataset.answer;
+      // Toggle off if clicking the same answer
+      state.preconditions[key].answer = state.preconditions[key].answer === ans ? '' : ans;
+      save();
+      renderPreconditions();
+      renderVerdict();
+      renderPlanningWarnings();
+      updateLivePanel();
+    });
+  });
+  // Evidence textareas
+  list.querySelectorAll('[data-precond-evidence]').forEach(ta => {
+    ta.addEventListener('input', e => {
+      const key = e.target.dataset.precondEvidence;
+      setEvidence(key, e.target.value);
+      save();
+    });
+  });
+  // Evidence example buttons
+  list.querySelectorAll('[data-precond-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.precondExample;
+      const p = activePreconditions().find(x => x.key === key);
+      const existing = getEvidence(key);
+      if (existing && existing.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+      setEvidence(key, p.evidenceExample);
+      save();
+      renderPreconditions();
+    });
+  });
+}
+
+function renderVerdict() {
+  const v = computeVerdict();
+  const banner = document.getElementById('verdictBanner');
+  const icon = document.getElementById('verdictIcon');
+  const title = document.getElementById('verdictTitle');
+  const text = document.getElementById('verdictText');
+
+  banner.classList.remove('go', 'wait', 'incomplete');
+
+  if (v.status === 'incomplete') {
+    banner.classList.add('incomplete');
+    icon.textContent = '•';
+    title.textContent = `Answer all three preconditions (${v.answered}/3 answered)`;
+    text.textContent = 'Your readiness verdict appears here once all three are answered honestly.';
+  } else if (v.status === 'go') {
+    banner.classList.add('go');
+    icon.textContent = '✓';
+    title.textContent = 'Green light — you\'ve earned the right to expand';
+    text.textContent = 'All three preconditions are a clear yes. Proceed to name your beachhead city and build the plan.';
+  } else {
+    banner.classList.add('wait');
+    icon.textContent = '!';
+    title.textContent = 'Not yet — expansion waits';
+    const gaps = activePreconditions()
+      .filter(p => state.preconditions[p.key].answer !== 'yes')
+      .map(p => p.title.toLowerCase());
+    text.textContent = `Two of three is a yellow light. Close this gap first: ${gaps.join('; ')}. You can still plan below — but treat it as planning, not a decision.`;
+  }
+}
+
+function renderCity() {
+  document.getElementById('cityName').value = state.city.name || '';
+  document.getElementById('cityWhy').value = state.city.why || '';
+}
+
+function renderSetup() {
+  document.getElementById('setupAnchor').value = state.setup.anchor || '';
+  document.getElementById('setupCadence').value = state.setup.cadence || '';
+  document.getElementById('setupTarget').value = state.setup.target || '';
+  document.getElementById('setupBudget').value = state.setup.budget || '';
+}
+
+function renderSequence() {
+  const list = document.getElementById('sequenceList');
+  list.innerHTML = '';
+  SEQUENCE_STAGES.forEach((stage, i) => {
+    const data = state.sequence[i] || { timing: '', note: '' };
+    const div = document.createElement('div');
+    div.className = `sequence-step ${i === 0 ? 'is-first' : ''}`;
+    div.innerHTML = `
+      <div class="sequence-marker">
+        <div class="sequence-dot">${i + 1}</div>
+      </div>
+      <div class="sequence-content">
+        <div class="sequence-stage-name">${escapeHtml(stage.name)}</div>
+        <div class="sequence-stage-def">${escapeHtml(stage.def)}</div>
+        <div class="field-row">
+          <div class="field" style="margin-bottom:0;">
+            <label>Rough timing</label>
+            <input type="text" data-seq-i="${i}" data-field="timing" value="${escapeHtml(data.timing)}" placeholder="${escapeHtml(stage.timingExample)}">
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>What "done" looks like for this stage</label>
+            <input type="text" data-seq-i="${i}" data-field="note" value="${escapeHtml(data.note)}" placeholder="The signal that earns the next stage">
+          </div>
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+
+  list.querySelectorAll('[data-seq-i]').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const i = +e.target.dataset.seqI;
+      const field = e.target.dataset.field;
+      state.sequence[i][field] = e.target.value;
+      save();
+    });
+  });
+}
+
+function renderCommit() {
+  document.getElementById('commitOwner').value = state.commit.owner || '';
+  document.getElementById('commitStart').value = state.commit.start || '';
+  document.getElementById('commitActions').value = state.commit.actions || '';
+  document.getElementById('commitSuccess').value = state.commit.success || '';
+
+  const cityName = state.city.name && state.city.name.trim()
+    ? state.city.name
+    : '— name your city in Section 3';
+  document.getElementById('commitCityName').textContent = cityName;
+}
+
+function renderPlanningWarnings() {
+  const v = computeVerdict();
+  // Show the planning warning whenever the gate is NOT a clean go
+  const showWarning = v.status !== 'go';
+  ['planningWarning3', 'planningWarning4', 'planningWarning5', 'planningWarning6'].forEach(id => {
+    document.getElementById(id).classList.toggle('active', showWarning);
+  });
+}
+
+function updateLivePanel() {
+  const panel = document.getElementById('livePanel');
+  const v = computeVerdict();
+
+  const anyContent = v.answered > 0 || state.city.name || state.business.name;
+  if (!anyContent) {
+    panel.classList.remove('active');
+    return;
+  }
+  panel.classList.add('active');
+  panel.classList.remove('verdict-go', 'verdict-wait');
+
+  const verdictEl = document.getElementById('liveVerdict');
+  const detailEl = document.getElementById('liveDetail');
+
+  if (v.status === 'incomplete') {
+    verdictEl.textContent = `Assessing — ${v.answered}/3 preconditions answered`;
+    detailEl.textContent = state.city.name ? `Beachhead: ${state.city.name}` : 'Answer the precondition gate in Section 2';
+  } else if (v.status === 'go') {
+    panel.classList.add('verdict-go');
+    verdictEl.textContent = 'Green light — ready to expand';
+    detailEl.textContent = state.city.name ? `Beachhead: ${state.city.name}` : 'Name your beachhead city in Section 3';
+  } else {
+    panel.classList.add('verdict-wait');
+    verdictEl.textContent = 'Not yet — expansion waits';
+    detailEl.textContent = `${v.yesCount}/3 preconditions met · planning mode`;
+  }
+}
+
+// === FIELD WIRING ===
+function wireBusinessFields() {
+  const map = { businessName: 'name', ownerName: 'owner', homeMarket: 'home', currentRevenue: 'revenue', coreService: 'service' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.business[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireCityFields() {
+  document.getElementById('cityName').addEventListener('input', e => {
+    state.city.name = e.target.value;
+    save();
+    renderCommit();
+    updateLivePanel();
+  });
+  document.getElementById('cityWhy').addEventListener('input', e => {
+    state.city.why = e.target.value;
+    save();
+  });
+}
+
+function wireSetupFields() {
+  const map = { setupAnchor: 'anchor', setupCadence: 'cadence', setupTarget: 'target', setupBudget: 'budget' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.setup[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireCommitFields() {
+  const map = { commitOwner: 'owner', commitStart: 'start', commitActions: 'actions', commitSuccess: 'success' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.commit[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+// === USE EXAMPLE BUTTONS (static fields) ===
+function wireExampleButtons() {
+  document.querySelectorAll('[data-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.example;
+      const exampleText = EXAMPLES[key];
+      if (exampleText === undefined) return;
+
+      // Map example key to state location + input element
+      const targets = {
+        cityWhy: { el: 'cityWhy', get: () => state.city.why, set: v => state.city.why = v },
+        setupAnchor: { el: 'setupAnchor', get: () => state.setup.anchor, set: v => state.setup.anchor = v },
+        setupCadence: { el: 'setupCadence', get: () => state.setup.cadence, set: v => state.setup.cadence = v },
+        setupTarget: { el: 'setupTarget', get: () => state.setup.target, set: v => state.setup.target = v },
+        setupBudget: { el: 'setupBudget', get: () => state.setup.budget, set: v => state.setup.budget = v },
+        commitActions: { el: 'commitActions', get: () => state.commit.actions, set: v => state.commit.actions = v },
+        commitSuccess: { el: 'commitSuccess', get: () => state.commit.success, set: v => state.commit.success = v },
+      };
+      const t = targets[key];
+      if (!t) return;
+      const existing = t.get();
+      if (existing && existing.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+      t.set(exampleText);
+      const el = document.getElementById(t.el);
+      el.value = exampleText;
+      el.focus();
+      el.setSelectionRange(exampleText.length, exampleText.length);
+      save();
+    });
+  });
+}
+
+// === FORMAT DATE ===
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch { return iso; }
+}
+
+// === PDF DOWNLOAD ===
+document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+  buildPdfDocument();
+  // Give the browser a moment to lay out the freshly-built content before printing.
+  setTimeout(() => { window.print(); }, 60);
+});
+
+function buildPdfDocument() {
+  const el = document.getElementById('pdfDocument');
+  const b = state.business;
+  const v = computeVerdict();
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  const businessLine = [b.name, b.service, b.home ? `Home: ${b.home}` : ''].filter(Boolean).join(' · ');
+
+  let html = `
+    <div class="pdf-header">
+      <div class="pdf-eyebrow">Two Weeks Out · Market Expansion Playbook</div>
+      <h1>${escapeHtml(b.name || 'Your Expansion Playbook')}</h1>
+      <div class="pdf-subtitle">${escapeHtml(businessLine || 'Market expansion playbook')}</div>
+    </div>
+    <div class="pdf-meta">${b.owner ? `Prepared by ${escapeHtml(b.owner)} · ` : ''}${today}</div>
+  `;
+
+  // Verdict block — front and center
+  if (v.status === 'go') {
+    html += `<div class="pdf-verdict go">
+      <div class="pdf-verdict-title">Expansion Readiness: GREEN LIGHT</div>
+      <div class="pdf-verdict-text">All three preconditions met. This playbook represents a go decision.</div>
+    </div>`;
+  } else if (v.status === 'wait') {
+    html += `<div class="pdf-verdict wait">
+      <div class="pdf-verdict-title">Expansion Readiness: NOT YET — ${v.yesCount}/3 preconditions met</div>
+      <div class="pdf-verdict-text">This is a planning document, not a go decision. Expansion waits until all three preconditions are met.</div>
+    </div>`;
+  } else {
+    html += `<div class="pdf-verdict wait">
+      <div class="pdf-verdict-title">Expansion Readiness: INCOMPLETE — ${v.answered}/3 preconditions answered</div>
+      <div class="pdf-verdict-text">The precondition gate has not been fully assessed. Treat this as a working draft.</div>
+    </div>`;
+  }
+
+  // Precondition table
+  const modelLabel = state.model === 'b2c' ? 'B2C' : 'B2B';
+  html += `<div class="pdf-section-title">The Precondition Gate · ${modelLabel}</div>
+    <table>
+      <thead><tr><th style="width:30%;">Precondition</th><th style="width:14%;">Answer</th><th style="width:56%;">Evidence</th></tr></thead>
+      <tbody>`;
+  activePreconditions().forEach(p => {
+    const d = state.preconditions[p.key];
+    const ansLabel = d.answer ? d.answer.charAt(0).toUpperCase() + d.answer.slice(1) : '—';
+    const ansClass = d.answer ? `precond-${d.answer}` : '';
+    html += `<tr>
+      <td><strong>${escapeHtml(p.title)}</strong></td>
+      <td class="${ansClass}">${escapeHtml(ansLabel)}</td>
+      <td>${escapeHtml(getEvidence(p.key) || '—')}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+
+  // City
+  if (state.city.name || state.city.why) {
+    html += `<div class="pdf-section-title">The Beachhead City</div>`;
+    if (state.city.name) {
+      html += `<div class="pdf-city">
+        <div class="pdf-city-label">One city — the beachhead</div>
+        <div class="pdf-city-name">${escapeHtml(state.city.name)}</div>
+      </div>`;
+    }
+    if (state.city.why) {
+      html += `<div style="font-size:11px; color:#10131a; margin-top:8px;"><strong>Why this city:</strong> ${escapeHtml(state.city.why)}</div>`;
+    }
+  }
+
+  // Setup
+  const setupFilled = state.setup.anchor || state.setup.cadence || state.setup.target || state.setup.budget;
+  if (setupFilled) {
+    html += `<div class="pdf-section-title">The Beachhead Setup</div>
+      <div class="pdf-setup-grid">
+        <div class="pdf-setup-card"><div class="pdf-setup-card-label">Anchor relationship</div>${escapeHtml(state.setup.anchor || '—')}</div>
+        <div class="pdf-setup-card"><div class="pdf-setup-card-label">Cadence</div>${escapeHtml(state.setup.cadence || '—')}</div>
+        <div class="pdf-setup-card"><div class="pdf-setup-card-label">12-month target</div>${escapeHtml(state.setup.target || '—')}</div>
+        <div class="pdf-setup-card"><div class="pdf-setup-card-label">Budget guardrail</div>${escapeHtml(state.setup.budget || '—')}</div>
+      </div>`;
+  }
+
+  // Sequence
+  const seqFilled = state.sequence.some(s => s.timing || s.note);
+  if (seqFilled) {
+    html += `<div class="pdf-section-title">The Expansion Sequence</div>`;
+    SEQUENCE_STAGES.forEach((stage, i) => {
+      const d = state.sequence[i];
+      html += `<div class="pdf-seq-row">
+        <div class="pdf-seq-n">${i + 1}</div>
+        <div>
+          <span class="pdf-seq-name">${escapeHtml(stage.name)}</span>
+          ${d.timing ? ` · ${escapeHtml(d.timing)}` : ''}
+          <div style="color:#59616e;">${escapeHtml(stage.def)}</div>
+          ${d.note ? `<div style="margin-top:2px;"><em>Done when:</em> ${escapeHtml(d.note)}</div>` : ''}
+        </div>
+      </div>`;
+    });
+  }
+
+  // Commit
+  const c = state.commit;
+  const commitFilled = c.owner || c.start || c.actions || c.success;
+  if (commitFilled) {
+    html += `<div class="pdf-section-title">The First 90 Days</div>
+      <table>
+        <tbody>
+          <tr><td style="width:30%;"><strong>Beachhead city</strong></td><td>${escapeHtml(state.city.name || '—')}</td></tr>
+          <tr><td><strong>Owner</strong></td><td>${escapeHtml(c.owner || '—')}</td></tr>
+          <tr><td><strong>Start date</strong></td><td>${escapeHtml(c.start ? formatDate(c.start) : '—')}</td></tr>
+          <tr><td><strong>First three actions</strong></td><td>${escapeHtml(c.actions || '—')}</td></tr>
+          <tr><td><strong>12-month success</strong></td><td>${escapeHtml(c.success || '—')}</td></tr>
+        </tbody>
+      </table>`;
+  }
+
+  html += `<div class="pdf-principle">The beachhead is not the smaller version of the expansion. It is the expansion.</div>`;
+  html += `<div class="pdf-footer">Two Weeks Out · From Corporate Operator to Confident Owner</div>`;
+
+  el.innerHTML = html;
+}
+
+// === EXCEL DOWNLOAD ===
+document.getElementById('downloadXlsxBtn').addEventListener('click', () => {
+  try {
+    const wb = XLSX.utils.book_new();
+    const b = state.business;
+    const v = computeVerdict();
+    const slug = (b.name || 'business').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
+
+    const verdictText = v.status === 'go'
+      ? 'GREEN LIGHT — all 3 preconditions met'
+      : v.status === 'wait'
+        ? `NOT YET — ${v.yesCount}/3 preconditions met`
+        : `INCOMPLETE — ${v.answered}/3 answered`;
+
+    // === Sheet 1: Precondition Gate ===
+    const gateModelLabel = state.model === 'b2c' ? 'B2C' : 'B2B';
+    const gateRows = [
+      ['Expansion Readiness', verdictText],
+      ['Expansion model', gateModelLabel],
+      [''],
+      ['Precondition', 'Answer', 'Evidence'],
+    ];
+    activePreconditions().forEach(p => {
+      const d = state.preconditions[p.key];
+      gateRows.push([p.title, d.answer ? d.answer.charAt(0).toUpperCase() + d.answer.slice(1) : '', getEvidence(p.key) || '']);
+    });
+    const gateWs = XLSX.utils.aoa_to_sheet(gateRows);
+    gateWs['!cols'] = [{ wch: 36 }, { wch: 14 }, { wch: 70 }];
+    XLSX.utils.book_append_sheet(wb, gateWs, 'Precondition Gate');
+
+    // === Sheet 2: Beachhead Plan ===
+    const planRows = [
+      ['Field', 'Value'],
+      ['Business', b.name || ''],
+      ['Home market', b.home || ''],
+      ['Core service', b.service || ''],
+      [''],
+      ['Beachhead city', state.city.name || ''],
+      ['Why this city', state.city.why || ''],
+      [''],
+      ['THE BEACHHEAD SETUP', ''],
+      ['Anchor relationship', state.setup.anchor || ''],
+      ['Cadence', state.setup.cadence || ''],
+      ['12-month target', state.setup.target || ''],
+      ['Budget guardrail', state.setup.budget || ''],
+      [''],
+      ['THE FIRST 90 DAYS', ''],
+      ['Owner', state.commit.owner || ''],
+      ['Start date', state.commit.start || ''],
+      ['First three actions', state.commit.actions || ''],
+      ['12-month success', state.commit.success || ''],
+    ];
+    const planWs = XLSX.utils.aoa_to_sheet(planRows);
+    planWs['!cols'] = [{ wch: 24 }, { wch: 72 }];
+    XLSX.utils.book_append_sheet(wb, planWs, 'Beachhead Plan');
+
+    // === Sheet 3: Expansion Sequence ===
+    const seqRows = [['#', 'Stage', 'What it means', 'Rough timing', 'Done when']];
+    SEQUENCE_STAGES.forEach((stage, i) => {
+      const d = state.sequence[i];
+      seqRows.push([i + 1, stage.name, stage.def, d.timing || '', d.note || '']);
+    });
+    const seqWs = XLSX.utils.aoa_to_sheet(seqRows);
+    seqWs['!cols'] = [{ wch: 4 }, { wch: 16 }, { wch: 48 }, { wch: 18 }, { wch: 44 }];
+    XLSX.utils.book_append_sheet(wb, seqWs, 'Expansion Sequence');
+
+    XLSX.writeFile(wb, `beachhead_plan_${slug}.xlsx`);
+  } catch (e) {
+    alert('Excel generation failed. Please try again.');
+    console.error(e);
+  }
+});
+
+// === MODEL SWITCH WIRING ===
+function wireModelSwitch() {
+  document.querySelectorAll('.model-switch-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const m = e.currentTarget.dataset.model;
+      if (m !== 'b2b' && m !== 'b2c') return;
+      if (m === state.model) return;
+      state.model = m;
+      save();
+      // Re-render the gate: preconditions swap, verdict re-reads, warnings + panel update
+      renderModelSwitch();
+      renderPreconditions();
+      renderVerdict();
+      renderPlanningWarnings();
+      updateLivePanel();
+    });
+  });
+}
+
+// === CLEAR ALL ===
+// Wipes saved data and resets the worksheet to its initial state.
+// Clearing storage then reloading re-runs this file's own seeding logic,
+// guaranteeing a correct fresh state without a hand-written reset.
+function wireClearAll() {
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    const ok = confirm(
+      'Clear everything and start over?\n\n' +
+      'This permanently erases all your entries in this worksheet and cannot be undone.'
+    );
+    if (!ok) return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.warn('Could not clear storage:', e);
+    }
+    location.reload();
+  });
+}
+
+// === INIT ===
+load();
+render();
+wireBusinessFields();
+wireModelSwitch();
+wireCityFields();
+wireSetupFields();
+wireCommitFields();
+wireExampleButtons();
+wireClearAll();
+</script>
+</body>
+</html>

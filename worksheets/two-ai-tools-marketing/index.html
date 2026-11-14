@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your AI Production Stack — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#10131a;--ink-soft:#10131a;--muted:#59616e;--muted-soft:#9ba3af;--border:#e9ecf5;--border-soft:#e9ecf5;--bg:#ffffff;--bg-soft:#fbfaf6;--green:#2747f5;--bright:#2747f5;--em-soft:#e9ecf5;--cream-soft:#e9ecf5;--amber:#7d5300;--font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg-soft);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:880px;margin:0 auto;padding:56px 48px 80px;background:var(--bg);}
+  header.brand{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:34px;}
+  .eyebrow{font-size:11px;letter-spacing:2.5px;color:var(--green);font-weight:600;text-transform:uppercase;margin:0 0 6px;}
+  h1{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:32px;line-height:1.2;color:var(--ink);margin:0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;color:var(--ink-soft);font-size:16px;margin:0;}
+  .step{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--border);}
+  .step:first-of-type{border-top:none;padding-top:0;}
+  .step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .step-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:28px;font-weight:800;color:var(--bright);line-height:1;letter-spacing:-.03em;font-style:normal;}
+  .step-title{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:22px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub{color:var(--muted);font-size:14px;margin:4px 0 18px;font-style:italic;}
+  label{font-size:13px;color:var(--ink-soft);font-weight:500;display:block;margin-bottom:5px;}
+  .field-def{font-size:12px;color:var(--muted);font-style:italic;line-height:1.45;margin-bottom:7px;}
+  .field-example{font-size:12px;color:#59616e;line-height:1.45;margin-top:6px;}
+  .field-example .ex-tag{color:var(--bright);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;margin-right:6px;}
+  input[type="text"],textarea,select{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);background:white;border:1px solid var(--border);border-radius:0;padding:9px 11px;width:100%;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--em-soft);}
+  textarea{resize:vertical;min-height:64px;line-height:1.5;}
+  .field{margin-bottom:14px;}
+  .block-card{border:1px solid var(--border);border-radius:0;padding:16px 18px;margin-bottom:12px;background:white;}
+  .block-card.green-edge{border-left:4px solid var(--green);}
+  .block-card.amber-edge{border-left:4px solid var(--amber);}
+  .block-name{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;font-weight:600;color:var(--green);margin-bottom:4px;}
+  .block-card.amber-edge .block-name{color:var(--amber);}
+  .block-prompt{font-size:13px;color:var(--muted);font-style:italic;margin:0 0 12px;}
+  /* Task sorter */
+  .task-row{display:grid;grid-template-columns:1fr 150px 30px;gap:10px;align-items:center;margin-bottom:8px;}
+  .task-row input[type="text"]{margin:0;}
+  .task-row select{margin:0;font-size:13px;}
+  .task-row .sortpill{font-size:0;}
+  .remove-btn{background:none;border:none;color:#59616e;font-size:18px;cursor:pointer;line-height:1;padding:4px;}
+  .remove-btn:hover{color:var(--amber);}
+  .add-row-btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:500;color:var(--green);background:none;border:1px dashed var(--border);border-radius:0;padding:8px 14px;cursor:pointer;margin-top:6px;width:100%;}
+  .add-row-btn:hover{background:var(--em-soft);border-color:var(--green);}
+  /* Tool category cards */
+  .cat-card{border:1px solid var(--border);border-radius:0;padding:14px 16px;margin-bottom:10px;background:var(--bg-soft);}
+  .cat-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:4px;}
+  .cat-name{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;font-weight:600;color:var(--ink);}
+  .cat-tag{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);font-weight:700;}
+  .cat-desc{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;}
+  .cat-options{font-size:11px;color:#59616e;font-style:italic;margin-bottom:8px;}
+  .cat-options .asof{color:var(--amber);font-weight:600;font-style:normal;text-transform:uppercase;letter-spacing:1px;font-size:9px;margin-right:6px;}
+  /* Guardrail */
+  .guardrail-card{background:var(--green);color:white;border-radius:0;padding:20px 24px;}
+  .guardrail-card .gr-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#ffffff;font-weight:700;margin-bottom:8px;}
+  .guardrail-card label{color:rgba(255,255,255,.9);}
+  .guardrail-card textarea{background:rgba(255,255,255,.95);border:none;}
+  /* Output */
+  .output-section{margin-top:48px;padding-top:36px;border-top:3px solid var(--ink);}
+  .output-header{text-align:center;margin-bottom:28px;}
+  .output-header .eyebrow{color:var(--bright);}
+  .output-header h2{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--ink);margin:4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p{color:var(--muted);font-size:14px;margin:0;font-style:italic;}
+  .strategy-doc{border:2px solid var(--ink);border-radius:0;padding:32px 36px;background:white;}
+  .strategy-block{margin-bottom:28px;}
+  .strategy-block:last-child{margin-bottom:0;}
+  .strategy-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .col-box{border-radius:0;padding:14px 16px;}
+  .col-box.prod{background:var(--em-soft);border-left:3px solid var(--green);}
+  .col-box.persp{background:var(--cream-soft);border-left:3px solid var(--amber);}
+  .col-box .cb-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+  .col-box.prod .cb-tag{color:var(--green);}
+  .col-box.persp .cb-tag{color:var(--amber);}
+  .col-box ul{margin:0;padding-left:18px;}
+  .col-box li{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);margin-bottom:5px;line-height:1.4;}
+  .stack-row{display:flex;align-items:baseline;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-soft);}
+  .stack-row:last-child{border-bottom:none;}
+  .stack-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--green);width:130px;flex-shrink:0;}
+  .stack-tool{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;color:var(--ink);font-weight:600;}
+  .stack-tool.none{color:#59616e;font-weight:400;font-style:italic;}
+  .guardrail-output{background:var(--green);color:white;border-radius:0;padding:18px 22px;}
+  .guardrail-output .go-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#ffffff;font-weight:700;margin-bottom:8px;}
+  .guardrail-output .go-text{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:17px;line-height:1.5;font-style:normal;}
+  .observation{margin-top:24px;padding:14px 18px;background:var(--em-soft);border-radius:0;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .observation strong{color:var(--green);}
+  .observation.warn{background:var(--cream-soft);}
+  .observation.warn strong{color:var(--amber);}
+  .empty-output{padding:36px;background:var(--bg-soft);border:1px dashed var(--border);border-radius:0;text-align:center;color:var(--muted);font-style:italic;}
+  .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-top:36px;padding-top:22px;border-top:1px solid var(--border);}
+  .btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:0;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink-soft);}
+  .btn:hover{background:var(--bg-soft);}
+  .btn-primary{background:var(--green);color:white;border-color:#ffffff;}
+  .btn-primary:hover{background:#1b36c9;}
+  .btn-example{background:var(--cream-soft);color:var(--amber);border-color:var(--cream-soft);}
+  .btn-example:hover{background:#d5d9e4;}
+  .btn-ghost{color:var(--muted);}
+  @media print{body{background:white;}.sheet{max-width:none;padding:28px 24px;}.toolbar{display:none;}input,textarea,select{border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;background:transparent;}.empty-output{display:none;}.step,.strategy-doc{page-break-inside:avoid;}}
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#D596FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">07 / Find Your Customers</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Marketing for Bootstrapped Ventures</p>
+  <h1>Your AI Production Stack</h1>
+  <p class="lede">AI does the production labor. You supply the perspective. Draw the line, pick the smallest stack that removes your real friction, and name the one thing you'll never hand over.</p>
+  <div style="margin-top:14px;"><button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button></div>
+</header>
+
+<!-- Step 1 — Draw the line -->
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">Draw the line</span></div>
+  <p class="step-sub">List your recurring marketing tasks and sort each one. The test: if the output shipped exactly as the tool made it, would it still carry what makes you worth following?</p>
+  <div class="block-card green-edge">
+    <div class="block-name">Your recurring tasks</div>
+    <p class="block-prompt">Production = the labor around your thinking (hand it over). Perspective = the thinking itself (keep it yours). Be honest — the anchor piece belongs in perspective.</p>
+    <div id="task-list"></div>
+    <button class="add-row-btn" type="button" onclick="addTask()">+ Add another task</button>
+    <div class="field-example" style="margin-top:12px;"><span class="ex-tag">Examples</span>"Writing the anchor essay" → Perspective · "Transcribing my podcast appearance" → Production · "Newsletter header images" → Production · "The argument of a piece" → Perspective</div>
+  </div>
+</section>
+
+<!-- Step 2 — Pick your stack -->
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">Pick your stack</span></div>
+  <p class="step-sub">One tool per production task you actually have — not all five if you don't need them. The smallest stack that removes your real friction. Tool names are current as of mid-2026; the workflow matters more than the name.</p>
+  <div id="category-list"></div>
+</section>
+
+<!-- Step 3 — The guardrail -->
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">Name your guardrail</span></div>
+  <p class="step-sub">The one thing you will never hand to AI — your version of Priya's anchor pieces — and why. This sentence is what protects the moat.</p>
+  <div class="guardrail-card">
+    <div class="gr-label">The line you won't cross</div>
+    <div class="field" style="margin-bottom:12px;">
+      <label for="guard-what">What you'll never hand to AI</label>
+      <input type="text" id="guard-what" placeholder="The one thing only you can produce…">
+    </div>
+    <div class="field" style="margin-bottom:0;">
+      <label for="guard-why">Why</label>
+      <textarea id="guard-why" placeholder="Why this is the moat AI cannot generate…"></textarea>
+    </div>
+  </div>
+  <div class="field-example" style="margin-top:10px;"><span class="ex-tag">Example</span>"My supply-chain anchor essays. They rest on eleven years of inside knowledge no model has — the moment I let AI write them, my content becomes interchangeable with everyone else's, and the only reason anyone follows me disappears."</div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your AI Production Stack</h2>
+    <p>The line, the stack, and the guardrail — your operating rules for using AI without losing your voice.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Complete the steps above and click Generate to produce your stack.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+<script>
+const CATEGORIES=[
+  {id:"writing",name:"Writing assistant",tag:"Scaffold, don't author",desc:"Outline, edit, check your argument, get subject-line options. Never the real thinking.",options:"ChatGPT — free to start, and the one most people already know."},
+  {id:"transcription",name:"Transcription & repurposing",tag:"Highest leverage",desc:"Turn a recording into text you shape — then cut one long recording into many short clips for TikTok and Reels. The voice is already yours.",options:"Descript — transcribes, edits by text, and clips long video into shorts."},
+  {id:"research",name:"Research & synthesis",tag:"Gather fast, judge yourself",desc:"Summarize long threads, group the phrasings you collected, pull repeated questions from customer emails.",options:"Perplexity — answers with sources you can click through and check."},
+  {id:"image",name:"Image & visual generation",tag:"Assets without a designer",desc:"On-brand headers, social graphics, product mockups. Keep one consistent style.",options:"Adobe Firefly — built to be safe for business use."},
+  {id:"automation",name:"Lightweight automation",tag:"Automate little",desc:"Move information between the tools you already use. Build almost none — just the one or two that genuinely cost you time.",options:"Zapier — connects your apps with the least setup, and no code."},
+];
+
+const EXAMPLE={
+  tasks:[
+    {name:"Writing the supply-chain anchor essays",sort:"perspective"},
+    {name:"The argument and angle of every piece",sort:"perspective"},
+    {name:"Transcribing my morning-walk voice memos",sort:"production"},
+    {name:"Turning transcripts into clean outlines",sort:"production"},
+    {name:"Newsletter header images",sort:"production"},
+    {name:"Researching what's already been written on a topic",sort:"production"},
+    {name:"Adding new subscribers to my source-tracking sheet",sort:"production"},
+    {name:"Deciding which audience question actually matters",sort:"perspective"},
+  ],
+  stack:{writing:"ChatGPT — outlines and editing only",transcription:"Descript",research:"Perplexity",image:"Adobe Firefly",automation:"Zapier (one automation: subscribers \u2192 sheet)"},
+  guardWhat:"My supermarket supply-chain anchor essays",
+  guardWhy:"They rest on eleven years of inside knowledge from running grocery-retail programs \u2014 the one thing no model has. The moment I let AI write them, my content becomes interchangeable with everyone else's, and the only reason anyone follows me disappears.",
+};
+
+function val(id){return (document.getElementById(id)?.value||"").toString().trim();}
+function setEl(id,v){const e=document.getElementById(id);if(e)e.value=v==null?"":v;}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+// --- Task list ---
+function addTask(name,sort){
+  const list=document.getElementById("task-list");
+  const row=document.createElement("div");row.className="task-row";
+  row.innerHTML=`<input type="text" class="task-name" placeholder="A recurring marketing task\u2026">`+
+    `<select class="task-sort"><option value="">Sort\u2026</option><option value="production">Production</option><option value="perspective">Perspective</option></select>`+
+    `<button class="remove-btn" type="button" onclick="this.closest('.task-row').remove()">\u00D7</button>`;
+  list.appendChild(row);
+  if(name!==undefined)row.querySelector(".task-name").value=name;
+  if(sort!==undefined)row.querySelector(".task-sort").value=sort;
+}
+function getTasks(){
+  return Array.from(document.querySelectorAll("#task-list .task-row")).map(r=>({
+    name:r.querySelector(".task-name").value.trim(),
+    sort:r.querySelector(".task-sort").value
+  })).filter(t=>t.name);
+}
+
+// --- Category cards ---
+function renderCategories(){
+  const list=document.getElementById("category-list");list.innerHTML="";
+  CATEGORIES.forEach(cat=>{
+    const card=document.createElement("div");card.className="cat-card";
+    card.innerHTML=`<div class="cat-head"><span class="cat-name">${escapeHtml(cat.name)}</span><span class="cat-tag">${escapeHtml(cat.tag)}</span></div>`+
+      `<div class="cat-desc">${escapeHtml(cat.desc)}</div>`+
+      `<div class="cat-options"><span class="asof">As of mid-2026</span>${escapeHtml(cat.options)}</div>`+
+      `<input type="text" class="cat-pick" data-cat="${cat.id}" placeholder="Your pick for this task \u2014 or leave blank if you don't need it">`;
+    list.appendChild(card);
+  });
+}
+function getStack(){
+  const out={};
+  document.querySelectorAll(".cat-pick").forEach(i=>{out[i.dataset.cat]=i.value.trim();});
+  return out;
+}
+
+function useExample(){
+  const has=getTasks().length>0||Object.values(getStack()).some(Boolean)||val("guard-what");
+  if(has&&!confirm("This will replace what you've entered with a worked example. Continue?"))return;
+  document.getElementById("task-list").innerHTML="";
+  EXAMPLE.tasks.forEach(t=>addTask(t.name,t.sort));
+  document.querySelectorAll(".cat-pick").forEach(i=>{i.value=EXAMPLE.stack[i.dataset.cat]||"";});
+  setEl("guard-what",EXAMPLE.guardWhat);setEl("guard-why",EXAMPLE.guardWhy);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function generate(){
+  const out=document.getElementById("output-section");
+  const tasks=getTasks(), stack=getStack(), guardWhat=val("guard-what"), guardWhy=val("guard-why");
+  const prod=tasks.filter(t=>t.sort==="production"), persp=tasks.filter(t=>t.sort==="perspective"), unsorted=tasks.filter(t=>!t.sort);
+  const picked=CATEGORIES.filter(c=>stack[c.id]);
+
+  if(tasks.length<2||!guardWhat){
+    out.innerHTML='<div class="empty-output">To generate your stack, add at least 2 sorted tasks and name your guardrail.</div>';
+    out.scrollIntoView({behavior:"smooth",block:"start"});return;
+  }
+
+  let html='<div class="strategy-doc">';
+  // The line
+  html+=`<div class="strategy-block"><div class="strategy-label">THE LINE</div><div class="two-col">`+
+    `<div class="col-box prod"><div class="cb-tag">Production \u2014 hand it over</div>${prod.length?`<ul>${prod.map(t=>`<li>${escapeHtml(t.name)}</li>`).join("")}</ul>`:'<p style="font-size:13px;color:var(--muted);font-style:italic;margin:0;">Nothing sorted here yet.</p>'}</div>`+
+    `<div class="col-box persp"><div class="cb-tag">Perspective \u2014 keep it yours</div>${persp.length?`<ul>${persp.map(t=>`<li>${escapeHtml(t.name)}</li>`).join("")}</ul>`:'<p style="font-size:13px;color:var(--amber);font-style:italic;margin:0;">Nothing here \u2014 are you sure nothing is yours alone?</p>'}</div>`+
+    `</div></div>`;
+  // The stack
+  html+=`<div class="strategy-block"><div class="strategy-label">THE STACK \u00B7 ${picked.length} ${picked.length===1?"TOOL":"TOOLS"}</div>`;
+  CATEGORIES.forEach(c=>{
+    const pick=stack[c.id];
+    html+=`<div class="stack-row"><span class="stack-cat">${escapeHtml(c.name)}</span>`+
+      (pick?`<span class="stack-tool">${escapeHtml(pick)}</span>`:`<span class="stack-tool none">\u2014 not using</span>`)+`</div>`;
+  });
+  html+=`</div>`;
+  // Guardrail
+  html+=`<div class="strategy-block"><div class="strategy-label">THE GUARDRAIL</div>`+
+    `<div class="guardrail-output"><div class="go-label">I will never hand this to AI</div>`+
+    `<div class="go-text">\u201C${escapeHtml(guardWhat)}\u201D</div>`+
+    (guardWhy?`<div style="font-size:13px;margin-top:10px;line-height:1.55;color:rgba(255,255,255,.92);">${escapeHtml(guardWhy)}</div>`:"")+
+    `</div></div>`;
+  html+='</div>';
+
+  // Observations
+  const obs=[];
+  if(unsorted.length)obs.push(`<strong>${unsorted.length} ${unsorted.length===1?"task is":"tasks are"} unsorted.</strong> Every task is either production or perspective \u2014 the sort is the whole exercise. Run each through the test: if it shipped exactly as the tool made it, would it still carry what makes you worth following?`);
+  if(persp.length===0)obs.push({warn:true,text:`<strong>You sorted nothing into perspective.</strong> That's the warning sign of this lesson. If nothing is yours alone, AI isn't your risk \u2014 your content already has no moat. Name the one or two things only you can produce before handing the rest over.`});
+  if(picked.length>3)obs.push({warn:true,text:`<strong>You picked ${picked.length} tools.</strong> The smallest stack that removes your real friction beats a complete one. Each tool is something to learn, pay for, and maintain. Are all ${picked.length} removing friction you actually feel, or are some just there because the category exists?`});
+  if(picked.length===0)obs.push(`<strong>You haven't picked any tools.</strong> That's allowed \u2014 but if any production task is genuinely costing you hours, one tool from that category buys those hours back for the perspective work. Pick for the friction you actually feel.`);
+  // Anchor-in-production check
+  const anchorInProd=prod.some(t=>/anchor|essay|argument|the piece|my writing|perspective|the thinking/i.test(t.name));
+  if(anchorInProd)obs.push({warn:true,text:`<strong>Something in your production column looks like perspective.</strong> A task with "anchor," "essay," "argument," or "the piece" in it is usually the moat. Double-check it didn't drift into the hand-it-over column \u2014 that's exactly the trap.`});
+  // Guardrail strength
+  if(guardWhat&&(!guardWhy||guardWhy.length<25))obs.push(`<strong>Your guardrail names the what but not the why.</strong> The "why" is what makes the rule hold when AI offers you speed. Write down what specifically would be lost \u2014 the inside knowledge, the voice \u2014 if you handed this over.`);
+
+  obs.forEach(o=>{
+    if(typeof o==="string")html+=`<div class="observation">${o}</div>`;
+    else html+=`<div class="observation ${o.warn?'warn':''}">${o.text}</div>`;
+  });
+
+  out.innerHTML=html;
+  out.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function clearAll(){
+  if(!confirm("Clear all entries and start over?"))return;
+  document.getElementById("task-list").innerHTML="";
+  document.querySelectorAll(".cat-pick").forEach(i=>i.value="");
+  setEl("guard-what","");setEl("guard-why","");
+  addTask();addTask();
+  document.getElementById("output-section").innerHTML='<div class="empty-output">Complete the steps above and click Generate to produce your stack.</div>';
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// INIT
+renderCategories();addTask();addTask();
+</script>
+</body>
+</html>

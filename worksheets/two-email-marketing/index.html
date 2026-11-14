@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your Email Engine — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a;--ink-soft:#10131a;--muted:#59616e;--muted-soft:#9ba3af;
+    --border:#e9ecf5;--border-soft:#e9ecf5;--bg:#ffffff;--bg-soft:#fbfaf6;
+    --green:#2747f5;--bright:#2747f5;--em-soft:#e9ecf5;--cream-soft:#e9ecf5;--amber:#7d5300;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg-soft);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:880px;margin:0 auto;padding:56px 48px 80px;background:var(--bg);}
+  header.brand{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:34px;}
+  .eyebrow{font-size:11px;letter-spacing:2.5px;color:var(--green);font-weight:600;text-transform:uppercase;margin:0 0 6px;}
+  h1{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:32px;line-height:1.2;color:var(--ink);margin:0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;color:var(--ink-soft);font-size:16px;margin:0;}
+  .step{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--border);}
+  .step:first-of-type{border-top:none;padding-top:0;}
+  .step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .step-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:28px;font-weight:800;color:var(--bright);line-height:1;letter-spacing:-.03em;font-style:normal;}
+  .step-title{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:22px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub{color:var(--muted);font-size:14px;margin:4px 0 18px;font-style:italic;}
+  label{font-size:13px;color:var(--ink-soft);font-weight:500;display:block;margin-bottom:5px;}
+  .field-def{font-size:12px;color:var(--muted);font-style:italic;line-height:1.45;margin-bottom:7px;}
+  .field-example{font-size:12px;color:#59616e;line-height:1.45;margin-top:6px;padding-left:2px;}
+  .field-example .ex-tag{color:var(--bright);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;margin-right:6px;}
+  input[type="text"],textarea,select{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);background:white;border:1px solid var(--border);border-radius:0;padding:9px 11px;width:100%;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--em-soft);}
+  textarea{resize:vertical;min-height:70px;line-height:1.5;}
+  .field{margin-bottom:14px;} .field:last-child{margin-bottom:0;}
+  .block-card{border:1px solid var(--border);border-radius:0;padding:16px 18px;margin-bottom:12px;background:white;}
+  .block-card.green-edge{border-left:4px solid var(--green);}
+  .block-card.amber-edge{border-left:4px solid var(--amber);}
+  .block-name{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;font-weight:600;color:var(--green);margin-bottom:4px;}
+  .block-card.amber-edge .block-name{color:var(--amber);}
+  .block-prompt{font-size:13px;color:var(--muted);font-style:italic;margin:0 0 12px;}
+  .input-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  /* Subject line rows */
+  .subject-row{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:center;margin-bottom:10px;}
+  .subject-row .snum{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;color:var(--green);font-weight:600;text-align:right;}
+  /* Email sequence blocks */
+  .email-block{border:1px solid var(--border);border-radius:0;padding:16px;margin-bottom:12px;background:var(--bg-soft);}
+  .email-block .email-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;}
+  .email-block .email-num{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:600;color:var(--green);}
+  .email-block .email-timing{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;}
+  /* Refusal checklist */
+  .refusal-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:0;margin-bottom:8px;background:white;cursor:pointer;transition:all .15s;}
+  .refusal-item:hover{background:var(--cream-soft);}
+  .refusal-item input[type="checkbox"]{margin-top:3px;flex-shrink:0;width:18px;height:18px;accent-color:var(--amber);cursor:pointer;}
+  .refusal-item.checked{background:var(--cream-soft);border-color:var(--amber);}
+  .refusal-item.checked .refusal-label{color:var(--amber);text-decoration:line-through;text-decoration-thickness:1.5px;}
+  .refusal-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);flex:1;transition:all .15s;}
+  /* Owned-real-estate checklist (positive commitments) */
+  .channel-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border);border-radius:0;margin-bottom:8px;background:white;cursor:pointer;}
+  .channel-item:hover{background:var(--em-soft);}
+  .channel-item input[type="checkbox"]{flex-shrink:0;width:18px;height:18px;accent-color:var(--green);cursor:pointer;}
+  .channel-item.checked{background:var(--em-soft);border-color:var(--green);}
+  .channel-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);}
+  /* Live preview */
+  .preview-card{background:var(--em-soft);border-left:4px solid var(--green);border-radius:0;padding:14px 18px;margin-top:14px;}
+  .preview-label{font-size:10px;text-transform:uppercase;letter-spacing:1.8px;color:var(--green);font-weight:700;margin-bottom:6px;}
+  .preview-body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;color:var(--ink);line-height:1.5;min-height:24px;}
+  .preview-body.empty{color:#59616e;font-style:italic;}
+  /* Output */
+  .output-section{margin-top:48px;padding-top:36px;border-top:3px solid var(--ink);}
+  .output-header{text-align:center;margin-bottom:28px;}
+  .output-header .eyebrow{color:var(--bright);}
+  .output-header h2{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--ink);margin:4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p{color:var(--muted);font-size:14px;margin:0;font-style:italic;}
+  .strategy-doc{border:2px solid var(--ink);border-radius:0;padding:32px 36px;background:white;page-break-inside:avoid;}
+  .strategy-block{margin-bottom:28px;page-break-inside:avoid;}
+  .strategy-block:last-child{margin-bottom:0;}
+  .strategy-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .pub-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  .pub-stat{background:var(--bg-soft);border-left:3px solid var(--green);padding:10px 14px;border-radius:0;}
+  .pub-stat .pstag{font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px;}
+  .pub-stat .psval{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;color:var(--ink);font-weight:600;}
+  .subject-output{background:var(--em-soft);border-left:3px solid var(--green);padding:8px 14px;border-radius:0;margin-bottom:6px;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);font-weight:600;}
+  .subject-output .snum{color:var(--bright);margin-right:8px;}
+  .magnet-card{background:var(--green);color:white;border-radius:0;padding:16px 20px;margin-bottom:12px;}
+  .magnet-card .mctag{font-size:10px;color:#ffffff;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;}
+  .magnet-card .mcname{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:18px;font-weight:700;margin-bottom:6px;}
+  .magnet-card .mcbody{font-size:13px;line-height:1.5;color:rgba(255,255,255,.92);font-style:italic;}
+  .channel-output{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+  .channel-chip{background:var(--em-soft);color:var(--green);border-radius:0;padding:5px 14px;font-size:13px;font-weight:600;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  .email-output{background:var(--bg-soft);border-left:3px solid var(--green);padding:14px 18px;border-radius:0;margin-bottom:10px;}
+  .email-output .eotag{font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;}
+  .email-output .eosubject{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+  .email-output .eobody{font-size:13px;color:var(--ink-soft);line-height:1.55;white-space:pre-wrap;}
+  .refusals-output .rrow{background:var(--cream-soft);border-left:3px solid var(--amber);padding:10px 14px;border-radius:0;margin-bottom:6px;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--amber);text-decoration:line-through;text-decoration-thickness:1.5px;}
+  .why-box{background:var(--bg-soft);border-left:3px solid var(--ink);padding:12px 16px;border-radius:0;margin-top:12px;font-size:13px;color:var(--ink-soft);font-style:italic;line-height:1.55;}
+  .metric-card{background:var(--em-soft);border-left:4px solid var(--green);padding:16px 20px;border-radius:0;}
+  .metric-card .mtag{font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
+  .metric-card .mval{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:22px;font-weight:800;color:var(--ink);margin-bottom:6px;letter-spacing:-.03em;font-style:normal;}
+  .metric-card .mnote{font-size:13px;color:var(--ink-soft);line-height:1.5;}
+  .observation{margin-top:24px;padding:14px 18px;background:var(--em-soft);border-radius:0;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .observation strong{color:var(--green);}
+  .empty-output{padding:36px;background:var(--bg-soft);border:1px dashed var(--border);border-radius:0;text-align:center;color:var(--muted);font-style:italic;}
+  .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-top:36px;padding-top:22px;border-top:1px solid var(--border);}
+  .btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:0;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink-soft);}
+  .btn:hover{background:var(--bg-soft);}
+  .btn-primary{background:var(--green);color:white;border-color:#ffffff;}
+  .btn-primary:hover{background:#1b36c9;}
+  .btn-example{background:var(--cream-soft);color:var(--amber);border-color:var(--cream-soft);font-weight:600;}
+  .btn-example:hover{background:#d5d9e4;}
+  .btn-ghost{color:var(--muted);}
+  @media print{
+    body{background:white;} .sheet{max-width:none;padding:28px 24px;}
+    .toolbar{display:none;}
+    input,textarea,select{border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;background:transparent;}
+    .empty-output{display:none;}
+    .step,.strategy-doc{page-break-inside:avoid;}
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#D596FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">07 / Find Your Customers</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Marketing for Bootstrapped Ventures</p>
+  <h1>Your Email Engine</h1>
+  <p class="lede">A publication, a list, one automation worth having, and a single number to watch. Build the actual artifacts — not plans to build them later.</p>
+  <div style="margin-top:14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<!-- Step 1 — Recurring Publication -->
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">Define your recurring publication</span></div>
+  <p class="step-sub">Cadence, format, and your next three subject lines written as specific promises. The subject line is the whole open decision.</p>
+
+  <div class="block-card green-edge">
+    <div class="input-grid-2">
+      <div class="field" style="margin-bottom:0;">
+        <label for="pub-cadence">Cadence</label>
+        <select id="pub-cadence">
+          <option value="">Select…</option>
+          <option>Weekly</option><option>Biweekly</option><option>Every 2–3 weeks</option>
+          <option>Monthly</option><option>When the writing is ready (no fixed cadence)</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label for="pub-format">Format</label>
+        <select id="pub-format">
+          <option value="">Select…</option>
+          <option>Plain text (recommended)</option>
+          <option>Plain text with occasional images</option>
+          <option>Light template, mostly text</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px;margin-bottom:0;">
+      <label>Your next three subject lines — written as promises</label>
+      <div class="field-def">A promise names what the reader will get. A tease hides it. "What the supermarket markup actually pays for" beats "This week's thoughts." Write three you could actually send.</div>
+      <div id="subject-list"></div>
+      <div class="field-example" style="margin-top:8px;"><span class="ex-tag">Example</span>"Why your favorite clean-label brand quietly reformulated" · "What the supermarket markup actually pays for" · "The co-packer minimum that decides what's on the shelf"</div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 2 — List-Building Mechanics -->
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">Build your list-building mechanics</span></div>
+  <p class="step-sub">The end-of-piece ask, one lead magnet done the bootstrap way (if a useful extension exists), and the owned real estate that will carry your subscribe path.</p>
+
+  <div class="block-card green-edge">
+    <div class="block-name">The end-of-piece subscribe ask</div>
+    <p class="block-prompt">The highest-leverage tactic. One clear invitation at the end of every piece, at peak interest. One field, one sentence, no second page.</p>
+    <div class="field" style="margin-bottom:0;">
+      <label for="eop-ask">Your end-of-piece ask, as you'd actually write it</label>
+      <input type="text" id="eop-ask" placeholder="The one-sentence invitation + what they'll get…" oninput="updateAskPreview()">
+      <div class="field-example"><span class="ex-tag">Example</span>"If this was useful, I write one of these most weeks — the next one is on what 'natural flavor' actually means. Subscribe here."</div>
+    </div>
+    <div class="preview-card">
+      <div class="preview-label">Friction check</div>
+      <div class="preview-body empty" id="ask-preview">Your ask will appear here, with a friction check.</div>
+    </div>
+  </div>
+
+  <div class="block-card green-edge">
+    <div class="block-name">Your lead magnet — done the bootstrap way</div>
+    <p class="block-prompt">Optional but high-leverage. A genuinely useful free resource that's a natural extension of a specific piece — a checklist, template, or data appendix. They get it, they're on the list, nothing automated fires behind it except the welcome sequence. If no useful extension exists yet, leave this blank rather than inventing a gated PDF.</p>
+    <div class="input-grid-2">
+      <div class="field" style="margin-bottom:0;">
+        <label for="magnet-name">The resource</label>
+        <input type="text" id="magnet-name" placeholder="What it is…">
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label for="magnet-piece">The piece it extends</label>
+        <input type="text" id="magnet-piece" placeholder="Which of your pieces it naturally follows…">
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px;margin-bottom:0;">
+      <label for="magnet-why">Why it's a true extension (not a gated asset)</label>
+      <div class="field-def">The bootstrap test: would the reader genuinely want this after reading the piece, and does nothing automated fire behind it? If you can't answer yes to both, it's the corporate version — skip it.</div>
+      <textarea id="magnet-why" placeholder="Why this is a useful extension with no machinery behind it…"></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>A one-page "clean-label decoder" translating misleading label terms. It's the natural next thing after my most-read essay on label language. Reader gives an email, gets the decoder, lands on the list — only the welcome sequence fires.</div>
+    </div>
+  </div>
+
+  <div class="block-card green-edge">
+    <div class="block-name">Owned real estate</div>
+    <p class="block-prompt">The subscribe path should live everywhere you already are. Check each place you'll put it.</p>
+    <div id="channel-list"></div>
+  </div>
+</section>
+
+<!-- Step 3 — Welcome Sequence + Refusals -->
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">Write your welcome sequence</span></div>
+  <p class="step-sub">The actual three emails — not a plan to write them later. And the automations you're explicitly choosing not to build.</p>
+
+  <div class="block-card green-edge">
+    <div class="block-name">The three-email welcome sequence</div>
+    <p class="block-prompt">Hand-written once, sent automatically to every new subscriber. Write a subject line and the core of each email's body.</p>
+    <div id="email-list"></div>
+  </div>
+
+  <div class="block-card amber-edge">
+    <div class="block-name">What you're explicitly NOT building</div>
+    <p class="block-prompt">The trap is premature automation. Check each automation you're committing to not build until you can name a specific problem it would solve.</p>
+    <div id="refusal-list"></div>
+    <div class="field" style="margin-top:14px;margin-bottom:0;">
+      <label for="refusal-why">Why you're refusing these builds</label>
+      <textarea id="refusal-why" placeholder="Why these don't earn their place yet…"></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>None of these would produce more value than the time to design and maintain them. Until the publication produces replies and the list grows on its own, there's no specific problem any of them would solve. I'll revisit only when I can name that problem with specifics.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 4 — Reply Rate Baseline -->
+<section class="step">
+  <div class="step-head"><span class="step-num">04</span><span class="step-title">Set your reply-rate baseline</span></div>
+  <p class="step-sub">The single metric. Measure it on your last few sends, and decide what you'll change based on it.</p>
+
+  <div class="block-card green-edge">
+    <div class="block-name">Measure it</div>
+    <p class="block-prompt">Genuine human replies (not auto-responses, not unsubscribes) divided by emails delivered. At your scale, 1–2% is excellent, 3% is rare. If you haven't sent yet, set your first-month target instead.</p>
+    <div class="input-grid-2">
+      <div class="field" style="margin-bottom:0;">
+        <label for="reply-baseline">Your current reply rate (or first-month target)</label>
+        <input type="text" id="reply-baseline" placeholder="e.g. 1.4%, or 'target: 1% in month one'…">
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label for="reply-sends">Based on how many recent sends</label>
+        <input type="text" id="reply-sends" placeholder="e.g. last 5 sends, or 'not sent yet'…">
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px;margin-bottom:0;">
+      <label for="reply-action">What you'll change based on it</label>
+      <div class="field-def">If a send spikes replies, write more like it. If replies fall toward zero, the writing is the problem — name what you'll do about it.</div>
+      <textarea id="reply-action" placeholder="Your plan for acting on the number…"></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>My two highest-reply sends were both first-person pieces about a specific operational surprise. I'll write more of those and fewer roundup-style notes. If reply rate falls below 1% for three straight sends, I'll assume the writing has gone generic and reset.</div>
+    </div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Email Engine</h2>
+    <p>The operating doc for your publication, list, welcome sequence, and the one metric you'll watch.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Complete the steps above and click Generate to produce your plan.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+<script>
+const REFUSAL_ITEMS=["Abandoned-cart sequence","Re-engagement / win-back series","Segmented behavioral flows","A/B-tested subject line automation","Lifecycle lead scoring","Post-purchase upsell sequence"];
+const CHANNEL_ITEMS=["A clear signup on my site","A link in every social bio","The byline of every guest piece","A call-to-action at the end of podcast appearances","The footer of my regular emails"];
+const EMAILS=[
+  {n:"Email 1",timing:"Immediately"},
+  {n:"Email 2",timing:"Day 4–5"},
+  {n:"Email 3",timing:"Week 2"},
+];
+
+const EXAMPLE={
+  cadence:"Weekly",
+  format:"Plain text (recommended)",
+  subjects:[
+    "Why your favorite clean-label brand quietly reformulated",
+    "What the supermarket markup actually pays for",
+    "The co-packer minimum that decides what's on the shelf",
+  ],
+  eopAsk:"If this was useful, I write one of these most weeks \u2014 the next is on what \u201Cnatural flavor\u201D actually means. Subscribe here.",
+  magnetName:"The clean-label decoder",
+  magnetPiece:"My most-read essay on label language",
+  magnetWhy:"A one-page resource translating the misleading terms on a product label into what they actually mean. It's the natural next thing a reader wants after the label-language essay. Reader gives an email, gets the decoder, lands on the list \u2014 only the welcome sequence fires behind it. Nothing else.",
+  channels:["A clear signup on my site","A link in every social bio","The byline of every guest piece","A call-to-action at the end of podcast appearances"],
+  emails:[
+    {subject:"Welcome \u2014 what The Pantry Edit is (and isn't)",body:"A short note on what this publication is and isn't \u2014 honest writing about the business of clean-label food, from inside the grocery-chain experience. Not recipes, not product reviews. Here's the piece that best explains where I'm coming from: [link to most-read essay]."},
+    {subject:"The assumption I challenge most often",body:"Most people assume clean-label brands reformulate to cut costs. The real constraint is usually the co-packer's minimum order. Here's the full piece on why brands quietly reformulate \u2014 it's the clearest window into how this industry actually works: [link]."},
+    {subject:"One question for you",body:"What brought you here, and what are you trying to figure out about clean-label food or the business behind it? I read and reply to every response \u2014 genuinely. Just hit reply."},
+  ],
+  refusals:["Abandoned-cart sequence","Re-engagement / win-back series","Segmented behavioral flows","A/B-tested subject line automation","Lifecycle lead scoring","Post-purchase upsell sequence"],
+  refusalWhy:"None of these would produce more value than the time to design and maintain them. Until The Pantry Edit produces replies and the list grows on its own, there's no specific problem any of them solves. My order confirmations stay transactional \u2014 essentials plus the one referral line. I'll revisit only when I can name, with specifics, a problem an automation would solve that the writing cannot.",
+  replyBaseline:"~2.1%",
+  replySends:"Last 6 sends",
+  replyAction:"My two highest-reply sends were both first-person pieces about a specific operational surprise \u2014 the reformulation one and the slotting-fee one. I'll write more of those and fewer roundup-style notes. If reply rate falls below 1.5% for three straight sends, I'll assume the writing has drifted generic and reset.",
+};
+
+function val(id){return (document.getElementById(id)?.value||"").toString().trim();}
+function setEl(id,v){const e=document.getElementById(id);if(e)e.value=v==null?"":v;}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+// Subject lines (fixed 3)
+function renderSubjects(){
+  const list=document.getElementById("subject-list");list.innerHTML="";
+  for(let i=0;i<3;i++){
+    const row=document.createElement("div");row.className="subject-row";
+    row.innerHTML=`<span class="snum">${i+1}.</span><input type="text" class="subject-input" placeholder="A subject line written as a promise\u2026">`;
+    list.appendChild(row);
+  }
+}
+function getSubjects(){return Array.from(document.querySelectorAll(".subject-input")).map(i=>i.value.trim()).filter(Boolean);}
+function setSubjects(arr){const inputs=document.querySelectorAll(".subject-input");arr.forEach((v,i)=>{if(inputs[i])inputs[i].value=v;});}
+
+// Email blocks (fixed 3)
+function renderEmails(){
+  const list=document.getElementById("email-list");list.innerHTML="";
+  EMAILS.forEach((e,i)=>{
+    const block=document.createElement("div");block.className="email-block";
+    block.innerHTML=`
+      <div class="email-head"><span class="email-num">${e.n}</span><span class="email-timing">${e.timing}</span></div>
+      <div class="field"><label>Subject line</label><input type="text" class="email-subject" placeholder="The subject for this email\u2026"></div>
+      <div class="field" style="margin-bottom:0;"><label>Body (the core of it)</label><textarea class="email-body" placeholder="What this email says\u2026"></textarea></div>`;
+    list.appendChild(block);
+  });
+}
+function getEmails(){
+  const subs=document.querySelectorAll(".email-subject");
+  const bodies=document.querySelectorAll(".email-body");
+  return EMAILS.map((e,i)=>({n:e.n,timing:e.timing,subject:subs[i].value.trim(),body:bodies[i].value.trim()}));
+}
+function setEmails(arr){
+  const subs=document.querySelectorAll(".email-subject");
+  const bodies=document.querySelectorAll(".email-body");
+  arr.forEach((e,i)=>{if(subs[i])subs[i].value=e.subject||"";if(bodies[i])bodies[i].value=e.body||"";});
+}
+
+// Refusal checklist
+function renderRefusals(){
+  const list=document.getElementById("refusal-list");list.innerHTML="";
+  REFUSAL_ITEMS.forEach(item=>{
+    const row=document.createElement("label");row.className="refusal-item";
+    row.innerHTML=`<input type="checkbox" class="refusal-checkbox" data-item="${escapeHtml(item)}" onchange="toggleCheck(this,'checked')"><span class="refusal-label">${escapeHtml(item)}</span>`;
+    list.appendChild(row);
+  });
+}
+// Channel checklist
+function renderChannels(){
+  const list=document.getElementById("channel-list");list.innerHTML="";
+  CHANNEL_ITEMS.forEach(item=>{
+    const row=document.createElement("label");row.className="channel-item";
+    row.innerHTML=`<input type="checkbox" class="channel-checkbox" data-item="${escapeHtml(item)}" onchange="toggleCheck(this,'checked')"><span class="channel-label">${escapeHtml(item)}</span>`;
+    list.appendChild(row);
+  });
+}
+function toggleCheck(cb,cls){const row=cb.closest("label");if(cb.checked)row.classList.add(cls);else row.classList.remove(cls);}
+function getChecked(sel){return Array.from(document.querySelectorAll(sel)).filter(c=>c.checked).map(c=>c.dataset.item);}
+function setChecked(sel,items){document.querySelectorAll(sel).forEach(c=>{const on=items.includes(c.dataset.item);c.checked=on;const row=c.closest("label");if(on)row.classList.add("checked");else row.classList.remove("checked");});}
+
+function updateAskPreview(){
+  const ask=val("eop-ask");const el=document.getElementById("ask-preview");
+  if(!ask){el.textContent="Your ask will appear here, with a friction check.";el.classList.add("empty");return;}
+  el.classList.remove("empty");
+  const wordCount=ask.split(/\s+/).length;
+  const flags=[];
+  if(/create an account|sign up and|register|fill out|form below|multiple|two steps/i.test(ask))flags.push("mentions multi-step friction \u2014 keep it to one field");
+  if(wordCount>40)flags.push("a bit long \u2014 the ask should be one tight sentence");
+  el.innerHTML=`\u201C${escapeHtml(ask)}\u201D<br><span style="font-size:12px;color:${flags.length?'var(--amber)':'var(--green)'};font-style:italic;">${flags.length?'\u26A0 '+flags.join('; '):'\u2713 One sentence, low friction.'}</span>`;
+}
+
+function useExample(){
+  const has=getSubjects().length>0||!!val("eop-ask")||getEmails().some(e=>e.subject||e.body);
+  if(has&&!confirm("This will replace what you've entered with a fully worked example. Continue?"))return;
+  setEl("pub-cadence",EXAMPLE.cadence);setEl("pub-format",EXAMPLE.format);
+  setSubjects(EXAMPLE.subjects);
+  setEl("eop-ask",EXAMPLE.eopAsk);
+  setEl("magnet-name",EXAMPLE.magnetName);setEl("magnet-piece",EXAMPLE.magnetPiece);setEl("magnet-why",EXAMPLE.magnetWhy);
+  setChecked(".channel-checkbox",EXAMPLE.channels);
+  setEmails(EXAMPLE.emails);
+  setChecked(".refusal-checkbox",EXAMPLE.refusals);
+  setEl("refusal-why",EXAMPLE.refusalWhy);
+  setEl("reply-baseline",EXAMPLE.replyBaseline);setEl("reply-sends",EXAMPLE.replySends);setEl("reply-action",EXAMPLE.replyAction);
+  updateAskPreview();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function generate(){
+  const out=document.getElementById("output-section");
+  const cadence=val("pub-cadence"),format=val("pub-format"),subjects=getSubjects();
+  const eopAsk=val("eop-ask"),magnetName=val("magnet-name"),magnetPiece=val("magnet-piece"),magnetWhy=val("magnet-why");
+  const channels=getChecked(".channel-checkbox"),emails=getEmails().filter(e=>e.subject||e.body);
+  const refusals=getChecked(".refusal-checkbox"),refusalWhy=val("refusal-why");
+  const replyBaseline=val("reply-baseline"),replySends=val("reply-sends"),replyAction=val("reply-action");
+
+  if(!cadence||subjects.length<1||!eopAsk||emails.length<1){
+    out.innerHTML='<div class="empty-output">To generate your plan, fill in at minimum: cadence, at least 1 subject line, your end-of-piece ask, and at least 1 welcome email.</div>';
+    out.scrollIntoView({behavior:"smooth",block:"start"});return;
+  }
+
+  let html='<div class="strategy-doc">';
+  // Publication
+  html+=`<div class="strategy-block"><div class="strategy-label">THE PUBLICATION</div>
+    <div class="pub-grid">
+      <div class="pub-stat"><div class="pstag">Cadence</div><div class="psval">${escapeHtml(cadence)}</div></div>
+      <div class="pub-stat"><div class="pstag">Format</div><div class="psval">${escapeHtml(format||"Plain text")}</div></div>
+    </div>
+    ${subjects.map((sub,i)=>`<div class="subject-output"><span class="snum">${i+1}.</span>${escapeHtml(sub)}</div>`).join("")}
+  </div>`;
+  // List-building
+  html+=`<div class="strategy-block"><div class="strategy-label">LIST-BUILDING MECHANICS</div>
+    <div class="email-output" style="border-left-color:var(--green);"><div class="eotag">THE END-OF-PIECE ASK</div><div class="eobody" style="font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--ink);">\u201C${escapeHtml(eopAsk)}\u201D</div></div>`;
+  if(magnetName){
+    html+=`<div class="magnet-card"><div class="mctag">LEAD MAGNET \u2014 BOOTSTRAP VERSION</div><div class="mcname">${escapeHtml(magnetName)}</div>${magnetPiece?`<div class="mcbody">Extends: ${escapeHtml(magnetPiece)}</div>`:""}${magnetWhy?`<div class="mcbody" style="margin-top:6px;">${escapeHtml(magnetWhy)}</div>`:""}</div>`;
+  }
+  if(channels.length){
+    html+=`<div style="margin-top:4px;"><div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Subscribe path lives on:</div><div class="channel-output">${channels.map(c=>`<span class="channel-chip">${escapeHtml(c)}</span>`).join("")}</div></div>`;
+  }
+  html+=`</div>`;
+  // Welcome sequence
+  html+=`<div class="strategy-block"><div class="strategy-label">WELCOME SEQUENCE \u00B7 ${emails.length} ${emails.length===1?"EMAIL":"EMAILS"}</div>
+    ${emails.map(e=>`<div class="email-output"><div class="eotag">${escapeHtml(e.n)} \u00B7 ${escapeHtml(e.timing)}</div>${e.subject?`<div class="eosubject">${escapeHtml(e.subject)}</div>`:""}${e.body?`<div class="eobody">${escapeHtml(e.body)}</div>`:""}</div>`).join("")}
+  </div>`;
+  // Refusals
+  if(refusals.length||refusalWhy){
+    html+=`<div class="strategy-block"><div class="strategy-label" style="color:var(--amber);border-bottom-color:var(--amber);">NOT BUILDING</div>
+      <div class="refusals-output">${refusals.map(r=>`<div class="rrow">${escapeHtml(r)}</div>`).join("")}</div>
+      ${refusalWhy?`<div class="why-box">${escapeHtml(refusalWhy)}</div>`:""}
+    </div>`;
+  }
+  // Metric
+  if(replyBaseline){
+    html+=`<div class="strategy-block"><div class="strategy-label">THE METRIC \u00B7 REPLY RATE</div>
+      <div class="metric-card"><div class="mtag">Baseline${replySends?` \u00B7 ${escapeHtml(replySends)}`:""}</div><div class="mval">${escapeHtml(replyBaseline)}</div>${replyAction?`<div class="mnote">${escapeHtml(replyAction)}</div>`:""}</div>
+    </div>`;
+  }
+  html+='</div>';
+
+  const obs=buildObs({cadence,subjects,eopAsk,magnetName,magnetWhy,channels,emails,refusals,refusalWhy,replyBaseline,replyAction});
+  obs.forEach(o=>{html+=`<div class="observation">${o}</div>`;});
+  out.innerHTML=html;
+  out.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function buildObs(d){
+  const obs=[];
+  if(d.subjects.length<3)obs.push(`<strong>You have ${d.subjects.length} of 3 subject lines.</strong> Writing three forces you to think in promises across multiple sends, not just polish one. Each should name what the reader gets \u2014 if you can't, the writing underneath probably isn't specific enough yet.`);
+  // Tease detection on subjects
+  const teasey=d.subjects.filter(sub=>/this week|thoughts|update|newsletter|edition|roundup|musings|reflections/i.test(sub)&&sub.split(/\s+/).length<6);
+  if(teasey.length)obs.push(`<strong>${teasey.length} of your subject lines reads as a tease, not a promise.</strong> Lines like "this week's thoughts" or "the latest update" hide the content. Name the specific idea the reader will get \u2014 the subject line is the entire open decision.`);
+  // End-of-piece ask friction
+  if(d.eopAsk&&/create an account|register|fill out|form below|two steps|sign up and/i.test(d.eopAsk))obs.push(`<strong>Your end-of-piece ask implies friction.</strong> Every additional step cuts conversion. The rule is absolute: one field, email only, one sentence. Strip anything that asks for more than an email address.`);
+  // Lead magnet without "why" / machinery check
+  if(d.magnetName&&(!d.magnetWhy||d.magnetWhy.length<30))obs.push(`<strong>Your lead magnet doesn't have its bootstrap rationale stated.</strong> The test is two-part: would the reader genuinely want it after the piece, and does nothing automated fire behind it? Without naming both, you risk drifting into the corporate gated-asset version.`);
+  // Channels
+  if(d.channels.length<2)obs.push(`<strong>Your subscribe path is on ${d.channels.length} ${d.channels.length===1?"place":"places"}.</strong> The owned real estate tactic works by accumulation \u2014 each placement catches people who found you somewhere other than a single piece. Aim to put it everywhere you already are.`);
+  // Welcome emails
+  if(d.emails.length<3)obs.push(`<strong>You've written ${d.emails.length} of 3 welcome emails.</strong> The sequence works as a set: the welcome, the perspective, and the question that invites a reply. The third email \u2014 the genuine question \u2014 is the one that turns a new subscriber into a long-term reader. Don't skip it.`);
+  // Third email reply-invite check
+  const e3=d.emails.find(e=>e.n==="Email 3");
+  if(e3&&e3.body&&!/reply|respond|hit reply|write back|let me know|tell me|hear from you/i.test(e3.body))obs.push(`<strong>Your third welcome email doesn't explicitly invite a reply.</strong> That's its entire job \u2014 a subscriber who replies in week two becomes a reader for years. Make the invitation to reply direct and unmistakable.`);
+  // Refusals
+  if(d.refusals.length===0)obs.push(`<strong>You haven't committed to refusing any automation.</strong> Premature automation is the trap \u2014 it looks like motion and produces nothing. Naming what you won't build makes it easier to hold the line when the corporate reflex arrives. Check at least the ones you'd otherwise be tempted to build first.`);
+  // Reply action
+  if(d.replyBaseline&&(!d.replyAction||d.replyAction.length<30))obs.push(`<strong>You've set a reply-rate baseline but not what you'll do with it.</strong> The number is only useful if it changes your behavior: write more like the sends that spike replies, and treat a sustained drop toward zero as a signal the writing has gone generic.`);
+  return obs;
+}
+
+function clearAll(){
+  if(!confirm("Clear all entries and start over?"))return;
+  document.querySelectorAll("input[type='text'],textarea,select").forEach(el=>el.value="");
+  setChecked(".refusal-checkbox",[]);setChecked(".channel-checkbox",[]);
+  updateAskPreview();
+  document.getElementById("output-section").innerHTML='<div class="empty-output">Complete the steps above and click Generate to produce your plan.</div>';
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// INIT
+renderSubjects();renderEmails();renderRefusals();renderChannels();updateAskPreview();
+</script>
+</body>
+</html>

@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Runway Extension Playbook — Owner Worksheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --ink:#10131a;
+    --ink-2:#10131a;
+    --ink-soft:#59616e;
+    --ink-muted:#59616e;
+    --paper:#fbfaf6;
+    --paper-2:#e9ecf5;
+    --paper-3:#d5d9e4;
+    --rule:#d5d9e4;
+    --rule-soft:#d5d9e4;
+    --accent:#2747f5;         /* steel blue */
+    --accent-2:#1b36c9;
+    --accent-soft:#e9ecf5;
+    --preserve:#0d6b4c;       /* preserving momentum — green */
+    --preserve-soft:#e2f5ea;
+    --damage:#7d5300;          /* damaging momentum — amber-red */
+    --damage-soft:#fff3cd;
+    --gold:#7d5300;
+    --focus:#fff3cd;
+    --highlight:#fff3cd;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    min-height: 100vh;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 60px 80px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    position: relative;
+    padding: 32px 36px;
+    background: var(--ink);
+    color: var(--paper);
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      rgba(255,255,255,0.03),
+      rgba(255,255,255,0.02);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+  .masthead-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;color:#7d5300;
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 56px;
+    line-height: 0.98;
+    margin: 0 0 10px;letter-spacing:-.03em;
+    color: #ffffff;font-style:normal;}
+  h1 em {
+    font-style: italic;
+    font-weight: 400;color:#7d5300;
+  }
+  .tagline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px;
+    color: rgba(251,250,246,0.92);
+    margin: 0;
+    max-width: 62ch;
+    line-height: 1.55;
+  }
+  .meta-stack {
+    text-align: right;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(251,250,246,0.65);
+    line-height: 1.8;
+  }
+  .meta-stack strong { color: #ffffff; font-weight: 500; }
+
+  /* ---------- Runway Impact Tally ---------- */
+  .tally {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    margin: -24px 36px 0;
+    position: relative;
+    z-index: 2;
+  }
+  .tally-cell {
+    padding: 18px 22px;
+    border-right: 1px solid var(--rule);
+    text-align: center;
+  }
+  .tally-cell:last-child { border-right: none; }
+  .tally-label {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+    margin: 0 0 6px;
+  }
+  .tally-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;font-weight:800;
+    color: var(--ink);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .tally-value.preserve { color: var(--preserve); }
+  .tally-value.damage { color: var(--damage); }
+  .tally-value.accent { color: var(--accent); }
+  .tally-suffix {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+  }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    margin: 48px 0 40px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 12px 18px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+  }
+  .btn {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--accent);border-color:#ffffff; }
+  .btn-excel { background: var(--preserve); border-color: var(--preserve); color: var(--paper); }
+  .btn-excel:hover { background: #0a5a40; border-color: #0a5a40; }
+  .btn-ghost { border-color: var(--rule); color: var(--ink-soft); background: transparent; }
+  .toolbar-note {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin-left: auto;
+  }
+
+  /* ---------- Section structure ---------- */
+  section.chapter {
+    margin-bottom: 52px;
+    break-inside: avoid;
+  }
+  .chapter-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .chapter-num {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    padding: 4px 10px;
+    border: 1px solid var(--accent);
+    border-radius:0;
+    align-self: center;
+  }
+  .chapter-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px;
+    margin: 0;letter-spacing:-.03em;
+    line-height: 1.15;font-style:normal;}
+  .chapter-caption {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+  .chapter-principle {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-style:normal;
+    font-size: 19px;
+    color: var(--ink);
+    max-width: 68ch;
+    margin: -4px 0 10px;
+    line-height: 1.4;letter-spacing:-.03em;
+  }
+  .chapter-principle + .chapter-intro {
+    margin-top: 0;
+  }
+  .chapter-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 68ch;
+    margin: -4px 0 24px;
+    line-height: 1.6;
+  }
+
+  /* ---------- Section 0: Setup ---------- */
+  .setup-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--ink);
+  }
+  .setup-field {
+    padding: 18px 22px;
+    border-right: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .setup-field:last-child { border-right: none; }
+  .field-label {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+    margin: 0 0 4px;
+  }
+  .field-hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin: 0 0 10px;
+    line-height: 1.5;
+  }
+  .field-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--ink);
+    background: transparent;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    color: var(--ink);
+    padding: 4px 0;
+    outline: none;letter-spacing:-.03em;font-style:normal;}
+  .field-input:focus { background: var(--focus); }
+  .field-input::placeholder { color: var(--ink-muted); font-style: italic; font-weight: 400; opacity: 0.7; }
+
+  /* ---------- Section 1: Trigger block ---------- */
+  .trigger-block {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px 36px;
+    position: relative;
+  }
+  .trigger-block::before {
+    content: "";
+    position: absolute;
+    top: -2px; bottom: -2px;
+    left: 0; width: 6px;
+    background: #ffd23f;
+  }
+  .signal-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .signal-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px 22px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius:0;
+  }
+  .signal-card-head {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: start;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(255,255,255,0.18);
+  }
+  .signal-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-style:normal;font-weight:800;
+    font-size: 32px;
+    line-height: 1;color:#7d5300;letter-spacing:-.03em;}
+  .signal-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: #ffffff;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .signal-desc {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.65);
+    margin: 0;
+  }
+  .signal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .signal-field label {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;color:#7d5300;
+    font-weight: 500;
+  }
+  .signal-input,
+  .signal-textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid rgba(255,255,255,0.25);
+    background: transparent;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #ffffff;
+    padding: 6px 0;
+    outline: none;
+    resize: vertical;
+  }
+  .signal-textarea {
+    min-height: 64px;
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 8px 10px;
+    border-radius:0;
+    background: rgba(0,0,0,0.15);
+  }
+  .signal-input:focus,
+  .signal-textarea:focus {
+    border-color: #ffd23f;
+    background: rgba(255,255,255,0.06);
+  }
+  .signal-input::placeholder,
+  .signal-textarea::placeholder {
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+  }
+
+  /* ---------- Generic table ---------- */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+  .data-table thead th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 10px 12px;
+    text-align: left;
+    border-right: 1px solid #10131a;
+  }
+  .data-table thead th:last-child { border-right: none; }
+  .data-table thead th.num { text-align: right; }
+  .data-table tbody tr { border-bottom: 1px solid var(--rule-soft); }
+  .data-table tbody tr:last-child { border-bottom: none; }
+  .data-table td {
+    padding: 0;
+    border-right: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+  .data-table td:last-child { border-right: none; }
+  .data-table input, .data-table select, .data-table textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 10px 12px;
+    outline: none;
+    resize: none;
+  }
+  .data-table input:focus, .data-table select:focus, .data-table textarea:focus { background: var(--focus); }
+  .data-table td.num input { text-align: right; font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace; font-size: 13px; }
+  .data-table select { font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace; font-size: 12px; }
+  .data-table select[data-field="momentum"] { font-weight: 600; }
+  .momentum-preserve { background: var(--preserve-soft) !important; color: var(--preserve); font-weight: 600; }
+  .momentum-damage { background: var(--damage-soft) !important; color: var(--damage); font-weight: 600; }
+  .delete-btn {
+    background: none; border: none;
+    font-size: 15px; color: var(--ink-muted);
+    cursor: pointer; padding: 10px 8px;
+    opacity: 0;
+    line-height: 1;
+  }
+  .data-table tr:hover .delete-btn { opacity: 1; }
+  .delete-btn:hover { color: var(--damage); }
+
+  .add-row-bar {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .add-row-bar .subtotal {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .add-row-bar .subtotal strong {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 17px;
+    color: var(--ink);
+    margin-left: 8px;
+    font-weight: 500;
+  }
+  .add-row-bar .subtotal strong.preserve-value { color: var(--preserve); }
+
+  /* ---------- Momentum key ---------- */
+  .momentum-key {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .momentum-key-card {
+    padding: 16px 18px;
+    border: 1px solid;
+    position: relative;
+  }
+  .momentum-key-card.preserve {
+    background: var(--preserve-soft);
+    border-color: var(--preserve);
+  }
+  .momentum-key-card.damage {
+    background: var(--damage-soft);
+    border-color: var(--damage);
+  }
+  .momentum-key-card h4 {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+    font-weight: 600;
+  }
+  .momentum-key-card.preserve h4 { color: var(--preserve); }
+  .momentum-key-card.damage h4 { color: var(--damage); }
+  .momentum-key-card p {
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0;
+    color: var(--ink-2);
+  }
+  .momentum-key-card .rule {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px;
+    color: var(--ink);
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* ---------- Lever guidance block ---------- */
+  .lever-band {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    margin-bottom: 18px;
+  }
+  .lever-cell {
+    padding: 14px 16px;
+    border-right: 1px solid var(--rule);
+  }
+  .lever-cell:last-child { border-right: none; }
+  .lever-num {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .lever-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .lever-hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  /* ---------- Section 6: Summary ---------- */
+  .summary-block {
+    background: var(--paper-2);
+    border: 1px solid var(--ink);
+    padding: 28px 32px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 32px;
+  }
+  .summary-grid h4 {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+  .summary-grid textarea {
+    width: 100%;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink);
+    padding: 14px 16px;
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+  }
+  .summary-grid textarea:focus { background: var(--focus); }
+  .move-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .move-card:last-child { margin-bottom: 0; }
+  .move-card h4 { margin: 0 0 10px; }
+  .move-card textarea {
+    border: none;
+    background: transparent;
+    padding: 0;
+    min-height: 80px;
+  }
+  .move-card textarea:focus { background: var(--focus); padding: 6px 8px; }
+  .protected-heading { margin-top: 28px !important; }
+  .summary-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .stat-card {
+    padding: 20px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    text-align: center;
+  }
+  .stat-card .value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 36px;font-weight:800;
+    color: var(--ink);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .stat-card .value.preserve { color: var(--preserve); }
+  .stat-card .value.accent { color: var(--accent); }
+  .stat-card .label {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 8px;
+  }
+
+  /* ---------- Closing ---------- */
+  .closing {
+    margin-top: 56px;
+    padding: 32px 40px;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .closing::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+    background: #ffd23f;
+  }
+  .closing h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    margin: 0 0 10px;letter-spacing:-.03em;
+    color: #ffffff;font-style:normal;}
+  .closing p {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px;
+    margin: 0;
+    color: rgba(251,250,246,0.85);
+    max-width: 70ch;
+    line-height: 1.6;
+  }
+  .closing .stat-line {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(251,250,246,0.7);
+  }
+  .closing .stat-line strong {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 18px;
+    color: #ffd23f;
+    margin: 0 8px;
+    font-weight: 400;
+  }
+
+  .colophon {
+    text-align: center;
+    margin-top: 32px;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .colophon em {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Print ---------- */
+  @media print {
+    @page { size: letter portrait; margin: 0.5in; }
+    body { background: white; }
+    .page { padding: 0; max-width: none; }
+    .toolbar { display: none !important; }
+    .delete-btn, .add-row-bar button { display: none !important; }
+    .masthead, .trigger-block, .closing {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .masthead { padding: 20px 24px; margin-bottom: 20px; }
+    h1 { font-size: 34px; }
+    .tagline { font-size: 13px; }
+    .tally { margin: -16px 24px 0; }
+    .tally-cell { padding: 10px 12px; }
+    .tally-value { font-size: 22px; }
+    .tally-suffix { font-size: 10px; }
+    section.chapter { margin-bottom: 22px; page-break-inside: avoid; }
+    .chapter-title { font-size: 20px; }
+    .chapter-intro { font-size: 12px; margin-bottom: 14px; }
+    .trigger-block { padding: 16px 20px; }
+    .signal-cards { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .signal-card { padding: 10px 12px; gap: 8px; }
+    .signal-card-head { padding-bottom: 6px; gap: 8px; }
+    .signal-num { font-size: 22px; }
+    .signal-name { font-size: 12px; }
+    .signal-desc { font-size: 9px; }
+    .signal-field label { font-size: 7px; }
+    .signal-input, .signal-textarea { font-size: 10px; padding: 4px 6px; }
+    .signal-textarea { min-height: 36px; }
+    .momentum-key { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .momentum-key-card { padding: 10px 12px; }
+    .momentum-key-card p { font-size: 11px; }
+    .lever-band { margin-bottom: 12px; }
+    .lever-cell { padding: 8px 10px; }
+    .lever-name { font-size: 11px; }
+    .lever-hint { font-size: 9px; }
+    .data-table { font-size: 10px; }
+    .data-table thead th { padding: 6px 8px; font-size: 8px; }
+    .data-table input, .data-table select, .data-table textarea { padding: 6px 8px; font-size: 10px; }
+    .summary-block { padding: 16px 20px; }
+    .stat-card .value { font-size: 24px; }
+    input, textarea, select {
+      background: transparent !important;
+    }
+    .closing { padding: 18px 22px; }
+    .closing h3 { font-size: 16px; }
+    .closing p { font-size: 12px; }
+  }
+
+  @media (max-width: 900px) {
+    .page { padding: 24px; }
+    h1 { font-size: 36px; }
+    .masthead { padding: 24px; }
+    .masthead-inner { grid-template-columns: 1fr; }
+    .meta-stack { text-align: left; }
+    .tally { margin: -16px 12px 0; grid-template-columns: repeat(2, 1fr); }
+    .tally-cell:nth-child(2) { border-right: none; }
+    .tally-cell:nth-child(1), .tally-cell:nth-child(2) { border-bottom: 1px solid var(--rule); }
+    .setup-grid { grid-template-columns: 1fr; }
+    .setup-field { border-right: none; border-bottom: 1px solid var(--rule); }
+    .setup-field:last-child { border-bottom: none; }
+    .signal-cards { grid-template-columns: 1fr; gap: 14px; }
+    .momentum-key, .summary-grid, .summary-stats { grid-template-columns: 1fr; }
+    .lever-band { grid-template-columns: 1fr 1fr; }
+    .lever-cell:nth-child(2n) { border-right: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#2CCFC4;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.masthead p.eyebrow{color:#ffd23f}
+div.trigger-block span.signal-num{color:#ffd23f}
+div.trigger-block div.signal-field > label{color:#ffd23f}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">03 / Master Your Cash</span></div>
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-inner">
+      <div>
+        <p class="eyebrow">Two Weeks Out Playbook</p>
+        <h1>Runway Extension <em>Playbook</em></h1>
+        <p class="tagline">The best time to build this is when you don't need it. Because when you need it, you don't have time to build it well.</p>
+      </div>
+      <div class="meta-stack">
+        <div>Company <strong id="companyMeta">—</strong></div>
+        <div>Built <strong id="reviewedMeta">—</strong></div>
+        <div>Version <strong>v1.0</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tally">
+    <div class="tally-cell">
+      <p class="tally-label">Safe-Cut Total</p>
+      <div class="tally-value preserve" id="tallySafe">$0</div>
+      <div class="tally-suffix">momentum preserved</div>
+    </div>
+    <div class="tally-cell">
+      <p class="tally-label">Margin Recovery</p>
+      <div class="tally-value accent" id="tallyMargin">$0</div>
+      <div class="tally-suffix">below-margin work restructured</div>
+    </div>
+    <div class="tally-cell">
+      <p class="tally-label">Vendor Savings</p>
+      <div class="tally-value accent" id="tallyVendor">$0</div>
+      <div class="tally-suffix">per year</div>
+    </div>
+    <div class="tally-cell">
+      <p class="tally-label">Runway Extension</p>
+      <div class="tally-value" id="tallyRunway">—</div>
+      <div class="tally-suffix">months of additional buffer</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn btn-excel" onclick="exportExcel()">Download to Excel</button>
+    <button class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
+    <button class="btn btn-ghost" onclick="if(confirm('Clear all entries?')) clearAll()">Clear All</button>
+    <span class="toolbar-note">Build it calm. Use it under pressure.</span>
+  </div>
+
+  <!-- Section 0: Setup -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">00</span>
+      <h2 class="chapter-title">Setup</h2>
+      <span class="chapter-caption">Context · cash position baseline</span>
+    </div>
+    <div class="setup-grid">
+      <div class="setup-field">
+        <p class="field-label">Company</p>
+        <p class="field-hint">As it appears on your financials.</p>
+        <input class="field-input" type="text" id="company" placeholder="Company name" />
+      </div>
+      <div class="setup-field">
+        <p class="field-label">Monthly Burn</p>
+        <p class="field-hint">Committed outflows per month — drives runway math.</p>
+        <input class="field-input" type="number" id="monthlyBurn" placeholder="$0" step="500" />
+      </div>
+      <div class="setup-field">
+        <p class="field-label">Review Date</p>
+        <p class="field-hint">Revisit every quarter, or on trigger.</p>
+        <input class="field-input" type="date" id="reviewDate" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: Trigger -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">01</span>
+      <h2 class="chapter-title">The Triggers</h2>
+      <span class="chapter-caption">Pre-decided · observable · specific</span>
+    </div>
+    <p class="chapter-principle">The playbook only works if it's pre-decided.</p>
+    <p class="chapter-intro">For each of the three signals below, write a specific, observable trigger value — and the first action you'll take when it fires. Not "when things feel tight." Specific. Already decided.</p>
+
+    <div class="trigger-block">
+      <div class="signal-cards">
+
+        <div class="signal-card">
+          <div class="signal-card-head">
+            <span class="signal-num">01</span>
+            <div>
+              <p class="signal-name">Cash Balance Signal</p>
+              <p class="signal-desc">A bank balance number you've decided in advance.</p>
+            </div>
+          </div>
+          <div class="signal-field">
+            <label>Trigger Value</label>
+            <input class="signal-input" type="text" id="triggerCashValue" placeholder='e.g. "Operating account drops below $75,000."' />
+          </div>
+          <div class="signal-field">
+            <label>First Action to Take</label>
+            <textarea class="signal-textarea" id="triggerCashAction" placeholder='e.g. "Same day: pause all non-essential subscriptions; defer Q1 software upgrade."'></textarea>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-card-head">
+            <span class="signal-num">02</span>
+            <div>
+              <p class="signal-name">13-Week View Signal</p>
+              <p class="signal-desc">Any projected week within 15% of your minimum cash threshold.</p>
+            </div>
+          </div>
+          <div class="signal-field">
+            <label>Trigger Value</label>
+            <input class="signal-input" type="text" id="trigger13wkValue" placeholder='e.g. "Any week projects below $58,000 (within 15% of $50K min)."' />
+          </div>
+          <div class="signal-field">
+            <label>First Action to Take</label>
+            <textarea class="signal-textarea" id="trigger13wkAction" placeholder='e.g. "Within 48 hours: open Safe-Cut Menu, identify top 3 deferrable items."'></textarea>
+          </div>
+        </div>
+
+        <div class="signal-card">
+          <div class="signal-card-head">
+            <span class="signal-num">03</span>
+            <div>
+              <p class="signal-name">Expense I'm Hesitating On</p>
+              <p class="signal-desc">A planned expense you were confident about six weeks ago, you're now quietly hoping to delay. That hesitation is financial intelligence.</p>
+            </div>
+          </div>
+          <div class="signal-field">
+            <label>Trigger Value</label>
+            <input class="signal-input" type="text" id="triggerHesitationValue" placeholder='e.g. "Any committed expense > $5,000 I quietly want to push out."' />
+          </div>
+          <div class="signal-field">
+            <label>First Action to Take</label>
+            <textarea class="signal-textarea" id="triggerHesitationAction" placeholder='e.g. "Stop. Update the 13-week view today. Decide intentionally — defer with a date or commit with a reason."'></textarea>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Momentum key + Safe-cut menu -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">02</span>
+      <h2 class="chapter-title">Safe-Cut Menu</h2>
+      <span class="chapter-caption">Every non-revenue expense · next 6 months</span>
+    </div>
+    <p class="chapter-principle">You're not cutting anything yet — you're knowing what's available.</p>
+    <p class="chapter-intro">List every non-revenue-generating expense over the next six months. Classify each as momentum-preserving or momentum-damaging.</p>
+
+    <div class="momentum-key">
+      <div class="momentum-key-card preserve">
+        <h4>◆ Momentum-Preserving</h4>
+        <p>Defers or eliminates things that don't directly support selling or delivering. Nice-to-have software, a hire that could wait, a vendor renegotiation.</p>
+        <p class="rule">Rule: you can pick it back up without rebuilding.</p>
+      </div>
+      <div class="momentum-key-card damage">
+        <h4>▲ Momentum-Damaging</h4>
+        <p>Touches your ability to find, close, or deliver to clients. The ramping salesperson. The key account manager. Marketing that is working.</p>
+        <p class="rule">Rule: undoing the cut requires a new hire or new spend.</p>
+      </div>
+    </div>
+
+    <div class="lever-band-removed"></div>
+
+    <table class="data-table" id="cutsTable">
+      <thead>
+        <tr>
+          <th style="width: 20%">Expense / Item</th>
+          <th style="width: 10%">Lever</th>
+          <th style="width: 14%">Momentum</th>
+          <th class="num" style="width: 12%">Monthly $</th>
+          <th class="num" style="width: 13%">6-Month Impact</th>
+          <th>Action / Timing</th>
+          <th style="width: 34px"></th>
+        </tr>
+      </thead>
+      <tbody id="cutsBody"></tbody>
+    </table>
+    <div class="add-row-bar">
+      <button class="btn btn-ghost" onclick="addCutRow()">+ Add expense</button>
+      <div class="subtotal">Safe-cut (momentum-preserving) total: <strong class="preserve-value" id="cutsSubtotal">$0</strong></div>
+    </div>
+  </section>
+
+  <!-- Section 3: Below-margin work -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">03</span>
+      <h2 class="chapter-title">Below-Margin Work</h2>
+      <span class="chapter-caption">The hardest move · often the highest-value</span>
+    </div>
+    <p class="chapter-principle">Restructure beats exit beats absorbing.</p>
+    <p class="chapter-intro">Identify any below-margin work in your current client base. What is the fully-loaded cost of delivering each engagement? If a retainer is consuming senior time at a rate the price doesn't reflect, that's your highest-value lever.</p>
+
+    <table class="data-table" id="marginTable">
+      <thead>
+        <tr>
+          <th style="width: 18%">Client / Engagement</th>
+          <th class="num" style="width: 12%">Current Price</th>
+          <th class="num" style="width: 14%">Fully-Loaded Cost</th>
+          <th class="num" style="width: 12%">Monthly Gap</th>
+          <th style="width: 14%">Decision</th>
+          <th>Restructure Plan</th>
+          <th style="width: 34px"></th>
+        </tr>
+      </thead>
+      <tbody id="marginBody"></tbody>
+    </table>
+    <div class="add-row-bar">
+      <button class="btn btn-ghost" onclick="addMarginRow()">+ Add engagement</button>
+      <div class="subtotal">Total monthly margin recovery opportunity: <strong class="preserve-value" id="marginSubtotal">$0</strong></div>
+    </div>
+  </section>
+
+  <!-- Section 4: Vendor renegotiation -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">04</span>
+      <h2 class="chapter-title">Vendor Renegotiation Targets</h2>
+      <span class="chapter-caption">One conversation · measurable savings</span>
+    </div>
+    <p class="chapter-principle">Most vendors would rather adjust terms than lose a client.</p>
+    <p class="chapter-intro">Even a 90-day payment extension on a large annual contract changes your cash position materially. List who to call, what to ask for, and what you expect.</p>
+
+    <table class="data-table" id="vendorTable">
+      <thead>
+        <tr>
+          <th style="width: 18%">Vendor</th>
+          <th class="num" style="width: 12%">Annual Spend</th>
+          <th style="width: 18%">Ask</th>
+          <th class="num" style="width: 12%">Expected Savings</th>
+          <th style="width: 14%">Deadline</th>
+          <th>Notes / Outcome</th>
+          <th style="width: 34px"></th>
+        </tr>
+      </thead>
+      <tbody id="vendorBody"></tbody>
+    </table>
+    <div class="add-row-bar">
+      <button class="btn btn-ghost" onclick="addVendorRow()">+ Add vendor</button>
+      <div class="subtotal">Expected annual savings: <strong class="preserve-value" id="vendorSubtotal">$0</strong></div>
+    </div>
+  </section>
+
+  <!-- Section 5: Accelerated receivables -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">05</span>
+      <h2 class="chapter-title">Accelerated Receivables Plan</h2>
+      <span class="chapter-caption">Fast cash · cheaper than credit</span>
+    </div>
+    <p class="chapter-principle">Offer a discount for early payment.</p>
+    <p class="chapter-intro">Cheaper than a line of credit, and available fast. Define the offer once, apply it consistently.</p>
+
+    <div class="setup-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="setup-field">
+        <p class="field-label">Discount Terms</p>
+        <p class="field-hint">Standard: 2/10 Net-30 (2% off for pay in 10)</p>
+        <input class="field-input" type="text" id="discountTerms" placeholder="e.g. 2% / 10 days" />
+      </div>
+      <div class="setup-field">
+        <p class="field-label">Target Client Tier</p>
+        <p class="field-hint">Which clients will you offer this to?</p>
+        <input class="field-input" type="text" id="discountTarget" placeholder="e.g. Retainer clients > $10K/mo" />
+      </div>
+      <div class="setup-field">
+        <p class="field-label">Expected Cash Acceleration</p>
+        <p class="field-hint">How much receivables can move forward?</p>
+        <input class="field-input" type="number" id="cashAccel" placeholder="$0" step="1000" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Summary -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">06</span>
+      <h2 class="chapter-title">Your Runway Extension Summary</h2>
+      <span class="chapter-caption">The three moves · the runway bought</span>
+    </div>
+    <p class="chapter-principle">Three moves. In order. Nothing revenue-generating touched.</p>
+    <p class="chapter-intro">The first three moves you'll make when the trigger fires — sequenced from the lightest lift to the hardest. Each one buys time without burning growth.</p>
+
+    <div class="summary-block">
+      <div class="summary-grid">
+        <div>
+          <div class="move-card">
+            <h4>Move 01 · First 48 Hours</h4>
+            <textarea id="move1" placeholder="The move you can make without a single conversation. Deferrals, subscription pauses, committed-but-not-yet-spent cancellations."></textarea>
+          </div>
+          <div class="move-card">
+            <h4>Move 02 · First Week</h4>
+            <textarea id="move2" placeholder="One-conversation wins. Vendor renegotiation, planned-hire delay, receivables discount rollout."></textarea>
+          </div>
+          <div class="move-card">
+            <h4>Move 03 · First Month</h4>
+            <textarea id="move3" placeholder="The hardest lever. Below-margin work restructuring — the conversation you've been putting off."></textarea>
+          </div>
+        </div>
+        <div>
+          <h4>Runway Math</h4>
+          <div class="summary-stats">
+            <div class="stat-card">
+              <div class="value preserve" id="summaryTotalCash">$0</div>
+              <div class="label">Total Cash Freed</div>
+            </div>
+            <div class="stat-card">
+              <div class="value accent" id="summaryMonths">—</div>
+              <div class="label">Months of Runway</div>
+            </div>
+          </div>
+          <h4 class="protected-heading">What You Protected</h4>
+          <textarea id="protected" placeholder="The revenue-generating activities you committed NOT to touch. The ramping salesperson. The account manager. Marketing that is working. Write it down so you don't negotiate with yourself later."></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing block removed -->
+
+</div>
+
+<script>
+  // ---------------- State ----------------
+  const MOMENTUM_OPTIONS = [
+    ["", "— classify —"],
+    ["preserve", "◆ Preserving"],
+    ["damage", "▲ Damaging"],
+  ];
+
+  const LEVER_OPTIONS = [
+    ["", "—"],
+    ["01", "01 · Defer"],
+    ["02", "02 · Vendor"],
+    ["03", "03 · Below-margin"],
+    ["04", "04 · Hire delay"],
+    ["05", "05 · Receivables"],
+  ];
+
+  const DECISION_OPTIONS = [
+    ["", "— decide —"],
+    ["restructure", "Restructure"],
+    ["reprice", "Reprice"],
+    ["exit", "Exit"],
+    ["absorb", "Absorb (rare)"],
+  ];
+
+  let state = {
+    company: "",
+    monthlyBurn: "",
+    reviewDate: "",
+    triggerCashValue: "",
+    triggerCashAction: "",
+    trigger13wkValue: "",
+    trigger13wkAction: "",
+    triggerHesitationValue: "",
+    triggerHesitationAction: "",
+    discountTerms: "",
+    discountTarget: "",
+    cashAccel: "",
+    move1: "",
+    move2: "",
+    move3: "",
+    protected: "",
+    cuts: [
+      { item: "", lever: "", momentum: "preserve", monthly: "", sixMonth: "", action: "" },
+      { item: "", lever: "", momentum: "preserve", monthly: "", sixMonth: "", action: "" },
+      { item: "", lever: "", momentum: "preserve", monthly: "", sixMonth: "", action: "" },
+    ],
+    margin: [
+      { client: "", price: "", cost: "", gap: "", decision: "", plan: "" },
+      { client: "", price: "", cost: "", gap: "", decision: "", plan: "" },
+    ],
+    vendors: [
+      { vendor: "", annual: "", ask: "", savings: "", deadline: "", notes: "" },
+      { vendor: "", annual: "", ask: "", savings: "", deadline: "", notes: "" },
+    ],
+  };
+
+  // ---------------- Utilities ----------------
+  function escapeHtml(s) {
+    return String(s || "").replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+  function parseNum(v) {
+    if (v === "" || v == null) return 0;
+    const n = parseFloat(String(v).replace(/[$,\s]/g, ""));
+    return isNaN(n) ? 0 : n;
+  }
+  function fmt(n) {
+    if (n === 0) return "$0";
+    const sign = n < 0 ? "-" : "";
+    return sign + "$" + Math.round(Math.abs(n)).toLocaleString();
+  }
+
+  function selectOptions(opts, selected) {
+    return opts.map(([v, l]) =>
+      `<option value="${v}"${selected === v ? " selected" : ""}>${l}</option>`
+    ).join("");
+  }
+
+  // ---------------- Rendering ----------------
+  function renderCuts() {
+    const tbody = document.getElementById("cutsBody");
+    tbody.innerHTML = "";
+    state.cuts.forEach((row, idx) => {
+      const momentumClass = row.momentum === "preserve" ? "momentum-preserve" :
+                            row.momentum === "damage" ? "momentum-damage" : "";
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input type="text" value="${escapeHtml(row.item)}" data-table="cuts" data-idx="${idx}" data-field="item" placeholder="Expense / software / line item" /></td>
+        <td><select data-table="cuts" data-idx="${idx}" data-field="lever">${selectOptions(LEVER_OPTIONS, row.lever)}</select></td>
+        <td><select class="${momentumClass}" data-table="cuts" data-idx="${idx}" data-field="momentum">${selectOptions(MOMENTUM_OPTIONS, row.momentum)}</select></td>
+        <td class="num"><input type="number" value="${escapeHtml(row.monthly)}" data-table="cuts" data-idx="${idx}" data-field="monthly" placeholder="—" step="100" /></td>
+        <td class="num"><input type="number" value="${escapeHtml(row.sixMonth)}" data-table="cuts" data-idx="${idx}" data-field="sixMonth" placeholder="—" step="100" /></td>
+        <td><textarea rows="2" data-table="cuts" data-idx="${idx}" data-field="action" placeholder="How you'll do it — and by when">${escapeHtml(row.action)}</textarea></td>
+        <td><button class="delete-btn" data-delete="cuts" data-idx="${idx}" title="Remove">×</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    recalcTally();
+  }
+
+  function renderMargin() {
+    const tbody = document.getElementById("marginBody");
+    tbody.innerHTML = "";
+    state.margin.forEach((row, idx) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input type="text" value="${escapeHtml(row.client)}" data-table="margin" data-idx="${idx}" data-field="client" placeholder="Client / retainer" /></td>
+        <td class="num"><input type="number" value="${escapeHtml(row.price)}" data-table="margin" data-idx="${idx}" data-field="price" placeholder="$—" step="100" /></td>
+        <td class="num"><input type="number" value="${escapeHtml(row.cost)}" data-table="margin" data-idx="${idx}" data-field="cost" placeholder="$—" step="100" /></td>
+        <td class="num"><input type="number" value="${escapeHtml(row.gap)}" data-table="margin" data-idx="${idx}" data-field="gap" placeholder="auto" step="100" /></td>
+        <td><select data-table="margin" data-idx="${idx}" data-field="decision">${selectOptions(DECISION_OPTIONS, row.decision)}</select></td>
+        <td><textarea rows="2" data-table="margin" data-idx="${idx}" data-field="plan" placeholder="New price, scope changes, who has the conversation, when">${escapeHtml(row.plan)}</textarea></td>
+        <td><button class="delete-btn" data-delete="margin" data-idx="${idx}" title="Remove">×</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    recalcTally();
+  }
+
+  function renderVendors() {
+    const tbody = document.getElementById("vendorBody");
+    tbody.innerHTML = "";
+    state.vendors.forEach((row, idx) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input type="text" value="${escapeHtml(row.vendor)}" data-table="vendors" data-idx="${idx}" data-field="vendor" placeholder="Vendor name" /></td>
+        <td class="num"><input type="number" value="${escapeHtml(row.annual)}" data-table="vendors" data-idx="${idx}" data-field="annual" placeholder="$—" step="500" /></td>
+        <td><input type="text" value="${escapeHtml(row.ask)}" data-table="vendors" data-idx="${idx}" data-field="ask" placeholder="Payment extension, discount, pause" /></td>
+        <td class="num"><input type="number" value="${escapeHtml(row.savings)}" data-table="vendors" data-idx="${idx}" data-field="savings" placeholder="$—" step="100" /></td>
+        <td><input type="date" value="${escapeHtml(row.deadline)}" data-table="vendors" data-idx="${idx}" data-field="deadline" /></td>
+        <td><textarea rows="2" data-table="vendors" data-idx="${idx}" data-field="notes" placeholder="Contact, approach, result">${escapeHtml(row.notes)}</textarea></td>
+        <td><button class="delete-btn" data-delete="vendors" data-idx="${idx}" title="Remove">×</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    recalcTally();
+  }
+
+  // ---------------- Recalculation ----------------
+  function recalcTally() {
+    // Safe-cut total (momentum-preserving only), 6-month impact
+    let safeTotal = 0;
+    state.cuts.forEach(r => {
+      if (r.momentum === "preserve") {
+        const six = parseNum(r.sixMonth);
+        if (six > 0) safeTotal += six;
+        else safeTotal += parseNum(r.monthly) * 6;
+      }
+    });
+
+    // Margin recovery (monthly gap summed, × 6 for 6-month impact)
+    let marginMonthly = 0;
+    state.margin.forEach(r => {
+      const gap = parseNum(r.gap);
+      if (gap > 0) marginMonthly += gap;
+      else marginMonthly += Math.max(0, parseNum(r.cost) - parseNum(r.price));
+    });
+    const marginSixMonth = marginMonthly * 6;
+
+    // Vendor savings (annual)
+    let vendorAnnual = 0;
+    state.vendors.forEach(r => {
+      vendorAnnual += parseNum(r.savings);
+    });
+
+    // Runway extension estimate
+    const burn = parseNum(state.monthlyBurn);
+    const totalCashFreed = safeTotal + marginSixMonth + (vendorAnnual / 2);
+    const runwayMonths = burn > 0 ? totalCashFreed / burn : 0;
+
+    // Update headline tally
+    document.getElementById("tallySafe").textContent = fmt(safeTotal);
+    document.getElementById("tallyMargin").textContent = fmt(marginMonthly) + "/mo";
+    document.getElementById("tallyVendor").textContent = fmt(vendorAnnual);
+    document.getElementById("tallyRunway").textContent = runwayMonths > 0
+      ? runwayMonths.toFixed(1) + " mo" : "—";
+
+    // Update subtotals
+    document.getElementById("cutsSubtotal").textContent = fmt(safeTotal);
+    document.getElementById("marginSubtotal").textContent = fmt(marginMonthly) + " / month";
+    document.getElementById("vendorSubtotal").textContent = fmt(vendorAnnual);
+
+    // Update summary stats
+    document.getElementById("summaryTotalCash").textContent = fmt(totalCashFreed);
+    document.getElementById("summaryMonths").textContent = runwayMonths > 0
+      ? runwayMonths.toFixed(1) : "—";
+
+    // Update momentum row coloring
+    document.querySelectorAll("select[data-field='momentum']").forEach(sel => {
+      sel.classList.remove("momentum-preserve", "momentum-damage");
+      if (sel.value === "preserve") sel.classList.add("momentum-preserve");
+      if (sel.value === "damage") sel.classList.add("momentum-damage");
+    });
+  }
+
+  function updateMeta() {
+    document.getElementById("companyMeta").textContent = state.company || "—";
+    document.getElementById("reviewedMeta").textContent = state.reviewDate
+      ? new Date(state.reviewDate + "T00:00:00").toLocaleDateString("en-US",
+          { year: "numeric", month: "short", day: "numeric" })
+      : "—";
+  }
+
+  // ---------------- Events ----------------
+  document.addEventListener("input", (e) => {
+    const t = e.target;
+    if (t.id && state.hasOwnProperty(t.id)) {
+      state[t.id] = t.value;
+      if (t.id === "company" || t.id === "reviewDate") updateMeta();
+      if (t.id === "monthlyBurn") recalcTally();
+      return;
+    }
+    if (t.dataset && t.dataset.table && t.dataset.idx != null) {
+      const table = t.dataset.table;
+      const idx = parseInt(t.dataset.idx, 10);
+      state[table][idx][t.dataset.field] = t.value;
+      // Auto-compute margin gap
+      if (table === "margin" && (t.dataset.field === "price" || t.dataset.field === "cost")) {
+        const row = state.margin[idx];
+        const gap = Math.max(0, parseNum(row.cost) - parseNum(row.price));
+        if (gap > 0 && !row.gap) {
+          row.gap = gap.toString();
+          const gapInput = document.querySelector(`input[data-table='margin'][data-idx='${idx}'][data-field='gap']`);
+          if (gapInput) gapInput.value = gap;
+        }
+      }
+      recalcTally();
+    }
+  });
+
+  document.addEventListener("change", (e) => {
+    const t = e.target;
+    if (t.tagName === "SELECT" && t.dataset && t.dataset.table) {
+      const idx = parseInt(t.dataset.idx, 10);
+      state[t.dataset.table][idx][t.dataset.field] = t.value;
+      recalcTally();
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (e.target.dataset && e.target.dataset.delete) {
+      const table = e.target.dataset.delete;
+      const idx = parseInt(e.target.dataset.idx, 10);
+      state[table].splice(idx, 1);
+      if (state[table].length === 0) {
+        const empty = table === "cuts"
+          ? { item: "", lever: "", momentum: "preserve", monthly: "", sixMonth: "", action: "" }
+          : table === "margin"
+          ? { client: "", price: "", cost: "", gap: "", decision: "", plan: "" }
+          : { vendor: "", annual: "", ask: "", savings: "", deadline: "", notes: "" };
+        state[table].push(empty);
+      }
+      if (table === "cuts") renderCuts();
+      else if (table === "margin") renderMargin();
+      else if (table === "vendors") renderVendors();
+    }
+  });
+
+  function addCutRow() {
+    state.cuts.push({ item: "", lever: "", momentum: "preserve", monthly: "", sixMonth: "", action: "" });
+    renderCuts();
+  }
+  function addMarginRow() {
+    state.margin.push({ client: "", price: "", cost: "", gap: "", decision: "", plan: "" });
+    renderMargin();
+  }
+  function addVendorRow() {
+    state.vendors.push({ vendor: "", annual: "", ask: "", savings: "", deadline: "", notes: "" });
+    renderVendors();
+  }
+
+  function clearAll() {
+    ["company","monthlyBurn","reviewDate",
+     "triggerCashValue","triggerCashAction",
+     "trigger13wkValue","trigger13wkAction",
+     "triggerHesitationValue","triggerHesitationAction",
+     "discountTerms","discountTarget",
+     "cashAccel","move1","move2","move3","protected"].forEach(id => {
+      state[id] = "";
+      const el = document.getElementById(id);
+      if (el) el.value = "";
+    });
+    state.cuts = [
+      { item: "", lever: "", momentum: "preserve", monthly: "", sixMonth: "", action: "" },
+      { item: "", lever: "", momentum: "preserve", monthly: "", sixMonth: "", action: "" },
+      { item: "", lever: "", momentum: "preserve", monthly: "", sixMonth: "", action: "" },
+    ];
+    state.margin = [
+      { client: "", price: "", cost: "", gap: "", decision: "", plan: "" },
+      { client: "", price: "", cost: "", gap: "", decision: "", plan: "" },
+    ];
+    state.vendors = [
+      { vendor: "", annual: "", ask: "", savings: "", deadline: "", notes: "" },
+      { vendor: "", annual: "", ask: "", savings: "", deadline: "", notes: "" },
+    ];
+    renderCuts(); renderMargin(); renderVendors();
+    updateMeta();
+  }
+
+  // ---------------- Excel Export ----------------
+  function exportExcel() {
+    const wb = XLSX.utils.book_new();
+
+    // --- Cover ---
+    const leverLookup = { "01": "Defer", "02": "Vendor", "03": "Below-margin", "04": "Hire delay", "05": "Receivables" };
+    const momentumLookup = { "preserve": "Preserving", "damage": "Damaging" };
+    const decisionLookup = { "restructure": "Restructure", "reprice": "Reprice", "exit": "Exit", "absorb": "Absorb" };
+
+    const cover = [
+      ["RUNWAY EXTENSION PLAYBOOK"],
+      [`${state.company || "[Company]"} · Two Weeks Out`],
+      [""],
+      ["Review Date:", state.reviewDate || ""],
+      ["Monthly Burn:", parseNum(state.monthlyBurn) || ""],
+      [""],
+      ["— THE TRIGGERS —"],
+      ["", "Trigger Value", "First Action to Take"],
+      ["01 · Cash Balance Signal", state.triggerCashValue || "", state.triggerCashAction || ""],
+      ["02 · 13-Week View Signal", state.trigger13wkValue || "", state.trigger13wkAction || ""],
+      ["03 · Expense I'm Hesitating On", state.triggerHesitationValue || "", state.triggerHesitationAction || ""],
+      [""],
+      ["— RUNWAY MATH —"],
+      ["Safe-cut (preserving) total (6-mo):", state.cuts.filter(r => r.momentum === "preserve").reduce((s, r) => s + (parseNum(r.sixMonth) || parseNum(r.monthly) * 6), 0)],
+      ["Monthly margin recovery:", state.margin.reduce((s, r) => s + (parseNum(r.gap) || Math.max(0, parseNum(r.cost) - parseNum(r.price))), 0)],
+      ["Annual vendor savings:", state.vendors.reduce((s, r) => s + parseNum(r.savings), 0)],
+      [""],
+      ["— THE THREE MOVES —"],
+      ["Move 01 · First 48 Hours:"],
+      [state.move1 || ""],
+      [""],
+      ["Move 02 · First Week:"],
+      [state.move2 || ""],
+      [""],
+      ["Move 03 · First Month:"],
+      [state.move3 || ""],
+      [""],
+      ["— WHAT YOU PROTECTED —"],
+      [state.protected || ""],
+      [""],
+      ["— ACCELERATED RECEIVABLES —"],
+      ["Discount Terms:", state.discountTerms || ""],
+      ["Target Tier:", state.discountTarget || ""],
+      ["Expected Acceleration:", parseNum(state.cashAccel) || ""],
+    ];
+    const wsCover = XLSX.utils.aoa_to_sheet(cover);
+    wsCover["!cols"] = [{ wch: 34 }, { wch: 50 }, { wch: 70 }];
+    XLSX.utils.book_append_sheet(wb, wsCover, "Playbook Summary");
+
+    // --- Safe-Cut Menu ---
+    const cutHeader = ["Expense / Item", "Lever", "Momentum", "Monthly $", "6-Month Impact $", "Action / Timing"];
+    const cutRows = state.cuts.map(r => [
+      r.item,
+      leverLookup[r.lever] || "",
+      momentumLookup[r.momentum] || "",
+      parseNum(r.monthly) || "",
+      parseNum(r.sixMonth) || (parseNum(r.monthly) * 6) || "",
+      r.action,
+    ]);
+    const wsCuts = XLSX.utils.aoa_to_sheet([
+      ["SAFE-CUT MENU"],
+      ["Every non-revenue-generating expense · next 6 months"],
+      [""],
+      cutHeader,
+      ...cutRows,
+    ]);
+    wsCuts["!cols"] = [{ wch: 28 }, { wch: 14 }, { wch: 14 }, { wch: 14 }, { wch: 16 }, { wch: 50 }];
+    XLSX.utils.book_append_sheet(wb, wsCuts, "Safe-Cut Menu");
+
+    // --- Below-Margin ---
+    const marginHeader = ["Client / Engagement", "Current Price $", "Fully-Loaded Cost $", "Monthly Gap $", "Decision", "Restructure Plan"];
+    const marginRows = state.margin.map(r => [
+      r.client,
+      parseNum(r.price) || "",
+      parseNum(r.cost) || "",
+      parseNum(r.gap) || Math.max(0, parseNum(r.cost) - parseNum(r.price)) || "",
+      decisionLookup[r.decision] || "",
+      r.plan,
+    ]);
+    const wsMargin = XLSX.utils.aoa_to_sheet([
+      ["BELOW-MARGIN WORK"],
+      ["Lever 03 · the hardest, often highest-value"],
+      [""],
+      marginHeader,
+      ...marginRows,
+    ]);
+    wsMargin["!cols"] = [{ wch: 26 }, { wch: 16 }, { wch: 18 }, { wch: 14 }, { wch: 14 }, { wch: 50 }];
+    XLSX.utils.book_append_sheet(wb, wsMargin, "Below-Margin Work");
+
+    // --- Vendors ---
+    const vendorHeader = ["Vendor", "Annual Spend $", "Ask", "Expected Savings $", "Deadline", "Notes / Outcome"];
+    const vendorRows = state.vendors.map(r => [
+      r.vendor,
+      parseNum(r.annual) || "",
+      r.ask,
+      parseNum(r.savings) || "",
+      r.deadline,
+      r.notes,
+    ]);
+    const wsVendor = XLSX.utils.aoa_to_sheet([
+      ["VENDOR RENEGOTIATION TARGETS"],
+      ["Lever 02 · one conversation, measurable savings"],
+      [""],
+      vendorHeader,
+      ...vendorRows,
+    ]);
+    wsVendor["!cols"] = [{ wch: 26 }, { wch: 16 }, { wch: 24 }, { wch: 18 }, { wch: 14 }, { wch: 40 }];
+    XLSX.utils.book_append_sheet(wb, wsVendor, "Vendor Targets");
+
+    const stamp = new Date().toISOString().slice(0, 10);
+    const safeName = (state.company || "company").replace(/[^a-z0-9]+/gi, "_").toLowerCase();
+    XLSX.writeFile(wb, `${safeName}_runway_playbook_${stamp}.xlsx`);
+  }
+
+  // ---------------- Init ----------------
+  (function init() {
+    const today = new Date().toISOString().slice(0, 10);
+    state.reviewDate = today;
+    document.getElementById("reviewDate").value = today;
+
+    renderCuts();
+    renderMargin();
+    renderVendors();
+    updateMeta();
+  })();
+</script>
+</body>
+</html>

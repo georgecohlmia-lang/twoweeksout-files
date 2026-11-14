@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your Two Decisions — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a; --ink-soft:#10131a; --muted:#59616e; --muted-soft:#9ba3af;
+    --border:#e9ecf5; --border-soft:#e9ecf5;
+    --bg:#ffffff; --bg-soft:#fbfaf6;
+    --green:#2747f5; --bright:#2747f5; --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5; --amber:#7d5300;
+    --danger:#b3261e; --danger-soft:#fde9e7;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; color: var(--ink); background: var(--bg-soft); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .sheet { max-width: 880px; margin: 0 auto; padding: 56px 48px 80px; background: var(--bg); }
+  header.brand { border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-bottom: 34px; }
+  .eyebrow { font-size: 11px; letter-spacing: 2.5px; color: var(--green); font-weight: 600; text-transform: uppercase; margin: 0 0 6px; }
+  h1 { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 32px; line-height: 1.2; color: var(--ink); margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; color: var(--ink-soft); font-size: 16px; margin: 0; }
+  .step { margin: 38px 0 0; padding-top: 26px; border-top: 1px solid var(--border); }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .step-num { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 28px;font-weight:800; color: var(--bright); line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px;font-weight:800; color: var(--ink); line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub { color: var(--muted); font-size: 14px; margin: 4px 0 18px; font-style: italic; }
+  label { font-size: 13px; color: var(--ink-soft); font-weight: 500; display: block; margin-bottom: 5px; }
+  input[type="text"], input[type="number"], textarea { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px; color: var(--ink); background: white; border: 1px solid var(--border); border-radius:0; padding: 9px 11px; width: 100%; }
+  input:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 2px var(--em-soft); }
+  textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+  .field { margin-bottom: 14px; } .field:last-child { margin-bottom: 0; }
+  .input-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .block-card { border: 1px solid var(--border); border-radius:0; padding: 16px 18px; margin-bottom: 12px; background: white; }
+  .block-name { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .block-prompt { font-size: 13px; color: var(--muted); font-style: italic; margin: 0 0 12px; }
+  .input-prefix { position: relative; }
+  .input-prefix input { padding-left: 24px; }
+  .input-prefix::before { content: "$"; position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+  .calc-row { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 16px; padding: 10px 14px; background: var(--bg-soft); border-radius:0; margin-bottom: 6px; border-left: 3px solid var(--bright); }
+  .calc-row.primary { border-left-color: var(--green); background: var(--em-soft); }
+  .calc-row.primary .calc-value { color: var(--green); }
+  .calc-row.warn { border-left-color: var(--danger); background: var(--danger-soft); }
+  .calc-row.warn .calc-value { color: var(--danger); }
+  .calc-label { font-size: 13px; color: var(--ink-soft); font-weight: 500; }
+  .calc-value { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px;font-weight:800; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap;letter-spacing:-.03em;font-style:normal;}
+  .two-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .decision-card { border-radius:0; padding: 16px 18px; background: white; }
+  .decision-card.team { border: 1px solid var(--border); border-top: 4px solid var(--green); }
+  .decision-card.household { border: 1px solid var(--border); border-top: 4px solid var(--amber); }
+  .decision-card-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 4px; }
+  .decision-card.team .decision-card-tag { color: var(--green); }
+  .decision-card.household .decision-card-tag { color: var(--amber); }
+  .decision-card-title { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+  .output-section { margin-top: 48px; padding-top: 36px; border-top: 3px solid var(--ink); }
+  .output-header { text-align: center; margin-bottom: 24px; }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 26px;font-weight:800; color: var(--ink); margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p { color: var(--muted); font-size: 14px; margin: 0; font-style: italic; }
+  .out-block { margin-bottom: 22px; page-break-inside: avoid; }
+  .out-block-title { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .summary-card { background: var(--bg-soft); border-left: 3px solid var(--bright); border-radius:0; padding: 12px 16px; margin-bottom: 10px; }
+  .summary-card-name { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px; font-weight: 600; color: var(--bright); margin-bottom: 6px; }
+  .summary-card-body { font-size: 14px; color: var(--ink-soft); line-height: 1.5; white-space: pre-wrap; }
+  .decisions-out-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .decision-out-card { background: var(--bg-soft); border-radius:0; padding: 14px 16px; }
+  .decision-out-card.team { border-left: 4px solid var(--green); }
+  .decision-out-card.household { border-left: 4px solid var(--amber); }
+  .decision-out-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 4px; }
+  .decision-out-card.team .decision-out-tag { color: var(--green); }
+  .decision-out-card.household .decision-out-tag { color: var(--amber); }
+  .decision-out-title { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+  .decision-out-body { font-size: 13px; color: var(--ink-soft); line-height: 1.55; white-space: pre-wrap; }
+  .observation { margin-top: 24px; padding: 14px 18px; background: var(--em-soft); border-radius:0; font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+  .observation strong { color: var(--green); }
+  .empty-output { padding: 36px; background: var(--bg-soft); border: 1px dashed var(--border); border-radius:0; text-align: center; color: var(--muted); font-style: italic; }
+  .toolbar { display: flex; gap: 10px; justify-content: flex-end; margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--border); }
+  .btn { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius:0; cursor: pointer; border: 1px solid var(--border); background: white; color: var(--ink-soft); }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary { background: var(--green); color: white;border-color:#ffffff; } .btn-primary:hover { background: #1b36c9; }
+  .btn-example { background: var(--cream-soft); color: var(--amber); border-color: var(--cream-soft); font-weight: 600; } .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 32px 28px; }
+    .toolbar { display: none; }
+    .step { page-break-inside: avoid; }
+    .out-block { page-break-inside: avoid; }
+    input, textarea { border: none; border-bottom: 1px solid var(--border); border-radius:0; padding: 4px 0; background: transparent; }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#7C97FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">09 / Build and Lead Your Team</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">Two Weeks Out  ·  Team Building and Leadership Development</p>
+  <h1>Your Two Decisions</h1>
+  <p class="lede">When team compensation decisions and household cash flow are flowing through the same checking account, both decisions get worse. This worksheet separates them — honestly.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">The household question — what is, and what's needed</span></div>
+  <p class="step-sub">No spin, no shame, no aspirational numbers. What the business is paying you today versus what your household actually requires.</p>
+  <div class="block-card">
+    <div class="input-grid-2">
+      <div class="field"><label for="draw-current">Current owner draw (annual)</label><div class="input-prefix"><input type="number" id="draw-current" placeholder="80000" step="1000" oninput="recalc()"></div></div>
+      <div class="field"><label for="draw-needed">What the household actually requires (annual)</label><div class="input-prefix"><input type="number" id="draw-needed" placeholder="140000" step="1000" oninput="recalc()"></div></div>
+    </div>
+    <div class="calc-row primary" id="gap-row" style="margin-top: 10px;">
+      <span class="calc-label">The gap</span>
+      <span class="calc-value" id="gap-value">—</span>
+    </div>
+    <div class="field" style="margin-top: 12px; margin-bottom: 0;">
+      <label for="gap-context">Context — what's bridging the gap today, if there is one</label>
+      <textarea id="gap-context" placeholder="e.g., Spouse's income, savings, deferred household decisions. Or 'the gap is invisible because I haven't acknowledged it.'"></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">The team comp pass — is anyone underpaid?</span></div>
+  <p class="step-sub">Look at the bands you sketched in the last lesson and ask, with the separation discipline in mind: is anyone on the team underpaid relative to their band? Would you have noticed if you weren't, at some level, protecting the household?</p>
+  <div class="block-card">
+    <div class="field"><label for="underpaid">Anyone underpaid relative to their band</label><textarea id="underpaid" placeholder="Names or initials, with a brief note. Be honest. The protective instinct toward the household quietly suppresses team comp in ways that don't feel like underpayment from the inside."></textarea></div>
+    <div class="field" style="margin-bottom: 0;"><label for="underpaid-action">If anyone is named — what is the move and the timeline?</label><textarea id="underpaid-action" placeholder="e.g., Move M.J. to midpoint at the April review — $12K base adjustment. Source: small reduction in my own draw, plus deferred capex on the Phoenix buildout."></textarea></div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">The separation discipline — name the two decisions explicitly</span></div>
+  <p class="step-sub">Two decisions, kept apart. Both can be constrained by the same cash flow without distorting each other.</p>
+  <div class="two-col-grid">
+    <div class="decision-card team">
+      <div class="decision-card-tag">DECISION 1</div>
+      <div class="decision-card-title">What the team should be paid</div>
+      <p class="block-prompt">A business question. Answered by the bands, the variable plan, and the market data.</p>
+      <textarea id="dec-team" placeholder="The team comp decision you're making — independent of your draw. What's right by the bands and the work."></textarea>
+    </div>
+    <div class="decision-card household">
+      <div class="decision-card-tag">DECISION 2</div>
+      <div class="decision-card-title">What the business can pay you</div>
+      <p class="block-prompt">A separate question. Answered by the business's cash flow, your household needs, and the Self-Funding discipline.</p>
+      <textarea id="dec-household" placeholder="The household decision — what you're drawing, why, and how the gap (if any) is being managed."></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>The Two Decisions, Separated</h2>
+    <p>The household question, the team comp pass, and the discipline of keeping them apart.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Complete the steps above and click Generate to produce your posture-shift artifact.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+const EXAMPLE = {
+  current: 75000, needed: 140000,
+  context: "Spouse covers $45K of the gap from her income. The remaining $20K has been silently coming out of savings — which I've been calling 'reinvestment' but which is actually the household decision I've been avoiding.",
+  underpaid: "M.J., Account Management Lead — currently at $98K, band midpoint is $115K. Worth noting: I would have approved $115K for an external hire without hesitation. The fact that an internally-grown senior person ended up $17K below band is exactly the protective-instinct pattern this lesson is about.",
+  action: "Move M.J. to midpoint at the April annual review — $17K base adjustment. Source: $10K from a small reduction in my own draw, $7K from a quarterly profit-share reallocation we'd been holding for capex. Both moves named in the household conversation, not absorbed silently.",
+  team: "M.J. moves to midpoint at $115K in April. This is the right number for the role and the performance, defensible by the bands, and overdue. The annual review process will run on the predictable schedule from now on — no more pressure-driven raises.",
+  household: "Current draw stays at $75K through Q2, then increases to $85K in Q3 as the AM team produces the expansion revenue M.J. is being paid to deliver. Spouse and I revisit the household number in October, not in passing. The Self-Funding worksheet gets re-run each January."
+};
+
+function useExample() {
+  const hasContent = !!val("draw-current") || !!val("underpaid") || !!val("dec-team");
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+  resetAllFields();
+  setEl("draw-current", EXAMPLE.current); setEl("draw-needed", EXAMPLE.needed); setEl("gap-context", EXAMPLE.context);
+  setEl("underpaid", EXAMPLE.underpaid); setEl("underpaid-action", EXAMPLE.action);
+  setEl("dec-team", EXAMPLE.team); setEl("dec-household", EXAMPLE.household);
+  recalc();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function val(id) { return (document.getElementById(id)?.value || "").trim(); }
+function num(id) { const v = val(id); if (!v) return null; const n = parseFloat(v); return isNaN(n) ? null : n; }
+function setEl(id, v) { const e = document.getElementById(id); if (e) e.value = v; }
+function fmtMoney(n) { if (n == null || isNaN(n)) return "—"; const sign = n < 0 ? "−" : ""; return sign + "$" + Math.abs(Math.round(n)).toLocaleString(); }
+
+function recalc() {
+  const cur = num("draw-current"); const nee = num("draw-needed");
+  const row = document.getElementById("gap-row"); const v = document.getElementById("gap-value");
+  if (cur != null && nee != null) {
+    const gap = nee - cur;
+    v.textContent = fmtMoney(gap) + (gap > 0 ? " short" : gap < 0 ? " over" : " balanced");
+    row.classList.toggle("warn", gap > 0);
+    row.classList.toggle("primary", gap <= 0);
+  } else {
+    v.textContent = "—";
+    row.classList.remove("warn");
+    row.classList.add("primary");
+  }
+}
+
+function generate() {
+  const out = document.getElementById("output-section");
+  const cur = num("draw-current"); const nee = num("draw-needed");
+  if (cur == null || nee == null) { out.innerHTML = '<div class="empty-output">Fill in the household numbers in Step 1 to generate your artifact.</div>'; out.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+  const gap = nee - cur;
+  const gapContext = val("gap-context");
+  const underpaid = val("underpaid"); const action = val("underpaid-action");
+  const team = val("dec-team"); const household = val("dec-household");
+
+  let html = `
+    <div class="out-block"><div class="out-block-title">The household picture</div>
+      <div class="calc-row"><span class="calc-label">Current owner draw</span><span class="calc-value">${fmtMoney(cur)}</span></div>
+      <div class="calc-row"><span class="calc-label">Household requirement</span><span class="calc-value">${fmtMoney(nee)}</span></div>
+      <div class="calc-row ${gap > 0 ? "warn" : "primary"}"><span class="calc-label">${gap > 0 ? "Gap (short)" : gap < 0 ? "Surplus" : "Balanced"}</span><span class="calc-value">${fmtMoney(Math.abs(gap))}</span></div>
+      ${gapContext ? `<div class="summary-card" style="margin-top: 10px;"><div class="summary-card-name">Context</div><div class="summary-card-body">${escapeHtml(gapContext)}</div></div>` : ""}
+    </div>
+  `;
+
+  if (underpaid || action) {
+    html += `<div class="out-block"><div class="out-block-title">The team comp pass</div>`;
+    if (underpaid) html += `<div class="summary-card"><div class="summary-card-name">Underpaid relative to band</div><div class="summary-card-body">${escapeHtml(underpaid)}</div></div>`;
+    if (action) html += `<div class="summary-card"><div class="summary-card-name">Move and timeline</div><div class="summary-card-body">${escapeHtml(action)}</div></div>`;
+    html += `</div>`;
+  }
+
+  if (team || household) {
+    html += `<div class="out-block"><div class="out-block-title">The two decisions, kept apart</div><div class="decisions-out-grid">
+      <div class="decision-out-card team">
+        <div class="decision-out-tag">DECISION 1</div>
+        <div class="decision-out-title">What the team should be paid</div>
+        ${team ? `<div class="decision-out-body">${escapeHtml(team)}</div>` : `<div style="color: var(--muted-soft); font-style: italic; font-size: 13px;">Not yet named.</div>`}
+      </div>
+      <div class="decision-out-card household">
+        <div class="decision-out-tag">DECISION 2</div>
+        <div class="decision-out-title">What the business can pay you</div>
+        ${household ? `<div class="decision-out-body">${escapeHtml(household)}</div>` : `<div style="color: var(--muted-soft); font-style: italic; font-size: 13px;">Not yet named.</div>`}
+      </div>
+    </div></div>`;
+  }
+
+  // Observations
+  const obs = [];
+  if (gap > 0 && !gapContext) {
+    obs.push(`<strong>You have a household gap of ${fmtMoney(gap)} and no context recorded for how it's being managed.</strong> An unacknowledged gap is the most common version of this trap — the gap silently distorts every team comp decision because it's not on the table. Name what's bridging it, honestly.`);
+  } else if (gap > 0 && gapContext) {
+    obs.push(`<strong>The gap is named and the bridge is acknowledged.</strong> That alone is the posture shift. Most owners never get this far — the gap stays invisible, and team comp decisions get quietly suppressed to keep it that way.`);
+  } else if (gap <= 0 && gap > -10000) {
+    obs.push(`<strong>The draw and household need are roughly balanced.</strong> The cleanest position. Worth confirming on the Self-Funding worksheet that the underlying business can sustain the current draw — balance today is not the same as durable balance.`);
+  } else if (gap < -10000) {
+    obs.push(`<strong>Your draw exceeds household need by ${fmtMoney(Math.abs(gap))}.</strong> Worth confirming the business can sustain it — and worth asking whether some of the surplus belongs in the business as cash cushion or in team comp where the bands suggest it should be.`);
+  }
+  if (underpaid && !action) {
+    obs.push(`<strong>You named underpaid team member(s) but no move.</strong> The lesson's discipline is that naming without acting is the trap — knowing someone is underpaid and not acting on it is itself a comp decision, and the team reads it.`);
+  }
+  if (!team || !household) {
+    obs.push(`<strong>One or both decisions still unnamed.</strong> The two-column exercise is the posture shift in operation — when both decisions are written down side-by-side, the way they were quietly distorting each other becomes visible. Name both, even if just in draft.`);
+  }
+  obs.forEach(o => { html += `<div class="observation">${o}</div>`; });
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function escapeHtml(s) { if (s == null) return ""; return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function resetAllFields() { document.querySelectorAll("input[type='text'], input[type='number'], textarea").forEach(el => el.value = ""); recalc(); }
+function clearAll() { if (!confirm("Clear all entries and start over?")) return; resetAllFields(); document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your posture-shift artifact.</div>'; window.scrollTo({ top: 0, behavior: "smooth" }); }
+recalc();
+</script>
+</body>
+</html>

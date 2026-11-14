@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Business Model Canvas Worksheet · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --ink:#10131a; --paper:#fbfaf6; --white:#ffffff; --cobalt:#2747f5; --cobalt2:#1b36c9; --signal:#ff5a1f;
+  --slate:#59616e; --fog:#9ba3af; --sky:#93abff; --mist:#e9ecf5; --line:#d5d9e4; --inkline:#2c313c; --onink:#c9ced8;
+  --good:#0d6b4c; --good-tint:#e2f5ea; --warn:#7d5300; --warn-tint:#fff3cd; --danger:#b3261e; --danger-tint:#fde9e7;
+  --module:#F986DD;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+  --text:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--module);border-bottom:2px solid var(--ink)}
+.two-wm{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.two-mod{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header.top{padding:52px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.deck{font-size:18px;color:var(--slate);max-width:700px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.btn{border:2px solid var(--ink);background:var(--white);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.btn.primary:hover{background:var(--cobalt2);border-color:var(--cobalt2)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.ink:hover{background:var(--inkline)}
+.btn.quiet{border-color:var(--line);color:var(--slate);font-weight:500}
+.saved{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);margin-left:auto}
+.meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:22px}
+.meta label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date],select,textarea{width:100%;background:var(--white);border:1px solid var(--line);border-bottom:2px solid var(--ink);padding:10px 12px;border-radius:0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--mist)}
+textarea{resize:vertical;min-height:64px;line-height:1.5}
+::placeholder{color:#8a919c}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-top:28px}
+.progress .wrap{display:flex;gap:6px;padding:12px 24px;flex-wrap:wrap}
+.step-pill{flex:1 1 180px;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--white);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--slate);text-decoration:none}
+.step-pill b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog)}
+.step-pill.done{border-color:var(--good);color:var(--good);background:var(--good-tint)}
+.step-pill.done b{color:var(--good)}
+
+section.step{padding:52px 0 8px}
+.step-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.step-num{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--cobalt)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);line-height:1.05;letter-spacing:-.035em}
+.intro{color:var(--slate);max-width:720px;margin:10px 0 22px}
+.group-label{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px;display:flex;gap:12px;align-items:center}
+.group-label::after{content:"";flex:1;height:2px;background:var(--ink)}
+.group-note{font-size:14px;color:var(--slate);margin:-4px 0 14px;max-width:720px}
+
+.box{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:12px}
+.box.money{border-left-color:var(--cobalt)}
+.box-top{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-bottom:12px}
+.box-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.box-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.box-q{grid-column:2;font-size:14px;color:var(--slate)}
+.box-q b{color:var(--ink);font-weight:600}
+.len{font-size:12px;color:var(--fog);margin-top:6px;min-height:18px}
+.len.long{color:var(--warn)}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.marks .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark:hover{border-color:var(--ink)}
+.mark[aria-pressed=true][data-m=known]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=assumed]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.mark[aria-pressed=true][data-m=unknown]{background:var(--mist);border-color:var(--ink);color:var(--ink)}
+.evidence{margin-top:12px;display:none}
+.evidence.show{display:block}
+.evidence label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.evidence label span{font-weight:400;color:var(--slate)}
+.flag{font-size:13px;margin-top:8px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.flag.show{display:block}
+
+.callout{background:var(--ink);color:var(--paper);padding:22px 26px;margin:6px 0 18px}
+.callout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.callout p{color:var(--onink);font-size:15px}
+.callout p b{color:#fff}
+
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 14px}
+.tally div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.tally .v{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.tally .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.tally .known .v{color:var(--good)} .tally .assumed .v{color:var(--warn)}
+.read{padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:760px}
+.read.alert{border-left-color:var(--danger);background:var(--danger-tint)}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pick label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.pick label:hover{border-color:var(--ink)}
+.pick input{margin-top:3px;accent-color:var(--cobalt)}
+.pick label.on{border:2px solid var(--signal);padding:11px 13px}
+.pick small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.pick small.known{color:var(--good)} .pick small.assumed{color:var(--warn)} .pick small.unknown{color:var(--slate)}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.field .help{font-size:13px;color:var(--slate);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:grid;gap:8px;margin:6px 0 4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--white);border:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--good)}
+.reopen{display:flex;flex-wrap:wrap;gap:8px}
+.reopen label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:7px 12px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.reopen input{accent-color:var(--cobalt)}
+
+/* canvas output */
+.canvas{display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:auto auto auto;border:2px solid var(--ink);background:var(--ink);gap:2px;margin-top:6px}
+.cell{background:var(--white);padding:12px 12px 14px;min-height:150px;position:relative}
+.cell h4{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between;gap:6px}
+.cell p{font-size:13.5px;line-height:1.45;white-space:pre-wrap}
+.cell p.empty{color:var(--fog)}
+.chip{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;padding:2px 6px;white-space:nowrap}
+.chip.known{background:var(--good-tint);color:var(--good)} .chip.assumed{background:var(--warn-tint);color:var(--warn)} .chip.unknown{background:var(--mist);color:var(--slate)}
+.cell.risk{outline:4px solid var(--signal);outline-offset:-4px}
+.cell .riskTag{display:inline-block;margin-top:8px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--signal);color:var(--ink);padding:2px 6px}
+.c-partners{grid-column:1/3;grid-row:1/3}
+.c-activities{grid-column:3/5;grid-row:1}
+.c-resources{grid-column:3/5;grid-row:2}
+.c-value{grid-column:5/7;grid-row:1/3}
+.c-relationships{grid-column:7/9;grid-row:1}
+.c-channels{grid-column:7/9;grid-row:2}
+.c-segments{grid-column:9/11;grid-row:1/3}
+.c-cost{grid-column:1/6;grid-row:3;min-height:100px}
+.c-revenue{grid-column:6/11;grid-row:3;min-height:100px}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.summary div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.summary h5{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.summary p{font-size:14.5px;white-space:pre-wrap}
+.next{margin:44px 0 70px;padding:24px 26px;border:2px solid var(--ink);background:var(--white)}
+.next .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px}
+.next p{color:var(--slate)}
+.print-only{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;display:none;z-index:50}
+.toast.show{display:block}
+
+@media (max-width:760px){
+  .meta,.grid2,.summary{grid-template-columns:1fr}
+  .pick{grid-template-columns:1fr 1fr}
+  .tally{gap:8px} .tally div{padding:12px 12px;min-width:0} .tally .v{font-size:32px} .tally .l{font-size:10px;letter-spacing:.06em}
+  .canvas{grid-template-columns:1fr;grid-template-rows:none}
+  .canvas .cell{grid-column:auto!important;grid-row:auto!important;min-height:0}
+  .progress{position:static}
+}
+@media print{
+  @page{size:letter landscape;margin:.45in}
+  body{background:#fff;font-size:11pt}
+  .two-band,.toolbar,.progress,section.step,.next,.toast,.saved,.no-print{display:none!important}
+  header.top{padding:0 0 10px;border-bottom:2px solid #000}
+  h1{font-size:26pt;margin:6px 0}
+  .deck{display:none}
+  .meta{grid-template-columns:2fr 1fr 1fr}
+  .meta input{border:none;border-bottom:1px solid #999;padding:2px 0}
+  .print-only{display:block}
+  #out{display:block!important;padding-top:10px}
+  #out h2{font-size:16pt}
+  .canvas{page-break-inside:avoid}
+  .cell{min-height:120px}
+  .cell,.chip,.riskTag,.summary div{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .summary{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">06 / Build What Customers Want</span></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Worksheet · The Business Model Canvas</div>
+  <h1>Your model on <em>one page.</em></h1>
+  <p class="deck">Nine boxes, filled in the order that starts with the customer and the money. Then mark what you actually know, name the one box that would take the rest down with it, and write how you'll test it in the next thirty days.</p>
+  <div class="toolbar">
+    <button class="btn primary" id="useExample" type="button">Use the lesson’s example</button>
+    <button class="btn ink" id="printBtn" type="button">Print / Save as PDF</button>
+    <button class="btn" id="xlsxBtn" type="button">Download to Excel</button>
+    <button class="btn quiet" id="clearBtn" type="button">Clear all</button>
+    <span class="saved" id="saved">Saves automatically in this browser</span>
+  </div>
+  <div class="meta">
+    <div><label for="bizName">Business</label><input type="text" id="bizName" data-k="bizName" placeholder="Your business, or the one you’re planning"></div>
+    <div><label for="version">Canvas version</label>
+      <select id="version" data-k="version"><option value="1">Version 1 (first draft)</option><option value="2">Version 2</option><option value="3">Version 3</option><option value="4">Version 4</option></select></div>
+    <div><label for="cDate">Date</label><input type="date" id="cDate" data-k="cDate"></div>
+  </div>
+</header>
+</div>
+
+<nav class="progress" aria-label="Progress">
+  <div class="wrap">
+    <a class="step-pill" id="p1" href="#s1"><b>01</b><span>Fill the nine boxes <span id="p1n">0/9</span></span></a>
+    <a class="step-pill" id="p2" href="#s1"><b>02</b><span>Mark every box <span id="p2n">0/9</span></span></a>
+    <a class="step-pill" id="p3" href="#s3"><b>03</b><span>Name the riskiest box</span></a>
+    <a class="step-pill" id="p4" href="#s4"><b>04</b><span>Write the 30-day test</span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section class="step" id="s1">
+  <div class="step-head"><span class="step-num">STEP 01 + 02</span></div>
+  <h2>Fill the nine boxes, in this order. Mark each one as you go.</h2>
+  <p class="intro">Keep every box to a line or two. If a box takes a paragraph, it isn’t clear enough yet. Then mark it: <b>Known</b> means you can name something that happened outside your own head. <b>Assumed</b> means you believe it, with reasons, and no evidence. <b>Unknown</b> means you hadn’t thought about it until now.</p>
+
+  <div class="group-label">The money path · boxes 1 to 5</div>
+  <p class="group-note">Who, what, how they find you, how you keep them, how you get paid. This is the side most owners have never had to prove, so it comes first.</p>
+  <div id="moneyBoxes"></div>
+
+  <div class="group-label">What it takes to deliver · boxes 6 to 9</div>
+  <p class="group-note">You can’t size delivery until you know what you’re delivering and to whom. Fill these last.</p>
+  <div id="deliverBoxes"></div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head"><span class="step-num">CHECK</span></div>
+  <h2>How honest is your canvas?</h2>
+  <p class="intro">A typical first pass comes back with one box known, six assumed and two unknown. That’s an accurate canvas, not a bad one.</p>
+  <div class="tally">
+    <div class="known"><div class="v" id="tKnown">0</div><div class="l">Known</div></div>
+    <div class="assumed"><div class="v" id="tAssumed">0</div><div class="l">Assumed</div></div>
+    <div class="unknown"><div class="v" id="tUnknown">0</div><div class="l">Unknown</div></div>
+  </div>
+  <div class="read" id="tallyRead">Mark your boxes and your read appears here.</div>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head"><span class="step-num">STEP 03</span></div>
+  <h2>Name your riskiest box.</h2>
+  <div class="callout">
+    <div class="k">The question</div>
+    <p><b>Which one box, if you have it wrong, makes the other eight irrelevant?</b> That’s a different question from which box you’re least sure about. Almost every time, it’s customer segments. Not always, but start there.</p>
+  </div>
+  <div class="pick" id="riskPick"></div>
+  <div class="field">
+    <label for="riskWhy">If this box is wrong, what else breaks?</label>
+    <p class="help">Name the boxes that were built on top of it.</p>
+    <textarea id="riskWhy" data-k="riskWhy" placeholder="e.g., The value proposition, channels and price were all built for this customer."></textarea>
+  </div>
+</section>
+
+<section class="step" id="s4">
+  <div class="step-head"><span class="step-num">STEP 04</span></div>
+  <h2>Write the test. Thirty days. Somebody has to be able to say no.</h2>
+  <p class="intro">A test is something a real person does that costs them money, time or a signature, and that could come back no. Research tells you what people think. A test tells you what they do.</p>
+  <div class="grid2">
+    <div class="field"><label for="tWho">Who</label><p class="help">Real people who fit the box you’re testing.</p><input type="text" id="tWho" data-k="tWho" placeholder="e.g., Ten people who fit my segment"></div>
+    <div class="field"><label for="tWhat">What they have to do</label><p class="help">Something that costs them money, time or a signature.</p><input type="text" id="tWhat" data-k="tWhat" placeholder="e.g., Book a paid first session or leave a refundable deposit"></div>
+    <div class="field"><label for="tNo">What “no” looks like</label><p class="help">The result that tells you the box is wrong.</p><input type="text" id="tNo" data-k="tNo" placeholder="e.g., Fewer than three of the ten book"></div>
+    <div class="field"><label for="tBy">Done by</label><p class="help">Within thirty days.</p><input type="date" id="tBy" data-k="tBy"></div>
+  </div>
+  <div class="field">
+    <label for="tSentence">Your test in one sentence</label>
+    <p class="help">Write it so someone else could run it. <button class="btn quiet" type="button" id="buildSentence" style="padding:4px 10px;font-size:12px;margin-left:6px">Draft it from the four fields</button></p>
+    <textarea id="tSentence" data-k="tSentence" placeholder="By [date], [who] will be asked to [what they have to do]. If [what no looks like], the box is wrong."></textarea>
+  </div>
+  <div class="field">
+    <label>Check it before you run it</label>
+    <div class="checks">
+      <label><input type="checkbox" data-k="ck1"> It rests on what real people do or did, not a survey or a “would you be interested.”</label>
+      <label><input type="checkbox" data-k="ck2"> It costs them money, time or a signature.</label>
+      <label><input type="checkbox" data-k="ck3"> It could come back no, and I’ve written down what no looks like.</label>
+      <label><input type="checkbox" data-k="ck4"> It finishes within thirty days.</label>
+    </div>
+  </div>
+
+  <div class="group-label" style="margin-top:34px">After the test · for your next version</div>
+  <p class="group-note">Come back when the result is in. Draw it in pencil: the version that matters is the fourth, after three rounds of finding out.</p>
+  <div class="field">
+    <label for="result">What came back</label>
+    <textarea id="result" data-k="result" placeholder="What people actually did, with numbers."></textarea>
+  </div>
+  <div class="field">
+    <label>Boxes this result reopens</label>
+    <p class="help">Every box built on the one you tested may need redrawing. Start version 2 with these.</p>
+    <div class="reopen" id="reopen"></div>
+  </div>
+</section>
+
+<section id="out" class="step">
+  <div class="step-head"><span class="step-num">YOUR CANVAS</span></div>
+  <h2 id="outTitle">Your canvas, version 1</h2>
+  <p class="intro no-print">The standard layout: partners, activities and resources on the left, the value proposition in the center, relationships, channels and segments on the right, cost and revenue along the bottom. Your riskiest box is outlined in orange.</p>
+  <div class="canvas" id="canvas"></div>
+  <div class="summary">
+    <div><h5>Riskiest box</h5><p id="sRisk">Not chosen yet.</p></div>
+    <div><h5>30-day test</h5><p id="sTest">Not written yet.</p></div>
+    <div><h5>What came back</h5><p id="sResult">Not run yet.</p></div>
+    <div><h5>Boxes to redraw in the next version</h5><p id="sReopen">None marked.</p></div>
+  </div>
+</section>
+
+<div class="next no-print">
+  <div class="k">Next session</div>
+  <p><b style="color:var(--ink)">Mapping the Customer Journey.</b> Bring the segment you just named. You’ll follow one of them from the moment they start looking for help all the way to paying, and past it.</p>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var BOXES=[
+    {id:'segments',n:1,name:'Customer segments',q:'<b>Who, specifically?</b> The narrower and more concrete, the more useful.',ph:'e.g., Owners of 5 to 20 person firms who just lost their office manager',money:true},
+    {id:'value',n:2,name:'Value proposition',q:'<b>What do they get?</b> The outcome, in their terms.',ph:'e.g., Payroll and books handled without a full-time hire',money:true},
+    {id:'channels',n:3,name:'Channels',q:'<b>How do they find you and buy from you?</b> How a customer reaches you: a referral, a search, a sign on the street.',ph:'e.g., Referrals from their accountant; search',money:true},
+    {id:'relationships',n:4,name:'Customer relationships',q:'<b>What does the contact look like after that?</b> Everything after they arrive: a monthly check-in, a self-serve portal, a person who knows their name.',ph:'e.g., A named contact and a monthly check-in call',money:true},
+    {id:'revenue',n:5,name:'Revenue streams',q:'<b>How does money actually arrive?</b> What they pay, how often, and how.',ph:'e.g., $900 a month, billed monthly, 12-month agreement',money:true},
+    {id:'resources',n:6,name:'Key resources',q:'<b>What do you have to have?</b> What you have: a license, a location, a trained team.',ph:'e.g., Two certified bookkeepers; accounting software licenses'},
+    {id:'activities',n:7,name:'Key activities',q:'<b>What do you have to do?</b> What you do with those resources every week.',ph:'e.g., Monthly close; payroll runs; client check-ins'},
+    {id:'partners',n:8,name:'Key partners',q:'<b>Who do you depend on?</b>',ph:'e.g., Payroll provider; two referring accounting firms'},
+    {id:'cost',n:9,name:'Cost structure',q:'<b>What does it cost to run?</b> The big lines, roughly.',ph:'e.g., Salaries; software; insurance'}
+  ];
+  var EXAMPLE={
+    bizName:'Upstream Medicine (the lesson’s example)', version:'1',
+    segments:'Adults 45 to 70 who want more time with their doctor.', m_segments:'assumed', e_segments:'',
+    value:'A physician with time to work on why a problem showed up, not only to treat it.', m_value:'assumed', e_value:'',
+    channels:'Our website, and word of mouth from current members.', m_channels:'assumed', e_channels:'',
+    relationships:'Each member has a named physician, with regular member reviews.', m_relationships:'assumed', e_relationships:'',
+    revenue:'Annual membership at $3,600. 400 members across four physicians, 100 each.', m_revenue:'known', e_revenue:'400 members are paying $3,600 a year. The number is in the bank.',
+    resources:'Four physicians: oncology, endocrinology, cardiology and behavioral health.', m_resources:'known', e_resources:'The four partners are in place and seeing members.',
+    activities:'Member care, member reviews, and reading each member’s results.', m_activities:'assumed', e_activities:'',
+    partners:'An outside lab for blood work; a trainer we refer members to.', m_partners:'unknown', e_partners:'',
+    cost:'Mostly physician time. We haven’t measured hours per member.', m_cost:'unknown', e_cost:'',
+    risk:'segments',
+    riskWhy:'Four hundred people paying is evidence that somebody buys, not evidence of who. If the segment is wrong, the value proposition, the channel, the price and the cost structure were all built for a business that doesn’t exist.',
+    tWho:'Our first 40 members, from the year we opened',
+    tWhat:'Read their intake notes: what brought them in, and who sent them',
+    tNo:'If most of the 40 don’t match “adults 45 to 70 who want more time,” the segment is wrong',
+    tSentence:'This week, read the intake notes of our first 40 members to see who they actually were and how they reached us. If most don’t match “adults 45 to 70 who want more time with their doctor,” the segment box is wrong.',
+    ck1:true,ck2:true,ck3:true,ck4:true,
+    result:'They weren’t people who wanted more time. They were carrying one unresolved problem, already through three or four specialists without an answer. 31 of the 40 were referred by other physicians, a channel that wasn’t on the canvas at all. It took an afternoon.',
+    re_value:true, re_channels:true, re_revenue:true
+  };
+  var KEY='two_bmc_v1', state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));flash('Saved')}catch(e){} render();}
+  var savedEl=document.getElementById('saved'),t0;
+  function flash(s){savedEl.textContent=s;clearTimeout(t0);t0=setTimeout(function(){savedEl.textContent='Saves automatically in this browser'},1200)}
+  function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  // build boxes
+  function boxHTML(b){
+    return '<div class="box'+(b.money?' money':'')+'" id="box-'+b.id+'">'+
+      '<div class="box-top"><span class="box-n">'+(b.n<10?'0':'')+b.n+'</span><span class="box-name">'+b.name+'</span><span class="box-q">'+b.q+'</span></div>'+
+      '<textarea data-k="'+b.id+'" aria-label="'+b.name+'" placeholder="'+esc(b.ph)+'" rows="2"></textarea>'+
+      '<div class="len" id="len-'+b.id+'"></div>'+
+      '<div class="marks" role="group" aria-label="Mark '+b.name+'"><span class="lbl">Mark</span>'+
+        ['known','assumed','unknown'].map(function(m){return '<button type="button" class="mark" data-box="'+b.id+'" data-m="'+m+'" aria-pressed="false">'+m.charAt(0).toUpperCase()+m.slice(1)+'</button>'}).join('')+
+      '</div>'+
+      '<div class="evidence" id="ev-'+b.id+'"><label>What happened outside your own head? <span>Somebody paid, somebody signed, a number from the real world.</span></label><input type="text" data-k="e_'+b.id+'" placeholder="Name the specific thing"></div>'+
+      '<div class="flag" id="flag-'+b.id+'">A box is only known if you can name the specific thing that happened. Add it, or mark this box assumed.</div>'+
+    '</div>';
+  }
+  document.getElementById('moneyBoxes').innerHTML=BOXES.filter(function(b){return b.money}).map(boxHTML).join('');
+  document.getElementById('deliverBoxes').innerHTML=BOXES.filter(function(b){return !b.money}).map(boxHTML).join('');
+  document.getElementById('riskPick').innerHTML=BOXES.map(function(b){return '<label id="rp-'+b.id+'"><input type="radio" name="risk" value="'+b.id+'"><span>'+b.name+'<small id="rpm-'+b.id+'"></small></span></label>'}).join('');
+  document.getElementById('reopen').innerHTML=BOXES.map(function(b){return '<label><input type="checkbox" data-k="re_'+b.id+'"> '+b.name+'</label>'}).join('');
+
+  // bind inputs
+  function bindAll(){
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var k=el.dataset.k;
+      if(el.type==='checkbox') el.checked=!!state[k]; else el.value=state[k]!=null?state[k]:(k==='version'?'1':'');
+    });
+    document.querySelectorAll('.mark').forEach(function(b){b.setAttribute('aria-pressed',state['m_'+b.dataset.box]===b.dataset.m?'true':'false')});
+    document.querySelectorAll('input[name=risk]').forEach(function(r){r.checked=state.risk===r.value});
+  }
+  document.addEventListener('input',function(e){var k=e.target.dataset&&e.target.dataset.k;if(!k)return;state[k]=e.target.type==='checkbox'?e.target.checked:e.target.value;save()});
+  document.addEventListener('change',function(e){
+    if(e.target.name==='risk'){state.risk=e.target.value;save();return}
+    var k=e.target.dataset&&e.target.dataset.k;if(!k)return;state[k]=e.target.type==='checkbox'?e.target.checked:e.target.value;save()});
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.mark');if(!b)return;
+    var key='m_'+b.dataset.box; state[key]=state[key]===b.dataset.m?'':b.dataset.m;
+    document.querySelectorAll('.mark[data-box="'+b.dataset.box+'"]').forEach(function(x){x.setAttribute('aria-pressed',state[key]===x.dataset.m?'true':'false')});
+    save();
+  });
+
+  // default dates
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  if(!state.cDate){state.cDate=iso(new Date())}
+  if(!state.tBy){var d=new Date();d.setDate(d.getDate()+30);state.tBy=iso(d)}
+
+  function render(){
+    var filled=0,marked=0,tally={known:0,assumed:0,unknown:0};
+    BOXES.forEach(function(b){
+      var v=(state[b.id]||'').trim(), m=state['m_'+b.id]||'';
+      if(v)filled++; if(m){marked++;tally[m]++}
+      var len=document.getElementById('len-'+b.id), n=v.length;
+      len.textContent=n>220?'This is running long. If a box takes a paragraph, it isn’t clear enough yet.':(n?n+' characters':'');
+      len.className='len'+(n>220?' long':'');
+      document.getElementById('ev-'+b.id).classList.toggle('show',m==='known');
+      document.getElementById('flag-'+b.id).classList.toggle('show',m==='known'&&!(state['e_'+b.id]||'').trim());
+      var rpm=document.getElementById('rpm-'+b.id); rpm.textContent=m?m.charAt(0).toUpperCase()+m.slice(1):'Not marked'; rpm.className=m;
+      document.getElementById('rp-'+b.id).classList.toggle('on',state.risk===b.id);
+    });
+    document.getElementById('tKnown').textContent=tally.known;
+    document.getElementById('tAssumed').textContent=tally.assumed;
+    document.getElementById('tUnknown').textContent=tally.unknown;
+    var r=document.getElementById('tallyRead'), msg, alert=false;
+    if(marked<9) msg='You’ve marked '+marked+' of 9 boxes. Mark all nine to see your read.';
+    else if(tally.known===9){msg='All nine marked known. That’s the canvas to worry about: it usually means nobody has looked hard at any of them. For each box, can you name the specific thing that happened outside your own head?';alert=true}
+    else if(tally.known>=6){msg='That’s a lot of boxes marked known for a first pass. Check each one against its evidence: somebody paid, somebody signed, a number from the real world. Conviction doesn’t count.';alert=true}
+    else msg='An honest canvas. The assumed and unknown boxes are your list of things to check, one at a time. Next, decide which one matters most.';
+    var missing=BOXES.filter(function(b){return state['m_'+b.id]==='known'&&!(state['e_'+b.id]||'').trim()}).length;
+    if(marked===9&&missing) msg+=' '+missing+' box'+(missing>1?'es are':' is')+' marked known without evidence written down.';
+    r.textContent=msg; r.className='read'+(alert?' alert':'');
+    // progress
+    var testDone=!!(state.tSentence||'').trim();
+    [['p1',filled===9],['p2',marked===9],['p3',!!state.risk],['p4',testDone]].forEach(function(p){document.getElementById(p[0]).classList.toggle('done',p[1])});
+    document.getElementById('p1n').textContent=filled+'/9'; document.getElementById('p2n').textContent=marked+'/9';
+    // canvas
+    var cv=document.getElementById('canvas');
+    cv.innerHTML=BOXES.map(function(b){
+      var v=(state[b.id]||'').trim(),m=state['m_'+b.id]||'',risk=state.risk===b.id;
+      return '<div class="cell c-'+b.id+(risk?' risk':'')+'"><h4><span>'+b.n+' · '+b.name+'</span>'+(m?'<span class="chip '+m+'">'+m.toUpperCase()+'</span>':'')+'</h4>'+
+        '<p class="'+(v?'':'empty')+'">'+(v?esc(v):'Not filled yet')+'</p>'+
+        (m==='known'&&(state['e_'+b.id]||'').trim()?'<p style="font-size:12px;color:var(--good);margin-top:6px">Evidence: '+esc(state['e_'+b.id])+'</p>':'')+
+        (risk?'<span class="riskTag">Riskiest box</span>':'')+'</div>';
+    }).join('');
+    var biz=(state.bizName||'').trim();
+    document.getElementById('outTitle').textContent=(biz?biz+': canvas':'Your canvas')+', version '+(state.version||'1');
+    var rb=BOXES.filter(function(b){return b.id===state.risk})[0];
+    document.getElementById('sRisk').textContent=rb?rb.name+((state.riskWhy||'').trim()?'. '+state.riskWhy.trim():''):'Not chosen yet.';
+    document.getElementById('sTest').textContent=testDone?state.tSentence.trim()+(state.tBy?' (Done by '+state.tBy+')':''):'Not written yet.';
+    document.getElementById('sResult').textContent=(state.result||'').trim()||'Not run yet.';
+    var re=BOXES.filter(function(b){return state['re_'+b.id]}).map(function(b){return b.name});
+    document.getElementById('sReopen').textContent=re.length?re.join(', '):'None marked.';
+  }
+
+  document.getElementById('buildSentence').addEventListener('click',function(){
+    var w=(state.tWho||'').trim(),a=(state.tWhat||'').trim(),no=(state.tNo||'').trim(),by=state.tBy;
+    if(!w||!a){toast('Fill in Who and What they have to do first.');return}
+    var s=(by?'By '+by+', ':'')+w.charAt(0).toLowerCase()+w.slice(1)+': '+a.charAt(0).toLowerCase()+a.slice(1)+'.'+(no?' '+no.charAt(0).toUpperCase()+no.slice(1)+(/[.!?]$/.test(no)?'':'.'):'');
+    state.tSentence=s;document.getElementById('tSentence').value=s;save();
+  });
+  function hasData(){return Object.keys(state).some(function(k){return k!=='cDate'&&k!=='tBy'&&k!=='version'&&state[k]})}
+  document.getElementById('useExample').addEventListener('click',function(){
+    if(hasData()&&!confirm('Replace what you’ve entered with the lesson’s example? Your current answers will be cleared.'))return;
+    var keep={cDate:state.cDate,tBy:state.tBy};state=Object.assign({},EXAMPLE,keep);bindAll();save();toast('The lesson’s example is loaded. Edit any box to make it yours.');
+  });
+  document.getElementById('clearBtn').addEventListener('click',function(){
+    if(!confirm('Clear every answer on this worksheet? This can’t be undone.'))return;
+    state={};try{localStorage.removeItem(KEY)}catch(e){}
+    var d=new Date();state.cDate=iso(d);d.setDate(d.getDate()+30);state.tBy=iso(d);bindAll();save();
+  });
+  document.getElementById('printBtn').addEventListener('click',function(){render();window.print()});
+  document.getElementById('xlsxBtn').addEventListener('click',function(){
+    if(typeof XLSX==='undefined'){toast('The Excel export couldn’t load. Check your connection and try again.');return}
+    var wb=XLSX.utils.book_new();
+    var c=[['Two Weeks Out · The Business Model Canvas'],['Business',state.bizName||''],['Version',state.version||'1'],['Date',state.cDate||''],[],['#','Box','Your entry','Mark','Evidence (known boxes)','Riskiest']];
+    BOXES.forEach(function(b){c.push([b.n,b.name,state[b.id]||'',state['m_'+b.id]||'',state['e_'+b.id]||'',state.risk===b.id?'Yes':''])});
+    var ws=XLSX.utils.aoa_to_sheet(c);ws['!cols']=[{wch:4},{wch:24},{wch:60},{wch:10},{wch:44},{wch:9}];
+    XLSX.utils.book_append_sheet(wb,ws,'Canvas');
+    var rb=BOXES.filter(function(b){return b.id===state.risk})[0];
+    var t=[['Riskiest box',rb?rb.name:''],['What else breaks',state.riskWhy||''],[],['30-day test'],['Who',state.tWho||''],['What they have to do',state.tWhat||''],['What no looks like',state.tNo||''],['Done by',state.tBy||''],['Test in one sentence',state.tSentence||''],[],['Rests on what people do or did',state.ck1?'Yes':'No'],['Costs them money, time or a signature',state.ck2?'Yes':'No'],['Could come back no',state.ck3?'Yes':'No'],['Within thirty days',state.ck4?'Yes':'No'],[],['What came back',state.result||''],['Boxes to redraw',BOXES.filter(function(b){return state['re_'+b.id]}).map(function(b){return b.name}).join(', ')]];
+    var ws2=XLSX.utils.aoa_to_sheet(t);ws2['!cols']=[{wch:36},{wch:90}];
+    XLSX.utils.book_append_sheet(wb,ws2,'Riskiest box and test');
+    var name=((state.bizName||'Business_Model_Canvas').replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||'Business_Model_Canvas')+'_v'+(state.version||'1')+'.xlsx';
+    XLSX.writeFile(wb,name);
+  });
+  var tt;function toast(s){var el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2600)}
+
+  bindAll(); render();
+})();
+</script>
+</body>
+</html>

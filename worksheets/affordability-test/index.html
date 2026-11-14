@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Hire Affordability Test — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#e9ecf5;
+    --bg:#ffffff;
+    --bg-soft:#fbfaf6;
+    --green:#2747f5;
+    --bright:#2747f5;
+    --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5;
+    --amber:#7d5300;
+    --amber-soft:#fff3cd;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--bg-soft);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+    background: var(--bg);
+  }
+  header.brand {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 34px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--green);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin: 0;
+  }
+  .step {
+    margin: 38px 0 0;
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+  }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .step-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 28px;font-weight:800;
+    color: var(--bright);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 4px 0 18px;
+    font-style: italic;
+  }
+  label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"], input[type="number"], select, textarea {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 9px 11px;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--em-soft);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.5;
+  }
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+
+  /* Card layout */
+  .role-card {
+    background: var(--em-soft);
+    border-left: 4px solid var(--green);
+    border-radius:0;
+    padding: 16px 20px;
+  }
+  .role-card label { color: var(--green); font-weight: 600; }
+  .role-card input { background: white; }
+  .calc-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 20px;
+    background: white;
+  }
+
+  /* Live-calculated rows */
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .input-grid.three {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .calc-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 16px;
+    padding: 10px 14px;
+    background: var(--bg-soft);
+    border-radius:0;
+    margin-bottom: 6px;
+    border-left: 3px solid var(--bright);
+  }
+  .calc-row.muted { border-left-color: var(--border); background: white; color: var(--muted); }
+  .calc-row.primary {
+    border-left-color: var(--green);
+    background: var(--em-soft);
+  }
+  .calc-row.primary .calc-value { color: var(--green); }
+  .calc-label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .calc-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;letter-spacing:-.03em;font-style:normal;}
+  .calc-value.lg {
+    font-size: 26px;
+  }
+  .calc-value.dim {color:#59616e; }
+  .input-prefix {
+    position: relative;
+  }
+  .input-prefix input {
+    padding-left: 24px;
+  }
+  .input-prefix::before {
+    content: "$";
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 14px;
+    pointer-events: none;
+  }
+  .input-suffix-x {
+    position: relative;
+  }
+  .input-suffix-x input {
+    padding-right: 24px;
+  }
+  .input-suffix-x::after {
+    content: "×";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 14px;
+    pointer-events: none;
+  }
+  .helper {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+  .small-summary {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+  }
+
+  /* Output */
+  .output-section {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 3px solid var(--ink);
+  }
+  .output-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;font-weight:800;
+    color: var(--ink);
+    margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+    font-style: italic;
+  }
+  .output-role {
+    text-align: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    color: var(--green);
+    margin-bottom: 28px;
+    padding: 14px 20px;
+    background: var(--em-soft);
+    border-radius:0;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .verdict-card {
+    border-radius:0;
+    padding: 22px 26px;
+    margin-bottom: 22px;
+    page-break-inside: avoid;
+  }
+  .verdict-card.go { background: var(--em-soft); border-left: 6px solid var(--green); }
+  .verdict-card.tight { background: var(--cream-soft); border-left: 6px solid var(--amber); }
+  .verdict-card.wait { background: var(--danger-soft); border-left: 6px solid var(--danger); }
+  .verdict-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .verdict-card.go .verdict-tag { color: var(--green); }
+  .verdict-card.tight .verdict-tag { color: var(--amber); }
+  .verdict-card.wait .verdict-tag { color: var(--danger); }
+  .verdict-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    margin-bottom: 10px;letter-spacing:-.03em;font-style:normal;}
+  .verdict-body {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .verdict-body p { margin: 0 0 10px; }
+  .verdict-body p:last-child { margin-bottom: 0; }
+  .out-block { margin-bottom: 22px; page-break-inside: avoid; }
+  .out-block-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .summary-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: top;
+  }
+  .summary-table td:first-child {
+    color: var(--ink-soft);
+    width: 55%;
+  }
+  .summary-table td:last-child {
+    text-align: right;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .summary-table tr.total td {
+    border-top: 2px solid var(--ink);
+    border-bottom: none;
+    padding-top: 14px;
+  }
+  .summary-table tr.total td:last-child {
+    font-size: 20px;
+    color: var(--green);
+  }
+  .note-block {
+    padding: 12px 16px;
+    background: var(--bg-soft);
+    border-radius:0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    border-left: 3px solid var(--border);
+  }
+  .note-block-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .empty-output {
+    padding: 36px;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius:0;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius:0;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--ink-soft);
+  }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary {
+    background: var(--green);
+    color: white;border-color:#ffffff;
+  }
+  .btn-primary:hover { background: #1b36c9; }
+  .btn-example {
+    background: var(--cream-soft);
+    color: var(--amber);
+    border-color: var(--cream-soft);
+    font-weight: 600;
+  }
+  .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 32px 28px; }
+    .toolbar { display: none; }
+    .step { page-break-inside: avoid; }
+    .verdict-card, .out-block { page-break-inside: avoid; }
+    input, select, textarea {
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius:0;
+      padding: 4px 0;
+      background: transparent;
+    }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#7C97FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">09 / Build and Lead Your Team</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">Two Weeks Out  ·  Team Building and Leadership Development</p>
+  <h1>The Hire Affordability Test</h1>
+  <p class="lede">Four inputs. One number — the cash exposure of this hire before payback. Then an honest test against your actual runway.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<!-- Step 1 — The hire -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">01</span>
+    <span class="step-title">The hire you're testing</span>
+  </div>
+  <p class="step-sub">This worksheet tests one specific hire. Name the seat so the result has a real subject.</p>
+  <div class="role-card">
+    <div class="field">
+      <label for="role-name">Role title</label>
+      <input type="text" id="role-name" placeholder="e.g., Account Management Lead">
+    </div>
+    <div class="field" style="margin-bottom: 0;">
+      <label for="role-context">One-line context (optional)</label>
+      <input type="text" id="role-context" placeholder="e.g., Top hire from Lesson 1 scorecard; senior multiplier seat">
+    </div>
+  </div>
+</section>
+
+<!-- Step 2 — Fully-loaded cost -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">02</span>
+    <span class="step-title">Fully-loaded cost</span>
+  </div>
+  <p class="step-sub">Salary times the loading factor. Default is 1.30 — covers taxes, benefits, equipment, software, onboarding. Adjust if your benefits package is leaner or richer.</p>
+  <div class="calc-card">
+    <div class="input-grid">
+      <div class="field">
+        <label for="salary">Target annual salary</label>
+        <div class="input-prefix">
+          <input type="number" id="salary" placeholder="110000" min="0" step="1000" oninput="recalc()">
+        </div>
+      </div>
+      <div class="field">
+        <label for="loading">Loading factor</label>
+        <div class="input-suffix-x">
+          <input type="number" id="loading" placeholder="1.30" value="1.30" min="1.0" max="2.0" step="0.05" oninput="recalc()">
+        </div>
+        <div class="helper">Standard ranges: 1.25 lean, 1.30 typical, 1.40+ with rich benefits</div>
+      </div>
+    </div>
+    <div class="small-summary">
+      <div class="calc-row">
+        <span class="calc-label">Fully-loaded annual cost</span>
+        <span class="calc-value" id="out-loaded-annual">—</span>
+      </div>
+      <div class="calc-row primary">
+        <span class="calc-label">Fully-loaded monthly cost</span>
+        <span class="calc-value lg" id="out-loaded-monthly">—</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 3 — Ramp -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">03</span>
+    <span class="step-title">Honest time to material contribution</span>
+  </div>
+  <p class="step-sub">How long until this hire materially covers their own cost? Be honest — most owners shorten this estimate to make affordability look better.</p>
+  <div class="calc-card">
+    <div class="field">
+      <label for="ramp">Ramp to material contribution</label>
+      <select id="ramp" onchange="recalc()">
+        <option value="">Select…</option>
+        <option value="2">1–2 months — front-line operational role with a clear handoff</option>
+        <option value="3">3 months — mid-level individual contributor in established function</option>
+        <option value="4">4 months — mid-level with mild ambiguity</option>
+        <option value="6">6 months — senior hire taking over an existing function</option>
+        <option value="9">9 months — senior with significant function-building required</option>
+        <option value="12">12 months — greenfield, new-market opening, or new-function build</option>
+        <option value="15">15+ months — rare; only if you genuinely cannot see contribution sooner</option>
+      </select>
+    </div>
+    <div class="field" style="margin-bottom: 0;">
+      <label for="ramp-reasoning">Why this ramp? (optional)</label>
+      <input type="text" id="ramp-reasoning" placeholder="e.g., Taking over the AM function with no existing playbook — six months to ramp the team, see Q-end results">
+    </div>
+    <div class="small-summary">
+      <div class="calc-row primary">
+        <span class="calc-label">Cumulative cash gap = monthly cost × ramp</span>
+        <span class="calc-value lg" id="out-gap">—</span>
+      </div>
+      <div class="helper" style="margin-top: 8px;">This is the cash the business has to carry from offer letter to payback.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 4 — Runway -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">04</span>
+    <span class="step-title">Your actual runway</span>
+  </div>
+  <p class="step-sub">Cash on hand, net monthly burn. Runway in months. Be honest — and exclude the credit line. Drawing on debt to make payroll is a different decision than affording the hire.</p>
+  <div class="calc-card">
+    <div class="input-grid">
+      <div class="field">
+        <label for="cash">Cash on hand (business)</label>
+        <div class="input-prefix">
+          <input type="number" id="cash" placeholder="50000" min="0" step="1000" oninput="recalc()">
+        </div>
+        <div class="helper">Operating cash, not the credit line</div>
+      </div>
+      <div class="field">
+        <label for="burn">Monthly burn (net of revenue)</label>
+        <div class="input-prefix">
+          <input type="number" id="burn" placeholder="5000" min="0" step="500" oninput="recalc()">
+        </div>
+        <div class="helper">Zero if profitable; positive number if losing cash</div>
+      </div>
+    </div>
+    <div class="small-summary">
+      <div class="calc-row" id="runway-row">
+        <span class="calc-label">Current runway (before this hire)</span>
+        <span class="calc-value" id="out-runway">—</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 5 — Timing -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">05</span>
+    <span class="step-title">Timing consideration (optional)</span>
+  </div>
+  <p class="step-sub">Is there a quarter or moment where this hire's cash exposure would be easier to absorb? After a strong-cash quarter, after a major new client onboards, after a planned price increase. The same hire, deliberately timed, can shift from "tight" to "carryable."</p>
+  <div class="calc-card">
+    <textarea id="timing" placeholder="e.g., Time the offer for after the Q4 cash quarter when receivables are strongest. Or: delay 60 days until the contract with X client renews and lifts MRR by 15%."></textarea>
+  </div>
+</section>
+
+<!-- OUTPUT -->
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>The Affordability Verdict</h2>
+    <p>The cumulative cash gap of this hire, tested honestly against your real runway.</p>
+  </div>
+
+  <div id="output-section">
+    <div class="empty-output">Fill in Steps 1–4 above and click Generate to produce your affordability verdict.</div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+// =============================================================================
+// EXAMPLE — Andrew & Rima's Account Management Lead
+// =============================================================================
+const EXAMPLE = {
+  role: "Account Management Lead",
+  context: "Top hire from Lesson 1; senior multiplier seat owning the AM function",
+  salary: 110000,
+  loading: 1.30,
+  ramp: 6,
+  rampReasoning: "Senior hire taking over a function with no existing standard. Not 3 months.",
+  cash: 40000,
+  burn: 0,  // Profitable, modest cushion
+  timing: "Time the offer for after the strong Q4 cash quarter — Q1 receivables would absorb most of the ramp before payback."
+};
+
+function useExample() {
+  const hasContent = !!val("role-name") || !!val("salary") || !!val("ramp") || !!val("cash") || !!val("timing");
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+
+  document.getElementById("role-name").value = EXAMPLE.role;
+  document.getElementById("role-context").value = EXAMPLE.context;
+  document.getElementById("salary").value = EXAMPLE.salary;
+  document.getElementById("loading").value = EXAMPLE.loading;
+  document.getElementById("ramp").value = EXAMPLE.ramp;
+  document.getElementById("ramp-reasoning").value = EXAMPLE.rampReasoning;
+  document.getElementById("cash").value = EXAMPLE.cash;
+  document.getElementById("burn").value = EXAMPLE.burn;
+  document.getElementById("timing").value = EXAMPLE.timing;
+  recalc();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================================================
+// LIVE CALCULATION
+// =============================================================================
+function val(id) { return (document.getElementById(id)?.value || "").trim(); }
+function num(id) {
+  const v = val(id);
+  if (!v) return null;
+  const n = parseFloat(v);
+  return isNaN(n) ? null : n;
+}
+function fmtMoney(n) {
+  if (n == null || isNaN(n)) return "—";
+  if (n >= 1000) return "$" + Math.round(n).toLocaleString();
+  return "$" + Math.round(n).toLocaleString();
+}
+function fmtMonths(n) {
+  if (n == null || isNaN(n) || !isFinite(n)) return "—";
+  if (n >= 1000) return "indefinite";
+  return n.toFixed(1) + " months";
+}
+
+function recalc() {
+  const salary = num("salary");
+  const loading = num("loading") || 1.30;
+  const ramp = num("ramp");
+  const cash = num("cash");
+  const burn = num("burn") || 0;
+
+  // Fully-loaded
+  const loadedAnnual = salary != null ? salary * loading : null;
+  const loadedMonthly = loadedAnnual != null ? loadedAnnual / 12 : null;
+  document.getElementById("out-loaded-annual").textContent = fmtMoney(loadedAnnual);
+  document.getElementById("out-loaded-monthly").textContent = fmtMoney(loadedMonthly);
+
+  // Cumulative gap
+  const gap = (loadedMonthly != null && ramp != null) ? loadedMonthly * ramp : null;
+  document.getElementById("out-gap").textContent = fmtMoney(gap);
+
+  // Runway
+  let runway = null;
+  if (cash != null && cash >= 0) {
+    if (burn === 0 || burn == null) {
+      runway = cash > 0 ? Infinity : 0;  // profitable
+    } else {
+      runway = cash / burn;
+    }
+  }
+  const runwayEl = document.getElementById("out-runway");
+  if (runway === Infinity) {
+    runwayEl.textContent = "Profitable (no negative burn)";
+    runwayEl.classList.remove("dim");
+  } else if (runway != null) {
+    runwayEl.textContent = fmtMonths(runway);
+    runwayEl.classList.remove("dim");
+  } else {
+    runwayEl.textContent = "—";
+    runwayEl.classList.add("dim");
+  }
+}
+
+// =============================================================================
+// OUTPUT — VERDICT WITH TEMPLATED REASONING
+// =============================================================================
+function generate() {
+  const out = document.getElementById("output-section");
+
+  const role = val("role-name");
+  const salary = num("salary");
+  const loading = num("loading") || 1.30;
+  const ramp = num("ramp");
+  const cash = num("cash");
+  const burn = num("burn") || 0;
+  const timing = val("timing");
+  const rampReasoning = val("ramp-reasoning");
+
+  if (!role || salary == null || !ramp || cash == null) {
+    out.innerHTML = '<div class="empty-output">Complete Steps 1–4 to generate your verdict — role, salary, ramp, and runway are all required.</div>';
+    out.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  // Calculate
+  const loadedAnnual = salary * loading;
+  const loadedMonthly = loadedAnnual / 12;
+  const gap = loadedMonthly * ramp;
+
+  // Runway
+  let runwayMonths;
+  let runwayProfitable = false;
+  if (burn === 0 || burn == null) {
+    runwayMonths = cash > 0 ? Infinity : 0;
+    runwayProfitable = true;
+  } else {
+    runwayMonths = cash / burn;
+  }
+
+  // For verdict, translate runway → absorbable cash:
+  // If profitable, the absorbable cushion is cash on hand (you can take the hit and still be OK).
+  // If burning, the absorbable cushion is runway-cash that doesn't take you below ~2 months of cushion.
+  const ratio = runwayProfitable
+    ? (gap / cash)   // hire gap as fraction of cash on hand
+    : (gap / cash);  // same denominator either way: gap vs. cash cushion
+
+  let verdict, tier, headline, body;
+  if (cash === 0) {
+    tier = "wait";
+    verdict = "WAIT";
+    headline = "Not yet — you have no business cash to carry this hire.";
+    body = [
+      `The cumulative cash gap of this hire is <strong>${fmtMoney(gap)}</strong> — and you have no operating cash to absorb it.`,
+      `This isn't a hire decision yet. It's a cash decision. Resolve the cash position first, then come back to the test.`
+    ];
+  } else if (ratio <= 0.40) {
+    tier = "go";
+    verdict = "CARRYABLE";
+    headline = `Carryable. The hire fits cleanly inside your cash position.`;
+    body = [
+      `Cumulative cash gap: <strong>${fmtMoney(gap)}</strong>. That's <strong>${Math.round(ratio * 100)}%</strong> of your ${fmtMoney(cash)} cash position.`,
+      `You have meaningful cushion left if the ramp runs long or revenue softens. This is the green-light tier — proceed with the hire on the timing of your choosing.`
+    ];
+  } else if (ratio <= 0.75) {
+    tier = "tight";
+    verdict = "TIGHT — CHANGE THE TIMING";
+    headline = `Carryable, but the cushion is meaningfully compromised.`;
+    body = [
+      `Cumulative cash gap: <strong>${fmtMoney(gap)}</strong>. That's <strong>${Math.round(ratio * 100)}%</strong> of your ${fmtMoney(cash)} cash position.`,
+      `This is the orange zone. Technically possible, but you would be running the business with most of your cushion absorbed by this one hire — and any softness in revenue during the ramp could push you into a real cash problem.`,
+      `The lesson's discipline: change the timing. Wait for a stronger-cash quarter, time the offer to after a major client onboards, or sequence two smaller decisions instead of one. Same hire, deliberately timed, often shifts from tight to carryable.`
+    ];
+  } else {
+    tier = "wait";
+    verdict = "NOT YET";
+    headline = `The gap is larger than your cash can absorb safely.`;
+    body = [
+      `Cumulative cash gap: <strong>${fmtMoney(gap)}</strong>. That's <strong>${Math.round(ratio * 100)}%</strong> of your ${fmtMoney(cash)} cash position.`,
+      `The math doesn't work yet. The lesson names three honest moves: wait until the cash position improves, change the role (a more junior hire with a shorter ramp, or contract instead of build), or change the timing meaningfully — not by a few weeks, but by quarters.`,
+      `What does not work is funding the gap with the credit line and calling it affordability. That is a different decision: a debt decision, not an affordability one.`
+    ];
+  }
+
+  // Edge-case observations
+  const extraNotes = [];
+  if (ramp >= 12) {
+    extraNotes.push({
+      label: "Long ramp flag",
+      body: `You've set a ramp of ${ramp}+ months. At this length, the affordability test starts to break down — the further out payback is, the more revenue assumptions are doing the work. Consider whether this should be a senior contract engagement until the role's contours are clearer.`
+    });
+  }
+  if (!runwayProfitable && runwayMonths < 6) {
+    extraNotes.push({
+      label: "Runway warning",
+      body: `Your runway before this hire is only ${fmtMonths(runwayMonths)}. Even a "carryable" hire may put the business at real risk if revenue assumptions during the ramp don't hold. The Self-Funding worksheet may be the right next stop before the offer letter goes out.`
+    });
+  }
+
+  // Render
+  let html = `<div class="output-role">${escapeHtml(role)}</div>`;
+
+  html += `
+    <div class="verdict-card ${tier}">
+      <div class="verdict-tag">${verdict}</div>
+      <div class="verdict-title">${headline}</div>
+      <div class="verdict-body">
+        ${body.map(p => `<p>${p}</p>`).join("")}
+      </div>
+    </div>
+  `;
+
+  // Summary table
+  html += `
+    <div class="out-block">
+      <div class="out-block-title">The four inputs</div>
+      <table class="summary-table">
+        <tr>
+          <td>Target annual salary</td>
+          <td>${fmtMoney(salary)}</td>
+        </tr>
+        <tr>
+          <td>Loading factor</td>
+          <td>× ${loading.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td>Fully-loaded annual cost</td>
+          <td>${fmtMoney(loadedAnnual)}</td>
+        </tr>
+        <tr>
+          <td>Fully-loaded monthly cost</td>
+          <td>${fmtMoney(loadedMonthly)}</td>
+        </tr>
+        <tr>
+          <td>Ramp to material contribution</td>
+          <td>${ramp} months</td>
+        </tr>
+        <tr class="total">
+          <td><strong>Cumulative cash gap</strong></td>
+          <td>${fmtMoney(gap)}</td>
+        </tr>
+      </table>
+    </div>
+  `;
+
+  // Runway test
+  html += `
+    <div class="out-block">
+      <div class="out-block-title">Tested against your runway</div>
+      <table class="summary-table">
+        <tr>
+          <td>Cash on hand</td>
+          <td>${fmtMoney(cash)}</td>
+        </tr>
+        <tr>
+          <td>Monthly burn (net of revenue)</td>
+          <td>${burn === 0 ? "Profitable" : fmtMoney(burn)}</td>
+        </tr>
+        <tr>
+          <td>Runway before this hire</td>
+          <td>${runwayProfitable ? "Profitable" : fmtMonths(runwayMonths)}</td>
+        </tr>
+        <tr class="total">
+          <td><strong>Gap as % of cash cushion</strong></td>
+          <td>${Math.round(ratio * 100)}%</td>
+        </tr>
+      </table>
+    </div>
+  `;
+
+  // Ramp reasoning, timing, edge notes
+  if (rampReasoning) {
+    html += `
+      <div class="out-block">
+        <div class="out-block-title">Why this ramp</div>
+        <div class="note-block">${escapeHtml(rampReasoning)}</div>
+      </div>
+    `;
+  }
+  if (timing) {
+    html += `
+      <div class="out-block">
+        <div class="out-block-title">Timing consideration</div>
+        <div class="note-block">${escapeHtml(timing)}</div>
+      </div>
+    `;
+  }
+  if (extraNotes.length > 0) {
+    html += `<div class="out-block"><div class="out-block-title">Additional flags</div>`;
+    extraNotes.forEach(n => {
+      html += `<div class="note-block" style="margin-bottom: 8px;">
+        <div class="note-block-label">${n.label}</div>
+        ${n.body}
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// =============================================================================
+// UTILITIES
+// =============================================================================
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function clearAll() {
+  if (!confirm("Clear all entries and start over?")) return;
+  document.querySelectorAll("input[type='text'], input[type='number'], select, textarea").forEach(el => {
+    if (el.id === "loading") el.value = "1.30";
+    else el.value = "";
+  });
+  recalc();
+  document.getElementById("output-section").innerHTML = '<div class="empty-output">Fill in Steps 1–4 above and click Generate to produce your affordability verdict.</div>';
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// INIT
+recalc();
+</script>
+</body>
+</html>

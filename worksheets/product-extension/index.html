@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Line Extension Playbook · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --accent:#2747f5;
+    --accent-light:#2747f5;
+    --accent-soft:#e9ecf5;
+    --accent-faint:#fbfaf6;
+    --emerald:#0d6b4c;
+    --emerald-bright:#0d6b4c;
+    --emerald-soft:#e2f5ea;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#fbfaf6;
+    --bg:#fbfaf6;
+    --warn:#7d5300;
+    --warn-soft:#fff3cd;
+    --warn-border:#ffd23f;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* === HEADER === */
+  .header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 36px;font-weight:800;
+    color: var(--ink);
+    margin: 0 0 8px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .subtitle { font-size: 16px; color: var(--muted); font-style: italic; }
+
+  /* === LIVE PANEL === */
+  .live-panel {
+    position: sticky;
+    top: 0;
+    padding: 14px 24px;
+    margin: -40px -24px 36px;
+    z-index: 100;
+    display: none;
+    color: white;
+    background: var(--accent);
+  }
+  .live-panel.active { display: block; }
+  .live-panel-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .live-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .live-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .live-detail { font-size: 13px; opacity: 0.9; text-align: right; }
+
+  /* === SECTIONS === */
+  .section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--accent-faint);
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    flex-shrink: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    margin: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .section-body { padding: 28px; }
+
+  /* === FORM ELEMENTS === */
+  .field { margin-bottom: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .label-hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 2px;
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  textarea { resize: vertical; min-height: 60px; }
+
+  /* === USE EXAMPLE BUTTON === */
+  .use-example-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .use-example-btn:hover { background: var(--accent-soft); }
+  .use-example-btn:active { transform: translateY(1px); }
+  .label-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    gap: 12px;
+  }
+  .label-row label { margin-bottom: 0; }
+  .example-btn-wrap { margin-left: auto; }
+
+  /* === CANDIDATE LIST === */
+  .candidate-list { display: flex; flex-direction: column; gap: 16px; }
+  .candidate-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 20px;
+    background: var(--bg);
+  }
+  .candidate-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .candidate-badge {
+    background: var(--accent);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .candidate-name-input { flex: 1; font-weight: 600; }
+  .candidate-remove {
+    background: transparent;
+    border: none;color:#59616e;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px 8px;
+    border-radius:0;
+  }
+  .candidate-remove:hover { color: var(--danger); background: var(--danger-soft); }
+  .add-candidate {
+    background: white;
+    border: 1.5px dashed var(--border);
+    color: var(--accent);
+    font-weight: 500;
+    padding: 14px;
+    width: 100%;
+    border-radius:0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .add-candidate:hover { background: var(--accent-soft); border-color: var(--accent); }
+  .add-candidate:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* === ADJACENCY TEST === */
+  .adj-candidate {
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .adj-candidate-head {
+    padding: 14px 20px;
+    background: var(--accent-faint);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .adj-candidate-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .adj-verdict-pill {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius:0;
+  }
+  .adj-verdict-pill.go { background: var(--emerald-soft); color: var(--emerald); }
+  .adj-verdict-pill.fail { background: var(--warn-soft); color: var(--warn); }
+  .adj-verdict-pill.incomplete { background: var(--border-soft); color: var(--muted); }
+  .adj-body { padding: 18px 20px; }
+  .adj-question {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .adj-question:last-child { border-bottom: none; padding-bottom: 4px; }
+  .adj-question:first-child { padding-top: 4px; }
+  .adj-q-text {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .adj-q-hint {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .answer-toggle { display: flex; gap: 8px; flex-wrap: wrap; }
+  .answer-btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 8px 14px;
+    border: 1.5px solid var(--border);
+    background: white;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--ink-soft);
+  }
+  .answer-btn:hover { border-color: var(--muted); }
+  .answer-btn.sel-yes { border-color: var(--emerald); background: var(--emerald-soft); color: var(--emerald); }
+  .answer-btn.sel-almost { border-color: var(--warn); background: var(--warn-soft); color: var(--warn); }
+  .answer-btn.sel-no { border-color: var(--danger); background: var(--danger-soft); color: var(--danger); }
+
+  /* === RESULT STRIP === */
+  .result-strip {
+    margin-top: 8px;
+    padding: 18px 22px;
+    border-radius:0;
+    background: var(--accent-faint);
+    border: 1px dashed var(--border);
+  }
+  .result-strip.has-winners { background: var(--emerald-soft); border: 1px solid var(--emerald); border-style: solid; }
+  .result-strip.no-winners { background: var(--warn-soft); border: 1px solid var(--warn-border); border-style: solid; }
+  .result-strip-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .result-strip.has-winners .result-strip-title { color: var(--emerald); }
+  .result-strip.no-winners .result-strip-title { color: var(--warn); }
+  .result-strip-text { font-size: 13px; color: var(--ink-soft); }
+
+  /* === INFO STRIP === */
+  .info-strip {
+    background: var(--accent-soft);
+    border-radius:0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .info-strip strong { color: var(--accent); }
+
+  /* === COMMIT CARD === */
+  .commit-card {
+    background: var(--accent);
+    color: white;
+    padding: 28px;
+    border-radius:0;
+    margin-top: 16px;
+  }
+  .commit-card label { color: rgba(255,255,255,0.85); }
+  .commit-card input, .commit-card textarea, .commit-card select {
+    background: rgba(255,255,255,0.95);
+    border-color: transparent;
+  }
+  .commit-card .label-hint { color: rgba(255,255,255,0.7); }
+  .commit-pick-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 8px;
+  }
+  .menu-trap-note {
+    background: var(--warn-soft);
+    border: 1px solid var(--warn-border);
+    border-left: 4px solid var(--warn);
+    border-radius:0;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .menu-trap-note strong { color: var(--warn); }
+
+  /* === TYPE PICKER === */
+  .type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .type-option {
+    border: 1.5px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.1);
+    border-radius:0;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .type-option:hover { background: rgba(255,255,255,0.2); }
+  .type-option.active {
+    background: white;
+    border-color: white;
+  }
+  .type-option-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+  }
+  .type-option.active .type-option-name { color: var(--accent); }
+  .type-option-desc {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .type-option.active .type-option-desc { color: var(--muted); }
+
+  /* === DOWNLOAD BAR === */
+  .download-bar {
+    margin-top: 32px;
+    padding: 28px;
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius:0;
+    text-align: center;
+  }
+  .download-bar h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .download-bar p { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .download-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 12px 24px;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-secondary {
+    background: white;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-secondary:hover { background: var(--accent-soft); }
+  .btn-icon { font-size: 18px; }
+
+  /* === CLEAR ALL — quiet, de-emphasized destructive control === */
+  .clear-all-wrap {
+    margin-top: 16px;
+    text-align: center;
+  }
+  .btn-clear {
+    background: transparent;
+    border: none;color:#59616e;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .btn-clear:hover { color: var(--danger); background: var(--danger-soft); }
+
+  /* === SAVE INDICATOR === */
+  .save-indicator {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: white;
+    padding: 10px 16px;
+    border-radius:0;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .save-indicator.show { opacity: 0.85; transform: translateY(0); }
+
+  /* === EMPTY HINT === */
+  .empty-hint {
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+    background: var(--bg);
+    border-radius:0;
+    font-size: 14px;
+  }
+
+  /* === PDF DOCUMENT === */
+  .pdf-document {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 8.5in;
+    background: white;
+    padding: 0.7in 0.8in;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+  }
+  .pdf-document .pdf-header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .pdf-document .pdf-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pdf-document h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .pdf-document .pdf-subtitle { font-size: 13px; color: var(--muted); font-style: italic; }
+  .pdf-document .pdf-meta { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+  .pdf-document .pdf-section-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pdf-document table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin: 6px 0;
+  }
+  .pdf-document table th {
+    background: var(--accent);
+    color: white;
+    padding: 7px 8px;
+    text-align: left;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .pdf-document table th.center { text-align: center; }
+  .pdf-document table td {
+    border: 1px solid var(--border);
+    padding: 7px 8px;
+    vertical-align: top;
+  }
+  .pdf-document table td.center { text-align: center; }
+  .pdf-document table td.precond-yes { color: var(--emerald); font-weight: 700; }
+  .pdf-document table td.precond-almost { color: var(--warn); font-weight: 700; }
+  .pdf-document table td.precond-no { color: var(--danger); font-weight: 700; }
+  .pdf-document .pdf-pick {
+    background: var(--accent);
+    color: white;
+    padding: 16px 20px;
+    border-radius:0;
+    margin: 8px 0;
+  }
+  .pdf-document .pdf-pick-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pdf-document .pdf-pick-name {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .pdf-document .pdf-pick-type {
+    font-size: 11px;
+    opacity: 0.9;
+    margin-top: 4px;
+  }
+  .pdf-document .pdf-principle {
+    margin-top: 24px;
+    padding: 14px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  .pdf-document .pdf-footer {
+    margin-top: 26px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;color:#59616e;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 24px 16px 60px; }
+    h1 { font-size: 28px; }
+    .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    .type-grid { grid-template-columns: 1fr; }
+    .download-buttons { flex-direction: column; }
+    .section-body { padding: 20px; }
+    .answer-btn { min-width: 0; }
+  }
+
+  /* === PRINT — render only the playbook document === */
+  @page {
+    size: letter;
+    margin: 0.7in 0.8in;
+  }
+  @media print {
+    /* Hide the interactive worksheet entirely */
+    .live-panel,
+    .container,
+    .save-indicator,
+    .help-floating { display: none !important; }
+
+    /* Reveal the playbook document as normal flowed content */
+    .pdf-document {
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      visibility: visible !important;
+      padding: 0 !important;
+      z-index: auto !important;
+    }
+    html, body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    /* Avoid awkward breaks inside tables and cards */
+    .pdf-document table { page-break-inside: auto; }
+    .pdf-document tr { page-break-inside: avoid; }
+    .pdf-document .pdf-section-title { page-break-after: avoid; }
+    .pdf-document .pdf-principle { page-break-inside: avoid; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#BFE34F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.live-panel{margin:0 0 36px}
+/* contrast on dark and tinted blocks */
+div.commit-card div.type-option-desc{color:#ffffff}
+div.commit-card button.use-example-btn{color:#ffffff}
+div.commit-card div.label-hint{color:#e6eaff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">10 / Grow Without Losing Control</span></div>
+
+<div class="live-panel" id="livePanel">
+  <div class="live-panel-inner">
+    <div>
+      <div class="live-label">Extension assessment</div>
+      <div class="live-headline" id="liveHeadline">—</div>
+    </div>
+    <div class="live-detail" id="liveDetail">—</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">Worksheet · Product Line Extension</div>
+    <h1>Build Your Product Line Extension Playbook</h1>
+    <div class="subtitle">Extensions that deepen the core, not dilute it. One extension, twelve months.</div>
+  </div>
+
+  <!-- SECTION 1 — BUSINESS CONTEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <h2 class="section-title">Your business — at a glance</h2>
+        <div class="section-sub">Anchor the playbook to what you do today, before you decide what to add.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field">
+          <label for="businessName">Business name</label>
+          <input type="text" id="businessName" placeholder="e.g. Acme Advisory">
+        </div>
+        <div class="field">
+          <label for="ownerName">Your name</label>
+          <input type="text" id="ownerName" placeholder="e.g. David Chen">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="coreOffering">Your core offering today</label>
+          <div class="label-hint">The service or product you're known for — your bestseller.</div>
+          <input type="text" id="coreOffering" placeholder="e.g. Fractional CFO retainer services">
+        </div>
+        <div class="field">
+          <label for="positioning">How customers describe you in one line</label>
+          <div class="label-hint">The positioning any extension must strengthen, not blur.</div>
+          <input type="text" id="positioning" placeholder="e.g. The finance team for growth-stage companies">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — CANDIDATE EXTENSIONS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <h2 class="section-title">List your candidate extensions</h2>
+        <div class="section-sub">Every extension you're weighing. List them all here — you'll narrow to one later.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="info-strip">
+        List <strong>every</strong> extension you've considered — even the ones you've half-dismissed. The next section runs each through the same honest test. Naming them all is how you avoid the menu trap by choice, not by accident.
+      </div>
+      <div class="candidate-list" id="candidateList"></div>
+      <button class="add-candidate" id="addCandidateBtn" type="button">+ Add another candidate</button>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — THE ADJACENCY TEST -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <h2 class="section-title">Run the Adjacency Test</h2>
+        <div class="section-sub">Three questions per candidate. Three "yes" is the only green light.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="info-strip">
+        Be honest. <strong>Treat "Almost" as a no.</strong> An extension that's "almost" adjacent is a new business wearing a familiar label. Each candidate needs three clean yes answers to qualify.
+      </div>
+      <div id="adjacencyList"></div>
+      <div class="result-strip" id="resultStrip">
+        <div class="result-strip-title" id="resultTitle">Add candidates and run the test</div>
+        <div class="result-strip-text" id="resultText">Once you've scored your candidates, this shows which ones qualify.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — COMMIT TO ONE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <h2 class="section-title">Commit to one — and name its type</h2>
+        <div class="section-sub">Pick a single extension to run. Then tag its type — that tells you which playbook to follow.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="menu-trap-note">
+        <strong>The Restaurant Menu Trap.</strong> The most common failure isn't picking the wrong extension — it's picking too many. Brand becomes a list of services, senior attention fragments, margin slips. The discipline: <strong>one extension, twelve months.</strong>
+      </div>
+
+      <div class="field">
+        <label for="chosenExtension">Which one extension will you run?</label>
+        <div class="label-hint">Pick from your candidates that passed the test — or, if you're choosing to override the test, say so to yourself first.</div>
+        <select id="chosenExtension">
+          <option value="">— select your candidates above first —</option>
+        </select>
+      </div>
+
+      <div class="commit-card">
+        <div class="commit-pick-label">The extension you're committing to</div>
+        <div style="font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size:22px;font-weight:800; margin-bottom:20px;letter-spacing:-.03em;" id="commitPickName">— choose an extension above</div>
+
+        <label style="margin-bottom:10px;">Name its type — which playbook does it call for?</label>
+        <div class="type-grid" id="typeGrid"></div>
+
+        <div class="field" style="margin-top:20px; margin-bottom:0;">
+          <div class="label-row">
+            <label for="typeRationale">Why this type — and why it strengthens your positioning</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="typeRationale" type="button">Use example</button>
+            </div>
+          </div>
+          <textarea id="typeRationale" placeholder="e.g. This is a horizontal adjacency — a related service for the same customers. It strengthens our positioning as a full-stack finance partner rather than pulling us into an unrelated line."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — THE 12-MONTH PLAN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <h2 class="section-title">The 12-month plan</h2>
+        <div class="section-sub">One extension, executed deliberately. Owner, milestones, and what you're explicitly NOT adding.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="commit-card">
+        <div class="field-row">
+          <div class="field">
+            <div class="label-row">
+              <label for="planOwner">Who owns this extension?</label>
+              <div class="example-btn-wrap">
+                <button class="use-example-btn" data-example="planOwner" type="button">Use example</button>
+              </div>
+            </div>
+            <input type="text" id="planOwner" placeholder="e.g. Owner, with a dedicated senior hire">
+          </div>
+          <div class="field">
+            <label for="planStart">When does it start?</label>
+            <input type="date" id="planStart">
+          </div>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="planMilestones">The first three milestones</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="planMilestones" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">Specific, schedulable milestones across the twelve months.</div>
+          <textarea id="planMilestones" placeholder="e.g. Month 1: hire the senior lead. Month 3: first paid engagement with an existing client. Month 9: extension at material revenue with proven unit economics."></textarea>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="planSuccess">What does success look like at 12 months?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="planSuccess" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">A specific revenue or margin number — not aspirational language.</div>
+          <textarea id="planSuccess" placeholder="e.g. $300K incremental annual revenue from the extension, blended margin up 2 points, one senior hire, and the extension fully funding itself."></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <div class="label-row">
+            <label for="planNotAdding">What are you explicitly NOT adding this year?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="planNotAdding" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">Name the other candidates you're refusing. This is the discipline that beats the menu trap.</div>
+          <textarea id="planNotAdding" placeholder="e.g. We are NOT launching the second or third candidate this year. They wait until this extension is at material revenue. We will decline inbound on those lines for 12 months."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD BAR -->
+  <div class="download-bar">
+    <h2>Save or print your playbook</h2>
+    <p>The PDF is your formal extension playbook. The Excel sheet holds the adjacency scorecard so you can re-run it as conditions change.</p>
+    <div class="download-buttons">
+      <button class="btn btn-primary" id="downloadPdfBtn">
+        <span class="btn-icon">🖨️</span> Save / Print Playbook
+      </button>
+      <button class="btn btn-secondary" id="downloadXlsxBtn">
+        <span class="btn-icon">📊</span> Download Scorecard (Excel)
+      </button>
+    </div>
+  </div>
+
+  <div class="clear-all-wrap">
+    <button class="btn-clear" id="clearAllBtn" type="button">Clear all and start over</button>
+  </div>
+
+</div>
+
+<div class="save-indicator" id="saveIndicator">Saved</div>
+<div class="pdf-document" id="pdfDocument"></div>
+
+<script>
+'use strict';
+
+const STORAGE_KEY = 'Two Weeks Out_productExtension_v1';
+const MAX_CANDIDATES = 6;
+const MIN_CANDIDATES = 1;
+
+// === ADJACENCY TEST QUESTIONS ===
+const ADJACENCY_QUESTIONS = [
+  {
+    key: 'demand',
+    text: 'Are your existing customers already asking for it?',
+    hint: 'Not hypothetical demand — are they buying it elsewhere right now, or asking you directly?',
+  },
+  {
+    key: 'capability',
+    text: 'Does it use the capability you\'ve already built?',
+    hint: 'Same team, same delivery model, same systems — or is it fundamentally a new business?',
+  },
+  {
+    key: 'positioning',
+    text: 'Does it strengthen your positioning?',
+    hint: 'Does it deepen what you\'re known for — or pull your identity sideways?',
+  },
+];
+
+// === EXTENSION TYPES ===
+const EXTENSION_TYPES = [
+  { key: 'vertical', name: 'Vertical Deepening', desc: 'Same kind of work, a deeper level' },
+  { key: 'horizontal', name: 'Horizontal Adjacency', desc: 'A related service for the same customer' },
+  { key: 'premium', name: 'Premium Tier', desc: 'A higher-end version of what you do' },
+  { key: 'downstream', name: 'Downstream Offering', desc: 'What customers buy after they\'re done' },
+];
+
+// === CANDIDATE EXAMPLES (B2B + B2C flavored) ===
+// Examples illustrate the FOUR extension types in transferable terms.
+// Each leads with the generic pattern, then gives a concrete flavor a owner can adapt.
+const CANDIDATE_EXAMPLES = [
+  { name: 'A related service your customers already buy elsewhere', desc: 'Horizontal adjacency — e.g. adding a complementary service customers currently source from another provider' },
+  { name: 'A deeper level of what you already do', desc: 'Vertical deepening — e.g. a more advanced engagement for customers who have outgrown your entry offering' },
+  { name: 'A premium version of your core offering', desc: 'Premium tier — e.g. a higher-touch, higher-price tier for your most committed customers' },
+  { name: 'What customers need after they finish with you', desc: 'Downstream offering — e.g. the next thing customers buy once your core engagement is complete' },
+  { name: 'A productized version of custom work you already do', desc: 'Vertical deepening — e.g. packaging recurring custom requests into a defined, repeatable offering' },
+  { name: 'The same offering sold to a new buyer type', desc: 'Adjacent — but test carefully: a new customer type may be a new business wearing a familiar label' },
+];
+
+const EXAMPLES = {
+  typeRationale: 'This is a horizontal adjacency — a related service for the same customers, not a new business. It strengthens our positioning as a full-stack finance partner rather than blurring it. The capability gap is small: one senior hire, the same delivery model and systems we already run.',
+  planOwner: 'Owner owns the launch directly for the first two quarters, with one dedicated senior hire brought on by month 1. Ownership transfers to that hire once the extension is at material revenue.',
+  planMilestones: 'Month 1: hire the senior lead for the extension. Month 3: first paid engagement, sold into an existing client. Month 6: three active engagements, all from the current client base. Month 9: extension at material revenue with proven unit economics. Month 12: decide whether a second extension is earned.',
+  planSuccess: '$300K in incremental annual revenue from the extension, blended gross margin up roughly 2 points, exactly one senior hire required, and the extension covering its own cost by month 12. No second extension launched.',
+  planNotAdding: 'We are NOT launching the other candidates this year — they wait until this extension is at material revenue with proven economics. We will decline inbound opportunities on those lines for the full twelve months. One extension, twelve months.',
+};
+
+// === STATE ===
+let state = {
+  business: { name: '', owner: '', core: '', positioning: '' },
+  candidates: [],
+  chosenId: '',
+  chosenType: '',
+  typeRationale: '',
+  plan: { owner: '', start: '', milestones: '', success: '', notAdding: '' },
+};
+
+let candidateSeq = 1;
+function makeCandidate(name, desc) {
+  return {
+    id: 'c' + (candidateSeq++),
+    name: name || '',
+    desc: desc || '',
+    answers: { demand: '', capability: '', positioning: '' },
+  };
+}
+
+// Seed with three empty candidates
+for (let i = 0; i < 3; i++) state.candidates.push(makeCandidate());
+
+// === PERSISTENCE ===
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ state, candidateSeq }));
+    flashSaved();
+  } catch (e) { console.warn('Save failed:', e); }
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const p = parsed.state || parsed;
+    if (p.business) state.business = { ...state.business, ...p.business };
+    if (Array.isArray(p.candidates) && p.candidates.length > 0) {
+      state.candidates = p.candidates.map(c => ({
+        id: c.id || ('c' + (candidateSeq++)),
+        name: c.name || '',
+        desc: c.desc || '',
+        answers: {
+          demand: (c.answers && c.answers.demand) || '',
+          capability: (c.answers && c.answers.capability) || '',
+          positioning: (c.answers && c.answers.positioning) || '',
+        },
+      }));
+    }
+    if (typeof p.chosenId === 'string') state.chosenId = p.chosenId;
+    if (typeof p.chosenType === 'string') state.chosenType = p.chosenType;
+    if (typeof p.typeRationale === 'string') state.typeRationale = p.typeRationale;
+    if (p.plan) state.plan = { ...state.plan, ...p.plan };
+    if (typeof parsed.candidateSeq === 'number' && parsed.candidateSeq > candidateSeq) {
+      candidateSeq = parsed.candidateSeq;
+    }
+  } catch (e) { console.warn('Load failed:', e); }
+}
+function flashSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// === VERDICT LOGIC ===
+// A candidate's adjacency verdict: incomplete (not all 3 answered),
+// go (all 3 = yes), or fail (answered but not all yes).
+function candidateVerdict(candidate) {
+  const answers = ADJACENCY_QUESTIONS.map(q => candidate.answers[q.key]);
+  const answered = answers.filter(a => a !== '').length;
+  if (answered < 3) return { status: 'incomplete', answered };
+  const yesCount = answers.filter(a => a === 'yes').length;
+  if (yesCount === 3) return { status: 'go' };
+  return { status: 'fail', yesCount };
+}
+
+function candidateLabel(c, idx) {
+  return c.name && c.name.trim() ? c.name : `Candidate ${idx + 1}`;
+}
+
+function namedCandidates() {
+  return state.candidates.filter(c => c.name && c.name.trim());
+}
+
+// === RENDER ===
+function render() {
+  renderBusiness();
+  renderCandidates();
+  renderAdjacency();
+  renderResult();
+  renderChosenSelect();
+  renderTypePicker();
+  renderCommitName();
+  renderTypeRationale();
+  renderPlan();
+  updateLivePanel();
+}
+
+function renderBusiness() {
+  document.getElementById('businessName').value = state.business.name || '';
+  document.getElementById('ownerName').value = state.business.owner || '';
+  document.getElementById('coreOffering').value = state.business.core || '';
+  document.getElementById('positioning').value = state.business.positioning || '';
+}
+
+function renderCandidates() {
+  const list = document.getElementById('candidateList');
+  list.innerHTML = '';
+  state.candidates.forEach((c, i) => {
+    const example = CANDIDATE_EXAMPLES[i % CANDIDATE_EXAMPLES.length];
+    const card = document.createElement('div');
+    card.className = 'candidate-card';
+    card.innerHTML = `
+      <div class="candidate-card-header">
+        <div class="candidate-badge">${i + 1}</div>
+        <input type="text" class="candidate-name-input" data-cand="${c.id}" data-field="name"
+               value="${escapeHtml(c.name)}" placeholder="Name this extension candidate">
+        <button class="use-example-btn" data-cand-example="${c.id}" type="button">Use example</button>
+        ${state.candidates.length > MIN_CANDIDATES ? `<button class="candidate-remove" data-cand-remove="${c.id}" type="button" title="Remove">×</button>` : ''}
+      </div>
+      <input type="text" data-cand="${c.id}" data-field="desc"
+             value="${escapeHtml(c.desc)}" placeholder="One line: what is it, and who is it for?">
+    `;
+    list.appendChild(card);
+  });
+
+  list.querySelectorAll('input[data-cand]').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const c = state.candidates.find(x => x.id === e.target.dataset.cand);
+      if (!c) return;
+      c[e.target.dataset.field] = e.target.value;
+      save();
+      // Light updates — labels appear in several places
+      renderAdjacency();
+      renderResult();
+      renderChosenSelect();
+      renderCommitName();
+      updateLivePanel();
+    });
+  });
+  list.querySelectorAll('[data-cand-remove]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const id = e.target.dataset.candRemove;
+      state.candidates = state.candidates.filter(c => c.id !== id);
+      if (state.chosenId === id) state.chosenId = '';
+      save();
+      render();
+    });
+  });
+  list.querySelectorAll('[data-cand-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const id = e.target.dataset.candExample;
+      const idx = state.candidates.findIndex(c => c.id === id);
+      if (idx < 0) return;
+      const c = state.candidates[idx];
+      const ex = CANDIDATE_EXAMPLES[idx % CANDIDATE_EXAMPLES.length];
+      const hasContent = (c.name && c.name.trim()) || (c.desc && c.desc.trim());
+      if (hasContent && !confirm('Replace what you\'ve already written with the example?')) return;
+      c.name = ex.name;
+      c.desc = ex.desc;
+      save();
+      render();
+    });
+  });
+
+  const addBtn = document.getElementById('addCandidateBtn');
+  addBtn.disabled = state.candidates.length >= MAX_CANDIDATES;
+  addBtn.textContent = state.candidates.length >= MAX_CANDIDATES
+    ? `Maximum ${MAX_CANDIDATES} candidates`
+    : '+ Add another candidate';
+}
+
+function renderAdjacency() {
+  const list = document.getElementById('adjacencyList');
+  list.innerHTML = '';
+  const named = namedCandidates();
+
+  if (named.length === 0) {
+    list.innerHTML = '<div class="empty-hint">Name at least one candidate in Section 2 to run the Adjacency Test.</div>';
+    return;
+  }
+
+  named.forEach((c) => {
+    const idx = state.candidates.indexOf(c);
+    const v = candidateVerdict(c);
+    const pillClass = v.status === 'go' ? 'go' : (v.status === 'fail' ? 'fail' : 'incomplete');
+    const pillText = v.status === 'go' ? 'Passes — 3/3' :
+      (v.status === 'fail' ? `Fails — ${v.yesCount}/3 yes` : `${v.answered}/3 answered`);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'adj-candidate';
+    let qHtml = '';
+    ADJACENCY_QUESTIONS.forEach(q => {
+      const ans = c.answers[q.key];
+      qHtml += `
+        <div class="adj-question">
+          <div class="adj-q-text">${escapeHtml(q.text)}</div>
+          <div class="adj-q-hint">${escapeHtml(q.hint)}</div>
+          <div class="answer-toggle">
+            <button class="answer-btn ${ans === 'yes' ? 'sel-yes' : ''}" data-adj-cand="${c.id}" data-adj-q="${q.key}" data-adj-ans="yes" type="button">Yes</button>
+            <button class="answer-btn ${ans === 'almost' ? 'sel-almost' : ''}" data-adj-cand="${c.id}" data-adj-q="${q.key}" data-adj-ans="almost" type="button">Almost</button>
+            <button class="answer-btn ${ans === 'no' ? 'sel-no' : ''}" data-adj-cand="${c.id}" data-adj-q="${q.key}" data-adj-ans="no" type="button">No</button>
+          </div>
+        </div>`;
+    });
+    wrap.innerHTML = `
+      <div class="adj-candidate-head">
+        <div class="adj-candidate-name">${escapeHtml(candidateLabel(c, idx))}</div>
+        <div class="adj-verdict-pill ${pillClass}">${escapeHtml(pillText)}</div>
+      </div>
+      <div class="adj-body">${qHtml}</div>
+    `;
+    list.appendChild(wrap);
+  });
+
+  list.querySelectorAll('[data-adj-ans]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const c = state.candidates.find(x => x.id === e.target.dataset.adjCand);
+      if (!c) return;
+      const qKey = e.target.dataset.adjQ;
+      const ans = e.target.dataset.adjAns;
+      c.answers[qKey] = c.answers[qKey] === ans ? '' : ans;
+      save();
+      renderAdjacency();
+      renderResult();
+      renderChosenSelect();
+      updateLivePanel();
+    });
+  });
+}
+
+function renderResult() {
+  const strip = document.getElementById('resultStrip');
+  const title = document.getElementById('resultTitle');
+  const text = document.getElementById('resultText');
+  const named = namedCandidates();
+
+  strip.classList.remove('has-winners', 'no-winners');
+
+  if (named.length === 0) {
+    title.textContent = 'Add candidates and run the test';
+    text.textContent = 'Once you\'ve scored your candidates, this shows which ones qualify.';
+    return;
+  }
+
+  const verdicts = named.map(c => ({ c, v: candidateVerdict(c) }));
+  const winners = verdicts.filter(x => x.v.status === 'go');
+  const anyIncomplete = verdicts.some(x => x.v.status === 'incomplete');
+
+  if (winners.length === 0 && anyIncomplete) {
+    title.textContent = 'Test in progress';
+    text.textContent = 'Finish scoring all three questions for each candidate to see which ones qualify.';
+    return;
+  }
+
+  if (winners.length === 0) {
+    strip.classList.add('no-winners');
+    title.textContent = 'No candidate passed the Adjacency Test';
+    text.textContent = 'None of your candidates earned three clean yes answers. That\'s a real result — it may mean none of these is a true extension yet. Reconsider, or strengthen a candidate before committing.';
+    return;
+  }
+
+  strip.classList.add('has-winners');
+  if (winners.length === 1) {
+    title.textContent = `One candidate passed: ${candidateLabel(winners[0].c, state.candidates.indexOf(winners[0].c))}`;
+    text.textContent = 'Exactly one candidate is a clean green light. The discipline of this lesson points you straight to it — commit to that one in Section 4.';
+  } else {
+    const names = winners.map(x => candidateLabel(x.c, state.candidates.indexOf(x.c))).join(', ');
+    title.textContent = `${winners.length} candidates passed: ${names}`;
+    text.textContent = 'More than one candidate qualifies. All are valid — but you run ONE. Pick the strongest in Section 4; the rest wait their turn.';
+  }
+}
+
+function renderChosenSelect() {
+  const sel = document.getElementById('chosenExtension');
+  const named = namedCandidates();
+  const prev = state.chosenId;
+
+  sel.innerHTML = '<option value="">— select the extension you\'ll run —</option>';
+  named.forEach(c => {
+    const idx = state.candidates.indexOf(c);
+    const v = candidateVerdict(c);
+    let tag = '';
+    if (v.status === 'go') tag = ' ✓ passed';
+    else if (v.status === 'fail') tag = ` (failed — ${v.yesCount}/3)`;
+    else tag = ' (not fully tested)';
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = candidateLabel(c, idx) + tag;
+    sel.appendChild(opt);
+  });
+
+  // Keep selection valid
+  if (prev && named.some(c => c.id === prev)) {
+    sel.value = prev;
+  } else {
+    sel.value = '';
+    if (prev) state.chosenId = '';
+  }
+}
+
+function getChosenCandidate() {
+  return state.candidates.find(c => c.id === state.chosenId) || null;
+}
+
+function renderCommitName() {
+  const el = document.getElementById('commitPickName');
+  const c = getChosenCandidate();
+  if (!c) {
+    el.textContent = '— choose an extension above';
+    return;
+  }
+  const idx = state.candidates.indexOf(c);
+  el.textContent = candidateLabel(c, idx);
+}
+
+function renderTypePicker() {
+  const grid = document.getElementById('typeGrid');
+  grid.innerHTML = '';
+  EXTENSION_TYPES.forEach(t => {
+    const div = document.createElement('div');
+    div.className = `type-option ${state.chosenType === t.key ? 'active' : ''}`;
+    div.dataset.type = t.key;
+    div.innerHTML = `
+      <div class="type-option-name">${escapeHtml(t.name)}</div>
+      <div class="type-option-desc">${escapeHtml(t.desc)}</div>
+    `;
+    grid.appendChild(div);
+  });
+
+  grid.querySelectorAll('.type-option').forEach(opt => {
+    opt.addEventListener('click', e => {
+      const t = e.currentTarget.dataset.type;
+      state.chosenType = state.chosenType === t ? '' : t;
+      save();
+      renderTypePicker();
+      updateLivePanel();
+    });
+  });
+}
+
+function renderTypeRationale() {
+  document.getElementById('typeRationale').value = state.typeRationale || '';
+}
+
+function renderPlan() {
+  document.getElementById('planOwner').value = state.plan.owner || '';
+  document.getElementById('planStart').value = state.plan.start || '';
+  document.getElementById('planMilestones').value = state.plan.milestones || '';
+  document.getElementById('planSuccess').value = state.plan.success || '';
+  document.getElementById('planNotAdding').value = state.plan.notAdding || '';
+}
+
+function updateLivePanel() {
+  const panel = document.getElementById('livePanel');
+  const named = namedCandidates();
+  const anyContent = named.length > 0 || state.business.name;
+
+  if (!anyContent) {
+    panel.classList.remove('active');
+    return;
+  }
+  panel.classList.add('active');
+
+  const headline = document.getElementById('liveHeadline');
+  const detail = document.getElementById('liveDetail');
+
+  const chosen = getChosenCandidate();
+  if (chosen) {
+    const typeName = state.chosenType
+      ? (EXTENSION_TYPES.find(t => t.key === state.chosenType) || {}).name
+      : '';
+    headline.textContent = candidateLabel(chosen, state.candidates.indexOf(chosen));
+    detail.textContent = typeName ? `Committed · ${typeName}` : 'Committed · name its type';
+  } else {
+    const verdicts = named.map(c => candidateVerdict(c));
+    const passed = verdicts.filter(v => v.status === 'go').length;
+    const tested = verdicts.filter(v => v.status !== 'incomplete').length;
+    headline.textContent = `${named.length} candidate${named.length === 1 ? '' : 's'} listed`;
+    if (tested === 0) {
+      detail.textContent = 'Run the Adjacency Test in Section 3';
+    } else {
+      detail.textContent = `${passed} passed · ${tested}/${named.length} tested`;
+    }
+  }
+}
+
+// === FIELD WIRING ===
+function wireBusinessFields() {
+  const map = { businessName: 'name', ownerName: 'owner', coreOffering: 'core', positioning: 'positioning' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.business[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wirePlanFields() {
+  const map = { planOwner: 'owner', planStart: 'start', planMilestones: 'milestones', planSuccess: 'success', planNotAdding: 'notAdding' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.plan[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireChosenSelect() {
+  document.getElementById('chosenExtension').addEventListener('change', e => {
+    state.chosenId = e.target.value;
+    save();
+    renderCommitName();
+    updateLivePanel();
+  });
+}
+
+function wireTypeRationale() {
+  document.getElementById('typeRationale').addEventListener('input', e => {
+    state.typeRationale = e.target.value;
+    save();
+  });
+}
+
+function wireAddCandidate() {
+  document.getElementById('addCandidateBtn').addEventListener('click', () => {
+    if (state.candidates.length >= MAX_CANDIDATES) return;
+    state.candidates.push(makeCandidate());
+    save();
+    render();
+  });
+}
+
+// === USE EXAMPLE BUTTONS (static fields) ===
+function wireExampleButtons() {
+  document.querySelectorAll('[data-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.example;
+      const exampleText = EXAMPLES[key];
+      if (exampleText === undefined) return;
+
+      const targets = {
+        typeRationale: { el: 'typeRationale', get: () => state.typeRationale, set: v => state.typeRationale = v },
+        planOwner: { el: 'planOwner', get: () => state.plan.owner, set: v => state.plan.owner = v },
+        planMilestones: { el: 'planMilestones', get: () => state.plan.milestones, set: v => state.plan.milestones = v },
+        planSuccess: { el: 'planSuccess', get: () => state.plan.success, set: v => state.plan.success = v },
+        planNotAdding: { el: 'planNotAdding', get: () => state.plan.notAdding, set: v => state.plan.notAdding = v },
+      };
+      const t = targets[key];
+      if (!t) return;
+      const existing = t.get();
+      if (existing && existing.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+      t.set(exampleText);
+      const el = document.getElementById(t.el);
+      el.value = exampleText;
+      el.focus();
+      el.setSelectionRange(exampleText.length, exampleText.length);
+      save();
+    });
+  });
+}
+
+// === FORMAT DATE ===
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch { return iso; }
+}
+
+// === PDF DOWNLOAD ===
+document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+  buildPdfDocument();
+  // Give the browser a moment to lay out the freshly-built content before printing.
+  setTimeout(() => { window.print(); }, 60);
+});
+
+function answerLabel(a) {
+  if (!a) return '—';
+  return a.charAt(0).toUpperCase() + a.slice(1);
+}
+
+function buildPdfDocument() {
+  const el = document.getElementById('pdfDocument');
+  const b = state.business;
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const named = namedCandidates();
+
+  const businessLine = [b.name, b.core].filter(Boolean).join(' · ');
+
+  let html = `
+    <div class="pdf-header">
+      <div class="pdf-eyebrow">Two Weeks Out · Product Line Extension Playbook</div>
+      <h1>${escapeHtml(b.name || 'Your Extension Playbook')}</h1>
+      <div class="pdf-subtitle">${escapeHtml(businessLine || 'Product line extension playbook')}</div>
+    </div>
+    <div class="pdf-meta">${b.owner ? `Prepared by ${escapeHtml(b.owner)} · ` : ''}${today}</div>
+  `;
+
+  // Adjacency scorecard table
+  if (named.length > 0) {
+    html += `<div class="pdf-section-title">The Adjacency Test — Scorecard</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:34%;">Candidate extension</th>
+            <th class="center" style="width:16%;">Customers asking</th>
+            <th class="center" style="width:16%;">Uses capability</th>
+            <th class="center" style="width:16%;">Strengthens position</th>
+            <th class="center" style="width:18%;">Verdict</th>
+          </tr>
+        </thead>
+        <tbody>`;
+    named.forEach(c => {
+      const v = candidateVerdict(c);
+      const idx = state.candidates.indexOf(c);
+      const verdictText = v.status === 'go' ? 'PASSES' : (v.status === 'fail' ? `Fails (${v.yesCount}/3)` : 'Incomplete');
+      const a = c.answers;
+      html += `<tr>
+        <td><strong>${escapeHtml(candidateLabel(c, idx))}</strong>${c.desc ? `<br><span style="color:#59616e;">${escapeHtml(c.desc)}</span>` : ''}</td>
+        <td class="center precond-${a.demand || 'none'}">${escapeHtml(answerLabel(a.demand))}</td>
+        <td class="center precond-${a.capability || 'none'}">${escapeHtml(answerLabel(a.capability))}</td>
+        <td class="center precond-${a.positioning || 'none'}">${escapeHtml(answerLabel(a.positioning))}</td>
+        <td class="center"><strong>${escapeHtml(verdictText)}</strong></td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // The committed extension
+  const chosen = getChosenCandidate();
+  if (chosen) {
+    const idx = state.candidates.indexOf(chosen);
+    const typeObj = EXTENSION_TYPES.find(t => t.key === state.chosenType);
+    html += `<div class="pdf-section-title">The Committed Extension</div>
+      <div class="pdf-pick">
+        <div class="pdf-pick-label">One extension — twelve months</div>
+        <div class="pdf-pick-name">${escapeHtml(candidateLabel(chosen, idx))}</div>
+        ${typeObj ? `<div class="pdf-pick-type">Type: ${escapeHtml(typeObj.name)} — ${escapeHtml(typeObj.desc)}</div>` : ''}
+      </div>`;
+    if (state.typeRationale) {
+      html += `<div style="font-size:11px; color:#10131a; margin-top:8px;"><strong>Why this type:</strong> ${escapeHtml(state.typeRationale)}</div>`;
+    }
+  }
+
+  // The 12-month plan
+  const p = state.plan;
+  const planFilled = p.owner || p.start || p.milestones || p.success || p.notAdding;
+  if (planFilled) {
+    html += `<div class="pdf-section-title">The 12-Month Plan</div>
+      <table>
+        <tbody>
+          <tr><td style="width:28%;"><strong>Owner</strong></td><td>${escapeHtml(p.owner || '—')}</td></tr>
+          <tr><td><strong>Start date</strong></td><td>${escapeHtml(p.start ? formatDate(p.start) : '—')}</td></tr>
+          <tr><td><strong>First milestones</strong></td><td>${escapeHtml(p.milestones || '—')}</td></tr>
+          <tr><td><strong>12-month success</strong></td><td>${escapeHtml(p.success || '—')}</td></tr>
+          <tr><td><strong>NOT adding this year</strong></td><td>${escapeHtml(p.notAdding || '—')}</td></tr>
+        </tbody>
+      </table>`;
+  }
+
+  html += `<div class="pdf-principle">When in doubt, pick one. The discipline is the inverse of the instinct.</div>`;
+  html += `<div class="pdf-footer">Two Weeks Out · From Corporate Operator to Confident Owner</div>`;
+
+  el.innerHTML = html;
+}
+
+// === EXCEL DOWNLOAD ===
+document.getElementById('downloadXlsxBtn').addEventListener('click', () => {
+  try {
+    const wb = XLSX.utils.book_new();
+    const b = state.business;
+    const slug = (b.name || 'business').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
+    const named = namedCandidates();
+
+    // === Sheet 1: Adjacency Scorecard ===
+    const scoreHeader = ['Candidate extension', 'Description', 'Customers asking', 'Uses capability', 'Strengthens positioning', 'Verdict'];
+    const scoreRows = [scoreHeader];
+    named.forEach(c => {
+      const v = candidateVerdict(c);
+      const idx = state.candidates.indexOf(c);
+      const verdictText = v.status === 'go' ? 'PASSES (3/3)' : (v.status === 'fail' ? `Fails (${v.yesCount}/3)` : 'Incomplete');
+      scoreRows.push([
+        candidateLabel(c, idx),
+        c.desc || '',
+        answerLabel(c.answers.demand),
+        answerLabel(c.answers.capability),
+        answerLabel(c.answers.positioning),
+        verdictText,
+      ]);
+    });
+    // a couple blank rows for re-running later
+    for (let j = 0; j < 2; j++) scoreRows.push(['', '', '', '', '', '']);
+    const scoreWs = XLSX.utils.aoa_to_sheet(scoreRows);
+    scoreWs['!cols'] = [{ wch: 30 }, { wch: 44 }, { wch: 18 }, { wch: 18 }, { wch: 22 }, { wch: 18 }];
+    XLSX.utils.book_append_sheet(wb, scoreWs, 'Adjacency Scorecard');
+
+    // === Sheet 2: Extension Plan ===
+    const chosen = getChosenCandidate();
+    const typeObj = EXTENSION_TYPES.find(t => t.key === state.chosenType);
+    const planRows = [
+      ['Field', 'Value'],
+      ['Business', b.name || ''],
+      ['Core offering', b.core || ''],
+      ['Positioning', b.positioning || ''],
+      [''],
+      ['Committed extension', chosen ? candidateLabel(chosen, state.candidates.indexOf(chosen)) : ''],
+      ['Extension type', typeObj ? typeObj.name : ''],
+      ['Why this type', state.typeRationale || ''],
+      [''],
+      ['THE 12-MONTH PLAN', ''],
+      ['Owner', state.plan.owner || ''],
+      ['Start date', state.plan.start || ''],
+      ['First milestones', state.plan.milestones || ''],
+      ['12-month success', state.plan.success || ''],
+      ['NOT adding this year', state.plan.notAdding || ''],
+    ];
+    const planWs = XLSX.utils.aoa_to_sheet(planRows);
+    planWs['!cols'] = [{ wch: 24 }, { wch: 72 }];
+    XLSX.utils.book_append_sheet(wb, planWs, 'Extension Plan');
+
+    XLSX.writeFile(wb, `extension_scorecard_${slug}.xlsx`);
+  } catch (e) {
+    alert('Excel generation failed. Please try again.');
+    console.error(e);
+  }
+});
+
+// === CLEAR ALL ===
+// Wipes saved data and resets the worksheet to its initial state.
+// Clearing storage then reloading re-runs this file's own seeding logic,
+// guaranteeing a correct fresh state without a hand-written reset.
+function wireClearAll() {
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    const ok = confirm(
+      'Clear everything and start over?\n\n' +
+      'This permanently erases all your entries in this worksheet and cannot be undone.'
+    );
+    if (!ok) return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.warn('Could not clear storage:', e);
+    }
+    location.reload();
+  });
+}
+
+// === INIT ===
+load();
+render();
+wireBusinessFields();
+wireAddCandidate();
+wireChosenSelect();
+wireTypeRationale();
+wirePlanFields();
+wireExampleButtons();
+wireClearAll();
+</script>
+</body>
+</html>

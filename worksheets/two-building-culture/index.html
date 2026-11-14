@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your Culture Artifact — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#e9ecf5;
+    --bg:#ffffff;
+    --bg-soft:#fbfaf6;
+    --green:#2747f5;
+    --bright:#2747f5;
+    --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5;
+    --amber:#7d5300;
+    --amber-soft:#fff3cd;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--bg-soft);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+    background: var(--bg);
+  }
+  header.brand {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 34px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--green);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin: 0;
+  }
+  .step {
+    margin: 38px 0 0;
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+  }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .step-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 28px;font-weight:800;
+    color: var(--bright);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 4px 0 18px;
+    font-style: italic;
+  }
+  label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"], select, textarea {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 9px 11px;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--em-soft);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.5;
+  }
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+
+  /* Step 1 */
+  .role-card {
+    background: var(--em-soft);
+    border-left: 4px solid var(--green);
+    border-radius:0;
+    padding: 16px 20px;
+  }
+  .role-card label { color: var(--green); font-weight: 600; }
+  .role-card input, .role-card select { background: white; }
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 14px;
+  }
+
+  /* Standard card */
+  .block-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .block-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .block-prompt {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 12px;
+  }
+
+  /* Two-list side-by-side */
+  .two-list-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .list-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 18px;
+    background: white;
+  }
+  .list-card.acquirer { border-top: 4px solid var(--green); }
+  .list-card.greenfield { border-top: 4px solid var(--bright); }
+  .list-card-head {
+    margin-bottom: 4px;
+  }
+  .list-card-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .list-card.acquirer .list-card-name { color: var(--green); }
+  .list-card.greenfield .list-card-name { color: var(--bright); }
+  .list-card-sub {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .list-card-prompt {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 12px;
+  }
+  .pair-row {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 26px;
+    gap: 8px;
+    margin-bottom: 6px;
+    align-items: center;
+  }
+  .pair-row.header {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+  }
+  .pair-row.header > div { padding: 0 2px; }
+  .pair-row input { font-size: 13px; padding: 7px 9px; }
+  .add-row {
+    background: var(--em-soft);
+    border: 1px dashed var(--green);
+    color: var(--green);
+    padding: 5px 10px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius:0;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .add-row:hover { background: #e9ecf5; }
+  .remove-row {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    line-height: 1;
+  }
+  .remove-row:hover { color: var(--danger); }
+
+  /* Operating norms */
+  .norm-row {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 26px;
+    gap: 10px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+  .norm-row.header {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+  }
+  .norm-row.header > div { padding: 0 2px; }
+
+  /* Safety tests */
+  .safety-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Multi-location toggle */
+  .toggle-card {
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius:0;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
+  .toggle-card label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    margin: 0;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .toggle-card input[type="checkbox"] {
+    width: auto;
+    accent-color: var(--green);
+  }
+  .ml-hidden { display: none; }
+
+  /* Stop-tolerating callout */
+  .stop-card {
+    background: var(--danger-soft);
+    border-left: 4px solid var(--danger);
+    border-radius:0;
+    padding: 16px 20px;
+  }
+  .stop-card label { color: var(--danger); font-weight: 600; }
+  .stop-card textarea { background: white; }
+
+  /* Output */
+  .output-section {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 3px solid var(--ink);
+  }
+  .output-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;font-weight:800;
+    color: var(--ink);
+    margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+    font-style: italic;
+  }
+  .output-banner {
+    text-align: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    color: var(--green);
+    margin-bottom: 28px;
+    padding: 14px 20px;
+    background: var(--em-soft);
+    border-radius:0;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .output-banner small {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+    font-style: normal;
+  }
+  .out-block {
+    margin-bottom: 26px;
+    page-break-inside: avoid;
+  }
+  .out-block-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .read-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .read-card {
+    border-left: 3px solid var(--green);
+    padding: 10px 14px;
+    background: var(--bg-soft);
+    border-radius:0;
+  }
+  .read-card-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .read-card-body {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  .empty-inline {color:#59616e;
+    font-style: italic;
+    font-size: 13px;
+  }
+  .twolist-out-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .twolist-out-card {
+    background: var(--bg-soft);
+    border-radius:0;
+    padding: 12px 16px;
+  }
+  .twolist-out-card.acquirer { border-left: 3px solid var(--green); }
+  .twolist-out-card.greenfield { border-left: 3px solid var(--bright); }
+  .twolist-out-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .twolist-out-card.acquirer .twolist-out-name { color: var(--green); }
+  .twolist-out-card.greenfield .twolist-out-name { color: var(--bright); }
+  .twolist-out-card ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .twolist-out-card li {
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--border-soft);
+    line-height: 1.45;
+  }
+  .twolist-out-card li:last-child { border-bottom: none; }
+  .twolist-out-card li strong { color: var(--ink); font-weight: 600; }
+  .norms-out-list {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+    counter-reset: norms;
+  }
+  .norms-out-list li {
+    counter-increment: norms;
+    padding: 10px 12px 10px 44px;
+    margin-bottom: 8px;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--bright);
+    border-radius:0;
+    position: relative;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .norms-out-list li::before {
+    content: counter(norms, decimal-leading-zero);
+    position: absolute;
+    left: 12px;
+    top: 10px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    color: var(--bright);
+    font-size: 15px;
+  }
+  .norms-out-list li strong { color: var(--ink); font-weight: 600; display: block; margin-bottom: 4px; }
+  .norms-out-list li .rationale { color: var(--muted); font-size: 13px; font-style: italic; }
+  .safety-out-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .safety-out-card {
+    background: var(--bg-soft);
+    border-left: 3px solid var(--green);
+    border-radius:0;
+    padding: 10px 14px;
+  }
+  .safety-out-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .safety-out-body {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  .stop-out-card {
+    background: var(--danger-soft);
+    border-left: 4px solid var(--danger);
+    border-radius:0;
+    padding: 16px 20px;
+  }
+  .stop-out-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--danger);
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    margin-bottom: 8px;
+  }
+  .stop-out-body {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.55;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 500;
+  }
+  .observation {
+    margin-top: 24px;
+    padding: 14px 18px;
+    background: var(--em-soft);
+    border-radius:0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .observation strong { color: var(--green); }
+  .empty-output {
+    padding: 36px;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius:0;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius:0;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--ink-soft);
+  }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary {
+    background: var(--green);
+    color: white;border-color:#ffffff;
+  }
+  .btn-primary:hover { background: #1b36c9; }
+  .btn-example {
+    background: var(--cream-soft);
+    color: var(--amber);
+    border-color: var(--cream-soft);
+    font-weight: 600;
+  }
+  .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 32px 28px; }
+    .toolbar { display: none; }
+    .add-row, .remove-row { display: none; }
+    .step { page-break-inside: avoid; }
+    .out-block, .stop-out-card { page-break-inside: avoid; }
+    input, select, textarea {
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius:0;
+      padding: 4px 0;
+      background: transparent;
+    }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#7C97FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">09 / Build and Lead Your Team</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">Two Weeks Out  ·  Team Building and Leadership Development</p>
+  <h1>Your Culture Artifact</h1>
+  <p class="lede">Whether you're stewarding an inherited culture or shaping one from zero, the discipline is the same: read what's there or forming, decide what to keep or change, and commit to what you'll no longer tolerate.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<!-- Step 1 — Starting position -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">01</span>
+    <span class="step-title">Your starting position</span>
+  </div>
+  <p class="step-sub">The work is the same. The vocabulary differs. Name where you are so the artifact reads honestly.</p>
+  <div class="role-card">
+    <div class="input-grid">
+      <div class="field">
+        <label for="position">Starting position</label>
+        <select id="position">
+          <option value="">Select…</option>
+          <option value="acquirer">Acquirer — inherited an existing culture</option>
+          <option value="greenfield">Greenfield — building from zero</option>
+          <option value="both">Both — inherited team plus new-market openings</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="context">One-line context (optional)</label>
+        <input type="text" id="context" placeholder="e.g., 24-person Denver agency acquired 2022, planning Phoenix opening in 18 months">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 2 — Read what is there -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">02</span>
+    <span class="step-title">Read what is there — or what is forming</span>
+  </div>
+  <p class="step-sub">Before you change a culture, you read it. Three lenses — observable in the first 60–90 days if you're looking.</p>
+
+  <div class="block-card">
+    <div class="block-name">Artifacts</div>
+    <p class="block-prompt">How meetings actually run. How people communicate when the owner is not in the room. How clients are spoken about. How mistakes are handled.</p>
+    <textarea id="read-artifacts" placeholder="What do you observe? Be specific — not 'we have good meetings,' but 'meetings end on time, people prepare in advance, junior people speak.'"></textarea>
+  </div>
+  <div class="block-card">
+    <div class="block-name">Patterns</div>
+    <p class="block-prompt">Who gets promoted. Who gets praised in front of the group. Who quietly leaves and why. The unwritten rules of who succeeds here.</p>
+    <textarea id="read-patterns" placeholder="What pattern is the team learning from how people get treated? Not what you say is rewarded — what actually gets rewarded."></textarea>
+  </div>
+  <div class="block-card">
+    <div class="block-name">Residue</div>
+    <p class="block-prompt">For the acquirer: the prior owner's habits and language still shaping behavior. For the greenfield owner: your own residue from your last company — the defaults you're unconsciously importing.</p>
+    <textarea id="read-residue" placeholder="What habits are still here that aren't deliberately yours? Acquirers: the prior owner's. Greenfield: your last employer's."></textarea>
+  </div>
+</section>
+
+<!-- Step 3 — Two lists -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">03</span>
+    <span class="step-title">The two-list decision</span>
+  </div>
+  <p class="step-sub">Same exercise, different vocabulary. Fill the column that fits your starting position. If you're in both modes, fill both.</p>
+
+  <div class="two-list-grid">
+    <!-- Acquirer column -->
+    <div class="list-card acquirer">
+      <div class="list-card-head">
+        <div class="list-card-sub">If you're the acquirer</div>
+        <div class="list-card-name">Keep / Change</div>
+      </div>
+      <p class="list-card-prompt">What contributes to why the business works — and what is quietly producing the problems you're trying to solve.</p>
+
+      <div style="margin-bottom: 14px;">
+        <div class="list-card-sub" style="color: var(--green); margin-bottom: 6px;">KEEP</div>
+        <div class="pair-row header">
+          <div>What to keep</div>
+          <div>Why</div>
+          <div></div>
+        </div>
+        <div id="keep-list"></div>
+        <button class="add-row" type="button" onclick="addPairRow('keep')">+ Add</button>
+      </div>
+
+      <div>
+        <div class="list-card-sub" style="color: var(--amber); margin-bottom: 6px;">CHANGE</div>
+        <div class="pair-row header">
+          <div>What to change</div>
+          <div>Why / how</div>
+          <div></div>
+        </div>
+        <div id="change-list"></div>
+        <button class="add-row" type="button" onclick="addPairRow('change')">+ Add</button>
+      </div>
+    </div>
+
+    <!-- Greenfield column -->
+    <div class="list-card greenfield">
+      <div class="list-card-head">
+        <div class="list-card-sub">If you're building from zero</div>
+        <div class="list-card-name">Design / Resist</div>
+      </div>
+      <p class="list-card-prompt">The culture you're deliberately building — and the defaults that will form by accretion if you don't actively push against them.</p>
+
+      <div style="margin-bottom: 14px;">
+        <div class="list-card-sub" style="color: var(--green); margin-bottom: 6px;">DESIGN</div>
+        <div class="pair-row header">
+          <div>What to design</div>
+          <div>Why</div>
+          <div></div>
+        </div>
+        <div id="design-list"></div>
+        <button class="add-row" type="button" onclick="addPairRow('design')">+ Add</button>
+      </div>
+
+      <div>
+        <div class="list-card-sub" style="color: var(--amber); margin-bottom: 6px;">RESIST</div>
+        <div class="pair-row header">
+          <div>Default to resist</div>
+          <div>Why</div>
+          <div></div>
+        </div>
+        <div id="resist-list"></div>
+        <button class="add-row" type="button" onclick="addPairRow('resist')">+ Add</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 4 — Operating norms -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">04</span>
+    <span class="step-title">Operating norms — 3 to 5 that actually run the place</span>
+  </div>
+  <p class="step-sub">Not aspirational posters. Clear principles the team can use to make decisions when you're not in the room. The test: could two people read it and reach the same conclusion about a specific situation?</p>
+
+  <div class="block-card">
+    <div class="norm-row header">
+      <div>The norm (one sentence)</div>
+      <div>The two-people test — what specific situation does this clarify?</div>
+      <div></div>
+    </div>
+    <div id="norms-list"></div>
+    <button class="add-row" type="button" onclick="addNormRow()">+ Add a norm</button>
+  </div>
+</section>
+
+<!-- Step 5 — Safety -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">05</span>
+    <span class="step-title">Psychological safety — honest tests</span>
+  </div>
+  <p class="step-sub">Not "no one feels bad." A team where people can disagree, raise problems, admit mistakes, and ask questions without being punished.</p>
+
+  <div class="safety-grid">
+    <div class="block-card" style="margin: 0;">
+      <div class="block-name">The problem test</div>
+      <p class="block-prompt">When something goes wrong, does the team surface it early — or stay hidden until it explodes?</p>
+      <textarea id="safety-problem" placeholder="Honest answer about your team today — and what would need to change."></textarea>
+    </div>
+    <div class="block-card" style="margin: 0;">
+      <div class="block-name">The disagreement test</div>
+      <p class="block-prompt">When you say something the team disagrees with, does anyone say so? If no one does, ever, you have politeness — not safety.</p>
+      <textarea id="safety-disagreement" placeholder="When was the last time you were pushed back on by a direct report? What did you do with it?"></textarea>
+    </div>
+  </div>
+  <div class="block-card" style="margin-top: 12px;">
+    <div class="block-name">What you're committing to as the owner</div>
+    <p class="block-prompt">One specific behavior change. The most common: ask "what am I missing?" — and mean it, including when the answer is uncomfortable.</p>
+    <textarea id="safety-commitment" placeholder="e.g., End every 1:1 with 'what am I missing?' Sit with the silence. Receive what comes back without defending."></textarea>
+  </div>
+</section>
+
+<!-- Step 6 — Multi-location -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">06</span>
+    <span class="step-title">Multi-location considerations (optional)</span>
+  </div>
+  <p class="step-sub">Only if you operate — or are planning to operate — across more than one location.</p>
+
+  <div class="toggle-card">
+    <label>
+      <input type="checkbox" id="ml-toggle" onchange="toggleMultiLocation()">
+      <span>I have more than one location, or I'm planning to open one</span>
+    </label>
+  </div>
+
+  <div id="ml-section" class="ml-hidden">
+    <div class="block-card">
+      <div class="block-name">Owner-presence cadence per location</div>
+      <p class="block-prompt">Predictable physical presence — not constant, but enough that being in a non-headquarters office doesn't feel like being forgotten.</p>
+      <textarea id="ml-presence" placeholder="e.g., One full week per quarter in Phoenix, minimum. Calendared in advance, never deferred. Plus monthly video all-hands across both offices."></textarea>
+    </div>
+    <div class="block-card">
+      <div class="block-name">The rituals that travel</div>
+      <p class="block-prompt">Posters don't cross city lines. Rituals do. Name the practices you'll run consistently across locations.</p>
+      <textarea id="ml-rituals" placeholder="e.g., Friday wins review. Monthly client-problem postmortem. Quarterly cross-office team day. How decisions get documented."></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- Step 7 — Stop tolerating -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">07</span>
+    <span class="step-title">What you will stop tolerating</span>
+  </div>
+  <p class="step-sub">Culture is what you tolerate, repeated. One specific pattern you've been letting pass that you're going to start intervening on — beginning this week.</p>
+
+  <div class="stop-card">
+    <div class="field" style="margin-bottom: 0;">
+      <label for="stop">The one pattern</label>
+      <textarea id="stop" placeholder="e.g., Meetings that start with status reports instead of decisions. When it happens, I will stop the meeting and reset the agenda."></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- OUTPUT -->
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Culture Artifact</h2>
+    <p>The reading, the lists, the norms, and your commitments — as one printable working document.</p>
+  </div>
+
+  <div id="output-section">
+    <div class="empty-output">Complete the steps above and click Generate to produce your culture artifact.</div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+// =============================================================================
+// EXAMPLE — Andrew & Rima's Denver agency (acquirer + planning Phoenix)
+// =============================================================================
+const EXAMPLE = {
+  position: "both",
+  context: "24-person Denver agency acquired 2022, planning Phoenix expansion in 18 months",
+  read: {
+    artifacts: "Meetings run long, drift off-agenda, often end with no clear decision. Senior people speak; junior people stay quiet. Clients are spoken about transactionally in internal conversations — by retainer size, not by the work. Mistakes are handled by the AM working harder to compensate, rarely surfaced to leadership until something breaks.",
+    patterns: "Promotions have historically gone to the longest-tenured rather than the most impactful. Public praise is rare and generic when it happens. Two strong people quietly left in the last 18 months citing 'lack of growth' — meaning, the unwritten rule is that growth comes from waiting, not from doing.",
+    residue: "The prior owner ran the agency by personal relationship — he was the one client trust traveled through. The team learned to escalate everything to him and never make the call themselves. That habit is still here; people still pause and look for permission on decisions they should be owning."
+  },
+  keep: [
+    { item: "Craft quality on the work itself", why: "The actual deliverables are strong; clients renew on the work" },
+    { item: "Direct, no-politics culture between peers", why: "People are honest with each other when it matters" }
+  ],
+  change: [
+    { item: "Decision-escalation habit", why: "Push decisions back down; stop being the answer the team waits for" },
+    { item: "Promotion criteria", why: "Promote on impact and ownership, not tenure. Make this visible in the next review cycle." },
+    { item: "Client-tier language", why: "Stop talking about clients by fee size; require everyone to speak about them by what we're trying to do for them" }
+  ],
+  design: [
+    { item: "Phoenix office: written-by-default operating cadence", why: "Distance from Denver means less informal context — written changes the default" },
+    { item: "Phoenix office: decision ownership names from day one", why: "Avoid the same escalation residue forming there" }
+  ],
+  resist: [
+    { item: "Hiring Denver-style: by personal relationship to existing team", why: "Phoenix needs its own talent pool, not Denver-by-proxy" }
+  ],
+  norms: [
+    { norm: "Same client standard regardless of fee size", rationale: "When a $5K-a-month client asks for the same care as a $30K-a-month one, the answer is yes" },
+    { norm: "Direct disagreement, voiced respectfully, is loyalty — not rudeness", rationale: "When a junior pushes back on a senior in a meeting, the senior thanks them, doesn't get defensive" },
+    { norm: "Outcomes are the measure, not hours", rationale: "When someone wants to leave at 4 because the work is done, that is not a problem to manage — that is the norm working" }
+  ],
+  safety: {
+    problem: "Today: problems surface late, usually when the AM can no longer compensate by working harder. Need to model surfacing things early myself — including my own mistakes — and praise the first person who flags a small problem.",
+    disagreement: "Last real pushback from a direct report was four months ago, which is too long. Sign that the disagreement test isn't passing yet. I'd been talking, not asking.",
+    commitment: "End every 1:1 with 'what am I missing?' Sit with the silence — five seconds at minimum — until the person speaks. Receive what comes back without defending or explaining."
+  },
+  multiLocation: true,
+  mlPresence: "One full week per quarter in Phoenix, minimum, calendared 12 months in advance and never deferred. Monthly all-hands across both offices via video, with deliberate ritual: Phoenix voices go first in Q&A.",
+  mlRituals: "Friday wins review (each office takes turns hosting). Monthly client-problem postmortem, on video, cross-office. Quarterly cross-office team day rotating between cities. All decisions over $25K documented in the shared decision log within 48 hours.",
+  stop: "Meetings that start with status reports instead of decisions. When it happens, I will name it, stop the meeting, and reset the agenda. The team will learn within three meetings that status updates belong in writing, and meetings exist for decisions."
+};
+
+function useExample() {
+  const hasContent = !!val("position") || !!val("context") || !!val("read-artifacts") || !!val("stop") ||
+    getPairs("keep").length + getPairs("change").length + getPairs("design").length + getPairs("resist").length + getNorms().length > 0;
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+
+  // Reset
+  resetAllFields();
+
+  // Populate
+  document.getElementById("position").value = EXAMPLE.position;
+  document.getElementById("context").value = EXAMPLE.context;
+  document.getElementById("read-artifacts").value = EXAMPLE.read.artifacts;
+  document.getElementById("read-patterns").value = EXAMPLE.read.patterns;
+  document.getElementById("read-residue").value = EXAMPLE.read.residue;
+  EXAMPLE.keep.forEach(p => addPairRow("keep", p.item, p.why));
+  EXAMPLE.change.forEach(p => addPairRow("change", p.item, p.why));
+  EXAMPLE.design.forEach(p => addPairRow("design", p.item, p.why));
+  EXAMPLE.resist.forEach(p => addPairRow("resist", p.item, p.why));
+  EXAMPLE.norms.forEach(n => addNormRow(n.norm, n.rationale));
+  document.getElementById("safety-problem").value = EXAMPLE.safety.problem;
+  document.getElementById("safety-disagreement").value = EXAMPLE.safety.disagreement;
+  document.getElementById("safety-commitment").value = EXAMPLE.safety.commitment;
+  document.getElementById("ml-toggle").checked = EXAMPLE.multiLocation;
+  toggleMultiLocation();
+  document.getElementById("ml-presence").value = EXAMPLE.mlPresence;
+  document.getElementById("ml-rituals").value = EXAMPLE.mlRituals;
+  document.getElementById("stop").value = EXAMPLE.stop;
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================================================
+// REPEATABLE ROW HELPERS
+// =============================================================================
+const rowCounters = { keep: 0, change: 0, design: 0, resist: 0, norms: 0 };
+
+function addPairRow(list, prefItem, prefWhy) {
+  const id = `${list}-${++rowCounters[list]}`;
+  const listEl = document.getElementById(`${list}-list`);
+  const row = document.createElement("div");
+  row.className = "pair-row";
+  row.id = id;
+  row.innerHTML = `
+    <input type="text" id="${id}-item" placeholder="What" value="${escapeHtml(prefItem || "")}">
+    <input type="text" id="${id}-why" placeholder="Why / how" value="${escapeHtml(prefWhy || "")}">
+    <button class="remove-row" type="button" onclick="removeRow('${id}')" title="Remove">✕</button>
+  `;
+  listEl.appendChild(row);
+}
+function addNormRow(prefNorm, prefRationale) {
+  const id = `norm-${++rowCounters.norms}`;
+  const listEl = document.getElementById("norms-list");
+  const row = document.createElement("div");
+  row.className = "norm-row";
+  row.id = id;
+  row.innerHTML = `
+    <input type="text" id="${id}-norm" placeholder="The norm" value="${escapeHtml(prefNorm || "")}">
+    <input type="text" id="${id}-rationale" placeholder="Specific situation it clarifies" value="${escapeHtml(prefRationale || "")}">
+    <button class="remove-row" type="button" onclick="removeRow('${id}')" title="Remove">✕</button>
+  `;
+  listEl.appendChild(row);
+}
+function removeRow(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+function getPairs(list) {
+  const out = [];
+  document.querySelectorAll(`#${list}-list .pair-row`).forEach(r => {
+    const item = document.getElementById(`${r.id}-item`)?.value.trim() || "";
+    const why = document.getElementById(`${r.id}-why`)?.value.trim() || "";
+    if (item || why) out.push({ item, why });
+  });
+  return out;
+}
+function getNorms() {
+  const out = [];
+  document.querySelectorAll("#norms-list .norm-row").forEach(r => {
+    const norm = document.getElementById(`${r.id}-norm`)?.value.trim() || "";
+    const rationale = document.getElementById(`${r.id}-rationale`)?.value.trim() || "";
+    if (norm || rationale) out.push({ norm, rationale });
+  });
+  return out;
+}
+
+function toggleMultiLocation() {
+  const checked = document.getElementById("ml-toggle").checked;
+  document.getElementById("ml-section").classList.toggle("ml-hidden", !checked);
+}
+
+// =============================================================================
+// OUTPUT
+// =============================================================================
+function val(id) { return (document.getElementById(id)?.value || "").trim(); }
+
+function generate() {
+  const out = document.getElementById("output-section");
+  const position = val("position");
+
+  if (!position) {
+    out.innerHTML = '<div class="empty-output">Select your starting position in Step 1 to generate your culture artifact.</div>';
+    out.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  const positionLabel = {
+    acquirer: "Acquirer — inherited culture",
+    greenfield: "Greenfield — building from zero",
+    both: "Both — inherited team plus new-market openings"
+  }[position];
+
+  const context = val("context");
+  const readings = {
+    Artifacts: val("read-artifacts"),
+    Patterns:  val("read-patterns"),
+    Residue:   val("read-residue")
+  };
+  const lists = {
+    Keep:   getPairs("keep"),
+    Change: getPairs("change"),
+    Design: getPairs("design"),
+    Resist: getPairs("resist")
+  };
+  const norms = getNorms();
+  const safety = {
+    "The problem test":      val("safety-problem"),
+    "The disagreement test": val("safety-disagreement"),
+    "Owner's commitment":    val("safety-commitment")
+  };
+  const ml = document.getElementById("ml-toggle").checked;
+  const mlPresence = val("ml-presence");
+  const mlRituals = val("ml-rituals");
+  const stop = val("stop");
+
+  let html = `
+    <div class="output-banner">
+      ${positionLabel}
+      ${context ? `<small>${escapeHtml(context)}</small>` : ""}
+    </div>
+  `;
+
+  // Readings
+  html += `<div class="out-block"><div class="out-block-title">What is there — or forming</div><div class="read-grid">`;
+  Object.entries(readings).forEach(([name, body]) => {
+    html += `<div class="read-card">
+      <div class="read-card-name">${name}</div>
+      ${body ? `<div class="read-card-body">${escapeHtml(body)}</div>` : `<div class="empty-inline">Not yet read.</div>`}
+    </div>`;
+  });
+  html += `</div></div>`;
+
+  // Two lists — show whichever has content
+  const acqHas = lists.Keep.length + lists.Change.length > 0;
+  const gfHas = lists.Design.length + lists.Resist.length > 0;
+  if (acqHas || gfHas) {
+    html += `<div class="out-block"><div class="out-block-title">The two-list decision</div><div class="twolist-out-grid">`;
+    if (acqHas) {
+      html += `<div class="twolist-out-card acquirer"><div class="twolist-out-name">Keep / Change</div>`;
+      ["Keep", "Change"].forEach(k => {
+        if (lists[k].length > 0) {
+          html += `<div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 700; margin: 8px 0 4px;">${k.toUpperCase()}</div><ul>`;
+          lists[k].forEach(p => {
+            const left = p.item ? `<strong>${escapeHtml(p.item)}</strong>` : "";
+            const sep = (p.item && p.why) ? " — " : "";
+            const right = p.why ? escapeHtml(p.why) : "";
+            html += `<li>${left}${sep}${right}</li>`;
+          });
+          html += `</ul>`;
+        }
+      });
+      html += `</div>`;
+    }
+    if (gfHas) {
+      html += `<div class="twolist-out-card greenfield"><div class="twolist-out-name">Design / Resist</div>`;
+      ["Design", "Resist"].forEach(k => {
+        if (lists[k].length > 0) {
+          html += `<div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 700; margin: 8px 0 4px;">${k.toUpperCase()}</div><ul>`;
+          lists[k].forEach(p => {
+            const left = p.item ? `<strong>${escapeHtml(p.item)}</strong>` : "";
+            const sep = (p.item && p.why) ? " — " : "";
+            const right = p.why ? escapeHtml(p.why) : "";
+            html += `<li>${left}${sep}${right}</li>`;
+          });
+          html += `</ul>`;
+        }
+      });
+      html += `</div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  // Norms
+  if (norms.length > 0) {
+    html += `<div class="out-block"><div class="out-block-title">Operating norms</div><ol class="norms-out-list">`;
+    norms.forEach(n => {
+      html += `<li>
+        ${n.norm ? `<strong>${escapeHtml(n.norm)}</strong>` : ""}
+        ${n.rationale ? `<div class="rationale">${escapeHtml(n.rationale)}</div>` : ""}
+      </li>`;
+    });
+    html += `</ol></div>`;
+  }
+
+  // Safety
+  const hasSafety = Object.values(safety).some(v => v);
+  if (hasSafety) {
+    html += `<div class="out-block"><div class="out-block-title">Psychological safety</div><div class="safety-out-grid">`;
+    ["The problem test", "The disagreement test"].forEach(name => {
+      html += `<div class="safety-out-card">
+        <div class="safety-out-name">${name}</div>
+        ${safety[name] ? `<div class="safety-out-body">${escapeHtml(safety[name])}</div>` : `<div class="empty-inline">Not yet answered.</div>`}
+      </div>`;
+    });
+    html += `</div>`;
+    if (safety["Owner's commitment"]) {
+      html += `<div class="safety-out-card" style="margin-top: 10px;">
+        <div class="safety-out-name">Owner's commitment</div>
+        <div class="safety-out-body">${escapeHtml(safety["Owner's commitment"])}</div>
+      </div>`;
+    }
+    html += `</div>`;
+  }
+
+  // Multi-location
+  if (ml && (mlPresence || mlRituals)) {
+    html += `<div class="out-block"><div class="out-block-title">Multi-location practice</div>`;
+    if (mlPresence) {
+      html += `<div class="safety-out-card" style="margin-bottom: 10px;">
+        <div class="safety-out-name">Owner-presence cadence</div>
+        <div class="safety-out-body">${escapeHtml(mlPresence)}</div>
+      </div>`;
+    }
+    if (mlRituals) {
+      html += `<div class="safety-out-card">
+        <div class="safety-out-name">The rituals that travel</div>
+        <div class="safety-out-body">${escapeHtml(mlRituals)}</div>
+      </div>`;
+    }
+    html += `</div>`;
+  }
+
+  // Stop tolerating — the punchline
+  if (stop) {
+    html += `<div class="out-block">
+      <div class="stop-out-card">
+        <div class="stop-out-label">WHAT YOU WILL STOP TOLERATING</div>
+        <div class="stop-out-body">${escapeHtml(stop)}</div>
+      </div>
+    </div>`;
+  }
+
+  // Observations
+  const obs = buildObservations({ position, readings, lists, norms, stop });
+  obs.forEach(o => { html += `<div class="observation">${o}</div>`; });
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function buildObservations({ position, readings, lists, norms, stop }) {
+  const obs = [];
+
+  // Norms presence and quality
+  if (norms.length === 0) {
+    obs.push(`<strong>Norms not yet drafted.</strong> The norms are the lesson's working artifact — the thing the team can actually use to make decisions when you're not in the room. Three to five clear ones beats fifteen aspirational ones.`);
+  } else if (norms.length === 1 || norms.length === 2) {
+    obs.push(`<strong>You have ${norms.length === 1 ? "one norm" : "two norms"} drafted.</strong> Aim for three to five — enough to cover the decisions the team actually faces, few enough that everyone remembers them.`);
+  } else if (norms.length > 5) {
+    obs.push(`<strong>You have ${norms.length} norms drafted.</strong> The lesson points to three to five for a reason: more than that and they stop being remembered, and the team falls back on their own defaults. Consider which ones are doing the most work and trim the rest.`);
+  }
+
+  // Norms without rationale
+  const normsWithoutRationale = norms.filter(n => n.norm && !n.rationale).length;
+  if (normsWithoutRationale > 0) {
+    obs.push(`<strong>${normsWithoutRationale === 1 ? "One norm has" : normsWithoutRationale + " norms have"} no specific-situation answer.</strong> The two-people test — could two people on your team read this and reach the same conclusion about a specific situation? — is the test that separates a norm from a poster. Fill those in.`);
+  }
+
+  // Stop-tolerating commitment
+  if (!stop) {
+    obs.push(`<strong>You haven't named what you'll stop tolerating.</strong> This is the lesson's most actionable assignment — the single act of intervention will teach the team more about your culture than any all-hands meeting. Name one specific pattern. Start this week.`);
+  }
+
+  // Position-specific observations
+  if ((position === "acquirer" || position === "both") && lists.Keep.length === 0 && lists.Change.length === 0) {
+    obs.push(`<strong>Your Keep/Change list is empty.</strong> For an acquirer, this is where the real culture work shows up. The list doesn't have to be long — three items in each column, honestly chosen, beats fifteen vague ones.`);
+  }
+  if ((position === "greenfield" || position === "both") && lists.Design.length === 0 && lists.Resist.length === 0) {
+    obs.push(`<strong>Your Design/Resist list is empty.</strong> The default cultures form fast — by week two of a new operation. If you don't name what you're deliberately building and what you're deliberately pushing against, the residue from elsewhere fills the gap.`);
+  }
+
+  return obs;
+}
+
+// =============================================================================
+// UTILITIES
+// =============================================================================
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function resetAllFields() {
+  document.querySelectorAll("input[type='text'], select, textarea").forEach(el => el.value = "");
+  document.getElementById("ml-toggle").checked = false;
+  toggleMultiLocation();
+  ["keep", "change", "design", "resist", "norms"].forEach(k => {
+    const el = document.getElementById(`${k}-list`);
+    if (el) el.innerHTML = "";
+    rowCounters[k] = 0;
+  });
+}
+function clearAll() {
+  if (!confirm("Clear all entries and start over?")) return;
+  resetAllFields();
+  seedRows();
+  document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your culture artifact.</div>';
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function seedRows() {
+  addPairRow("keep"); addPairRow("keep");
+  addPairRow("change"); addPairRow("change");
+  addPairRow("design"); addPairRow("design");
+  addPairRow("resist");
+  addNormRow(); addNormRow(); addNormRow();
+}
+
+// INIT
+seedRows();
+</script>
+</body>
+</html>

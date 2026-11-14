@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance Measurement Playbook · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --accent:#2747f5;
+    --accent-light:#2747f5;
+    --accent-soft:#e9ecf5;
+    --accent-faint:#fbfaf6;
+    --emerald:#0d6b4c;
+    --emerald-bright:#0d6b4c;
+    --emerald-soft:#e2f5ea;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#fbfaf6;
+    --bg:#fbfaf6;
+    --warn:#7d5300;
+    --warn-soft:#fff3cd;
+    --warn-border:#ffd23f;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+    --finance:#2747f5;
+    --operating:#0d6b4c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* === HEADER === */
+  .header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 36px;font-weight:800;
+    color: var(--ink);
+    margin: 0 0 8px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .subtitle { font-size: 16px; color: var(--muted); font-style: italic; }
+
+  /* === LIVE PANEL === */
+  .live-panel {
+    position: sticky;
+    top: 0;
+    padding: 14px 24px;
+    margin: -40px -24px 36px;
+    z-index: 100;
+    display: none;
+    color: white;
+    background: var(--accent);
+  }
+  .live-panel.active { display: block; }
+  .live-panel-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .live-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .live-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .live-stats { display: flex; gap: 14px; align-items: center; }
+  .live-stat { display: flex; flex-direction: column; align-items: center; }
+  .live-stat-value { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .live-stat-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; }
+  .live-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.25); }
+
+  /* === SECTIONS === */
+  .section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--accent-faint);
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    flex-shrink: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    margin: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .section-body { padding: 28px; }
+
+  /* === FORM ELEMENTS === */
+  .field { margin-bottom: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .label-hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 2px;
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  textarea { resize: vertical; min-height: 60px; }
+
+  /* === USE EXAMPLE BUTTON === */
+  .use-example-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .use-example-btn:hover { background: var(--accent-soft); }
+  .use-example-btn:active { transform: translateY(1px); }
+  /* On the deep-blue commit card, flip to white so the button stays visible */
+  .commit-card .use-example-btn {
+    border-color: rgba(255,255,255,0.85);
+    color: white;
+  }
+  .commit-card .use-example-btn:hover { background: rgba(255,255,255,0.18); }
+  .label-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    gap: 12px;
+  }
+  .label-row label { margin-bottom: 0; }
+  .example-btn-wrap { margin-left: auto; }
+
+  /* === INFO STRIP === */
+  .info-strip {
+    background: var(--accent-soft);
+    border-radius:0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .info-strip strong { color: var(--accent); }
+
+  /* === DIMENSION GROUP === */
+  .dim-group { margin-bottom: 26px; }
+  .dim-group:last-child { margin-bottom: 0; }
+  .dim-group-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .dim-group-tag {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius:0;
+    color: white;
+  }
+  .dim-group-tag.finance { background: var(--finance); }
+  .dim-group-tag.operating { background: var(--operating); }
+  .dim-group-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .dim-group-desc {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* === DIMENSION CARD === */
+  .dim-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .dim-card:last-child { margin-bottom: 0; }
+  .dim-card.finance { border-left: 4px solid var(--finance); }
+  .dim-card.operating { border-left: 4px solid var(--operating); }
+  .dim-card-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .dim-card-slot {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .dim-card-default {
+    font-size: 12px;color:#59616e;
+  }
+  .dim-card-prompt {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+  .dim-card-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1.4fr;
+    gap: 12px;
+  }
+  .dim-field label {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+  .dim-field input, .dim-field select { font-size: 13px; }
+
+  /* === TRIGGER CARDS (SECTION 3) === */
+  .trigger-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .trigger-card:last-child { margin-bottom: 0; }
+  .trigger-card.finance { border-left: 4px solid var(--finance); }
+  .trigger-card.operating { border-left: 4px solid var(--operating); }
+  .trigger-card-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .trigger-card-metric {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .trigger-card-slot {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .trigger-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 12px;
+  }
+  .trigger-empty {
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+    background: var(--bg);
+    border-radius:0;
+    font-size: 14px;
+  }
+
+  /* === REVIEW CADENCE === */
+  .cadence-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .cadence-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px;
+    background: var(--accent-faint);
+  }
+  .cadence-card label { margin-bottom: 6px; }
+  .cadence-card .label-hint { margin-bottom: 8px; }
+  .three-questions {
+    background: var(--emerald-soft);
+    border: 1px solid var(--emerald);
+    border-radius:0;
+    padding: 18px 22px;
+  }
+  .three-questions-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--emerald);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .tq-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 8px 0;
+  }
+  .tq-num {
+    background: var(--emerald);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .tq-text { font-size: 14px; color: var(--ink-soft); padding-top: 1px; }
+
+  /* === COMMIT CARD === */
+  .commit-card {
+    background: var(--accent);
+    color: white;
+    padding: 28px;
+    border-radius:0;
+    margin-top: 16px;
+  }
+  .commit-card label { color: rgba(255,255,255,0.85); }
+  .commit-card input, .commit-card textarea, .commit-card select {
+    background: rgba(255,255,255,0.95);
+    border-color: transparent;
+  }
+  .commit-card .label-hint { color: rgba(255,255,255,0.7); }
+
+  /* === DOWNLOAD BAR === */
+  .download-bar {
+    margin-top: 32px;
+    padding: 28px;
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius:0;
+    text-align: center;
+  }
+  .download-bar h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .download-bar p { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .download-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 12px 24px;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-secondary {
+    background: white;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-secondary:hover { background: var(--accent-soft); }
+  .btn-icon { font-size: 18px; }
+
+  /* === CLEAR ALL — quiet, de-emphasized destructive control === */
+  .clear-all-wrap {
+    margin-top: 16px;
+    text-align: center;
+  }
+  .btn-clear {
+    background: transparent;
+    border: none;color:#59616e;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .btn-clear:hover { color: var(--danger); background: var(--danger-soft); }
+
+  /* === SAVE INDICATOR === */
+  .save-indicator {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: white;
+    padding: 10px 16px;
+    border-radius:0;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .save-indicator.show { opacity: 0.85; transform: translateY(0); }
+
+  /* === PDF DOCUMENT === */
+  .pdf-document {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 8.5in;
+    background: white;
+    padding: 0.7in 0.8in;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+  }
+  .pdf-document .pdf-header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .pdf-document .pdf-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pdf-document h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .pdf-document .pdf-subtitle { font-size: 13px; color: var(--muted); font-style: italic; }
+  .pdf-document .pdf-meta { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+  .pdf-document .pdf-section-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pdf-document table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin: 6px 0;
+  }
+  .pdf-document table th {
+    background: var(--accent);
+    color: white;
+    padding: 6px 7px;
+    text-align: left;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .pdf-document table td {
+    border: 1px solid var(--border);
+    padding: 6px 7px;
+    vertical-align: top;
+  }
+  .pdf-document table tr.grp-finance td:first-child { border-left: 3px solid var(--finance); }
+  .pdf-document table tr.grp-operating td:first-child { border-left: 3px solid var(--operating); }
+  .pdf-document .pdf-cadence {
+    background: var(--accent);
+    color: white;
+    padding: 14px 18px;
+    border-radius:0;
+    margin: 8px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .pdf-document .pdf-cadence-cell { text-align: center; }
+  .pdf-document .pdf-cadence-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .pdf-document .pdf-cadence-value {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .pdf-document .pdf-principle {
+    margin-top: 24px;
+    padding: 14px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  .pdf-document .pdf-footer {
+    margin-top: 26px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;color:#59616e;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 24px 16px 60px; }
+    h1 { font-size: 28px; }
+    .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    .dim-card-grid { grid-template-columns: 1fr; }
+    .trigger-card-grid { grid-template-columns: 1fr; }
+    .cadence-grid { grid-template-columns: 1fr; }
+    .download-buttons { flex-direction: column; }
+    .section-body { padding: 20px; }
+  }
+
+  /* === PRINT — render only the playbook document === */
+  @page {
+    size: letter;
+    margin: 0.7in 0.8in;
+  }
+  @media print {
+    /* Hide the interactive worksheet entirely */
+    .live-panel,
+    .container,
+    .save-indicator,
+    .help-floating { display: none !important; }
+
+    /* Reveal the playbook document as normal flowed content */
+    .pdf-document {
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      visibility: visible !important;
+      padding: 0 !important;
+      z-index: auto !important;
+    }
+    html, body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    /* Avoid awkward breaks inside tables and cards */
+    .pdf-document table { page-break-inside: auto; }
+    .pdf-document tr { page-break-inside: avoid; }
+    .pdf-document .pdf-section-title { page-break-after: avoid; }
+    .pdf-document .pdf-principle,
+    .pdf-document .pdf-cadence { page-break-inside: avoid; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#BFE34F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.live-panel{margin:0 0 36px}
+/* contrast on dark and tinted blocks */
+div.commit-card div.label-hint{color:#e6eaff}
+</style>
+
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">10 / Grow Without Losing Control</span></div>
+
+<div class="live-panel" id="livePanel">
+  <div class="live-panel-inner">
+    <div>
+      <div class="live-label">Your dashboard</div>
+      <div class="live-headline" id="liveHeadline">—</div>
+    </div>
+    <div class="live-stats">
+      <div class="live-stat">
+        <div class="live-stat-value" id="liveDefinedCount">0/6</div>
+        <div class="live-stat-label">Numbers defined</div>
+      </div>
+      <div class="live-divider"></div>
+      <div class="live-stat">
+        <div class="live-stat-value" id="liveTriggerCount">0/6</div>
+        <div class="live-stat-label">Triggers set</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">Worksheet · Performance Measurement</div>
+    <h1>Build Your Six-Number Dashboard</h1>
+    <div class="subtitle">Six numbers. One sheet. Reviewed weekly. Each one triggers a specific decision.</div>
+  </div>
+
+  <!-- SECTION 1 — BUSINESS CONTEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <h2 class="section-title">Your business — at a glance</h2>
+        <div class="section-sub">The dashboard is built for your business at its current stage.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field">
+          <label for="businessName">Business name</label>
+          <input type="text" id="businessName" placeholder="e.g. Acme Advisory">
+        </div>
+        <div class="field">
+          <label for="ownerName">Your name</label>
+          <input type="text" id="ownerName" placeholder="e.g. David Chen">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="currentRevenue">Current annual revenue</label>
+          <input type="text" id="currentRevenue" placeholder="e.g. $2.4M">
+        </div>
+        <div class="field">
+          <label for="quarterFocus">What are you trying to move this quarter?</label>
+          <div class="label-hint">The one strategic priority — it sets your sixth number.</div>
+          <input type="text" id="quarterFocus" placeholder="e.g. Expansion conversations advanced to written offer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — DEFINE THE SIX NUMBERS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <h2 class="section-title">Define your six numbers</h2>
+        <div class="section-sub">Three financial, three operating. For each: the specific metric, where it lives today, and its current value.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="info-strip">
+        These six dimensions are fixed — the lesson is specific that this is what a owner dashboard measures. Your job is to name <strong>the specific metric</strong> inside each one, for your business. Pick the number that, if it moved, would change a decision.
+      </div>
+      <div id="dimensionGroups"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — SET THE TRIGGERS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <h2 class="section-title">Set the trigger for each number</h2>
+        <div class="section-sub">A number on a dashboard does nothing. A number tied to a decision does the work.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="info-strip">
+        For each metric you named: what <strong>movement</strong> triggers attention, and what <strong>decision</strong> does it trigger? A dashboard isn't a report — every number earns its place by pointing at an action.
+      </div>
+      <div id="triggerList"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — THE REVIEW CADENCE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <h2 class="section-title">The review cadence</h2>
+        <div class="section-sub">A dashboard without a review cadence is a screensaver. The cadence is the discipline.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="cadence-grid">
+        <div class="cadence-card">
+          <label for="cadenceWhen">How often?</label>
+          <div class="label-hint">Weekly is the lesson's recommendation.</div>
+          <select id="cadenceWhen">
+            <option value="">Pick one</option>
+            <option value="Weekly — 30 minutes">Weekly — 30 minutes</option>
+            <option value="Biweekly — 45 minutes">Biweekly — 45 minutes</option>
+            <option value="Monthly — 60 minutes">Monthly — 60 minutes</option>
+          </select>
+        </div>
+        <div class="cadence-card">
+          <label for="cadenceDay">Which day & time?</label>
+          <div class="label-hint">Same slot every time — protected.</div>
+          <input type="text" id="cadenceDay" placeholder="e.g. Monday, 8:30am">
+        </div>
+        <div class="cadence-card">
+          <label for="cadenceWho">Who is in the room?</label>
+          <div class="label-hint">Owner-led — that's non-negotiable.</div>
+          <input type="text" id="cadenceWho" placeholder="e.g. Owner + ops lead">
+        </div>
+      </div>
+
+      <div class="three-questions">
+        <div class="three-questions-label">The three questions that structure every review</div>
+        <div class="tq-item">
+          <div class="tq-num">1</div>
+          <div class="tq-text">Where is each number versus the prior week?</div>
+        </div>
+        <div class="tq-item">
+          <div class="tq-num">2</div>
+          <div class="tq-text">Which one is moving in a direction that requires a decision?</div>
+        </div>
+        <div class="tq-item">
+          <div class="tq-num">3</div>
+          <div class="tq-text">What are we going to do about it before next week's review?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — THE COMMITMENT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <h2 class="section-title">The commitment</h2>
+        <div class="section-sub">A first review on the calendar, an owner, and what gets dropped to make room.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="commit-card">
+        <div class="field-row">
+          <div class="field">
+            <label for="commitFirstReview">Date of your first review</label>
+            <input type="date" id="commitFirstReview">
+          </div>
+          <div class="field">
+            <label for="commitOwner">Who owns the dashboard?</label>
+            <div class="label-hint">Who keeps the numbers current — distinct from who runs the review.</div>
+            <input type="text" id="commitOwner" placeholder="e.g. Ops lead keeps it; owner runs the review">
+          </div>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="commitSetup">Where will the dashboard live, and how does it get updated?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="commitSetup" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">One shared sheet beats a new piece of software. Name the tool and the update routine.</div>
+          <textarea id="commitSetup" placeholder="e.g. One shared spreadsheet. Ops lead updates all six numbers every Friday by noon, pulling from the CRM and accounting system. No new software."></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <div class="label-row">
+            <label for="commitDrop">What gets dropped to make room for the weekly review?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="commitDrop" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">A new 30-minute ritual needs 30 minutes from somewhere. Name it, or it won't hold.</div>
+          <textarea id="commitDrop" placeholder="e.g. The ad-hoc 'how are we doing' check-ins disappear — they're replaced by this. The monthly hand-built report shrinks to a quarterly summary."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD BAR -->
+  <div class="download-bar">
+    <h2>Save or print your playbook</h2>
+    <p>Open the playbook to save as PDF or print it. The Excel file is the live dashboard — start using it this week.</p>
+    <div class="download-buttons">
+      <button class="btn btn-primary" id="downloadPdfBtn">
+        <span class="btn-icon">🖨️</span> Save / Print Playbook
+      </button>
+      <button class="btn btn-secondary" id="downloadXlsxBtn">
+        <span class="btn-icon">📊</span> Download Dashboard (Excel)
+      </button>
+    </div>
+  </div>
+
+  <div class="clear-all-wrap">
+    <button class="btn-clear" id="clearAllBtn" type="button">Clear all and start over</button>
+  </div>
+
+</div>
+
+<div class="save-indicator" id="saveIndicator">Saved</div>
+<div class="pdf-document" id="pdfDocument"></div>
+
+<script>
+'use strict';
+
+const STORAGE_KEY = 'Two Weeks Out_performanceMeasurement_v1';
+
+// === THE SIX FIXED DIMENSIONS ===
+const DIMENSIONS = [
+  {
+    key: 'revenue', group: 'finance', slot: 'Revenue traction',
+    defaultMetric: 'New MRR signed',
+    prompt: 'A leading indicator of where revenue is going — not total revenue.',
+    metricExample: 'New MRR signed + pipeline value with a 30-day close window',
+    sourceExample: 'CRM (HubSpot / Pipedrive / Salesforce)',
+    valueExample: '$34K new MRR',
+    movementExample: 'Below target for two consecutive weeks',
+    decisionExample: 'Owner runs a partner-level sales push that week and reviews the pipeline personally',
+  },
+  {
+    key: 'cash', group: 'finance', slot: 'Cash position',
+    defaultMetric: 'Weeks of runway',
+    prompt: 'The number you would want to know at 3am.',
+    metricExample: 'Weeks of runway at current burn',
+    sourceExample: 'Accounting system (QuickBooks / Xero / NetSuite)',
+    valueExample: '31 weeks',
+    movementExample: 'Drops below 26 weeks, or falls 4+ weeks in a month',
+    decisionExample: 'Pause the next planned hire and re-forecast burn before any new commitment',
+  },
+  {
+    key: 'margin', group: 'finance', slot: 'Profitability',
+    defaultMetric: 'Gross margin',
+    prompt: 'Net income gets distorted. Gross margin is the clean signal.',
+    metricExample: 'Monthly gross margin %',
+    sourceExample: 'Accounting system (monthly close)',
+    valueExample: '46%',
+    movementExample: 'Slips 2+ points below the trailing-quarter average',
+    decisionExample: 'Open a pricing-and-delivery review before the next monthly close',
+  },
+  {
+    key: 'quality', group: 'operating', slot: 'Delivery quality',
+    defaultMetric: 'Client escalations this week',
+    prompt: 'Does the work match the brand? The fastest signal, not the lagging one.',
+    metricExample: 'Count of client concerns needing senior attention this week',
+    sourceExample: 'Weekly senior check — shared doc or CRM field',
+    valueExample: '0 escalations',
+    movementExample: 'Any escalation at all, or two in a single week',
+    decisionExample: 'Owner personally touches the account within 48 hours',
+  },
+  {
+    key: 'efficiency', group: 'operating', slot: 'Operational efficiency',
+    defaultMetric: 'Senior team utilization',
+    prompt: 'Is your most expensive capacity deployed well?',
+    metricExample: 'Senior team utilization % (billable / available)',
+    sourceExample: 'Time tracking (Harvest / Toggl / CRM hours)',
+    valueExample: '68%',
+    movementExample: 'Falls below 60% — or climbs above 85%',
+    decisionExample: 'Below 60%, push sales; above 85%, start the next hiring conversation before quality slips',
+  },
+  {
+    key: 'strategic', group: 'operating', slot: 'Strategic progress',
+    defaultMetric: 'The one quarterly KPI',
+    prompt: 'The single thing you are trying to move this quarter.',
+    metricExample: 'Expansion offers advanced to written proposal',
+    sourceExample: 'Tagged status field on CRM opportunities',
+    valueExample: '4 of 10 target',
+    movementExample: 'Behind the pace needed to hit the quarterly target',
+    decisionExample: 'Owner reallocates time to the strategic priority and names the specific blocker to clear',
+  },
+];
+
+// === EXAMPLE TEXT (static fields) ===
+const EXAMPLES = {
+  commitSetup: 'One shared spreadsheet — no new software. The ops lead updates all six numbers every Friday by noon, pulling revenue and pipeline from the CRM and cash and margin from the accounting system. The sheet is open during every review; nobody recalculates live.',
+  commitDrop: 'The ad-hoc "how are we doing?" check-ins disappear — this review replaces them. The hand-built monthly report shrinks to a lighter quarterly summary, since the weekly review now carries the operational visibility it used to provide.',
+};
+
+// === STATE ===
+let state = {
+  business: { name: '', owner: '', revenue: '', quarterFocus: '' },
+  // dimensions keyed by dimension key
+  dims: {},
+  cadence: { when: '', day: '', who: '' },
+  commit: { firstReview: '', owner: '', setup: '', drop: '' },
+};
+
+// Initialize each dimension's data slot
+DIMENSIONS.forEach(d => {
+  state.dims[d.key] = { metric: '', source: '', value: '', movement: '', decision: '' };
+});
+
+// === PERSISTENCE ===
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    flashSaved();
+  } catch (e) { console.warn('Save failed:', e); }
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const p = JSON.parse(raw);
+    if (p.business) state.business = { ...state.business, ...p.business };
+    if (p.dims) {
+      DIMENSIONS.forEach(d => {
+        if (p.dims[d.key]) state.dims[d.key] = { ...state.dims[d.key], ...p.dims[d.key] };
+      });
+    }
+    if (p.cadence) state.cadence = { ...state.cadence, ...p.cadence };
+    if (p.commit) state.commit = { ...state.commit, ...p.commit };
+  } catch (e) { console.warn('Load failed:', e); }
+}
+function flashSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// === RENDER ===
+function render() {
+  renderBusiness();
+  renderDimensions();
+  renderTriggers();
+  renderCadence();
+  renderCommit();
+  updateLivePanel();
+}
+
+function renderBusiness() {
+  document.getElementById('businessName').value = state.business.name || '';
+  document.getElementById('ownerName').value = state.business.owner || '';
+  document.getElementById('currentRevenue').value = state.business.revenue || '';
+  document.getElementById('quarterFocus').value = state.business.quarterFocus || '';
+}
+
+function groupMeta(group) {
+  return group === 'finance'
+    ? { tag: 'finance', name: 'The Financial Three', desc: 'Revenue, cash, profitability — from your CRM and accounting system.' }
+    : { tag: 'operating', name: 'The Operating Three', desc: 'Quality, efficiency, strategic progress — these take more discipline to construct.' };
+}
+
+function renderDimensions() {
+  const container = document.getElementById('dimensionGroups');
+  container.innerHTML = '';
+
+  ['finance', 'operating'].forEach(group => {
+    const meta = groupMeta(group);
+    const groupDims = DIMENSIONS.filter(d => d.group === group);
+
+    const groupEl = document.createElement('div');
+    groupEl.className = 'dim-group';
+
+    let cardsHtml = '';
+    groupDims.forEach(d => {
+      const data = state.dims[d.key];
+      cardsHtml += `
+        <div class="dim-card ${group}">
+          <div class="dim-card-head">
+            <span class="dim-card-slot">${escapeHtml(d.slot)}</span>
+            <span class="dim-card-default">· lesson default: ${escapeHtml(d.defaultMetric)}</span>
+          </div>
+          <div class="dim-card-prompt">${escapeHtml(d.prompt)}</div>
+          <div class="dim-card-grid">
+            <div class="dim-field">
+              <div class="label-row">
+                <label>Your specific metric</label>
+                <div class="example-btn-wrap">
+                  <button class="use-example-btn" data-dim-example="${d.key}" type="button">Use example</button>
+                </div>
+              </div>
+              <input type="text" data-dim="${d.key}" data-field="metric" value="${escapeHtml(data.metric)}" placeholder="${escapeHtml(d.metricExample)}">
+            </div>
+            <div class="dim-field">
+              <label>Current value</label>
+              <input type="text" data-dim="${d.key}" data-field="value" value="${escapeHtml(data.value)}" placeholder="${escapeHtml(d.valueExample)}">
+            </div>
+            <div class="dim-field">
+              <label>Data source</label>
+              <input type="text" data-dim="${d.key}" data-field="source" value="${escapeHtml(data.source)}" placeholder="${escapeHtml(d.sourceExample)}">
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    groupEl.innerHTML = `
+      <div class="dim-group-label">
+        <span class="dim-group-tag ${meta.tag}">${escapeHtml(group === 'finance' ? 'Financial' : 'Operating')}</span>
+        <span class="dim-group-name">${escapeHtml(meta.name)}</span>
+      </div>
+      <div class="dim-group-desc" style="margin-bottom:12px;">${escapeHtml(meta.desc)}</div>
+      ${cardsHtml}
+    `;
+    container.appendChild(groupEl);
+  });
+
+  // Wire inputs
+  container.querySelectorAll('[data-dim]').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const key = e.target.dataset.dim;
+      const field = e.target.dataset.field;
+      state.dims[key][field] = e.target.value;
+      save();
+      // Metric name changes ripple into Section 3
+      if (field === 'metric') {
+        renderTriggers();
+      }
+      updateLivePanel();
+    });
+  });
+  // Per-dimension example buttons
+  container.querySelectorAll('[data-dim-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.dimExample;
+      const dim = DIMENSIONS.find(d => d.key === key);
+      const data = state.dims[key];
+      // Fill all three fields from the example; confirm if metric already has content
+      if (data.metric && data.metric.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+      data.metric = dim.metricExample;
+      data.value = dim.valueExample;
+      data.source = dim.sourceExample;
+      save();
+      renderDimensions();
+      renderTriggers();
+      updateLivePanel();
+    });
+  });
+}
+
+function dimMetricLabel(d) {
+  const data = state.dims[d.key];
+  return data.metric && data.metric.trim() ? data.metric : d.defaultMetric;
+}
+
+function renderTriggers() {
+  const list = document.getElementById('triggerList');
+  list.innerHTML = '';
+
+  // Only show triggers for dimensions whose metric has been named
+  const namedDims = DIMENSIONS.filter(d => {
+    const m = state.dims[d.key].metric;
+    return m && m.trim();
+  });
+
+  if (namedDims.length === 0) {
+    list.innerHTML = '<div class="trigger-empty">Name your metrics in Section 2 first. Each one you define appears here to get its trigger.</div>';
+    return;
+  }
+
+  namedDims.forEach(d => {
+    const data = state.dims[d.key];
+    const card = document.createElement('div');
+    card.className = `trigger-card ${d.group}`;
+    card.innerHTML = `
+      <div class="trigger-card-head">
+        <span class="trigger-card-metric">${escapeHtml(data.metric)}</span>
+        <span class="trigger-card-slot">· ${escapeHtml(d.slot)}</span>
+        <div class="example-btn-wrap">
+          <button class="use-example-btn" data-trig-example="${d.key}" type="button">Use example</button>
+        </div>
+      </div>
+      <div class="trigger-card-grid">
+        <div class="dim-field">
+          <label>The movement that triggers attention</label>
+          <input type="text" data-trig="${d.key}" data-field="movement" value="${escapeHtml(data.movement)}" placeholder="${escapeHtml(d.movementExample)}">
+        </div>
+        <div class="dim-field">
+          <label>The decision it triggers</label>
+          <input type="text" data-trig="${d.key}" data-field="decision" value="${escapeHtml(data.decision)}" placeholder="${escapeHtml(d.decisionExample)}">
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  list.querySelectorAll('[data-trig]').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const key = e.target.dataset.trig;
+      const field = e.target.dataset.field;
+      state.dims[key][field] = e.target.value;
+      save();
+      updateLivePanel();
+    });
+  });
+  list.querySelectorAll('[data-trig-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.trigExample;
+      const dim = DIMENSIONS.find(d => d.key === key);
+      const data = state.dims[key];
+      const hasContent = (data.movement && data.movement.trim()) || (data.decision && data.decision.trim());
+      if (hasContent && !confirm('Replace what you\'ve already written with the example?')) return;
+      data.movement = dim.movementExample;
+      data.decision = dim.decisionExample;
+      save();
+      renderTriggers();
+      updateLivePanel();
+    });
+  });
+}
+
+function renderCadence() {
+  document.getElementById('cadenceWhen').value = state.cadence.when || '';
+  document.getElementById('cadenceDay').value = state.cadence.day || '';
+  document.getElementById('cadenceWho').value = state.cadence.who || '';
+}
+
+function renderCommit() {
+  document.getElementById('commitFirstReview').value = state.commit.firstReview || '';
+  document.getElementById('commitOwner').value = state.commit.owner || '';
+  document.getElementById('commitSetup').value = state.commit.setup || '';
+  document.getElementById('commitDrop').value = state.commit.drop || '';
+}
+
+function updateLivePanel() {
+  const panel = document.getElementById('livePanel');
+  const definedCount = DIMENSIONS.filter(d => {
+    const m = state.dims[d.key].metric;
+    return m && m.trim();
+  }).length;
+  const triggerCount = DIMENSIONS.filter(d => {
+    const data = state.dims[d.key];
+    return data.metric && data.metric.trim() && data.movement && data.movement.trim() && data.decision && data.decision.trim();
+  }).length;
+
+  const anyContent = definedCount > 0 || state.business.name;
+  if (!anyContent) {
+    panel.classList.remove('active');
+    return;
+  }
+  panel.classList.add('active');
+
+  document.getElementById('liveDefinedCount').textContent = `${definedCount}/6`;
+  document.getElementById('liveTriggerCount').textContent = `${triggerCount}/6`;
+
+  const headline = document.getElementById('liveHeadline');
+  if (definedCount < 6) {
+    headline.textContent = `${definedCount} of 6 numbers defined`;
+  } else if (triggerCount < 6) {
+    headline.textContent = 'All six defined — set the triggers';
+  } else {
+    headline.textContent = 'Dashboard complete — set the cadence';
+  }
+}
+
+// === FIELD WIRING ===
+function wireBusinessFields() {
+  const map = { businessName: 'name', ownerName: 'owner', currentRevenue: 'revenue', quarterFocus: 'quarterFocus' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.business[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireCadenceFields() {
+  ['cadenceWhen', 'cadenceDay', 'cadenceWho'].forEach(id => {
+    const key = id.replace('cadence', '').toLowerCase();
+    const el = document.getElementById(id);
+    const evt = el.tagName === 'SELECT' ? 'change' : 'input';
+    el.addEventListener(evt, e => {
+      state.cadence[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireCommitFields() {
+  const map = { commitFirstReview: 'firstReview', commitOwner: 'owner', commitSetup: 'setup', commitDrop: 'drop' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.commit[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+// === USE EXAMPLE BUTTONS (static fields) ===
+function wireExampleButtons() {
+  document.querySelectorAll('[data-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.example;
+      const exampleText = EXAMPLES[key];
+      if (exampleText === undefined) return;
+      const targets = {
+        commitSetup: { el: 'commitSetup', get: () => state.commit.setup, set: v => state.commit.setup = v },
+        commitDrop: { el: 'commitDrop', get: () => state.commit.drop, set: v => state.commit.drop = v },
+      };
+      const t = targets[key];
+      if (!t) return;
+      const existing = t.get();
+      if (existing && existing.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+      t.set(exampleText);
+      const el = document.getElementById(t.el);
+      el.value = exampleText;
+      el.focus();
+      el.setSelectionRange(exampleText.length, exampleText.length);
+      save();
+    });
+  });
+}
+
+// === FORMAT DATE ===
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch { return iso; }
+}
+
+// === PDF DOWNLOAD ===
+// === PDF / PRINT ===
+// Builds the playbook document, then opens the browser's print dialog.
+// The @media print stylesheet hides the worksheet and shows only .pdf-document,
+// so the user can Save as PDF or print the clean playbook directly.
+document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+  buildPdfDocument();
+  // Give the browser a moment to lay out the freshly-built content before printing.
+  setTimeout(() => { window.print(); }, 60);
+});
+
+function buildPdfDocument() {
+  const el = document.getElementById('pdfDocument');
+  const b = state.business;
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  const businessLine = [b.name, b.revenue].filter(Boolean).join(' · ');
+
+  let html = `
+    <div class="pdf-header">
+      <div class="pdf-eyebrow">Two Weeks Out · Performance Measurement Playbook</div>
+      <h1>${escapeHtml(b.name || 'Your Six-Number Dashboard')}</h1>
+      <div class="pdf-subtitle">${escapeHtml(businessLine || 'Performance measurement dashboard')}</div>
+    </div>
+    <div class="pdf-meta">${b.owner ? `Prepared by ${escapeHtml(b.owner)} · ` : ''}${today}</div>
+  `;
+
+  // The dashboard table
+  html += `<div class="pdf-section-title">The Six-Number Dashboard</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">Dimension</th>
+          <th style="width:22%;">Metric</th>
+          <th style="width:12%;">Current</th>
+          <th style="width:22%;">Trigger — watch for</th>
+          <th style="width:28%;">Decision it triggers</th>
+        </tr>
+      </thead>
+      <tbody>`;
+  DIMENSIONS.forEach(d => {
+    const data = state.dims[d.key];
+    html += `<tr class="grp-${d.group}">
+      <td><strong>${escapeHtml(d.slot)}</strong></td>
+      <td>${escapeHtml(data.metric || d.defaultMetric)}</td>
+      <td>${escapeHtml(data.value || '—')}</td>
+      <td>${escapeHtml(data.movement || '—')}</td>
+      <td>${escapeHtml(data.decision || '—')}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+
+  // Data sources note
+  html += `<div style="font-size:10px; color:#59616e; margin-top:6px; font-style:italic;">
+    Data sources — ${DIMENSIONS.map(d => `${d.slot}: ${escapeHtml(state.dims[d.key].source || 'not set')}`).join(' · ')}
+  </div>`;
+
+  // Review cadence
+  const c = state.cadence;
+  if (c.when || c.day || c.who) {
+    html += `<div class="pdf-section-title">The Review Cadence</div>
+      <div class="pdf-cadence">
+        <div class="pdf-cadence-cell">
+          <div class="pdf-cadence-label">Frequency</div>
+          <div class="pdf-cadence-value">${escapeHtml(c.when || '—')}</div>
+        </div>
+        <div class="pdf-cadence-cell">
+          <div class="pdf-cadence-label">When</div>
+          <div class="pdf-cadence-value">${escapeHtml(c.day || '—')}</div>
+        </div>
+        <div class="pdf-cadence-cell">
+          <div class="pdf-cadence-label">In the room</div>
+          <div class="pdf-cadence-value">${escapeHtml(c.who || '—')}</div>
+        </div>
+      </div>
+      <div style="font-size:11px; color:#10131a; margin-top:10px;">
+        <strong>Every review answers three questions:</strong>
+        (1) Where is each number versus the prior week?
+        (2) Which one is moving in a direction that requires a decision?
+        (3) What are we going to do about it before next week's review?
+      </div>`;
+  }
+
+  // Commitment
+  const cm = state.commit;
+  const commitFilled = cm.firstReview || cm.owner || cm.setup || cm.drop;
+  if (commitFilled) {
+    html += `<div class="pdf-section-title">The Commitment</div>
+      <table>
+        <tbody>
+          <tr><td style="width:26%;"><strong>First review</strong></td><td>${escapeHtml(cm.firstReview ? formatDate(cm.firstReview) : '—')}</td></tr>
+          <tr><td><strong>Dashboard owner</strong></td><td>${escapeHtml(cm.owner || '—')}</td></tr>
+          <tr><td><strong>Where it lives</strong></td><td>${escapeHtml(cm.setup || '—')}</td></tr>
+          <tr><td><strong>Dropped to make room</strong></td><td>${escapeHtml(cm.drop || '—')}</td></tr>
+        </tbody>
+      </table>`;
+  }
+
+  html += `<div class="pdf-principle">Reports tell you what happened. A dashboard tells you what to do next.</div>`;
+  html += `<div class="pdf-footer">Two Weeks Out · From Corporate Operator to Confident Owner</div>`;
+
+  el.innerHTML = html;
+}
+
+// === EXCEL DOWNLOAD ===
+document.getElementById('downloadXlsxBtn').addEventListener('click', () => {
+  try {
+    const wb = XLSX.utils.book_new();
+    const b = state.business;
+    const slug = (b.name || 'business').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
+
+    // === Sheet 1: Weekly Dashboard ===
+    // Built as a usable weekly tracker — metric rows + week columns to fill in
+    const dashHeader = ['Dimension', 'Metric', 'Data source', 'Current', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Trigger — watch for', 'Decision it triggers'];
+    const dashRows = [dashHeader];
+    DIMENSIONS.forEach(d => {
+      const data = state.dims[d.key];
+      dashRows.push([
+        d.slot,
+        data.metric || d.defaultMetric,
+        data.source || '',
+        data.value || '',
+        '', '', '', '',
+        data.movement || '',
+        data.decision || '',
+      ]);
+    });
+    const dashWs = XLSX.utils.aoa_to_sheet(dashRows);
+    dashWs['!cols'] = [
+      { wch: 20 }, { wch: 34 }, { wch: 26 }, { wch: 12 },
+      { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 },
+      { wch: 30 }, { wch: 36 },
+    ];
+    XLSX.utils.book_append_sheet(wb, dashWs, 'Weekly Dashboard');
+
+    // === Sheet 2: Review & Setup ===
+    const setupRows = [
+      ['Field', 'Value'],
+      ['Business', b.name || ''],
+      ['Owner', b.owner || ''],
+      ['Current revenue', b.revenue || ''],
+      ['This quarter\'s focus', b.quarterFocus || ''],
+      [''],
+      ['THE REVIEW CADENCE', ''],
+      ['Frequency', state.cadence.when || ''],
+      ['Day & time', state.cadence.day || ''],
+      ['In the room', state.cadence.who || ''],
+      [''],
+      ['The three review questions', '1. Where is each number versus the prior week?'],
+      ['', '2. Which one is moving in a direction that requires a decision?'],
+      ['', '3. What are we going to do about it before next week\'s review?'],
+      [''],
+      ['THE COMMITMENT', ''],
+      ['First review date', state.commit.firstReview || ''],
+      ['Dashboard owner', state.commit.owner || ''],
+      ['Where it lives', state.commit.setup || ''],
+      ['Dropped to make room', state.commit.drop || ''],
+    ];
+    const setupWs = XLSX.utils.aoa_to_sheet(setupRows);
+    setupWs['!cols'] = [{ wch: 26 }, { wch: 72 }];
+    XLSX.utils.book_append_sheet(wb, setupWs, 'Review & Setup');
+
+    XLSX.writeFile(wb, `performance_dashboard_${slug}.xlsx`);
+  } catch (e) {
+    alert('Excel generation failed. Please try again.');
+    console.error(e);
+  }
+});
+
+// === CLEAR ALL ===
+// Wipes saved data and resets the worksheet to its initial state.
+// Clearing storage then reloading re-runs this file's own seeding logic,
+// guaranteeing a correct fresh state without a hand-written reset.
+function wireClearAll() {
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    const ok = confirm(
+      'Clear everything and start over?\n\n' +
+      'This permanently erases all your entries in this worksheet and cannot be undone.'
+    );
+    if (!ok) return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.warn('Could not clear storage:', e);
+    }
+    location.reload();
+  });
+}
+
+// === INIT ===
+load();
+render();
+wireBusinessFields();
+wireCadenceFields();
+wireCommitFields();
+wireExampleButtons();
+wireClearAll();
+
+</script>
+</body>
+</html>

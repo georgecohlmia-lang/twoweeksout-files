@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founding Clients Worksheet — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10131a;
+    --navy-2:#2c313c;
+    --navy-dk:#10131a;
+    --gold:#2747f5;
+    --gold-dk:#2747f5;
+    --gold-lt:#e9ecf5;
+    --red:#b3261e;
+    --teal:#2747f5;
+    --cream:#e9ecf5;
+    --cream-dk:#d5d9e4;
+    --slate:#9ba3af;
+    --paper:#fbfaf6;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --rule:#d5d9e4;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .frame { max-width: 920px; margin: 0 auto; padding: 56px 40px 120px; }
+
+  /* masthead */
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 36px;
+    margin-bottom: 48px;
+  }
+  .brand-stripe {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .brand-stripe::after { content: ''; flex: 1; height: 1px; background: var(--cream-dk); }
+  h1.title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 56px;
+    line-height: 1.05;letter-spacing:-.03em;
+    color: var(--navy); margin-bottom: 18px;font-style:normal;}
+  h1.title em { font-style: italic; color: var(--gold); font-weight: 500; }
+  .deck { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 19px; color: var(--ink-soft); max-width: 660px; }
+
+  /* progress */
+  .progress { display: flex; gap: 4px; margin: 40px 0 20px; }
+  .progress-step { flex: 1; height: 3px; background: var(--cream-dk); transition: background 0.4s; }
+  .progress-step.active { background: var(--gold); }
+  .progress-step.done { background: var(--navy); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;color:#59616e; text-transform: uppercase;
+    margin-bottom: 48px; gap: 12px;
+  }
+  .progress-label span.current { color: var(--navy); }
+
+  /* panels */
+  .panel { display: none; animation: fadeIn 0.4s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel-header { margin-bottom: 36px; }
+  .panel-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; line-height: 1.1; color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .panel-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft); max-width: 660px;
+  }
+
+  /* warning callout — used for the discount-vs-founding distinction */
+  .warning-callout {
+    background: var(--navy);
+    color: white;
+    padding: 24px 28px;
+    margin: 24px 0;
+    border-left: 6px solid var(--red);
+  }
+  .warning-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 10px;
+  }
+  .warning-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;font-style:normal;
+    font-size: 20px; color: white; line-height: 1.35;
+  }
+  .warning-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--cream-dk); line-height: 1.55; margin-top: 10px;
+  }
+
+  /* relationship cards (panel 1) */
+  .relationship-list { display: grid; gap: 18px; margin-top: 20px; }
+  .relationship-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--cream-dk);
+    padding: 22px 26px;
+    position: relative;
+    transition: border-left-color 0.2s;
+  }
+  .relationship-card.scored-3 { border-left-color: var(--teal); }
+  .relationship-card.scored-2 { border-left-color: var(--gold); }
+  .relationship-card.scored-1 { border-left-color: var(--red); }
+  .relationship-card.scored-0 { border-left-color: var(--slate); }
+  .relationship-card-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .relationship-card-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--gold-dk);
+  }
+  .relationship-card-score {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.18em;color:#59616e; text-transform: uppercase;
+  }
+  .relationship-card.scored-3 .relationship-card-score { color: var(--teal); }
+  .relationship-card.scored-2 .relationship-card-score { color: var(--gold-dk); }
+  .relationship-card.scored-1 .relationship-card-score { color: var(--red); }
+
+  .condition-checks {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 14px;
+  }
+  @media (max-width: 600px) { .condition-checks { grid-template-columns: 1fr; } }
+  .condition-check {
+    background: var(--paper);
+    border: 1px solid var(--cream-dk);
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .condition-check input { display: none; }
+  .condition-check:hover { border-color: var(--gold); }
+  .condition-check:has(input:checked) {
+    background: var(--navy);border-color:#fbfaf6;
+  }
+  .condition-check:has(input:checked) .condition-label,
+  .condition-check:has(input:checked) .condition-text { color: white; }
+  .condition-check:has(input:checked) .condition-label {color:#93abff; }
+  .condition-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.16em; color: var(--gold-dk); text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .condition-text {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12.5px;
+    color: var(--ink); line-height: 1.4;
+  }
+
+  .add-row { text-align: center; margin-top: 16px; }
+  .add-btn {
+    background: transparent; border: 1px dashed var(--cream-dk);
+    padding: 14px 22px; cursor: pointer; width: 100%;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.08em; color: var(--ink-soft);
+    transition: all 0.15s; text-transform: uppercase;
+  }
+  .add-btn:hover { border-color: var(--gold); color: var(--navy); background: var(--gold-lt); }
+
+  .remove-btn {
+    background: transparent; border: none; cursor: pointer;color:#59616e; font-size: 18px;
+    padding: 0 4px;
+    transition: color 0.15s;
+  }
+  .remove-btn:hover { color: var(--red); }
+
+  /* form fields */
+  .field { margin-bottom: 28px; }
+  .field-label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; color: var(--navy); margin-bottom: 6px;
+  }
+  .field-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .field-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;color:#59616e; margin-bottom: 12px;
+    padding-left: 10px; border-left: 2px solid var(--cream-dk);
+    line-height: 1.55;
+  }
+  .field-example.with-copy {
+    display: flex; align-items: flex-start; gap: 12px;
+    justify-content: space-between;
+  }
+  .field-example .ex-text { flex: 1; font-style: italic; color: var(--ink-soft); }
+  .copy-link {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--cream-dk);
+    color: var(--gold-dk);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .copy-link:hover { background: var(--gold-lt); border-color: var(--gold); color: var(--navy); }
+  .copy-link.copied { background: var(--teal);border-color:#ffffff; color: white; }
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-bottom: 2px solid var(--navy);
+    padding: 13px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--navy);
+    border-radius:0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-bottom-color: var(--gold);
+    background: var(--gold-lt);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+  .relationship-card input { padding: 9px 12px; font-size: 14px; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; gap: 0; } }
+
+  .currency-prefix { position: relative; }
+  .currency-prefix::before {
+    content: '$';
+    position: absolute;
+    left: 16px; top: 50%; transform: translateY(-50%);color:#59616e; font-weight: 600;
+    pointer-events: none; z-index: 1;
+  }
+  .currency-prefix input { padding-left: 30px; }
+
+  /* sub-cards */
+  .sub-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--gold);
+    padding: 24px 26px;
+    margin-bottom: 22px;
+  }
+  .sub-card-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 2px 8px; margin-bottom: 12px;
+    background: var(--gold);color:#ffffff;
+  }
+  .sub-card-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: var(--navy); margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .sub-card-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--ink-soft); margin-bottom: 18px;
+  }
+
+  /* benefits multi-input */
+  .benefit-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: stretch; }
+  .benefit-row input { flex: 1; }
+  .benefit-row .copy-link { align-self: stretch; padding-top: 8px; padding-bottom: 8px; }
+  .benefit-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--gold-dk);
+    width: 28px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* nav buttons */
+  .nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dk); }
+  .btn-secondary {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--cream-dk);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  /* output */
+  .output { display: none; }
+  .output.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .output-masthead {
+    border-top: 4px solid var(--navy);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 0 28px;
+    margin-bottom: 40px;
+  }
+  .output-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 44px; line-height: 1.05;
+    color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .output-title em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .output-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .output-meta {
+    display: flex; gap: 32px; margin-top: 20px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; letter-spacing: 0.08em; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .output-meta span strong { color: var(--navy); display: block; font-size: 16px; letter-spacing: 0; text-transform: none; margin-top: 2px; font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; }
+
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; line-height: 1.15; color: var(--navy); margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+  .section p {
+    margin-bottom: 14px; line-height: 1.65; color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .section p strong { color: var(--navy); font-weight: 600; }
+
+  /* ARTIFACT 1 — relationship audit table */
+  .audit-table {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  .audit-table th {
+    background: var(--navy); color: white;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 12px 14px; text-align: left;
+  }
+  .audit-table td {
+    padding: 14px;
+    border-top: 1px solid var(--cream-dk);
+    vertical-align: top;
+    font-size: 14px;
+  }
+  .audit-table td.name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 16px; color: var(--navy);
+  }
+  .audit-table td.org { color: var(--ink-soft); font-size: 13px; }
+  .audit-table .check-mark {
+    display: inline-block; width: 20px; text-align: center;
+    font-weight: 700;
+  }
+  .audit-table .check-yes { color: var(--teal); }
+  .audit-table .check-no { color: var(--cream-dk); }
+  .audit-table .audit-tier {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 3px 8px;
+  }
+  .tier-ready { background: var(--teal); color: white; }
+  .tier-warm { background: var(--gold);color:#ffffff; }
+  .tier-early { background: var(--red); color: white; }
+  .tier-cold { background: var(--cream-dk); color: var(--ink-soft); }
+
+  /* ARTIFACT 2 — offer letter */
+  .offer-letter {
+    background: var(--gold-lt);
+    border: 2px solid var(--gold);
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .offer-letter h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 26px; color: var(--navy); margin-bottom: 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .offer-letter .offer-tagline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--ink-soft); margin-bottom: 24px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(39,71,245,0.4);
+  }
+  .offer-component {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px dashed rgba(39,71,245,0.4);
+  }
+  .offer-component:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .offer-component-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .offer-component-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 22px; color: var(--navy); line-height: 1.3;
+    margin-bottom: 6px;letter-spacing:-.03em;font-style:normal;}
+  .offer-component-detail {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--ink-soft); line-height: 1.6;
+  }
+  .benefits-list { list-style: none; padding: 0; }
+  .benefits-list li {
+    padding: 6px 0 6px 22px;
+    position: relative;
+    font-size: 15px;
+    color: var(--navy);
+  }
+  .benefits-list li::before {
+    content: '—';
+    position: absolute; left: 0; top: 6px;
+    color: var(--gold-dk); font-weight: 700;
+  }
+
+  /* ARTIFACT 3 — conversation script */
+  .script-doc {
+    background: var(--navy);
+    color: white;
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .script-header {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 6px;
+  }
+  .script-doc h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 24px; color: white; margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);letter-spacing:-.03em;font-style:normal;}
+  .script-move {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .script-move:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .script-move-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .script-move-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 18px; color: white; margin-bottom: 14px;
+  }
+  .script-quote {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; line-height: 1.55;
+    color: white;
+    padding: 16px 0 16px 18px;
+    border-left: 3px solid var(--gold);
+    margin-bottom: 14px;
+  }
+  .script-coach {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--cream-dk); line-height: 1.55;
+  }
+  .script-coach strong { color: var(--gold); }
+  .script-redflag {
+    background: rgba(179,38,30,0.18);
+    border-left: 3px solid var(--red);
+    padding: 12px 16px;
+    margin-top: 30px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: rgba(255,255,255,0.92); line-height: 1.55;
+  }
+  .script-redflag strong { color: white; font-weight: 700; }
+
+  /* the four conditions checklist (final commitment) */
+  .commitment {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 28px 32px;
+    margin-top: 32px;
+  }
+  .commitment ul { list-style: none; padding: 0; margin: 16px 0 0; }
+  .commitment ul li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    color: var(--ink-soft); font-size: 15px; line-height: 1.55;
+    border-top: 1px solid var(--cream-dk);
+  }
+  .commitment ul li:first-child { border-top: none; }
+  .commitment ul li::before {
+    content: '☐'; position: absolute; left: 0; top: 8px;
+    font-size: 18px; color: var(--gold-dk);
+  }
+  .commitment ul li strong { color: var(--navy); }
+
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+  .signature {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;color:#59616e;
+  }
+  .signature .left { color: var(--gold); font-weight: 700; }
+
+  .hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--red); margin-top: 6px;
+  }
+
+  /* print */
+  @media print {
+    @page { margin: 0.5in; size: letter; }
+    body { background: white; font-size: 10.5pt; }
+    .frame { padding: 0; max-width: none; }
+    .panel, .progress, .progress-label, .actions, .nav, .masthead, .add-row, .remove-btn { display: none !important; }
+    .output { display: block !important; }
+    .output-title { font-size: 28pt; }
+    .section-title { font-size: 16pt; }
+    .offer-letter, .audit-table, .script-doc, .commitment, .warning-callout {
+      page-break-inside: avoid; box-shadow: none;
+    }
+    .script-doc { background: white !important; color: var(--navy) !important; border: 2px solid var(--navy); }
+    .script-doc h3, .script-move-name, .script-quote { color: var(--navy) !important; }
+    .script-coach { color: var(--ink-soft) !important; }
+    .script-coach strong { color: var(--red) !important; }
+    .script-redflag { color: var(--navy) !important; background: #fbfaf6 !important; }
+    .script-redflag strong { color: var(--red) !important; }
+    .script-move-num { color: var(--gold-dk) !important; }
+    .script-header { color: var(--red) !important; }
+    .section { margin-bottom: 28px; }
+    .signature { page-break-inside: avoid; }
+    a { color: inherit; text-decoration: none; }
+    /* page breaks between artifacts */
+    #artifact-2, #artifact-3, #artifact-4 { page-break-before: always; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#93BEDD;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.warning-callout div.warning-label{color:#93abff}
+div.sub-card-tag{color:#ffffff !important}
+div.script-doc div.script-header{color:#93abff}
+div.script-doc div.script-move-num{color:#93abff}
+div.script-doc div.script-coach > strong{color:#93abff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">05 / Fund Your Business</span></div>
+<div class="frame">
+
+<!-- masthead -->
+<header class="masthead" id="masthead">
+  <div class="brand-stripe">Two Weeks Out  ·  FOUNDING CLIENTS WORKSHEET</div>
+  <h1 class="title">Customers as Your<br><em>First Investors</em></h1>
+  <p class="deck">Build the three artifacts you'll actually use: a relationship audit, a four-part founding client offer, and a conversation script with the words to say in the room.</p>
+</header>
+
+<!-- progress -->
+<div id="progress-wrap">
+  <div class="progress">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+    <div class="progress-step" data-step="4"></div>
+  </div>
+  <div class="progress-label">
+    <span class="current">01 — Your Business</span>
+    <span>02 — Relationships</span>
+    <span>03 — The Offer</span>
+    <span>04 — The Script</span>
+  </div>
+</div>
+
+<!-- ============ PANEL 1: BUSINESS BASICS ============ -->
+<section class="panel active" id="panel-1">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP ONE  ·  YOUR BUSINESS</div>
+    <h2 class="panel-title">Tell me what you're building.</h2>
+    <p class="panel-intro">A few details so the worksheet can make your output specific to your business — not generic owner-speak.</p>
+  </div>
+
+  <div class="warning-callout">
+    <div class="warning-label">BEFORE YOU BEGIN  ·  THE DISTINCTION TO PROTECT</div>
+    <div class="warning-headline">A founding client offer is not a discounted sale.</div>
+    <div class="warning-body">A discounted sale anchors your price downward — the customer buys cheap and resents the increase later. A founding client offer anchors the relationship upward — the customer becomes an insider with stake in your success. The framing is everything. This worksheet is calibrated to keep you on the right side of that distinction.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-name">Business or product name</label>
+    <p class="field-help">What you'd call it talking to a friend.</p>
+    <input type="text" id="biz-name" placeholder="e.g., Eastside Strength &amp; Conditioning">
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-what">In one line, what do customers get from you?</label>
+    <p class="field-help">Skip the pitch. Just what you actually deliver.</p>
+    <p class="field-example with-copy">
+      <span class="ex-text">"Coaching subscriptions for cancer-survivor wellness practices"</span>
+      <button type="button" class="copy-link" onclick="useExample(this, &#39;biz-what&#39;, &#39;Coaching subscriptions for cancer-survivor wellness practices&#39;)">Use example</button>
+    </p>
+    <input type="text" id="biz-what" maxlength="160" placeholder="Plain language. Specific, not aspirational.">
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-stage">Where is the product right now?</label>
+    <p class="field-help">Honest assessment. This becomes part of your offer's "honest roadmap."</p>
+    <select id="biz-stage">
+      <option value="">— Pick one —</option>
+      <option value="concept">Still mostly a concept — early prototypes only</option>
+      <option value="early-real">The core is real and working — secondary features still being built</option>
+      <option value="working">A complete v1 — actively delivering to early customers</option>
+      <option value="mature">Mature product — looking to expand into a new segment</option>
+    </select>
+    <p class="hint" id="stage-warning" hidden="">Heads up — at the "still mostly a concept" stage, condition one (the product has to be real enough to picture) is at risk. The offer in this worksheet will lean harder on roadmap honesty to compensate.</p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="standard-price">What's your standard (non-founding) price?</label>
+      <p class="field-help">The price you'd charge a regular customer once you're past this stage.</p>
+      <div class="currency-prefix">
+        <input type="number" id="standard-price" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="price-unit">Per what?</label>
+      <p class="field-help">Pick the unit your standard price is measured in.</p>
+      <select id="price-unit">
+        <option value="month">per month</option>
+        <option value="year">per year</option>
+        <option value="project">per project</option>
+        <option value="unit">per unit</option>
+        <option value="session">per session</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(2)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 2: RELATIONSHIPS ============ -->
+<section class="panel" id="panel-2">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP TWO  ·  RELATIONSHIP AUDIT</div>
+    <h2 class="panel-title">Who are your three to five candidates?</h2>
+    <p class="panel-intro">List people you could realistically have a founding client conversation with — not cold prospects, real relationships. Score each against the three conditions. If you can't find three, that tells you where to focus before you build any offer.</p>
+  </div>
+
+  <div class="warning-callout" style="background: var(--cream); color: var(--navy); border-left-color: var(--gold);">
+    <div class="warning-label" style="color: var(--red);">THE THREE CONDITIONS  ·  ALL MUST BE TRUE</div>
+    <div class="warning-headline" style="color: var(--navy); font-style: normal; font-weight: 600;">
+      <strong style="font-weight:700;">01 PRODUCT REAL</strong> — They can picture what they're buying.<br>
+      <strong style="font-weight:700;">02 RELATIONSHIP WARM</strong> — You already know each other; they've shown interest.<br>
+      <strong style="font-weight:700;">03 INSIDER FRAMING</strong> — They'll feel like a participant, not a test subject.
+    </div>
+  </div>
+
+  <div class="relationship-list" id="relationship-list">
+        <div class="relationship-card scored-0" data-idx="0">
+          <div class="relationship-card-head">
+            <span class="relationship-card-num">Candidate 01</span>
+            <div style="display:flex; gap:14px; align-items:baseline;">
+              <span class="relationship-card-score">○ Unscored</span>
+              <button class="remove-btn" onclick="removeRelationship(0)" title="Remove">×</button>
+            </div>
+          </div>
+
+          <div class="field-row" style="margin-bottom:0;">
+            <div class="field" style="margin-bottom: 14px;">
+              <input type="text" placeholder="Name (or initials)" value="" oninput="updateRelationship(0, &#39;name&#39;, this.value)">
+            </div>
+            <div class="field" style="margin-bottom: 14px;">
+              <input type="text" placeholder="Role / org / how you know them" value="" oninput="updateRelationship(0, &#39;role&#39;, this.value)">
+            </div>
+          </div>
+
+          <div class="condition-checks">
+            <label class="condition-check">
+              <input type="checkbox" onchange="updateRelationship(0, &#39;cond1&#39;, this.checked)">
+              <div class="condition-label">01  ·  Product real</div>
+              <div class="condition-text">They can picture what they're buying.</div>
+            </label>
+            <label class="condition-check">
+              <input type="checkbox" onchange="updateRelationship(0, &#39;cond2&#39;, this.checked)">
+              <div class="condition-label">02  ·  Relationship warm</div>
+              <div class="condition-text">You already know each other.</div>
+            </label>
+            <label class="condition-check">
+              <input type="checkbox" onchange="updateRelationship(0, &#39;cond3&#39;, this.checked)">
+              <div class="condition-label">03  ·  Insider framing fits</div>
+              <div class="condition-text">They'd feel like a participant, not a subject.</div>
+            </label>
+          </div>
+        </div>
+      
+        <div class="relationship-card scored-0" data-idx="1">
+          <div class="relationship-card-head">
+            <span class="relationship-card-num">Candidate 02</span>
+            <div style="display:flex; gap:14px; align-items:baseline;">
+              <span class="relationship-card-score">○ Unscored</span>
+              <button class="remove-btn" onclick="removeRelationship(1)" title="Remove">×</button>
+            </div>
+          </div>
+
+          <div class="field-row" style="margin-bottom:0;">
+            <div class="field" style="margin-bottom: 14px;">
+              <input type="text" placeholder="Name (or initials)" value="" oninput="updateRelationship(1, &#39;name&#39;, this.value)">
+            </div>
+            <div class="field" style="margin-bottom: 14px;">
+              <input type="text" placeholder="Role / org / how you know them" value="" oninput="updateRelationship(1, &#39;role&#39;, this.value)">
+            </div>
+          </div>
+
+          <div class="condition-checks">
+            <label class="condition-check">
+              <input type="checkbox" onchange="updateRelationship(1, &#39;cond1&#39;, this.checked)">
+              <div class="condition-label">01  ·  Product real</div>
+              <div class="condition-text">They can picture what they're buying.</div>
+            </label>
+            <label class="condition-check">
+              <input type="checkbox" onchange="updateRelationship(1, &#39;cond2&#39;, this.checked)">
+              <div class="condition-label">02  ·  Relationship warm</div>
+              <div class="condition-text">You already know each other.</div>
+            </label>
+            <label class="condition-check">
+              <input type="checkbox" onchange="updateRelationship(1, &#39;cond3&#39;, this.checked)">
+              <div class="condition-label">03  ·  Insider framing fits</div>
+              <div class="condition-text">They'd feel like a participant, not a subject.</div>
+            </label>
+          </div>
+        </div>
+      
+        <div class="relationship-card scored-0" data-idx="2">
+          <div class="relationship-card-head">
+            <span class="relationship-card-num">Candidate 03</span>
+            <div style="display:flex; gap:14px; align-items:baseline;">
+              <span class="relationship-card-score">○ Unscored</span>
+              <button class="remove-btn" onclick="removeRelationship(2)" title="Remove">×</button>
+            </div>
+          </div>
+
+          <div class="field-row" style="margin-bottom:0;">
+            <div class="field" style="margin-bottom: 14px;">
+              <input type="text" placeholder="Name (or initials)" value="" oninput="updateRelationship(2, &#39;name&#39;, this.value)">
+            </div>
+            <div class="field" style="margin-bottom: 14px;">
+              <input type="text" placeholder="Role / org / how you know them" value="" oninput="updateRelationship(2, &#39;role&#39;, this.value)">
+            </div>
+          </div>
+
+          <div class="condition-checks">
+            <label class="condition-check">
+              <input type="checkbox" onchange="updateRelationship(2, &#39;cond1&#39;, this.checked)">
+              <div class="condition-label">01  ·  Product real</div>
+              <div class="condition-text">They can picture what they're buying.</div>
+            </label>
+            <label class="condition-check">
+              <input type="checkbox" onchange="updateRelationship(2, &#39;cond2&#39;, this.checked)">
+              <div class="condition-label">02  ·  Relationship warm</div>
+              <div class="condition-text">You already know each other.</div>
+            </label>
+            <label class="condition-check">
+              <input type="checkbox" onchange="updateRelationship(2, &#39;cond3&#39;, this.checked)">
+              <div class="condition-label">03  ·  Insider framing fits</div>
+              <div class="condition-text">They'd feel like a participant, not a subject.</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+  <div class="add-row">
+    <button class="add-btn" onclick="addRelationship()">+  Add another candidate</button>
+  </div>
+  <p class="field-help" style="margin-top:10px; text-align:center;">Aim for at least 3. The lesson recommends 5.</p>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">←  Back</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 3: THE OFFER ============ -->
+<section class="panel" id="panel-3">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP THREE  ·  THE OFFER</div>
+    <h2 class="panel-title">Build your founding client offer.</h2>
+    <p class="panel-intro">Four components. Skip nothing. Each one is doing structural work — leave any out and the offer slides toward "discounted sale" territory.</p>
+  </div>
+
+  <!-- COMPONENT 1: PRICE WITH A REASON -->
+  <div class="sub-card">
+    <div class="sub-card-tag">COMPONENT 01  ·  PRICE WITH A REASON</div>
+    <div class="sub-card-title">A price they're locking in — because they took the early risk.</div>
+    <p class="sub-card-help">Not "discounted." Permanent. Frame it as recognition of early relationship, not a markdown.</p>
+
+    <div class="field-row">
+      <div class="field" style="margin-bottom: 18px;">
+        <label class="field-label" for="founding-price">Founding client price</label>
+        <p class="field-example">A 20–40% reduction from standard is typical. Less than 15% rarely feels meaningful; more than 50% starts to feel like a fire sale.</p>
+        <div class="currency-prefix">
+          <input type="number" id="founding-price" placeholder="0" min="0" step="any">
+        </div>
+      </div>
+      <div class="field" style="margin-bottom: 18px;">
+        <label class="field-label" for="price-locked-for">Locked in for how long?</label>
+        <p class="field-example with-copy">
+          <span class="ex-text">"Permanently, as long as the membership stays continuous"</span>
+          <button type="button" class="copy-link" onclick="useExample(this, &#39;price-locked-for&#39;, &#39;Permanently, as long as the membership stays continuous&#39;)">Use example</button>
+        </p>
+        <input type="text" id="price-locked-for" placeholder="e.g., Permanently">
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="price-reason">In one sentence — what's the reason they get this price?</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"Because you're taking the early risk with us before we have a track record." Avoid the words <em>discount</em>, <em>deal</em>, or <em>special offer</em> — they reframe this as a markdown.</span>
+        <button type="button" class="copy-link" data-example="Because you&#39;re taking the early risk with us before we have a track record." onclick="useExample(this, &#39;price-reason&#39;)">Use example</button>
+      </p>
+      <textarea id="price-reason" maxlength="300" placeholder="The framing is everything. Write it as if you&#39;ll say it out loud."></textarea>
+    </div>
+  </div>
+
+  <!-- COMPONENT 2: COHORT SIZE -->
+  <div class="sub-card">
+    <div class="sub-card-tag">COMPONENT 02  ·  COHORT SIZE</div>
+    <div class="sub-card-title">A real number — and you hold to it.</div>
+    <p class="sub-card-help">Real scarcity, not manufactured urgency. The number has to be small enough to feel exclusive and large enough to actually fund the next phase.</p>
+
+    <div class="field-row" style="margin-bottom:0;">
+      <div class="field" style="margin-bottom: 0;">
+        <label class="field-label" for="cohort-size">How many founding clients?</label>
+        <p class="field-example">Smaller (5–15) feels more exclusive but raises the per-customer ask. Larger (20–50) lowers the bar for any single yes but dilutes the insider feeling.</p>
+        <input type="number" id="cohort-size" placeholder="15" min="1" step="1">
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label class="field-label" for="cohort-deadline">Open until when?</label>
+        <p class="field-example with-copy">
+          <span class="ex-text">"First 15, then closed" — a real deadline, not a fake one.</span>
+          <button type="button" class="copy-link" onclick="useExample(this, &#39;cohort-deadline&#39;, &#39;First 15, then closed&#39;)">Use example</button>
+        </p>
+        <input type="text" id="cohort-deadline" placeholder="e.g., First 15, then closed">
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENT 3: INSIDER BENEFITS -->
+  <div class="sub-card">
+    <div class="sub-card-tag">COMPONENT 03  ·  INSIDER BENEFITS</div>
+    <div class="sub-card-title">What changes the relationship from buyer to participant.</div>
+    <p class="sub-card-help">Three specific things that don't cost you much but transform the experience. Not "premium support." Real access.</p>
+    <p class="field-example" style="margin-bottom: 16px;">Common: a quarterly call with the owner · early access to new features · input into the roadmap · direct text/Slack channel to you · first priority on new products. Pick what's true to <em>your</em> business.</p>
+
+    <div class="benefit-row">
+      <span class="benefit-num">01</span>
+      <input type="text" id="benefit-1" maxlength="120" placeholder="First insider benefit">
+      <button type="button" class="copy-link" style="margin-left:0;" onclick="useExample(this, &#39;benefit-1&#39;, &#39;A quarterly 30-minute call with me, the owner&#39;)">Use example</button>
+    </div>
+    <div class="benefit-row">
+      <span class="benefit-num">02</span>
+      <input type="text" id="benefit-2" maxlength="120" placeholder="Second insider benefit">
+      <button type="button" class="copy-link" style="margin-left:0;" onclick="useExample(this, &#39;benefit-2&#39;, &#39;Early access to every new feature before public release&#39;)">Use example</button>
+    </div>
+    <div class="benefit-row">
+      <span class="benefit-num">03</span>
+      <input type="text" id="benefit-3" maxlength="120" placeholder="Third insider benefit">
+      <button type="button" class="copy-link" style="margin-left:0;" onclick="useExample(this, &#39;benefit-3&#39;, &#39;Direct input into the product roadmap — your priorities shape what we build next&#39;)">Use example</button>
+    </div>
+  </div>
+
+  <!-- COMPONENT 4: HONEST ROADMAP -->
+  <div class="sub-card">
+    <div class="sub-card-tag">COMPONENT 04  ·  HONEST ROADMAP</div>
+    <div class="sub-card-title">Where you are. Where you're going. What their money funds.</div>
+    <p class="sub-card-help">Honesty about stage is what makes them an insider. Vagueness is what makes them suspicious.</p>
+
+    <div class="field" style="margin-bottom: 18px;">
+      <label class="field-label" for="roadmap-now">Where the product is right now (one line)</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"The core platform is live. Three of seven planned modules are complete."</span>
+        <button type="button" class="copy-link" onclick="useExample(this, &#39;roadmap-now&#39;, &#39;The core platform is live. Three of seven planned modules are complete.&#39;)">Use example</button>
+      </p>
+      <input type="text" id="roadmap-now" maxlength="180" placeholder="Honest. Specific.">
+    </div>
+
+    <div class="field" style="margin-bottom: 18px;">
+      <label class="field-label" for="roadmap-next">What's next, and roughly when (one line)</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"The remaining modules ship over the next 4 months — founding clients vote on the order."</span>
+        <button type="button" class="copy-link" onclick="useExample(this, &#39;roadmap-next&#39;, &#39;The remaining modules ship over the next 4 months — founding clients vote on the order.&#39;)">Use example</button>
+      </p>
+      <input type="text" id="roadmap-next" maxlength="180" placeholder="Specific timeframe matters more than perfection.">
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="prepay-funds">What does their prepayment specifically fund?</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"Twelve months of payroll for the development team finishing the platform." Be specific. Not "growth," not "operations" — what it actually buys.</span>
+        <button type="button" class="copy-link" onclick="useExample(this, &#39;prepay-funds&#39;, &#39;Twelve months of payroll for the development team finishing the platform.&#39;)">Use example</button>
+      </p>
+      <textarea id="prepay-funds" maxlength="280" placeholder="Specific. Not &#39;growth.&#39; Not &#39;operations.&#39; What it actually buys."></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">←  Back</button>
+    <button class="btn btn-primary" onclick="goTo(4)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 4: THE SCRIPT ============ -->
+<section class="panel" id="panel-4">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP FOUR  ·  THE CONVERSATION</div>
+    <h2 class="panel-title">The words you'll actually say.</h2>
+    <p class="panel-intro">Three moves. Each one needs your specifics — your relationship history, your honest stage description, your direct ask. The script you generate will use the offer you just built and customize each move with the language below.</p>
+  </div>
+
+  <!-- MOVE 1: RESTATE THE RELATIONSHIP -->
+  <div class="sub-card" style="border-left-color: var(--teal);">
+    <div class="sub-card-tag" style="background: var(--teal); color: white;">MOVE 01  ·  RESTATE THE RELATIONSHIP</div>
+    <div class="sub-card-title">You're not opening a pitch. You're deepening a connection.</div>
+    <p class="sub-card-help">One sentence that says: "I'm coming to you specifically because of what's already between us." That sentence reframes the entire conversation.</p>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="relationship-context">How would you describe what's already between you and these candidates?</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"We've been talking on and off for six months about what I'm building, and you've given me real feedback every step."</span>
+        <button type="button" class="copy-link" data-example="We&#39;ve been talking on and off for six months about what I&#39;m building, and you&#39;ve given me real feedback every step." onclick="useExample(this, &#39;relationship-context&#39;)">Use example</button>
+      </p>
+      <textarea id="relationship-context" maxlength="280" placeholder="One or two sentences. Your actual history with them."></textarea>
+    </div>
+  </div>
+
+  <!-- MOVE 2: DESCRIBE WITH SPECIFICITY -->
+  <div class="sub-card" style="border-left-color: var(--gold);">
+    <div class="sub-card-tag" style="background: var(--gold); color: var(--navy);">MOVE 02  ·  DESCRIBE WITH SPECIFICITY</div>
+    <div class="sub-card-title">Concrete. Not a vision statement.</div>
+    <p class="sub-card-help">What they'll experience. What problem it solves for them, specifically. Where you are honestly. The stage disclosure isn't a weakness — it's what makes them an insider.</p>
+
+    <div class="field" style="margin-bottom: 18px;">
+      <label class="field-label" for="problem-solved">What specific problem does this solve for the kind of customer you're talking to?</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"It cuts the time your nurses spend on patient wellness check-ins from 40 minutes a week to 8."</span>
+        <button type="button" class="copy-link" onclick="useExample(this, &#39;problem-solved&#39;, &#39;It cuts the time your nurses spend on patient wellness check-ins from 40 minutes a week to 8.&#39;)">Use example</button>
+      </p>
+      <textarea id="problem-solved" maxlength="280" placeholder="Specific to the customer, not abstract."></textarea>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="experience-now">What will they experience in the first 30 days as a founding client?</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"You'll get a 1-hour onboarding with me. Your team is on the platform within a week. You join the first founding-client roundtable in week three."</span>
+        <button type="button" class="copy-link" data-example="You&#39;ll get a 1-hour onboarding with me. Your team is on the platform within a week. You join the first founding-client roundtable in week three." onclick="useExample(this, &#39;experience-now&#39;)">Use example</button>
+      </p>
+      <textarea id="experience-now" maxlength="280" placeholder="Concrete. Their first month, not the long-term vision."></textarea>
+    </div>
+  </div>
+
+  <!-- MOVE 3: MAKE THE ASK DIRECTLY -->
+  <div class="sub-card" style="border-left-color: var(--red);">
+    <div class="sub-card-tag" style="background: var(--red); color: white;">MOVE 03  ·  MAKE THE ASK DIRECTLY</div>
+    <div class="sub-card-title">No hedging. No artificial urgency.</div>
+    <p class="sub-card-help">"I'd like to know if this is a conversation worth having." Direct, unforced. The script will use your offer details from Step 3 to build this. Below is the one piece you need to add: how you want to leave the conversation.</p>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="next-step">If they're interested, what's the immediate next step you want to propose?</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"I'll send you the offer in writing by Friday and we'll talk Monday."</span>
+        <button type="button" class="copy-link" data-example="I&#39;ll send you the offer in writing by Friday and we&#39;ll talk Monday." onclick="useExample(this, &#39;next-step&#39;)">Use example</button>
+      </p>
+      <textarea id="next-step" maxlength="240" placeholder="Concrete. Specific timing."></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(3)">←  Back</button>
+    <button class="btn btn-primary" id="generate-btn" onclick="generateOutput()">Generate My Artifacts  →</button>
+  </div>
+  <p class="hint" id="generate-hint" hidden="" style="text-align:right;">Please fill in the required fields before generating.</p>
+</section>
+
+<!-- ============ OUTPUT ============ -->
+<section class="output" id="output"></section>
+
+</div>
+
+<script>
+  // ---------- state ----------
+  let currentStep = 1;
+  let relationships = [
+    { name: '', role: '', cond1: false, cond2: false, cond3: false },
+    { name: '', role: '', cond1: false, cond2: false, cond3: false },
+    { name: '', role: '', cond1: false, cond2: false, cond3: false }
+  ];
+
+  // ---------- relationship rendering ----------
+  function renderRelationships() {
+    const list = document.getElementById('relationship-list');
+    list.innerHTML = relationships.map((r, i) => {
+      const score = (r.cond1 ? 1 : 0) + (r.cond2 ? 1 : 0) + (r.cond3 ? 1 : 0);
+      const scoreLabel = score === 3 ? '✓ Ready' :
+                          score === 2 ? '○ Almost' :
+                          score === 1 ? '○ Early' :
+                          '○ Unscored';
+      return `
+        <div class="relationship-card scored-${score}" data-idx="${i}">
+          <div class="relationship-card-head">
+            <span class="relationship-card-num">Candidate ${String(i + 1).padStart(2, '0')}</span>
+            <div style="display:flex; gap:14px; align-items:baseline;">
+              <span class="relationship-card-score">${scoreLabel}</span>
+              ${relationships.length > 1 ? `<button class="remove-btn" onclick="removeRelationship(${i})" title="Remove">×</button>` : ''}
+            </div>
+          </div>
+
+          <div class="field-row" style="margin-bottom:0;">
+            <div class="field" style="margin-bottom: 14px;">
+              <input type="text" placeholder="Name (or initials)" value="${escape(r.name)}" oninput="updateRelationship(${i}, 'name', this.value)">
+            </div>
+            <div class="field" style="margin-bottom: 14px;">
+              <input type="text" placeholder="Role / org / how you know them" value="${escape(r.role)}" oninput="updateRelationship(${i}, 'role', this.value)">
+            </div>
+          </div>
+
+          <div class="condition-checks">
+            <label class="condition-check">
+              <input type="checkbox" ${r.cond1 ? 'checked' : ''} onchange="updateRelationship(${i}, 'cond1', this.checked)">
+              <div class="condition-label">01  ·  Product real</div>
+              <div class="condition-text">They can picture what they're buying.</div>
+            </label>
+            <label class="condition-check">
+              <input type="checkbox" ${r.cond2 ? 'checked' : ''} onchange="updateRelationship(${i}, 'cond2', this.checked)">
+              <div class="condition-label">02  ·  Relationship warm</div>
+              <div class="condition-text">You already know each other.</div>
+            </label>
+            <label class="condition-check">
+              <input type="checkbox" ${r.cond3 ? 'checked' : ''} onchange="updateRelationship(${i}, 'cond3', this.checked)">
+              <div class="condition-label">03  ·  Insider framing fits</div>
+              <div class="condition-text">They'd feel like a participant, not a subject.</div>
+            </label>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function updateRelationship(idx, field, value) {
+    relationships[idx][field] = value;
+    // re-render only if checkbox change (to update score color)
+    if (typeof value === 'boolean') {
+      renderRelationships();
+    }
+  }
+
+  function addRelationship() {
+    relationships.push({ name: '', role: '', cond1: false, cond2: false, cond3: false });
+    renderRelationships();
+  }
+
+  function removeRelationship(idx) {
+    relationships.splice(idx, 1);
+    renderRelationships();
+  }
+
+  // ---------- stage warning ----------
+  document.getElementById('biz-stage').addEventListener('change', e => {
+    document.getElementById('stage-warning').hidden = e.target.value !== 'concept';
+  });
+
+  // ---------- navigation ----------
+  function goTo(n) {
+    if (n > currentStep && !validate(currentStep)) return;
+    currentStep = n;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    document.querySelectorAll('.progress-step').forEach(s => {
+      const step = parseInt(s.dataset.step);
+      s.classList.remove('active', 'done');
+      if (step < n) s.classList.add('done');
+      else if (step === n) s.classList.add('active');
+    });
+    document.querySelectorAll('.progress-label span').forEach((l, i) => {
+      l.classList.toggle('current', (i + 1) === n);
+    });
+  }
+
+  function validate(step) {
+    if (step === 1) {
+      const required = ['biz-name', 'biz-what', 'standard-price'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el.value || el.value.toString().trim() === '') { el.focus(); return false; }
+      }
+      const stage = document.getElementById('biz-stage');
+      if (!stage.value) { stage.focus(); return false; }
+      return true;
+    }
+    if (step === 2) {
+      // need at least one named relationship
+      const named = relationships.filter(r => r.name.trim() !== '');
+      if (named.length === 0) {
+        alert("Add at least one relationship to continue. If you can't think of anyone, that itself is the most important takeaway from this lesson — but the worksheet needs at least one entry to generate.");
+        return false;
+      }
+      return true;
+    }
+    if (step === 3) {
+      const required = ['founding-price', 'price-locked-for', 'price-reason', 'cohort-size', 'cohort-deadline', 'benefit-1', 'benefit-2', 'benefit-3', 'roadmap-now', 'roadmap-next', 'prepay-funds'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el.value || el.value.toString().trim() === '') { el.focus(); return false; }
+      }
+      return true;
+    }
+    return true;
+  }
+
+  // ---------- output generation ----------
+  function generateOutput() {
+    const required = ['relationship-context', 'problem-solved', 'experience-now', 'next-step'];
+    for (const id of required) {
+      const el = document.getElementById(id);
+      if (!el.value || el.value.toString().trim() === '') {
+        document.getElementById('generate-hint').hidden = false;
+        el.focus();
+        return;
+      }
+    }
+
+    const data = collect();
+    document.getElementById('output').innerHTML = renderOutput(data);
+    document.getElementById('output').classList.add('active');
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function collect() {
+    const str = id => document.getElementById(id).value.trim();
+    const num = id => parseFloat(document.getElementById(id).value) || 0;
+    const sel = id => document.getElementById(id).value;
+    return {
+      bizName: str('biz-name'),
+      bizWhat: str('biz-what'),
+      bizStage: sel('biz-stage'),
+      standardPrice: num('standard-price'),
+      priceUnit: sel('price-unit'),
+      relationships: relationships.filter(r => r.name.trim() !== ''),
+      foundingPrice: num('founding-price'),
+      priceLockedFor: str('price-locked-for'),
+      priceReason: str('price-reason'),
+      cohortSize: num('cohort-size'),
+      cohortDeadline: str('cohort-deadline'),
+      benefit1: str('benefit-1'),
+      benefit2: str('benefit-2'),
+      benefit3: str('benefit-3'),
+      roadmapNow: str('roadmap-now'),
+      roadmapNext: str('roadmap-next'),
+      prepayFunds: str('prepay-funds'),
+      relationshipContext: str('relationship-context'),
+      problemSolved: str('problem-solved'),
+      experienceNow: str('experience-now'),
+      nextStep: str('next-step')
+    };
+  }
+
+  function renderOutput(d) {
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // unit label
+    const unitLabels = {
+      'month': '/ month', 'year': '/ year', 'project': '/ project',
+      'unit': '/ unit', 'session': '/ session'
+    };
+    const unitLabel = unitLabels[d.priceUnit] || '';
+
+    // discount
+    const discountAmt = d.standardPrice - d.foundingPrice;
+    const discountPct = d.standardPrice > 0 ? Math.round((discountAmt / d.standardPrice) * 100) : 0;
+
+    // potential prepay capital — for monthly, it's price × cohort × 12; for year/project/unit/session it's price × cohort
+    const isMonthly = d.priceUnit === 'month';
+    const annualizedPotential = isMonthly
+      ? d.foundingPrice * d.cohortSize * 12
+      : d.foundingPrice * d.cohortSize;
+
+    // tier each relationship
+    const scored = d.relationships.map(r => {
+      const score = (r.cond1 ? 1 : 0) + (r.cond2 ? 1 : 0) + (r.cond3 ? 1 : 0);
+      let tier, tierClass;
+      if (score === 3) { tier = 'Ready'; tierClass = 'tier-ready'; }
+      else if (score === 2) { tier = 'Almost'; tierClass = 'tier-warm'; }
+      else if (score === 1) { tier = 'Early'; tierClass = 'tier-early'; }
+      else { tier = 'Not yet'; tierClass = 'tier-cold'; }
+      return { ...r, score, tier, tierClass };
+    });
+    const readyCount = scored.filter(r => r.score === 3).length;
+    const almostCount = scored.filter(r => r.score === 2).length;
+    const earlyCount = scored.filter(r => r.score < 2).length;
+
+    // stage descriptor
+    const stageMap = {
+      'concept': 'still mostly conceptual — early prototypes only',
+      'early-real': 'core is real and working — secondary features still being built',
+      'working': 'a complete v1 — actively delivering to early customers',
+      'mature': 'a mature product expanding into a new segment'
+    };
+
+    return `
+      <header class="output-masthead">
+        <div class="brand-stripe">Two Weeks Out  ·  FOUNDING CLIENT PLAYBOOK</div>
+        <h1 class="output-title">Playbook for<br><em>${escape(d.bizName)}</em></h1>
+        <p class="output-sub">${escape(d.bizWhat)}</p>
+        <div class="output-meta">
+          <span>Generated<strong>${today}</strong></span>
+          <span>Cohort target<strong>${fmt(d.cohortSize)} founding clients</strong></span>
+          <span>Funding potential<strong>${fmtMoney(annualizedPotential)}${isMonthly ? ' / yr' : ''}</strong></span>
+        </div>
+      </header>
+
+      <!-- =============== ARTIFACT 1: RELATIONSHIP AUDIT =============== -->
+      <div class="section" id="artifact-1">
+        <div class="section-eyebrow">ARTIFACT 01  ·  RELATIONSHIP AUDIT</div>
+        <h2 class="section-title">Your candidates, scored against the three conditions.</h2>
+
+        <p>You named <strong>${scored.length} candidate${scored.length === 1 ? '' : 's'}</strong>. Of those, <strong style="color: var(--teal);">${readyCount} are ready</strong> (all three conditions met), <strong style="color: var(--gold-dk);">${almostCount} are almost there</strong>, and ${earlyCount === 0 ? 'none are too early.' : `<strong style="color: var(--red);">${earlyCount} ${earlyCount === 1 ? 'is' : 'are'} too early</strong> — focus on those before you make the ask.`}</p>
+
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th>Candidate</th>
+              <th style="text-align:center;">Product real</th>
+              <th style="text-align:center;">Relationship warm</th>
+              <th style="text-align:center;">Insider framing</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${scored.map((r, i) => `
+              <tr>
+                <td>
+                  <div class="name">${escape(r.name)}</div>
+                  ${r.role ? `<div class="org">${escape(r.role)}</div>` : ''}
+                </td>
+                <td style="text-align:center;"><span class="check-mark ${r.cond1 ? 'check-yes' : 'check-no'}">${r.cond1 ? '✓' : '·'}</span></td>
+                <td style="text-align:center;"><span class="check-mark ${r.cond2 ? 'check-yes' : 'check-no'}">${r.cond2 ? '✓' : '·'}</span></td>
+                <td style="text-align:center;"><span class="check-mark ${r.cond3 ? 'check-yes' : 'check-no'}">${r.cond3 ? '✓' : '·'}</span></td>
+                <td><span class="audit-tier ${r.tierClass}">${r.tier}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        ${readyCount === 0 ? `
+          <div class="warning-callout">
+            <div class="warning-label">DON'T MAKE THE ASK YET</div>
+            <div class="warning-headline">No candidate currently meets all three conditions.</div>
+            <div class="warning-body">The lesson is explicit on this: miss any one condition and the offer breaks. For your "Almost" candidates, identify which condition is missing and what would close it — usually a few more conversations to deepen the relationship, or one more demo to make the product real. For your "Early" candidates, focus relationship effort there before you build any offer.</div>
+          </div>
+        ` : `
+          <p style="margin-top: 18px;"><strong>Start with the ${readyCount} "Ready" candidate${readyCount === 1 ? '' : 's'}.</strong> ${almostCount > 0 ? `Pursue the "Almost" candidate${almostCount === 1 ? '' : 's'} in parallel — close the missing condition first, then make the ask.` : ''}</p>
+        `}
+      </div>
+
+      <!-- =============== ARTIFACT 2: THE OFFER =============== -->
+      <div class="section" id="artifact-2">
+        <div class="section-eyebrow">ARTIFACT 02  ·  YOUR FOUNDING CLIENT OFFER</div>
+        <h2 class="section-title">The four-component offer, written out.</h2>
+        <p>This is the offer you'll describe in the conversation, send in writing, and put under contract. It's not marketing copy — it's the structure of the deal.</p>
+
+        <div class="offer-letter">
+          <h3>The ${escape(d.bizName)} Founding Client Program</h3>
+          <p class="offer-tagline">For the first ${fmt(d.cohortSize)} ${d.cohortSize === 1 ? 'partner' : 'partners'} who join us before this is widely available.</p>
+
+          <div class="offer-component">
+            <div class="offer-component-label">01  ·  PRICE WITH A REASON</div>
+            <div class="offer-component-value">${fmtMoney(d.foundingPrice)} ${unitLabel}</div>
+            <div class="offer-component-detail">
+              <strong style="color: var(--navy);">Locked in: ${escape(d.priceLockedFor)}.</strong>
+              ${discountPct > 0 ? `Standard rate is ${fmtMoney(d.standardPrice)} ${unitLabel} — a ${discountPct}% reduction. ` : ''}
+              ${escape(d.priceReason)}
+            </div>
+          </div>
+
+          <div class="offer-component">
+            <div class="offer-component-label">02  ·  COHORT SIZE</div>
+            <div class="offer-component-value">${fmt(d.cohortSize)} founding ${d.cohortSize === 1 ? 'client' : 'clients'}</div>
+            <div class="offer-component-detail"><strong style="color: var(--navy);">Open until:</strong> ${escape(d.cohortDeadline)}. After that, the program closes and the standard rate applies for everyone.</div>
+          </div>
+
+          <div class="offer-component">
+            <div class="offer-component-label">03  ·  INSIDER BENEFITS</div>
+            <div class="offer-component-value">What founding clients get that nobody else does</div>
+            <ul class="benefits-list">
+              <li>${escape(d.benefit1)}</li>
+              <li>${escape(d.benefit2)}</li>
+              <li>${escape(d.benefit3)}</li>
+            </ul>
+          </div>
+
+          <div class="offer-component">
+            <div class="offer-component-label">04  ·  HONEST ROADMAP</div>
+            <div class="offer-component-value">Where we are. Where we're going. What your money funds.</div>
+            <div class="offer-component-detail" style="margin-top: 10px;">
+              <strong style="color: var(--navy);">Today:</strong> ${escape(d.roadmapNow)}<br><br>
+              <strong style="color: var(--navy);">Next:</strong> ${escape(d.roadmapNext)}<br><br>
+              <strong style="color: var(--navy);">Your prepayment funds:</strong> ${escape(d.prepayFunds)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =============== ARTIFACT 3: THE SCRIPT =============== -->
+      <div class="section" id="artifact-3">
+        <div class="section-eyebrow">ARTIFACT 03  ·  THE CONVERSATION SCRIPT</div>
+        <h2 class="section-title">The three moves, in your words.</h2>
+        <p>This script uses the offer above and the relationship language you provided. It's a structure to internalize, not a paragraph to read off a card. Practice it out loud until you can say each move naturally.</p>
+
+        <div class="script-doc">
+          <div class="script-header">FOUNDING CLIENT CONVERSATION SCRIPT</div>
+          <h3>For your first ${fmt(d.cohortSize)} candidates — start with the "Ready" ones</h3>
+
+          <div class="script-move">
+            <div class="script-move-num">Move 01</div>
+            <div class="script-move-name">Restate the relationship.</div>
+            <div class="script-quote">"${escape(d.relationshipContext)}${d.relationshipContext.endsWith('.') ? '' : '.'} I wanted to bring something to you specifically because of that."</div>
+            <div class="script-coach">
+              <strong>Why this matters:</strong> You're not opening a pitch. You're recognizing someone who already belongs in this conversation. The first sentence is the entire reframe — without it, what follows sounds like sales.
+            </div>
+          </div>
+
+          <div class="script-move">
+            <div class="script-move-num">Move 02</div>
+            <div class="script-move-name">Describe with specificity.</div>
+            <div class="script-quote">"What we're building solves a specific problem: ${escape(d.problemSolved)}${d.problemSolved.endsWith('.') ? '' : '.'} Here's where we are honestly: the product is ${escape(stageMap[d.bizStage] || 'still being built')}. ${escape(d.roadmapNow)} ${escape(d.roadmapNext)}. As a founding client, ${escape(d.experienceNow)}"</div>
+            <div class="script-coach">
+              <strong>Why this matters:</strong> The stage disclosure isn't a weakness — it's what makes them an insider. Don't soften the honest part. The combination of "here's the real problem we solve" + "here's exactly where we are" is what separates a founding client conversation from a pitch.
+            </div>
+          </div>
+
+          <div class="script-move">
+            <div class="script-move-num">Move 03</div>
+            <div class="script-move-name">Make the ask directly.</div>
+            <div class="script-quote">"I'm inviting you to be one of ${fmt(d.cohortSize)} founding ${d.cohortSize === 1 ? 'client' : 'clients'}. The rate is ${fmtMoney(d.foundingPrice)} ${unitLabel} — locked in ${escape(d.priceLockedFor).toLowerCase()} — because ${escape(d.priceReason).replace(/^[A-Z]/, c => c.toLowerCase())}${d.priceReason.endsWith('.') ? '' : '.'} As a founding ${d.cohortSize === 1 ? 'client' : 'client'} you also get ${escape(d.benefit1).toLowerCase()}, ${escape(d.benefit2).toLowerCase()}, and ${escape(d.benefit3).toLowerCase()}. We're opening this to ${fmt(d.cohortSize)} ${d.cohortSize === 1 ? 'partner' : 'partners'}, ${escape(d.cohortDeadline).toLowerCase()}. I'd like to know if this is a conversation worth having. If yes, ${escape(d.nextStep).toLowerCase()}"</div>
+            <div class="script-coach">
+              <strong>Why this matters:</strong> Direct. No pressure. No artificial urgency. The cohort size is real scarcity, not manufactured. The price has a reason attached. The next step is concrete. If the relationship is right, the product is real, and the framing is insider — the conversation does the work from here.
+            </div>
+          </div>
+
+          <div class="script-redflag">
+            <strong>What's deliberately not in this script:</strong> the words <em>discount, deal, special offer, just for you, limited time</em>. None of those frame the relationship correctly. If any of them slip in when you're saying this out loud, stop and reset — that's the discounted-sale trap reasserting itself.
+          </div>
+        </div>
+      </div>
+
+      <!-- =============== ARTIFACT 4: THE COMMITMENT =============== -->
+      <div class="section" id="artifact-4">
+        <div class="section-eyebrow">ARTIFACT 04  ·  THE COMMITMENT</div>
+        <h2 class="section-title">Before you make the first ask — confirm.</h2>
+        <p>The lesson is explicit: when a customer gives you money before the product is finished, they are trusting you with something real. The owners who use this model badly do more damage than if they'd never tried it at all. Run this checklist before any conversation.</p>
+
+        <div class="commitment">
+          <ul>
+            <li><strong>The product is demonstrably real.</strong> Not finished — real. They can picture exactly what they're paying for. (You marked your stage as: <em>${escape(stageMap[d.bizStage] || d.bizStage)}</em>.${d.bizStage === 'concept' ? ' ⚠️ Consider deferring the ask until at least the core is working.' : ''})</li>
+            <li><strong>The relationship is warm.</strong> The candidates you're approaching already know your work. (You named ${scored.length}, of which ${readyCount} are ready and ${almostCount} are almost there.${readyCount === 0 ? ' ⚠️ Don\'t make the ask until you have at least one "Ready" candidate.' : ''})</li>
+            <li><strong>The framing is insider, not test subject.</strong> The price has a reason. The benefits make them participants. The roadmap is honest. (Your offer reads as a relationship, not a markdown.)</li>
+            <li><strong>You have a clear plan for what their money funds.</strong> (You wrote: <em>${escape(d.prepayFunds)}</em>.)</li>
+            <li><strong>You will not oversell what exists today.</strong> The gap between what you promise and what they experience is where trust goes to die.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn btn-secondary" onclick="restart()">Start Over</button>
+        <button class="btn btn-primary" onclick="window.print()">Save / Print as PDF</button>
+      </div>
+
+      <div class="signature">
+        <div class="left">Two Weeks Out</div>
+        <div>Founding Clients Worksheet  ·  Generated ${today}</div>
+      </div>
+    `;
+  }
+
+  function restart() {
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('output').classList.remove('active');
+    document.getElementById('progress-wrap').style.display = '';
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
+    document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
+    document.getElementById('generate-hint').hidden = true;
+    document.getElementById('stage-warning').hidden = true;
+    relationships = [
+      { name: '', role: '', cond1: false, cond2: false, cond3: false },
+      { name: '', role: '', cond1: false, cond2: false, cond3: false },
+      { name: '', role: '', cond1: false, cond2: false, cond3: false }
+    ];
+    renderRelationships();
+    goTo(1);
+  }
+
+  // ---------- helpers ----------
+  function useExample(button, fieldId, exampleText) {
+    // Allow either an explicit exampleText arg OR a data-example attribute on the button.
+    // The data-example version avoids quote-escaping problems entirely.
+    const text = (exampleText !== undefined && exampleText !== null)
+      ? exampleText
+      : button.getAttribute('data-example') || '';
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+    el.value = text;
+    el.focus();
+    // visual feedback on the button
+    const originalText = button.textContent;
+    button.textContent = 'Inserted';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('copied');
+    }, 1400);
+    // also dismiss the generate-hint if it's showing
+    const hint = document.getElementById('generate-hint');
+    if (hint) hint.hidden = true;
+  }
+
+  function escape(s) {
+    if (!s) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function fmt(n) {
+    if (!isFinite(n)) return '0';
+    return Math.round(n).toLocaleString('en-US');
+  }
+  function fmtMoney(n) {
+    if (!isFinite(n) || n === 0) return '$0';
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+
+  // generate-hint hide on input
+  document.querySelectorAll('textarea, input').forEach(el => {
+    el.addEventListener('input', () => {
+      document.getElementById('generate-hint').hidden = true;
+    });
+  });
+
+  // initial render
+  renderRelationships();
+</script>
+
+
+
+</body></html>

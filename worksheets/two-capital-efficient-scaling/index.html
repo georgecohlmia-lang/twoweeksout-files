@@ -1,0 +1,2420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capital-Efficient Scaling Playbook · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --accent:#2747f5;
+    --accent-light:#2747f5;
+    --accent-soft:#e9ecf5;
+    --accent-faint:#fbfaf6;
+    --emerald:#0d6b4c;
+    --emerald-bright:#0d6b4c;
+    --emerald-soft:#e2f5ea;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#fbfaf6;
+    --bg:#fbfaf6;
+    --warn:#7d5300;
+    --warn-soft:#fff3cd;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* === HEADER === */
+  .header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 36px;font-weight:800;
+    color: var(--ink);
+    margin: 0 0 8px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* === LIVE PANEL === */
+  .live-panel {
+    position: sticky;
+    top: 0;
+    background: var(--accent);
+    color: white;
+    padding: 14px 24px;
+    margin: -40px -24px 36px;
+    z-index: 100;
+    display: none;
+  }
+  .live-panel.active { display: block; }
+  .live-panel-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .live-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .live-progress {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .live-stat {
+    display: flex;
+    flex-direction: column;
+  }
+  .live-stat-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .live-stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-top: -2px;
+  }
+  .live-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,0.25);
+  }
+
+  /* === SECTIONS === */
+  .section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--accent-faint);
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    flex-shrink: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    margin: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .section-body { padding: 28px; }
+
+  /* === FORM ELEMENTS === */
+  .field { margin-bottom: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .field-row-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .label-hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 2px;
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  textarea { resize: vertical; min-height: 60px; }
+
+  /* === USE EXAMPLE BUTTON === */
+  .use-example-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .use-example-btn:hover { background: var(--accent-soft); }
+  .use-example-btn:active { transform: translateY(1px); }
+  .label-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    gap: 12px;
+  }
+  .label-row label { margin-bottom: 0; }
+  .example-btn-wrap { margin-left: auto; }
+
+  /* === MODEL-AWARE BLOCKS === */
+  .model-block { display: none; }
+  .model-block.active { display: block; }
+  .model-block + .model-block.active { margin-top: 28px; }
+  .model-block-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .model-block-tag {
+    background: var(--accent);
+    color: white;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 3px 8px;
+    border-radius:0;
+  }
+  .model-block-hint {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+  .model-prompt {
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 14px;
+    background: var(--accent-faint);
+    border: 1px dashed var(--border);
+    border-radius:0;
+  }
+  .model-prompt.hidden { display: none; }
+
+  /* === HEADER TOOLTIP === */
+  .th-help {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .help-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius:0;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: help;
+    flex-shrink: 0;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .help-icon:hover, .help-icon:focus { background: rgba(255,255,255,0.5); outline: none; }
+  /* Body-appended floating tooltip — escapes the table's overflow clipping */
+  .help-floating {
+    position: fixed;
+    width: 270px;
+    background: var(--ink);
+    color: white;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius:0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-transform: none;
+    box-shadow:none;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s;
+  }
+  .help-floating.visible { opacity: 1; }
+  .help-floating::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: var(--arrow-left, 50%);
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--ink);
+  }
+  /* When the tooltip sits below its icon, the arrow points up from the top edge */
+  .help-floating.help-below::after {
+    top: auto;
+    bottom: 100%;
+    border-top-color: transparent;
+    border-bottom-color: var(--ink);
+  }
+  .help-floating-eg {
+    display: block;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    color: var(--emerald-bright);
+    font-style: italic;
+  }
+  .model-block-explainer {
+    background: var(--accent-soft);
+    border-radius:0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .model-block-explainer strong { color: var(--accent); }
+
+  /* === EXPANSION MODEL TOGGLE === */
+  .model-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .model-card {
+    border: 2px solid var(--border);
+    border-radius:0;
+    padding: 16px 20px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .model-card:hover { border-color: var(--accent-light); }
+  .model-card.active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .model-card-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .model-card.active .model-card-label { color: var(--accent); }
+  .model-card-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .model-card-desc {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .model-cadence {
+    margin-top: 8px;
+    padding: 16px 20px;
+    background: var(--emerald-soft);
+    border-radius:0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    display: none;
+  }
+  .model-cadence.active { display: block; }
+  .model-cadence-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--emerald);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .model-cadence ul {
+    margin: 6px 0 0;
+    padding-left: 20px;
+  }
+  .model-cadence li { margin-bottom: 3px; }
+
+  /* === EXPANSION LIST TABLE === */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-top: 8px;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 900px;
+  }
+  .data-table thead th {
+    background: var(--accent);
+    color: white;
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .data-table thead th:first-child { padding-left: 14px; }
+  .data-table tbody td {
+    border-top: 1px solid var(--border);
+    padding: 4px;
+    background: white;
+    vertical-align: middle;
+  }
+  .data-table tbody tr:hover td { background: var(--accent-faint); }
+  .data-table input, .data-table select {
+    border: 1px solid transparent;
+    padding: 6px 8px;
+    background: transparent;
+    width: 100%;
+    font-size: 13px;
+  }
+  .data-table input:focus, .data-table select:focus {
+    background: white;
+    border-color: var(--accent);
+    border-radius:0;
+  }
+  .row-num {
+    text-align: center;
+    width: 40px;
+    padding-left: 8px !important;color:#59616e;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .row-actions { width: 36px; text-align: center; }
+  .row-remove {
+    background: transparent;
+    border: none;color:#59616e;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px 6px;
+    border-radius:0;
+  }
+  .row-remove:hover { color: var(--danger); background: var(--danger-soft); }
+  .row-status-filled .row-num { color: var(--emerald); font-weight: 600; }
+
+  /* === TABLE ACTIONS === */
+  .table-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .btn-small {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-small:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .btn-small:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* === PRICING ROWS === */
+  .pricing-row {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 0.8fr 1.2fr 1.2fr 0.3fr;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    background: white;
+    margin-bottom: 8px;
+  }
+  .pricing-row input, .pricing-row select {
+    margin-bottom: 0;
+  }
+  .pricing-row-readonly {
+    background: var(--emerald-soft);
+    color: var(--emerald);
+    font-weight: 600;
+    padding: 10px 12px;
+    border-radius:0;
+    border: 1px solid var(--emerald);
+    font-size: 14px;
+  }
+  .pricing-header {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 0.8fr 1.2fr 1.2fr 0.3fr;
+    gap: 8px;
+    padding: 0 12px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* === MIX SHIFT CARDS === */
+  .mix-shift-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .mix-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 18px 20px;
+    background: white;
+  }
+  .mix-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .mix-card-badge {
+    background: var(--accent);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .mix-card-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .mix-card-desc {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .mix-card .field { margin-bottom: 12px; }
+  .mix-card .field:last-child { margin-bottom: 0; }
+  .mix-card input { font-size: 13px; }
+
+  /* === TARGETS === */
+  .targets-card {
+    background: var(--accent);
+    color: white;
+    padding: 28px;
+    border-radius:0;
+    margin-top: 16px;
+  }
+  .targets-card label { color: rgba(255,255,255,0.85); }
+  .targets-card input, .targets-card select {
+    background: rgba(255,255,255,0.95);
+    border-color: transparent;
+  }
+  .targets-summary {
+    margin-top: 20px;
+    padding: 18px 20px;
+    background: rgba(255,255,255,0.1);
+    border-radius:0;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .targets-summary-highlight { font-style: normal; font-weight: 600; }
+
+  /* === DOWNLOAD BAR === */
+  .download-bar {
+    margin-top: 32px;
+    padding: 28px;
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius:0;
+    text-align: center;
+  }
+  .download-bar h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .download-bar p {
+    color: var(--muted);
+    margin: 0 0 20px;
+    font-size: 14px;
+  }
+  .download-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 12px 24px;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-secondary {
+    background: white;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-secondary:hover { background: var(--accent-soft); }
+  .btn-icon { font-size: 18px; }
+
+  /* === CLEAR ALL — quiet, de-emphasized destructive control === */
+  .clear-all-wrap {
+    margin-top: 16px;
+    text-align: center;
+  }
+  .btn-clear {
+    background: transparent;
+    border: none;color:#59616e;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .btn-clear:hover { color: var(--danger); background: var(--danger-soft); }
+
+  /* === SAVE INDICATOR === */
+  .save-indicator {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: white;
+    padding: 10px 16px;
+    border-radius:0;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .save-indicator.show { opacity: 0.85; transform: translateY(0); }
+
+  /* === PDF DOCUMENT STYLES === */
+  .pdf-document {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 8.5in;
+    background: white;
+    padding: 0.7in 0.8in;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+  }
+  .pdf-document .pdf-header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+  }
+  .pdf-document .pdf-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pdf-document h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .pdf-document .pdf-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .pdf-document .pdf-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .pdf-document .pdf-section-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 24px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pdf-document table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin: 6px 0;
+  }
+  .pdf-document table th {
+    background: var(--accent);
+    color: white;
+    padding: 6px 5px;
+    text-align: left;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .pdf-document table td {
+    border: 1px solid var(--border);
+    padding: 6px 5px;
+    vertical-align: top;
+  }
+  .pdf-document .pdf-mix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .pdf-document .pdf-mix-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+  .pdf-document .pdf-mix-card-title {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+  .pdf-document .pdf-mix-card-line {
+    margin: 3px 0;
+    font-size: 10px;
+  }
+  .pdf-document .pdf-mix-card-line span {
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: block;
+  }
+  .pdf-document .pdf-targets {
+    background: var(--accent);
+    color: white;
+    padding: 14px 18px;
+    border-radius:0;
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .pdf-document .pdf-targets-cell {
+    text-align: center;
+  }
+  .pdf-document .pdf-targets-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    opacity: 0.85;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pdf-document .pdf-targets-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .pdf-document .pdf-principle {
+    margin-top: 28px;
+    padding: 14px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  .pdf-document .pdf-footer {
+    margin-top: 28px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;color:#59616e;
+    text-align: center;
+  }
+  .pdf-page-break { page-break-before: always; }
+
+  @media (max-width: 720px) {
+    .container { padding: 24px 16px 60px; }
+    h1 { font-size: 28px; }
+    .field-row, .field-row-3, .field-row-4 { grid-template-columns: 1fr; }
+    .model-toggle { grid-template-columns: 1fr; }
+    .mix-shift-grid { grid-template-columns: 1fr; }
+    .download-buttons { flex-direction: column; }
+    .section-body { padding: 20px; }
+    .pricing-row, .pricing-header { grid-template-columns: 1fr; }
+    .pricing-row > *, .pricing-header > * { display: block; }
+  }
+
+  /* === PRINT — render only the playbook document === */
+  @page {
+    size: letter;
+    margin: 0.7in 0.8in;
+  }
+  @media print {
+    /* Hide the interactive worksheet entirely */
+    .live-panel,
+    .container,
+    .save-indicator,
+    .help-floating { display: none !important; }
+
+    /* Reveal the playbook document as normal flowed content */
+    .pdf-document {
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      visibility: visible !important;
+      padding: 0 !important;
+      z-index: auto !important;
+    }
+    html, body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    /* Avoid awkward breaks inside tables and cards */
+    .pdf-document table { page-break-inside: auto; }
+    .pdf-document tr { page-break-inside: avoid; }
+    .pdf-document .pdf-section-title { page-break-after: avoid; }
+    .pdf-document .pdf-principle { page-break-inside: avoid; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#BFE34F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.live-panel{margin:0 0 36px}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">10 / Grow Without Losing Control</span></div>
+
+<div class="live-panel" id="livePanel">
+  <div class="live-panel-inner">
+    <div>
+      <div class="live-label">Expansion plan progress</div>
+      <div style="font-size: 14px; margin-top: 4px;" id="liveSummary">—</div>
+    </div>
+    <div class="live-progress">
+      <div class="live-stat">
+        <div class="live-stat-value" id="liveCustomersFilled">0</div>
+        <div class="live-stat-label">Customers</div>
+      </div>
+      <div class="live-divider"></div>
+      <div class="live-stat">
+        <div class="live-stat-value" id="livePricingFilled">0</div>
+        <div class="live-stat-label">Pricing rows</div>
+      </div>
+      <div class="live-divider"></div>
+      <div class="live-stat">
+        <div class="live-stat-value" id="liveMixFilled">0/4</div>
+        <div class="live-stat-label">Mix plays</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">Worksheet · Capital-Efficient Scaling</div>
+    <h1>Build Your Capital-Efficient Scaling Plan</h1>
+    <div class="subtitle">Same customer count. Higher revenue. Better margin. No new acquisition cost.</div>
+  </div>
+
+  <!-- SECTION 1 — CONTEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <h2 class="section-title">Your business — at a glance</h2>
+        <div class="section-sub">Anchor the plan to your specific business and current revenue.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field">
+          <label for="businessName">Business name</label>
+          <input type="text" id="businessName" placeholder="e.g. Acme Advisory">
+        </div>
+        <div class="field">
+          <label for="ownerName">Your name</label>
+          <input type="text" id="ownerName" placeholder="e.g. David Chen">
+        </div>
+      </div>
+      <div class="field-row-3">
+        <div class="field">
+          <label for="currentRevenue">Current annual revenue</label>
+          <input type="text" id="currentRevenue" placeholder="e.g. $2.0M">
+        </div>
+        <div class="field">
+          <label for="currentMargin">Current gross margin</label>
+          <input type="text" id="currentMargin" placeholder="e.g. 37%">
+        </div>
+        <div class="field">
+          <label for="activeCustomers">Active customer count</label>
+          <input type="text" id="activeCustomers" placeholder="e.g. ~100">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — EXPANSION MODEL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <h2 class="section-title">Pick your expansion model</h2>
+        <div class="section-sub">B2B uses Quarterly Business Reviews. B2C uses lifecycle cadence. Some businesses do both.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="model-toggle">
+        <button class="model-card" data-model="b2b" type="button">
+          <div class="model-card-label">B2B</div>
+          <div class="model-card-name">Quarterly Business Review</div>
+          <div class="model-card-desc">Senior face-to-face cadence with each active client</div>
+        </button>
+        <button class="model-card" data-model="b2c" type="button">
+          <div class="model-card-label">B2C</div>
+          <div class="model-card-name">Lifecycle Cadence</div>
+          <div class="model-card-desc">Triggered touchpoints based on usage and milestones</div>
+        </button>
+        <button class="model-card" data-model="both" type="button">
+          <div class="model-card-label">MIXED</div>
+          <div class="model-card-name">Both</div>
+          <div class="model-card-desc">Different customer segments need different cadences</div>
+        </button>
+      </div>
+
+      <div class="model-cadence" id="cadenceB2B">
+        <div class="model-cadence-label">B2B QBR — What runs each quarter</div>
+        <ul>
+          <li>Senior team, face-to-face, with the decision maker</li>
+          <li>Map each unmet need that surfaced since last review</li>
+          <li>Present the natural next service — not pitch, present</li>
+          <li>Decision-maker access matters more than offer design</li>
+        </ul>
+      </div>
+      <div class="model-cadence" id="cadenceB2C">
+        <div class="model-cadence-label">B2C Lifecycle — What runs each cycle</div>
+        <ul>
+          <li>Triggered by usage, milestones, or season</li>
+          <li>Email plus light personal touch from a senior team member</li>
+          <li>The next service is contextual to where they are in the lifecycle</li>
+          <li>Frequency beats depth — small touchpoints compound</li>
+        </ul>
+      </div>
+
+      <div class="field" style="margin-top: 20px;">
+        <div class="label-row">
+          <label for="cadenceNotes">Your specific cadence</label>
+          <div class="example-btn-wrap">
+            <button class="use-example-btn" data-example-field="cadenceNotes" type="button">Use example</button>
+          </div>
+        </div>
+        <div class="label-hint">How often, with whom, and what gets covered. Specific enough that someone else could run it.</div>
+        <textarea id="cadenceNotes" placeholder="e.g. Top 20 clients: QBR every 90 days, in-person, owner + account lead. Next 30 clients: 60-minute video review every 6 months. Goal: surface unmet need + present next service."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — EXPANSION LIST -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <h2 class="section-title">Customer expansion list</h2>
+        <div class="section-sub">The customers — or lifecycle segments — you'll expand revenue from this quarter.</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="model-prompt" id="expansionModelPrompt">
+        Pick your expansion model in Section 2 above to build this list.
+      </div>
+
+      <!-- B2B EXPANSION -->
+      <div class="model-block" id="expansionB2B">
+        <div class="model-block-label">
+          <span class="model-block-tag">B2B</span>
+          Named-account expansion list
+        </div>
+        <div class="model-block-hint">Your top customers by revenue or strategic value. Each row is one conversation to have this quarter.</div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="row-num">#</th>
+                <th style="min-width: 160px;">Customer</th>
+                <th style="min-width: 180px;">What they buy today</th>
+                <th style="min-width: 200px;">The next tier up</th>
+                <th style="min-width: 140px;">Owner</th>
+                <th style="min-width: 120px;">Target close</th>
+                <th class="row-actions"></th>
+              </tr>
+            </thead>
+            <tbody id="expansionBody"></tbody>
+          </table>
+        </div>
+        <div class="table-actions">
+          <button class="btn-small" id="addExpansionRow" type="button">+ Add row</button>
+          <button class="btn-small" id="fillExpansionExamples" type="button">Use examples (fills empty rows)</button>
+        </div>
+      </div>
+
+      <!-- B2C EXPANSION -->
+      <div class="model-block" id="expansionB2C">
+        <div class="model-block-label">
+          <span class="model-block-tag">B2C</span>
+          Lifecycle-segment expansion map
+        </div>
+        <div class="model-block-hint">You can't list every customer — so you list the lifecycle stages instead.</div>
+        <div class="model-block-explainer">
+          A <strong>lifecycle map</strong> breaks your customers into stages based on where they are in their relationship with you. For each stage, you define the <strong>signal</strong> that identifies it and the <strong>offer</strong> that fits it — so the right message reaches the right customer automatically. Hover the <strong>?</strong> on any column for a definition.
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th class="row-num">#</th>
+                <th style="min-width: 170px;">
+                  <span class="th-help">Lifecycle segment
+                    <span class="help-icon" tabindex="0"
+                      data-help="A group of customers at the same stage of their relationship with you — brand-new, highly engaged, going quiet, and so on. You're naming the who, defined by where they are, not who they are individually."
+                      data-help-eg='e.g. "First 30 days" · "Lapsing — no visit in 45 days"'>?</span>
+                  </span>
+                </th>
+                <th style="min-width: 180px;">
+                  <span class="th-help">Trigger / signal
+                    <span class="help-icon" tabindex="0"
+                      data-help="The observable event or behavior that tells you a customer just entered this segment. It's the thing you can watch for in your data — and what makes the play fire."
+                      data-help-eg='e.g. "No purchase in 30 days" · "Hit 10th visit"'>?</span>
+                  </span>
+                </th>
+                <th style="min-width: 190px;">Next offer to present</th>
+                <th style="min-width: 130px;">
+                  <span class="th-help">Channel
+                    <span class="help-icon" tabindex="0"
+                      data-help="How the offer reaches the customer. Pick the one channel this segment is most likely to act on."
+                      data-help-eg="e.g. Email, SMS, In-app message">?</span>
+                  </span>
+                </th>
+                <th style="min-width: 150px;">
+                  <span class="th-help">Cadence
+                    <span class="help-icon" tabindex="0"
+                      data-help="When and how often the play fires for this segment. Some fire once at a moment; others repeat on a schedule."
+                      data-help-eg='e.g. "Once — at a set day" · "Monthly"'>?</span>
+                  </span>
+                </th>
+                <th class="row-actions"></th>
+              </tr>
+            </thead>
+            <tbody id="lifecycleBody"></tbody>
+          </table>
+        </div>
+        <div class="table-actions">
+          <button class="btn-small" id="addLifecycleRow" type="button">+ Add segment</button>
+          <button class="btn-small" id="fillLifecycleExamples" type="button">Use examples (fills empty rows)</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 4 — PRICING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <h2 class="section-title">Deliberate annual pricing review</h2>
+        <div class="section-sub">Per service line: current rate, % lift (5–8% recommended), new rate, when the review happens.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="pricing-header">
+        <div>Service line</div>
+        <div>Current rate</div>
+        <div>% lift</div>
+        <div>New rate</div>
+        <div>Review date</div>
+        <div></div>
+      </div>
+      <div id="pricingList"></div>
+      <div class="table-actions">
+        <button class="btn-small" id="addPricingRow" type="button">+ Add service line</button>
+        <button class="btn-small" id="fillPricingExamples" type="button">Use examples (fills empty rows)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — MIX SHIFT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <h2 class="section-title">Mix shift — four laddering plays</h2>
+        <div class="section-sub">The same four tactics, run differently depending on your model. One play per tactic is enough.</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="model-prompt" id="mixModelPrompt">
+        Pick your expansion model in Section 2 above to build your laddering plays.
+      </div>
+
+      <!-- B2B MIX SHIFT -->
+      <div class="model-block" id="mixB2B">
+        <div class="model-block-label">
+          <span class="model-block-tag">B2B</span>
+          Relationship-driven plays
+        </div>
+        <div class="model-block-hint">Each tactic targets a named customer. The play happens through a conversation.</div>
+        <div class="mix-shift-grid" id="mixShiftGrid"></div>
+      </div>
+
+      <!-- B2C MIX SHIFT -->
+      <div class="model-block" id="mixB2C">
+        <div class="model-block-label">
+          <span class="model-block-tag">B2C</span>
+          Triggered, segment-driven plays
+        </div>
+        <div class="model-block-hint">Each tactic targets a segment and fires on a signal. The play is automated, not a conversation.</div>
+        <div class="mix-shift-grid" id="mixShiftGridB2C"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 6 — TARGETS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div>
+        <h2 class="section-title">12-month targets and review cadence</h2>
+        <div class="section-sub">Specific numbers, not aspirational language. Same customer count, higher revenue, better margin.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="targets-card">
+        <div class="field-row-3">
+          <div class="field">
+            <label for="targetRevenue">Revenue target (12 months)</label>
+            <input type="text" id="targetRevenue" placeholder="e.g. $2.4M">
+          </div>
+          <div class="field">
+            <label for="targetMargin">Gross margin target</label>
+            <input type="text" id="targetMargin" placeholder="e.g. 46%">
+          </div>
+          <div class="field">
+            <label for="targetCustomers">Customer count target</label>
+            <input type="text" id="targetCustomers" placeholder="e.g. ~100 (same)">
+          </div>
+        </div>
+        <div class="field">
+          <label for="reviewCadence">Review cadence</label>
+          <select id="reviewCadence">
+            <option value="">Pick one</option>
+            <option value="Weekly — 30 min owner-led review">Weekly — 30 min owner-led review</option>
+            <option value="Biweekly — 45 min owner-led review">Biweekly — 45 min owner-led review</option>
+            <option value="Monthly — 60 min cross-functional review">Monthly — 60 min cross-functional review</option>
+          </select>
+        </div>
+        <div class="targets-summary" id="targetsSummary">
+          Set your numbers above to see your 12-month plan summary.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD BAR -->
+  <div class="download-bar">
+    <h2>Save or print your playbook</h2>
+    <p>The PDF is the formal playbook. The Excel sheet is the live operating doc — keep it open, update weekly.</p>
+    <div class="download-buttons">
+      <button class="btn btn-primary" id="downloadPdfBtn">
+        <span class="btn-icon">🖨️</span> Save / Print Playbook
+      </button>
+      <button class="btn btn-secondary" id="downloadXlsxBtn">
+        <span class="btn-icon">📊</span> Download Operating Sheets (Excel)
+      </button>
+    </div>
+  </div>
+
+  <div class="clear-all-wrap">
+    <button class="btn-clear" id="clearAllBtn" type="button">Clear all and start over</button>
+  </div>
+
+</div>
+
+<div class="save-indicator" id="saveIndicator">Saved</div>
+<div class="pdf-document" id="pdfDocument"></div>
+
+<script>
+'use strict';
+
+const STORAGE_KEY = 'Two Weeks Out_capitalEfficient_v2';
+const MAX_EXPANSION_ROWS = 25;
+const MIN_EXPANSION_ROWS = 3;
+const MAX_PRICING_ROWS = 12;
+
+// === EXAMPLE DATA ===
+const CADENCE_EXAMPLE = "Top 20 clients (B2B): QBR every 90 days, in-person, owner + account lead. 75-min agenda: review last quarter's metrics, surface unmet need, present natural next service. Next 30 clients: 60-min video review every 6 months, account lead only.";
+
+const EXPANSION_EXAMPLES = [
+  { customer: 'Acme Manufacturing', today: 'Bookkeeping ($3K/mo)', next: 'Controller services ($6K/mo) — new CFO retiring', owner: 'Owner', target: '' },
+  { customer: 'Pinnacle Holdings', today: 'Strategic CFO retainer', next: 'Add audit support — they\'ve started raising capital', owner: 'Owner + Tax Lead', target: '' },
+  { customer: 'Beacon Logistics', today: 'Controller services', next: 'Strategic CFO upgrade — growth plan needs guidance', owner: 'Account Lead', target: '' },
+  { customer: 'Westwind Construction', today: 'Bookkeeping + payroll', next: 'Add tax planning — quarterly cadence', owner: 'Tax Lead', target: '' },
+  { customer: 'Summit Therapeutics', today: 'Monthly close + reporting', next: 'Add R&D credit study', owner: 'Tax Lead', target: '' },
+  { customer: 'Vector Robotics', today: 'Strategic CFO', next: 'Add audit prep — series B coming', owner: 'Owner', target: '' },
+  { customer: 'Harbor Wealth Advisors', today: 'Bookkeeping', next: 'Controller services — they\'ve added 2 advisors', owner: 'Account Lead', target: '' },
+  { customer: 'Northgate Capital', today: 'Tax preparation', next: 'Add fractional CFO — board needs monthly metrics', owner: 'Owner', target: '' },
+  { customer: 'Verdant Foods', today: 'Bookkeeping + payroll', next: 'Add controller — month-end close is breaking', owner: 'Account Lead', target: '' },
+  { customer: 'Brightline Energy', today: 'Strategic CFO', next: 'Add audit support — debt covenant requires it', owner: 'Tax Lead', target: '' },
+];
+
+const PRICING_EXAMPLES = [
+  { service: 'Bookkeeping (standard)', current: '$2,800/mo', lift: 6, reviewDate: '' },
+  { service: 'Controller services', current: '$5,500/mo', lift: 6, reviewDate: '' },
+  { service: 'Strategic CFO retainer', current: '$8,500/mo', lift: 7, reviewDate: '' },
+  { service: 'Tax preparation (annual)', current: '$4,200', lift: 5, reviewDate: '' },
+  { service: 'Audit support (project)', current: '$15,000', lift: 6, reviewDate: '' },
+];
+
+const MIX_SHIFT_TACTICS = [
+  {
+    n: 1,
+    title: 'Diagnostic Upgrade',
+    desc: 'Use an existing service as a window into a deeper need',
+    example: { customer: 'Beacon Logistics', offer: 'Their monthly close keeps surfacing margin compression questions. Use Q1 QBR to position strategic CFO ($6K → $11K/mo step).' }
+  },
+  {
+    n: 2,
+    title: 'Trigger Event Play',
+    desc: 'Watch for moments in the client\'s business that create new needs',
+    example: { customer: 'Vector Robotics', offer: 'Series B kickoff in March. Position audit prep + financial diligence package — 90-day engagement, $40K.' }
+  },
+  {
+    n: 3,
+    title: 'Bundled Price Point',
+    desc: 'Package adjacent services below the sum of their parts',
+    example: { customer: 'Top 20 clients across portfolio', offer: 'Controller + tax + audit support bundle. Standalone would total $14K/mo. Bundle price $11K/mo. Locks in the relationship.' }
+  },
+  {
+    n: 4,
+    title: 'Senior Face-Time',
+    desc: 'Reserve partner-level attention for the top tier of the book',
+    example: { customer: 'Top 10 clients by strategic value', offer: 'Quarterly partner reviews — owner runs them personally. Not billable hours, but the relationship that justifies premium pricing on everything else.' }
+  },
+];
+
+// B2C mix tactics — same four tactics, run as automated/triggered plays for a boutique fitness studio
+const MIX_SHIFT_TACTICS_B2C = [
+  {
+    n: 1,
+    title: 'Diagnostic Upgrade',
+    desc: 'Let a behavior signal reveal a member ready for more',
+    example: { customer: 'Class-pack buyers who attended 6+ classes in 30 days', offer: 'Behavior signal: heavy usage on a class pack. Triggered email + front-desk prompt — "You\'re basically a member already." Position unlimited membership; pack credit applied.' }
+  },
+  {
+    n: 2,
+    title: 'Trigger Event Play',
+    desc: 'Fire an offer on a life or seasonal moment',
+    example: { customer: 'Members 60 days from a goal date (race, wedding, season)', offer: 'Trigger: member set a goal date at intake. 8 weeks out, automated offer for a small-group training block or private sessions tied to the goal.' }
+  },
+  {
+    n: 3,
+    title: 'Bundled Price Point',
+    desc: 'Package adjacent services below the sum of their parts',
+    example: { customer: 'Active unlimited members without add-ons', offer: 'Membership + nutrition coaching + monthly bodywork as a "Total" tier. Standalone $310/mo; bundle $239/mo. Promoted in-app at renewal.' }
+  },
+  {
+    n: 4,
+    title: 'Concierge Tier',
+    desc: 'Reserve high-touch attention for the top spenders',
+    example: { customer: 'Top 5% of members by 12-month spend', offer: 'Invite-only concierge tier: priority booking, quarterly 1:1 with head coach, guest passes. The high-margin tier that also reduces churn among your best members.' }
+  },
+];
+
+// B2C lifecycle dropdown options
+const CHANNEL_OPTIONS = ['Email', 'SMS / text', 'In-app message', 'Push notification', 'Phone call', 'Front desk / in person', 'Direct mail', 'Email + SMS'];
+const CADENCE_OPTIONS = ['Once — at a set day', 'Once — at a milestone', 'Weekly', 'Every 2 weeks', 'Monthly', 'Quarterly', 'On renewal window', 'Triggered — repeats while signal holds'];
+
+// B2C lifecycle expansion examples — boutique fitness studio
+const LIFECYCLE_EXAMPLES = [
+  { segment: 'First 30 days (new member)', trigger: 'Joined within last 30 days', next: 'Onboarding check-in + intro private session offer', channel: 'Email + SMS', cadence: 'Once — at a set day' },
+  { segment: 'Class-pack holders', trigger: 'Bought a pack, no membership', next: 'Convert to unlimited membership (pack credit applied)', channel: 'Front desk / in person', cadence: 'Once — at a milestone' },
+  { segment: 'Engaged members (no add-ons)', trigger: '8+ visits/month, membership only', next: 'Nutrition coaching or private training add-on', channel: 'In-app message', cadence: 'Monthly' },
+  { segment: 'Goal-date members', trigger: 'Goal date set at intake, 8 weeks out', next: 'Small-group training block tied to the goal', channel: 'Email + SMS', cadence: 'Once — at a milestone' },
+  { segment: 'Top 5% by spend', trigger: 'Highest 12-month spend', next: 'Concierge tier invitation', channel: 'Phone call', cadence: 'Quarterly' },
+  { segment: 'Cooling off', trigger: 'No visit in 21 days', next: 'Re-engagement + a class they used to love', channel: 'SMS / text', cadence: 'Triggered — repeats while signal holds' },
+  { segment: 'Lapsing', trigger: 'No visit in 45+ days', next: 'Win-back offer + a check-in from a coach', channel: 'Phone call', cadence: 'Once — at a set day' },
+  { segment: 'Renewal window', trigger: '30 days before annual renewal', next: 'Annual plan with bundled add-ons (better than monthly)', channel: 'Email', cadence: 'On renewal window' },
+];
+
+// === STATE ===
+let state = {
+  business: { name: '', owner: '', revenue: '', margin: '', customers: '' },
+  model: '',
+  cadenceNotes: '',
+  expansion: [],
+  lifecycle: [],
+  pricing: [],
+  mixShift: MIX_SHIFT_TACTICS.map(() => ({ customer: '', offer: '' })),
+  mixShiftB2C: MIX_SHIFT_TACTICS_B2C.map(() => ({ customer: '', offer: '' })),
+  targets: { revenue: '', margin: '', customers: '', cadence: '' },
+};
+
+function makeEmptyExpansion() { return { customer: '', today: '', next: '', owner: '', target: '' }; }
+function makeEmptyLifecycle() { return { segment: '', trigger: '', next: '', channel: '', cadence: '' }; }
+function makeEmptyPricing() { return { service: '', current: '', lift: '', reviewDate: '' }; }
+
+// Seed with empty rows
+for (let i = 0; i < 5; i++) state.expansion.push(makeEmptyExpansion());
+for (let i = 0; i < 5; i++) state.lifecycle.push(makeEmptyLifecycle());
+for (let i = 0; i < 3; i++) state.pricing.push(makeEmptyPricing());
+
+// === PERSISTENCE ===
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    flashSaved();
+  } catch (e) { console.warn('Save failed:', e); }
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (parsed.business) state.business = { ...state.business, ...parsed.business };
+    if (parsed.model !== undefined) state.model = parsed.model;
+    if (parsed.cadenceNotes !== undefined) state.cadenceNotes = parsed.cadenceNotes;
+    if (Array.isArray(parsed.expansion) && parsed.expansion.length > 0) state.expansion = parsed.expansion;
+    if (Array.isArray(parsed.lifecycle) && parsed.lifecycle.length > 0) state.lifecycle = parsed.lifecycle;
+    if (Array.isArray(parsed.pricing) && parsed.pricing.length > 0) state.pricing = parsed.pricing;
+    if (Array.isArray(parsed.mixShift) && parsed.mixShift.length === MIX_SHIFT_TACTICS.length) state.mixShift = parsed.mixShift;
+    if (Array.isArray(parsed.mixShiftB2C) && parsed.mixShiftB2C.length === MIX_SHIFT_TACTICS_B2C.length) state.mixShiftB2C = parsed.mixShiftB2C;
+    if (parsed.targets) state.targets = { ...state.targets, ...parsed.targets };
+  } catch (e) { console.warn('Load failed:', e); }
+}
+function flashSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// === RENDER ===
+function render() {
+  renderBusiness();
+  renderModel();
+  renderCadenceNotes();
+  renderExpansion();
+  renderLifecycle();
+  renderPricing();
+  renderMixShift();
+  renderMixShiftB2C();
+  renderModelVisibility();
+  renderTargets();
+  updateLivePanel();
+}
+
+function renderBusiness() {
+  document.getElementById('businessName').value = state.business.name || '';
+  document.getElementById('ownerName').value = state.business.owner || '';
+  document.getElementById('currentRevenue').value = state.business.revenue || '';
+  document.getElementById('currentMargin').value = state.business.margin || '';
+  document.getElementById('activeCustomers').value = state.business.customers || '';
+}
+
+function renderModel() {
+  document.querySelectorAll('.model-card').forEach(card => {
+    card.classList.toggle('active', card.dataset.model === state.model);
+  });
+  document.getElementById('cadenceB2B').classList.toggle('active', state.model === 'b2b' || state.model === 'both');
+  document.getElementById('cadenceB2C').classList.toggle('active', state.model === 'b2c' || state.model === 'both');
+}
+
+// Show/hide the B2B and B2C blocks in Sections 3 and 5 based on the chosen model
+function renderModelVisibility() {
+  const showB2B = state.model === 'b2b' || state.model === 'both';
+  const showB2C = state.model === 'b2c' || state.model === 'both';
+  const hasModel = !!state.model;
+
+  document.getElementById('expansionB2B').classList.toggle('active', showB2B);
+  document.getElementById('expansionB2C').classList.toggle('active', showB2C);
+  document.getElementById('mixB2B').classList.toggle('active', showB2B);
+  document.getElementById('mixB2C').classList.toggle('active', showB2C);
+
+  document.getElementById('expansionModelPrompt').classList.toggle('hidden', hasModel);
+  document.getElementById('mixModelPrompt').classList.toggle('hidden', hasModel);
+}
+
+function renderCadenceNotes() {
+  document.getElementById('cadenceNotes').value = state.cadenceNotes || '';
+}
+
+function renderExpansion() {
+  const body = document.getElementById('expansionBody');
+  body.innerHTML = '';
+  state.expansion.forEach((row, i) => {
+    const isFilled = isExpansionFilled(row);
+    const tr = document.createElement('tr');
+    if (isFilled) tr.classList.add('row-status-filled');
+    tr.innerHTML = `
+      <td class="row-num">${i + 1}</td>
+      <td><input type="text" data-exp-i="${i}" data-field="customer" value="${escapeHtml(row.customer)}" placeholder="Customer name"></td>
+      <td><input type="text" data-exp-i="${i}" data-field="today" value="${escapeHtml(row.today)}" placeholder="Current service line"></td>
+      <td><input type="text" data-exp-i="${i}" data-field="next" value="${escapeHtml(row.next)}" placeholder="Natural next purchase"></td>
+      <td><input type="text" data-exp-i="${i}" data-field="owner" value="${escapeHtml(row.owner)}" placeholder="Who runs this"></td>
+      <td><input type="date" data-exp-i="${i}" data-field="target" value="${escapeHtml(row.target)}"></td>
+      <td class="row-actions">
+        ${state.expansion.length > MIN_EXPANSION_ROWS ? `<button class="row-remove" data-remove-exp="${i}" type="button" title="Remove row">×</button>` : ''}
+      </td>
+    `;
+    body.appendChild(tr);
+  });
+
+  body.querySelectorAll('input[data-exp-i]').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const i = +e.target.dataset.expI;
+      const field = e.target.dataset.field;
+      state.expansion[i][field] = e.target.value;
+      save();
+      // Update row class for visual indicator
+      const tr = e.target.closest('tr');
+      tr.classList.toggle('row-status-filled', isExpansionFilled(state.expansion[i]));
+      updateLivePanel();
+    });
+  });
+  body.querySelectorAll('[data-remove-exp]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const i = +e.target.dataset.removeExp;
+      state.expansion.splice(i, 1);
+      save();
+      renderExpansion();
+      updateLivePanel();
+    });
+  });
+
+  const addBtn = document.getElementById('addExpansionRow');
+  addBtn.disabled = state.expansion.length >= MAX_EXPANSION_ROWS;
+  addBtn.textContent = state.expansion.length >= MAX_EXPANSION_ROWS
+    ? `Maximum ${MAX_EXPANSION_ROWS} rows`
+    : '+ Add row';
+}
+
+function isExpansionFilled(row) {
+  return row.customer && row.customer.trim() && row.next && row.next.trim();
+}
+
+// === B2C LIFECYCLE TABLE ===
+function buildSelectOptions(options, selected) {
+  let html = `<option value=""${!selected ? ' selected' : ''}>—</option>`;
+  let matched = false;
+  options.forEach(opt => {
+    const isSel = String(opt) === String(selected);
+    if (isSel) matched = true;
+    html += `<option value="${escapeHtml(opt)}"${isSel ? ' selected' : ''}>${escapeHtml(opt)}</option>`;
+  });
+  // If a saved value isn't in the option list (e.g. older data), keep it as a custom option
+  if (selected && !matched) {
+    html += `<option value="${escapeHtml(selected)}" selected>${escapeHtml(selected)}</option>`;
+  }
+  return html;
+}
+
+function renderLifecycle() {
+  const body = document.getElementById('lifecycleBody');
+  body.innerHTML = '';
+  state.lifecycle.forEach((row, i) => {
+    const isFilled = isLifecycleFilled(row);
+    const tr = document.createElement('tr');
+    if (isFilled) tr.classList.add('row-status-filled');
+    tr.innerHTML = `
+      <td class="row-num">${i + 1}</td>
+      <td><input type="text" data-lc-i="${i}" data-field="segment" value="${escapeHtml(row.segment)}" placeholder="Lifecycle stage"></td>
+      <td><input type="text" data-lc-i="${i}" data-field="trigger" value="${escapeHtml(row.trigger)}" placeholder="What signals this segment"></td>
+      <td><input type="text" data-lc-i="${i}" data-field="next" value="${escapeHtml(row.next)}" placeholder="The next offer"></td>
+      <td><select data-lc-i="${i}" data-field="channel">${buildSelectOptions(CHANNEL_OPTIONS, row.channel)}</select></td>
+      <td><select data-lc-i="${i}" data-field="cadence">${buildSelectOptions(CADENCE_OPTIONS, row.cadence)}</select></td>
+      <td class="row-actions">
+        ${state.lifecycle.length > MIN_EXPANSION_ROWS ? `<button class="row-remove" data-remove-lc="${i}" type="button" title="Remove row">×</button>` : ''}
+      </td>
+    `;
+    body.appendChild(tr);
+  });
+
+  body.querySelectorAll('[data-lc-i]').forEach(inp => {
+    const evt = inp.tagName === 'SELECT' ? 'change' : 'input';
+    inp.addEventListener(evt, e => {
+      const i = +e.target.dataset.lcI;
+      const field = e.target.dataset.field;
+      state.lifecycle[i][field] = e.target.value;
+      save();
+      const tr = e.target.closest('tr');
+      tr.classList.toggle('row-status-filled', isLifecycleFilled(state.lifecycle[i]));
+      updateLivePanel();
+    });
+  });
+  body.querySelectorAll('[data-remove-lc]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const i = +e.target.dataset.removeLc;
+      state.lifecycle.splice(i, 1);
+      save();
+      renderLifecycle();
+      updateLivePanel();
+    });
+  });
+
+  const addBtn = document.getElementById('addLifecycleRow');
+  addBtn.disabled = state.lifecycle.length >= MAX_EXPANSION_ROWS;
+  addBtn.textContent = state.lifecycle.length >= MAX_EXPANSION_ROWS
+    ? `Maximum ${MAX_EXPANSION_ROWS} segments`
+    : '+ Add segment';
+}
+
+function isLifecycleFilled(row) {
+  return row.segment && row.segment.trim() && row.next && row.next.trim();
+}
+
+function renderPricing() {
+  const list = document.getElementById('pricingList');
+  list.innerHTML = '';
+  state.pricing.forEach((row, i) => {
+    const div = document.createElement('div');
+    div.className = 'pricing-row';
+    const newRate = computeNewRate(row.current, row.lift);
+    div.innerHTML = `
+      <input type="text" data-pr-i="${i}" data-field="service" value="${escapeHtml(row.service)}" placeholder="e.g. Bookkeeping">
+      <input type="text" data-pr-i="${i}" data-field="current" value="${escapeHtml(row.current)}" placeholder="$2,800/mo">
+      <input type="number" data-pr-i="${i}" data-field="lift" value="${escapeHtml(row.lift)}" placeholder="6" min="0" max="30" step="0.5">
+      <div class="pricing-row-readonly" title="Auto-computed from current rate × (1 + % lift)">${newRate || '—'}</div>
+      <input type="date" data-pr-i="${i}" data-field="reviewDate" value="${escapeHtml(row.reviewDate)}">
+      <div>${state.pricing.length > 1 ? `<button class="row-remove" data-remove-pr="${i}" type="button" title="Remove">×</button>` : ''}</div>
+    `;
+    list.appendChild(div);
+  });
+
+  list.querySelectorAll('input[data-pr-i]').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const i = +e.target.dataset.prI;
+      const field = e.target.dataset.field;
+      state.pricing[i][field] = e.target.value;
+      save();
+      // Live update just the readonly cell
+      if (field === 'current' || field === 'lift') {
+        const newRate = computeNewRate(state.pricing[i].current, state.pricing[i].lift);
+        const readonly = e.target.closest('.pricing-row').querySelector('.pricing-row-readonly');
+        readonly.textContent = newRate || '—';
+      }
+      updateLivePanel();
+    });
+  });
+  list.querySelectorAll('[data-remove-pr]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const i = +e.target.dataset.removePr;
+      state.pricing.splice(i, 1);
+      save();
+      renderPricing();
+      updateLivePanel();
+    });
+  });
+
+  const addBtn = document.getElementById('addPricingRow');
+  addBtn.disabled = state.pricing.length >= MAX_PRICING_ROWS;
+}
+
+function computeNewRate(current, lift) {
+  if (!current || lift === '' || lift === null || lift === undefined) return '';
+  const liftN = parseFloat(lift);
+  if (isNaN(liftN)) return '';
+
+  // Parse current rate: try to extract leading sign, numeric portion, and trailing suffix
+  // Examples: "$2,800/mo", "$15,000", "2800", "$4,200/yr"
+  const m = String(current).match(/^(\D*?)([0-9.,]+)(.*)$/);
+  if (!m) return '';
+  const prefix = m[1] || '';
+  const numStr = m[2].replace(/,/g, '');
+  const suffix = m[3] || '';
+  const num = parseFloat(numStr);
+  if (isNaN(num)) return '';
+  const newNum = num * (1 + liftN / 100);
+  const newStr = newNum >= 1000 ? Math.round(newNum).toLocaleString('en-US') : newNum.toFixed(2).replace(/\.?0+$/, '');
+  return `${prefix}${newStr}${suffix}`;
+}
+
+function isPricingFilled(row) {
+  return row.service && row.service.trim() && row.current && String(row.current).trim() && row.lift !== '' && row.lift !== null && row.lift !== undefined;
+}
+
+// Shared mix-shift grid renderer — used for both B2B and B2C
+function renderMixGrid(gridId, tactics, stateArr, exampleAttr, inputAttr, renderFn) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  tactics.forEach((tactic, i) => {
+    const data = stateArr[i] || { customer: '', offer: '' };
+    const card = document.createElement('div');
+    card.className = 'mix-card';
+    card.innerHTML = `
+      <div class="mix-card-header">
+        <div class="mix-card-badge">${tactic.n}</div>
+        <div class="mix-card-title">${escapeHtml(tactic.title)}</div>
+      </div>
+      <div class="mix-card-desc">${escapeHtml(tactic.desc)}</div>
+      <div class="field">
+        <div class="label-row">
+          <label>Named customer (or segment)</label>
+          <div class="example-btn-wrap">
+            <button class="use-example-btn" data-${exampleAttr}="${i}" type="button">Use example</button>
+          </div>
+        </div>
+        <input type="text" data-${inputAttr}="${i}" data-field="customer" value="${escapeHtml(data.customer)}" placeholder="${escapeHtml(tactic.example.customer)}">
+      </div>
+      <div class="field">
+        <label>The specific play</label>
+        <textarea data-${inputAttr}="${i}" data-field="offer" placeholder="${escapeHtml(tactic.example.offer)}">${escapeHtml(data.offer)}</textarea>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  grid.querySelectorAll(`[data-${inputAttr}]`).forEach(inp => {
+    inp.addEventListener('input', e => {
+      const i = +e.target.dataset[camelize(inputAttr)];
+      const field = e.target.dataset.field;
+      stateArr[i][field] = e.target.value;
+      save();
+      updateLivePanel();
+    });
+  });
+  grid.querySelectorAll(`[data-${exampleAttr}]`).forEach(btn => {
+    btn.addEventListener('click', e => {
+      const i = +e.target.dataset[camelize(exampleAttr)];
+      const tac = tactics[i];
+      const data = stateArr[i];
+      const hasContent = (data.customer && data.customer.trim()) || (data.offer && data.offer.trim());
+      if (hasContent && !confirm('Replace what you\'ve already written with the example?')) return;
+      stateArr[i].customer = tac.example.customer;
+      stateArr[i].offer = tac.example.offer;
+      save();
+      renderFn();
+      updateLivePanel();
+    });
+  });
+}
+
+// Convert kebab-style data attr names to camelCase for dataset access
+function camelize(s) {
+  return s.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+}
+
+function renderMixShift() {
+  renderMixGrid('mixShiftGrid', MIX_SHIFT_TACTICS, state.mixShift, 'mix-example', 'mix-i', renderMixShift);
+}
+
+function renderMixShiftB2C() {
+  renderMixGrid('mixShiftGridB2C', MIX_SHIFT_TACTICS_B2C, state.mixShiftB2C, 'mixc-example', 'mixc-i', renderMixShiftB2C);
+}
+
+function isMixFilled(m) {
+  return m.customer && m.customer.trim() && m.offer && m.offer.trim();
+}
+
+function renderTargets() {
+  document.getElementById('targetRevenue').value = state.targets.revenue || '';
+  document.getElementById('targetMargin').value = state.targets.margin || '';
+  document.getElementById('targetCustomers').value = state.targets.customers || '';
+  document.getElementById('reviewCadence').value = state.targets.cadence || '';
+  updateTargetsSummary();
+}
+
+function updateTargetsSummary() {
+  const t = state.targets;
+  const b = state.business;
+  const summary = document.getElementById('targetsSummary');
+
+  const haveTargets = t.revenue || t.margin || t.customers;
+  if (!haveTargets) {
+    summary.innerHTML = 'Set your numbers above to see your 12-month plan summary.';
+    return;
+  }
+
+  const lines = [];
+  if (b.revenue && t.revenue) lines.push(`Revenue: <span class="targets-summary-highlight">${escapeHtml(b.revenue)} → ${escapeHtml(t.revenue)}</span>`);
+  else if (t.revenue) lines.push(`Revenue target: <span class="targets-summary-highlight">${escapeHtml(t.revenue)}</span>`);
+
+  if (b.margin && t.margin) lines.push(`Gross margin: <span class="targets-summary-highlight">${escapeHtml(b.margin)} → ${escapeHtml(t.margin)}</span>`);
+  else if (t.margin) lines.push(`Margin target: <span class="targets-summary-highlight">${escapeHtml(t.margin)}</span>`);
+
+  if (t.customers) lines.push(`Customers: <span class="targets-summary-highlight">${escapeHtml(t.customers)}</span>`);
+
+  summary.innerHTML = lines.join(' &nbsp;·&nbsp; ');
+}
+
+function updateLivePanel() {
+  const panel = document.getElementById('livePanel');
+  const showB2B = state.model === 'b2b' || state.model === 'both';
+  const showB2C = state.model === 'b2c' || state.model === 'both';
+
+  const expFilled = state.expansion.filter(isExpansionFilled).length;
+  const lifeFilled = state.lifecycle.filter(isLifecycleFilled).length;
+  const pricingFilled = state.pricing.filter(isPricingFilled).length;
+  const mixFilled = state.mixShift.filter(isMixFilled).length;
+  const mixB2CFilled = state.mixShiftB2C.filter(isMixFilled).length;
+
+  // Customers/segments count depends on the model
+  let listCount = 0;
+  if (showB2B) listCount += expFilled;
+  if (showB2C) listCount += lifeFilled;
+  if (!state.model) listCount = expFilled + lifeFilled;
+
+  // Mix plays count depends on the model
+  let mixCount = 0, mixMax = 0;
+  if (showB2B) { mixCount += mixFilled; mixMax += 4; }
+  if (showB2C) { mixCount += mixB2CFilled; mixMax += 4; }
+  if (!state.model) { mixMax = 4; }
+
+  const anyContent = listCount > 0 || pricingFilled > 0 || mixCount > 0 || state.model;
+  if (!anyContent) {
+    panel.classList.remove('active');
+    return;
+  }
+  panel.classList.add('active');
+
+  document.getElementById('liveCustomersFilled').textContent = listCount;
+  document.getElementById('livePricingFilled').textContent = pricingFilled;
+  document.getElementById('liveMixFilled').textContent = `${mixCount}/${mixMax || 4}`;
+
+  // Adapt the "Customers" stat label to the model
+  const custLabel = document.querySelector('#liveCustomersFilled + .live-stat-label');
+  if (custLabel) {
+    if (showB2C && !showB2B) custLabel.textContent = 'Segments';
+    else if (showB2B && showB2C) custLabel.textContent = 'Rows';
+    else custLabel.textContent = 'Customers';
+  }
+
+  const summary = document.getElementById('liveSummary');
+  const parts = [];
+  if (state.model) {
+    const modelName = { b2b: 'B2B (QBR)', b2c: 'B2C (Lifecycle)', both: 'Mixed — B2B + B2C' }[state.model];
+    parts.push(modelName);
+  }
+  if (showB2B && expFilled > 0) parts.push(`${expFilled} account ${expFilled === 1 ? 'play' : 'plays'}`);
+  if (showB2C && lifeFilled > 0) parts.push(`${lifeFilled} lifecycle ${lifeFilled === 1 ? 'segment' : 'segments'}`);
+  if (pricingFilled > 0) parts.push(`${pricingFilled} pricing ${pricingFilled === 1 ? 'review' : 'reviews'}`);
+  summary.textContent = parts.length ? parts.join(' · ') : '—';
+}
+
+// === FIELD WIRING ===
+function wireBusinessFields() {
+  const map = {
+    businessName: 'name',
+    ownerName: 'owner',
+    currentRevenue: 'revenue',
+    currentMargin: 'margin',
+    activeCustomers: 'customers',
+  };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.business[key] = e.target.value;
+      save();
+      updateTargetsSummary();
+    });
+  });
+}
+
+function wireModelToggle() {
+  document.querySelectorAll('.model-card').forEach(card => {
+    card.addEventListener('click', e => {
+      const m = e.currentTarget.dataset.model;
+      // Toggle off if already active, else set
+      state.model = state.model === m ? '' : m;
+      save();
+      renderModel();
+      renderModelVisibility();
+      updateLivePanel();
+    });
+  });
+}
+
+function wireCadenceNotes() {
+  document.getElementById('cadenceNotes').addEventListener('input', e => {
+    state.cadenceNotes = e.target.value;
+    save();
+  });
+
+  document.querySelector('[data-example-field="cadenceNotes"]').addEventListener('click', () => {
+    const existing = state.cadenceNotes;
+    if (existing && existing.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+    state.cadenceNotes = CADENCE_EXAMPLE;
+    const el = document.getElementById('cadenceNotes');
+    el.value = CADENCE_EXAMPLE;
+    el.focus();
+    el.setSelectionRange(CADENCE_EXAMPLE.length, CADENCE_EXAMPLE.length);
+    save();
+  });
+}
+
+function wireTargetsFields() {
+  const map = {
+    targetRevenue: 'revenue',
+    targetMargin: 'margin',
+    targetCustomers: 'customers',
+    reviewCadence: 'cadence',
+  };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.targets[key] = e.target.value;
+      save();
+      updateTargetsSummary();
+    });
+    document.getElementById(id).addEventListener('change', e => {
+      state.targets[key] = e.target.value;
+      save();
+      updateTargetsSummary();
+    });
+  });
+}
+
+// === ROW ACTIONS ===
+document.getElementById('addExpansionRow').addEventListener('click', () => {
+  if (state.expansion.length >= MAX_EXPANSION_ROWS) return;
+  state.expansion.push(makeEmptyExpansion());
+  save();
+  renderExpansion();
+  updateLivePanel();
+});
+
+document.getElementById('fillExpansionExamples').addEventListener('click', () => {
+  // Fill empty rows with examples, but only the ones currently empty
+  let exampleIdx = 0;
+  let filled = 0;
+  state.expansion.forEach((row, i) => {
+    if (!row.customer && !row.next && exampleIdx < EXPANSION_EXAMPLES.length) {
+      state.expansion[i] = { ...EXPANSION_EXAMPLES[exampleIdx] };
+      exampleIdx++;
+      filled++;
+    }
+  });
+  // If we still have more examples and room to add, add new rows
+  while (exampleIdx < EXPANSION_EXAMPLES.length && state.expansion.length < MAX_EXPANSION_ROWS) {
+    state.expansion.push({ ...EXPANSION_EXAMPLES[exampleIdx] });
+    exampleIdx++;
+    filled++;
+  }
+  if (filled === 0) {
+    alert('No empty rows to fill. Clear a row first, or rows are already populated.');
+    return;
+  }
+  save();
+  renderExpansion();
+  updateLivePanel();
+});
+
+document.getElementById('addLifecycleRow').addEventListener('click', () => {
+  if (state.lifecycle.length >= MAX_EXPANSION_ROWS) return;
+  state.lifecycle.push(makeEmptyLifecycle());
+  save();
+  renderLifecycle();
+  updateLivePanel();
+});
+
+document.getElementById('fillLifecycleExamples').addEventListener('click', () => {
+  let exampleIdx = 0;
+  let filled = 0;
+  state.lifecycle.forEach((row, i) => {
+    if (!row.segment && !row.next && exampleIdx < LIFECYCLE_EXAMPLES.length) {
+      state.lifecycle[i] = { ...LIFECYCLE_EXAMPLES[exampleIdx] };
+      exampleIdx++;
+      filled++;
+    }
+  });
+  while (exampleIdx < LIFECYCLE_EXAMPLES.length && state.lifecycle.length < MAX_EXPANSION_ROWS) {
+    state.lifecycle.push({ ...LIFECYCLE_EXAMPLES[exampleIdx] });
+    exampleIdx++;
+    filled++;
+  }
+  if (filled === 0) {
+    alert('No empty rows to fill. Clear a row first, or rows are already populated.');
+    return;
+  }
+  save();
+  renderLifecycle();
+  updateLivePanel();
+});
+
+document.getElementById('addPricingRow').addEventListener('click', () => {
+  if (state.pricing.length >= MAX_PRICING_ROWS) return;
+  state.pricing.push(makeEmptyPricing());
+  save();
+  renderPricing();
+});
+
+document.getElementById('fillPricingExamples').addEventListener('click', () => {
+  let exampleIdx = 0;
+  let filled = 0;
+  state.pricing.forEach((row, i) => {
+    if (!row.service && !row.current && exampleIdx < PRICING_EXAMPLES.length) {
+      state.pricing[i] = { ...PRICING_EXAMPLES[exampleIdx] };
+      exampleIdx++;
+      filled++;
+    }
+  });
+  while (exampleIdx < PRICING_EXAMPLES.length && state.pricing.length < MAX_PRICING_ROWS) {
+    state.pricing.push({ ...PRICING_EXAMPLES[exampleIdx] });
+    exampleIdx++;
+    filled++;
+  }
+  if (filled === 0) {
+    alert('No empty rows to fill. Clear a row first.');
+    return;
+  }
+  save();
+  renderPricing();
+  updateLivePanel();
+});
+
+// === PDF DOWNLOAD ===
+document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+  buildPdfDocument();
+  // Give the browser a moment to lay out the freshly-built content before printing.
+  setTimeout(() => { window.print(); }, 60);
+});
+
+function buildPdfDocument() {
+  const el = document.getElementById('pdfDocument');
+  const b = state.business;
+  const t = state.targets;
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  const businessLine = [b.name, b.revenue, b.margin].filter(Boolean).join(' · ');
+  const ownerLine = [b.owner, b.customers ? `${b.customers} customers` : ''].filter(Boolean).join(' · ');
+
+  let html = `
+    <div class="pdf-header">
+      <div class="pdf-eyebrow">Two Weeks Out · Capital-Efficient Scaling Playbook</div>
+      <h1>${escapeHtml(b.name || 'Your Scaling Playbook')}</h1>
+      <div class="pdf-subtitle">${escapeHtml(businessLine || 'Capital-efficient scaling plan')}</div>
+    </div>
+    <div class="pdf-meta">
+      ${ownerLine ? `Prepared by ${escapeHtml(ownerLine)} · ` : ''}${today}
+    </div>
+  `;
+
+  // Expansion model
+  if (state.model || state.cadenceNotes) {
+    html += `<div class="pdf-section-title">Expansion Model</div>`;
+    const modelName = { b2b: 'B2B — Quarterly Business Review cadence', b2c: 'B2C — Lifecycle cadence', both: 'Mixed — B2B QBR + B2C lifecycle' }[state.model] || '';
+    if (modelName) html += `<div style="font-size: 12px; margin-bottom: 8px;"><strong>${escapeHtml(modelName)}</strong></div>`;
+    if (state.cadenceNotes) html += `<div style="font-size: 11px; color:#10131a; line-height: 1.5;">${escapeHtml(state.cadenceNotes)}</div>`;
+  }
+
+  // Top targets summary
+  if (t.revenue || t.margin || t.customers) {
+    html += `<div class="pdf-section-title">12-Month Targets</div>
+      <div class="pdf-targets">
+        <div class="pdf-targets-cell">
+          <div class="pdf-targets-label">Revenue</div>
+          <div class="pdf-targets-value">${escapeHtml(t.revenue || '—')}</div>
+        </div>
+        <div class="pdf-targets-cell">
+          <div class="pdf-targets-label">Gross Margin</div>
+          <div class="pdf-targets-value">${escapeHtml(t.margin || '—')}</div>
+        </div>
+        <div class="pdf-targets-cell">
+          <div class="pdf-targets-label">Customers</div>
+          <div class="pdf-targets-value">${escapeHtml(t.customers || '—')}</div>
+        </div>
+      </div>`;
+    if (t.cadence) html += `<div style="font-size: 11px; color:#59616e; margin-top: 8px; font-style: italic;">Review cadence: ${escapeHtml(t.cadence)}</div>`;
+  }
+
+  // Expansion — model-aware
+  const showB2B = state.model === 'b2b' || state.model === 'both';
+  const showB2C = state.model === 'b2c' || state.model === 'both';
+
+  // B2B named-account expansion list
+  const filledExpansion = state.expansion.filter(isExpansionFilled);
+  if (showB2B && filledExpansion.length > 0) {
+    html += `<div class="pdf-section-title">Customer Expansion List · B2B (${filledExpansion.length} plays)</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 18%;">Customer</th>
+            <th style="width: 22%;">Today</th>
+            <th style="width: 30%;">Next tier up</th>
+            <th style="width: 16%;">Owner</th>
+            <th style="width: 14%;">Target close</th>
+          </tr>
+        </thead>
+        <tbody>`;
+    filledExpansion.forEach(row => {
+      html += `<tr>
+        <td><strong>${escapeHtml(row.customer)}</strong></td>
+        <td>${escapeHtml(row.today)}</td>
+        <td>${escapeHtml(row.next)}</td>
+        <td>${escapeHtml(row.owner)}</td>
+        <td>${escapeHtml(row.target ? formatDate(row.target) : '—')}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // B2C lifecycle-segment expansion map
+  const filledLifecycle = state.lifecycle.filter(isLifecycleFilled);
+  if (showB2C && filledLifecycle.length > 0) {
+    html += `<div class="pdf-section-title">Lifecycle Expansion Map · B2C (${filledLifecycle.length} segments)</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 20%;">Lifecycle segment</th>
+            <th style="width: 22%;">Trigger / signal</th>
+            <th style="width: 28%;">Next offer</th>
+            <th style="width: 15%;">Channel</th>
+            <th style="width: 15%;">Cadence</th>
+          </tr>
+        </thead>
+        <tbody>`;
+    filledLifecycle.forEach(row => {
+      html += `<tr>
+        <td><strong>${escapeHtml(row.segment)}</strong></td>
+        <td>${escapeHtml(row.trigger)}</td>
+        <td>${escapeHtml(row.next)}</td>
+        <td>${escapeHtml(row.channel)}</td>
+        <td>${escapeHtml(row.cadence)}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // Pricing review
+  const filledPricing = state.pricing.filter(isPricingFilled);
+  if (filledPricing.length > 0) {
+    html += `<div class="pdf-section-title">Deliberate Annual Pricing Review</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 32%;">Service line</th>
+            <th style="width: 18%;">Current rate</th>
+            <th style="width: 12%;">% lift</th>
+            <th style="width: 18%;">New rate</th>
+            <th style="width: 20%;">Review date</th>
+          </tr>
+        </thead>
+        <tbody>`;
+    filledPricing.forEach(row => {
+      const newRate = computeNewRate(row.current, row.lift);
+      html += `<tr>
+        <td><strong>${escapeHtml(row.service)}</strong></td>
+        <td>${escapeHtml(row.current)}</td>
+        <td>${escapeHtml(row.lift)}%</td>
+        <td><strong>${escapeHtml(newRate)}</strong></td>
+        <td>${escapeHtml(row.reviewDate ? formatDate(row.reviewDate) : '—')}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // Mix shift plays — B2B
+  const filledMix = state.mixShift.map((m, i) => ({ ...m, tactic: MIX_SHIFT_TACTICS[i] })).filter(m => isMixFilled(m));
+  if (showB2B && filledMix.length > 0) {
+    html += `<div class="pdf-section-title">Mix Shift — Laddering Plays · B2B</div>
+      <div class="pdf-mix-grid">`;
+    filledMix.forEach(m => {
+      html += `<div class="pdf-mix-card">
+        <div class="pdf-mix-card-title">${m.tactic.n}. ${escapeHtml(m.tactic.title)}</div>
+        <div class="pdf-mix-card-line"><span>Customer</span>${escapeHtml(m.customer)}</div>
+        <div class="pdf-mix-card-line"><span>The play</span>${escapeHtml(m.offer)}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Mix shift plays — B2C
+  const filledMixB2C = state.mixShiftB2C.map((m, i) => ({ ...m, tactic: MIX_SHIFT_TACTICS_B2C[i] })).filter(m => isMixFilled(m));
+  if (showB2C && filledMixB2C.length > 0) {
+    html += `<div class="pdf-section-title">Mix Shift — Laddering Plays · B2C</div>
+      <div class="pdf-mix-grid">`;
+    filledMixB2C.forEach(m => {
+      html += `<div class="pdf-mix-card">
+        <div class="pdf-mix-card-title">${m.tactic.n}. ${escapeHtml(m.tactic.title)}</div>
+        <div class="pdf-mix-card-line"><span>Segment</span>${escapeHtml(m.customer)}</div>
+        <div class="pdf-mix-card-line"><span>The play</span>${escapeHtml(m.offer)}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `<div class="pdf-principle">Same customer count. Higher revenue. Better margin. No new acquisition cost.</div>`;
+  html += `<div class="pdf-footer">Two Weeks Out · From Corporate Operator to Confident Owner</div>`;
+
+  el.innerHTML = html;
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch { return iso; }
+}
+
+// === EXCEL DOWNLOAD ===
+document.getElementById('downloadXlsxBtn').addEventListener('click', () => {
+  try {
+    const wb = XLSX.utils.book_new();
+    const b = state.business;
+    const businessSlug = (b.name || 'business').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
+    const showB2B = state.model === 'b2b' || state.model === 'both' || !state.model;
+    const showB2C = state.model === 'b2c' || state.model === 'both' || !state.model;
+
+    // === Sheet: Customer Expansion List (B2B) ===
+    if (showB2B) {
+      const expHeader = ['#', 'Customer', 'What they buy today', 'The next tier up', 'Owner', 'Target close date', 'Status'];
+      const expRows = [expHeader];
+      state.expansion.forEach((row, i) => {
+        expRows.push([
+          i + 1,
+          row.customer || '',
+          row.today || '',
+          row.next || '',
+          row.owner || '',
+          row.target || '',
+          isExpansionFilled(row) ? 'Mapped' : 'Open'
+        ]);
+      });
+      for (let j = 0; j < 5; j++) {
+        expRows.push([state.expansion.length + j + 1, '', '', '', '', '', '']);
+      }
+      const expWs = XLSX.utils.aoa_to_sheet(expRows);
+      expWs['!cols'] = [{ wch: 5 }, { wch: 28 }, { wch: 28 }, { wch: 40 }, { wch: 20 }, { wch: 16 }, { wch: 12 }];
+      XLSX.utils.book_append_sheet(wb, expWs, 'Customer Expansion B2B');
+    }
+
+    // === Sheet: Lifecycle Expansion Map (B2C) ===
+    if (showB2C) {
+      const lcHeader = ['#', 'Lifecycle segment', 'Trigger / signal', 'Next offer to present', 'Channel', 'Cadence', 'Status'];
+      const lcRows = [lcHeader];
+      state.lifecycle.forEach((row, i) => {
+        lcRows.push([
+          i + 1,
+          row.segment || '',
+          row.trigger || '',
+          row.next || '',
+          row.channel || '',
+          row.cadence || '',
+          isLifecycleFilled(row) ? 'Mapped' : 'Open'
+        ]);
+      });
+      for (let j = 0; j < 5; j++) {
+        lcRows.push([state.lifecycle.length + j + 1, '', '', '', '', '', '']);
+      }
+      const lcWs = XLSX.utils.aoa_to_sheet(lcRows);
+      lcWs['!cols'] = [{ wch: 5 }, { wch: 28 }, { wch: 28 }, { wch: 38 }, { wch: 18 }, { wch: 20 }, { wch: 12 }];
+      XLSX.utils.book_append_sheet(wb, lcWs, 'Lifecycle Map B2C');
+    }
+
+    // === Sheet: Pricing Review ===
+    const prHeader = ['Service line', 'Current rate', '% lift', 'New rate (computed)', 'Review date'];
+    const prRows = [prHeader];
+    state.pricing.forEach(row => {
+      prRows.push([
+        row.service || '',
+        row.current || '',
+        row.lift !== '' && row.lift !== null && row.lift !== undefined ? `${row.lift}%` : '',
+        computeNewRate(row.current, row.lift),
+        row.reviewDate || ''
+      ]);
+    });
+    for (let j = 0; j < 3; j++) prRows.push(['', '', '', '', '']);
+    const prWs = XLSX.utils.aoa_to_sheet(prRows);
+    prWs['!cols'] = [{ wch: 32 }, { wch: 18 }, { wch: 10 }, { wch: 18 }, { wch: 16 }];
+    XLSX.utils.book_append_sheet(wb, prWs, 'Pricing Review');
+
+    // === Sheet: Mix Shift Plays (B2B) ===
+    if (showB2B) {
+      const mixHeader = ['#', 'Tactic', 'What it means', 'Named customer', 'The specific play'];
+      const mixRows = [mixHeader];
+      MIX_SHIFT_TACTICS.forEach((tactic, i) => {
+        const data = state.mixShift[i];
+        mixRows.push([tactic.n, tactic.title, tactic.desc, data.customer || '', data.offer || '']);
+      });
+      const mixWs = XLSX.utils.aoa_to_sheet(mixRows);
+      mixWs['!cols'] = [{ wch: 4 }, { wch: 22 }, { wch: 44 }, { wch: 30 }, { wch: 60 }];
+      XLSX.utils.book_append_sheet(wb, mixWs, 'Mix Shift B2B');
+    }
+
+    // === Sheet: Mix Shift Plays (B2C) ===
+    if (showB2C) {
+      const mixHeader = ['#', 'Tactic', 'What it means', 'Named segment', 'The specific play'];
+      const mixRows = [mixHeader];
+      MIX_SHIFT_TACTICS_B2C.forEach((tactic, i) => {
+        const data = state.mixShiftB2C[i];
+        mixRows.push([tactic.n, tactic.title, tactic.desc, data.customer || '', data.offer || '']);
+      });
+      const mixWs = XLSX.utils.aoa_to_sheet(mixRows);
+      mixWs['!cols'] = [{ wch: 4 }, { wch: 22 }, { wch: 44 }, { wch: 36 }, { wch: 60 }];
+      XLSX.utils.book_append_sheet(wb, mixWs, 'Mix Shift B2C');
+    }
+
+    // === Sheet: Context & Targets ===
+    const ctxRows = [
+      ['Field', 'Value'],
+      ['Business name', b.name || ''],
+      ['Owner', b.owner || ''],
+      ['Current revenue', b.revenue || ''],
+      ['Current gross margin', b.margin || ''],
+      ['Active customers', b.customers || ''],
+      [''],
+      ['Expansion model', state.model || ''],
+      ['Cadence notes', state.cadenceNotes || ''],
+      [''],
+      ['12-Month Targets', ''],
+      ['Revenue target', state.targets.revenue || ''],
+      ['Margin target', state.targets.margin || ''],
+      ['Customer count target', state.targets.customers || ''],
+      ['Review cadence', state.targets.cadence || ''],
+    ];
+    const ctxWs = XLSX.utils.aoa_to_sheet(ctxRows);
+    ctxWs['!cols'] = [{ wch: 26 }, { wch: 60 }];
+    XLSX.utils.book_append_sheet(wb, ctxWs, 'Context & Targets');
+
+    XLSX.writeFile(wb, `capital_efficient_ops_${businessSlug}.xlsx`);
+  } catch (e) {
+    alert('Excel generation failed. Please try again.');
+    console.error(e);
+  }
+});
+
+// === FLOATING HELP TOOLTIP ===
+// A single body-appended tooltip element, shared by all help icons.
+// Body-appended so it escapes the table's overflow:auto clipping.
+function setupHelpTooltips() {
+  const tip = document.createElement('div');
+  tip.className = 'help-floating';
+  tip.setAttribute('role', 'tooltip');
+  document.body.appendChild(tip);
+
+  let hideTimer = null;
+
+  function showFor(icon) {
+    clearTimeout(hideTimer);
+    const help = icon.getAttribute('data-help') || '';
+    const eg = icon.getAttribute('data-help-eg') || '';
+    tip.innerHTML = escapeHtml(help) + (eg ? `<span class="help-floating-eg">${escapeHtml(eg)}</span>` : '');
+
+    // Make measurable, then position
+    tip.style.visibility = 'hidden';
+    tip.classList.add('visible');
+
+    const iconRect = icon.getBoundingClientRect();
+    const tipRect = tip.getBoundingClientRect();
+    const margin = 8;
+
+    // Default: centered above the icon
+    let left = iconRect.left + iconRect.width / 2 - tipRect.width / 2;
+    let top = iconRect.top - tipRect.height - 10;
+
+    // Clamp horizontally to viewport
+    const maxLeft = window.innerWidth - tipRect.width - margin;
+    if (left < margin) left = margin;
+    if (left > maxLeft) left = maxLeft;
+
+    // If no room above, drop below the icon
+    let arrowOnTop = false;
+    if (top < margin) {
+      top = iconRect.bottom + 10;
+      arrowOnTop = true;
+    }
+
+    // Arrow points at the icon center, relative to the (possibly clamped) tooltip
+    let arrowLeft = iconRect.left + iconRect.width / 2 - left;
+    // Keep the arrow within the tooltip's rounded body
+    arrowLeft = Math.max(14, Math.min(tipRect.width - 14, arrowLeft));
+    tip.style.setProperty('--arrow-left', arrowLeft + 'px');
+
+    // Flip the arrow if the tooltip is below the icon
+    tip.classList.toggle('help-below', arrowOnTop);
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.visibility = 'visible';
+  }
+
+  function hide() {
+    hideTimer = setTimeout(() => tip.classList.remove('visible'), 60);
+  }
+
+  // Event delegation — works for icons present now and any added later
+  document.addEventListener('mouseover', e => {
+    const icon = e.target.closest('.help-icon');
+    if (icon) showFor(icon);
+  });
+  document.addEventListener('mouseout', e => {
+    const icon = e.target.closest('.help-icon');
+    if (icon) hide();
+  });
+  document.addEventListener('focusin', e => {
+    const icon = e.target.closest('.help-icon');
+    if (icon) showFor(icon);
+  });
+  document.addEventListener('focusout', e => {
+    const icon = e.target.closest('.help-icon');
+    if (icon) hide();
+  });
+  // Reposition is cheap to skip — hide on scroll/resize to avoid stale placement
+  window.addEventListener('scroll', () => tip.classList.remove('visible'), true);
+  window.addEventListener('resize', () => tip.classList.remove('visible'));
+}
+
+// === CLEAR ALL ===
+// Wipes saved data and resets the worksheet to its initial state.
+// Clearing storage then reloading re-runs this file's own seeding logic,
+// guaranteeing a correct fresh state without a hand-written reset.
+function wireClearAll() {
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    const ok = confirm(
+      'Clear everything and start over?\n\n' +
+      'This permanently erases all your entries in this worksheet and cannot be undone.'
+    );
+    if (!ok) return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.warn('Could not clear storage:', e);
+    }
+    location.reload();
+  });
+}
+
+// === INIT ===
+load();
+render();
+wireBusinessFields();
+wireModelToggle();
+wireCadenceNotes();
+wireTargetsFields();
+setupHelpTooltips();
+wireClearAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Build the Five. Leave the Forty-Two Off. — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#10131a;--ink-soft:#10131a;--muted:#59616e;--muted-soft:#9ba3af;--border:#e9ecf5;--border-soft:#e9ecf5;--bg:#ffffff;--bg-soft:#fbfaf6;--green:#2747f5;--bright:#2747f5;--em-soft:#e9ecf5;--cream-soft:#e9ecf5;--amber:#7d5300;--font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  *{box-sizing:border-box;}html,body{margin:0;padding:0;}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg-soft);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:920px;margin:0 auto;padding:56px 48px 80px;background:var(--bg);}
+  header.brand{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:34px;}
+  .eyebrow{font-size:11px;letter-spacing:2.5px;color:var(--green);font-weight:600;text-transform:uppercase;margin:0 0 6px;}
+  h1{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:32px;line-height:1.2;color:var(--ink);margin:0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;color:var(--ink-soft);font-size:16px;margin:0;}
+  .step{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--border);}
+  .step:first-of-type{border-top:none;padding-top:0;}
+  .step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .step-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:28px;font-weight:800;color:var(--bright);line-height:1;letter-spacing:-.03em;font-style:normal;}
+  .step-title{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:22px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub{color:var(--muted);font-size:14px;margin:4px 0 18px;font-style:italic;}
+  label{font-size:13px;color:var(--ink-soft);font-weight:500;display:block;margin-bottom:5px;}
+  .field-def{font-size:12px;color:var(--muted);font-style:italic;line-height:1.45;margin-bottom:7px;}
+  input[type="text"],input[type="number"],textarea,select{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);background:white;border:1px solid var(--border);border-radius:0;padding:9px 11px;width:100%;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--em-soft);}
+  textarea{resize:vertical;min-height:54px;line-height:1.5;}
+  .field{margin-bottom:14px;}
+  .block-card{border:1px solid var(--border);border-radius:0;padding:16px 18px;margin-bottom:12px;background:white;}
+  .block-card.green-edge{border-left:4px solid var(--green);}
+  .block-card.amber-edge{border-left:4px solid var(--amber);}
+  /* Pipeline grid */
+  .pipeline-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px;}
+  .stage-col{border:1px solid var(--border);border-radius:0;overflow:hidden;background:white;}
+  .stage-col-head{background:var(--green);color:white;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:8px 10px;text-transform:uppercase;}
+  .stage-col-body{padding:10px 12px;}
+  .stage-col-body .metric{margin-bottom:8px;}
+  .stage-col-body .metric:last-child{margin-bottom:0;}
+  .metric-label{font-size:9px;letter-spacing:1.3px;color:var(--muted);font-weight:700;text-transform:uppercase;}
+  .metric-input{margin-top:2px;}
+  /* Bucket cards (deal sorting) */
+  .bucket-card{border:1px solid var(--border);border-radius:0;padding:14px 16px;margin-bottom:10px;background:white;}
+  .bucket-card.committed{border-left:4px solid var(--green);}
+  .bucket-card.best-case{border-left:4px solid var(--bright);}
+  .bucket-card.pipeline-b{border-left:4px solid var(--amber);}
+  .bucket-card.dontfit{border-left:4px solid var(--muted);background:var(--cream-soft);}
+  .bucket-head{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;}
+  .bucket-name{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;font-weight:600;color:var(--ink);}
+  .bucket-def{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:10px;line-height:1.45;}
+  .bucket-deals-list{margin-top:8px;}
+  .deal-row{display:grid;grid-template-columns:1fr 110px 28px;gap:8px;margin-bottom:6px;align-items:center;}
+  .deal-row .remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:0;width:28px;height:28px;border-radius:0;}
+  .deal-row .remove-btn:hover{background:var(--cream-soft);color:var(--amber);}
+  .add-deal-btn{background:none;border:1px dashed var(--border);color:var(--muted);font-size:12px;padding:7px 12px;border-radius:0;cursor:pointer;width:100%;margin-top:4px;}
+  .add-deal-btn:hover{border-color:var(--green);color:var(--green);background:var(--bg-soft);}
+  /* Dashboard designer */
+  .dashboard-five{margin-bottom:14px;}
+  .dashboard-slot{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:start;margin-bottom:10px;}
+  .slot-num{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:18px;font-weight:600;color:white;background:var(--green);border-radius:0;width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
+  /* Output */
+  .output-section{margin-top:48px;padding-top:36px;border-top:3px solid var(--ink);}
+  .output-header{text-align:center;margin-bottom:28px;}
+  .output-header .eyebrow{color:var(--bright);}
+  .output-header h2{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--ink);margin:4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p{color:var(--muted);font-size:14px;margin:0;font-style:italic;}
+  .strategy-doc{border:2px solid var(--ink);border-radius:0;padding:32px 36px;background:white;}
+  .strategy-block{margin-bottom:28px;}
+  .strategy-block:last-child{margin-bottom:0;}
+  .strategy-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .pipeline-out{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .pipeline-out .po-col{border:1px solid var(--border);border-radius:0;overflow:hidden;}
+  .pipeline-out .po-head{background:var(--green);color:white;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:6px 8px;text-transform:uppercase;}
+  .pipeline-out .po-body{padding:8px 10px;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;color:var(--ink);}
+  .pipeline-out .po-body .po-m{padding:4px 0;border-bottom:1px solid var(--border-soft);}
+  .pipeline-out .po-body .po-m:last-child{border-bottom:none;}
+  .pipeline-out .po-body .po-m-lab{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;}
+  .pipeline-out .po-body .po-m-val{font-size:14px;font-weight:600;color:var(--green);}
+  .pipeline-out .po-body .po-m-val.empty{color:#59616e;font-style:italic;}
+  .bucket-out{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+  .bucket-out .bo-col{border:1px solid var(--border);border-radius:0;padding:10px 12px;}
+  .bucket-out .bo-col.committed{background:var(--em-soft);}
+  .bucket-out .bo-col.best-case{background:#e9ecf5;}
+  .bucket-out .bo-col.pipeline-b{background:var(--cream-soft);}
+  .bucket-out .bo-name{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--green);margin-bottom:4px;}
+  .bucket-out .bo-col.best-case .bo-name{color:var(--bright);}
+  .bucket-out .bo-col.pipeline-b .bo-name{color:var(--amber);}
+  .bucket-out .bo-deals{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;color:var(--ink);line-height:1.6;}
+  .bucket-out .bo-deal{padding:3px 0;}
+  .bucket-out .bo-empty{font-style:italic;color:#59616e;font-size:12px;}
+  .dashboard-out{background:#fbfaf6;border:2px solid var(--ink);border-radius:0;overflow:hidden;}
+  .dashboard-out .do-bar{background:var(--ink);padding:10px 14px;color:white;font-size:10px;letter-spacing:1.5px;font-weight:700;}
+  .dashboard-out .do-grid{padding:14px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:8px;}
+  .dashboard-out .do-slot{background:white;border:1px solid var(--border);border-radius:0;padding:10px 12px;}
+  .dashboard-out .do-slot-num{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:9px;font-weight:700;color:var(--green);letter-spacing:1px;margin-bottom:4px;}
+  .dashboard-out .do-slot-text{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:12px;font-weight:600;color:var(--ink);line-height:1.4;}
+  .dashboard-out .do-slot.empty{background:var(--cream-soft);border-color:var(--amber);}
+  .dashboard-out .do-slot.empty .do-slot-text{color:var(--amber-soft, var(--amber));font-style:italic;font-weight:400;}
+  .leave-off-out{margin-top:12px;background:var(--cream-soft);border-left:4px solid var(--amber);padding:12px 16px;border-radius:0;}
+  .leave-off-out .lo-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber);margin-bottom:6px;}
+  .leave-off-out .lo-text{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;color:var(--ink);line-height:1.55;}
+  .observation{margin-top:24px;padding:14px 18px;background:var(--em-soft);border-radius:0;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .observation strong{color:var(--green);}
+  .observation.warn{background:var(--cream-soft);}
+  .observation.warn strong{color:var(--amber);}
+  .empty-output{padding:36px;background:var(--bg-soft);border:1px dashed var(--border);border-radius:0;text-align:center;color:var(--muted);font-style:italic;}
+  .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-top:36px;padding-top:22px;border-top:1px solid var(--border);}
+  .btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:0;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink-soft);}
+  .btn:hover{background:var(--bg-soft);}
+  .btn-primary{background:var(--green);color:white;border-color:#ffffff;}
+  .btn-primary:hover{background:#1b36c9;}
+  .btn-example{background:var(--cream-soft);color:var(--amber);border-color:var(--cream-soft);}
+  .btn-example:hover{background:#d5d9e4;}
+  .btn-ghost{color:var(--muted);}
+  @media print{body{background:white;}.sheet{max-width:none;padding:28px 24px;}.toolbar{display:none;}input,textarea,select{border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;background:transparent;}.empty-output{display:none;}.step,.strategy-doc{page-break-inside:avoid;}}
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#FF7C98;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">08 / Turn Interest Into Revenue</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Sales Strategy and Execution Excellence</p>
+  <h1>Build the Five. Leave the Forty-Two Off.</h1>
+  <p class="lede">Map your pipeline view. Sort your deals into three honest forecast buckets. Design the one dashboard. The discipline is what you leave off.</p>
+  <div style="margin-top:14px;"><button class="btn btn-example" type="button" onclick="useExample()">Use Marcus's example to start</button></div>
+</header>
+
+<!-- STEP 1 — Pipeline View -->
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">Build your pipeline view</span></div>
+  <p class="step-sub">Three numbers per stage: count, average age, conversion to next stage. If you don't have the data, write "?" and name what you'd need to collect.</p>
+  <div class="block-card green-edge">
+    <p class="field-def" style="margin-bottom:10px;">Snapshot of your pipeline right now — four stages, three metrics each.</p>
+    <div class="pipeline-grid">
+      <div class="stage-col">
+        <div class="stage-col-head">Stage 1 · Prospect</div>
+        <div class="stage-col-body">
+          <div class="metric"><div class="metric-label">Count</div><div class="metric-input"><input type="text" id="p1-count" placeholder="e.g., 47"></div></div>
+          <div class="metric"><div class="metric-label">Avg age</div><div class="metric-input"><input type="text" id="p1-age" placeholder="e.g., 5d"></div></div>
+          <div class="metric"><div class="metric-label">Conv → Discover</div><div class="metric-input"><input type="text" id="p1-conv" placeholder="e.g., 62%"></div></div>
+        </div>
+      </div>
+      <div class="stage-col">
+        <div class="stage-col-head">Stage 2 · Discover</div>
+        <div class="stage-col-body">
+          <div class="metric"><div class="metric-label">Count</div><div class="metric-input"><input type="text" id="p2-count" placeholder=""></div></div>
+          <div class="metric"><div class="metric-label">Avg age</div><div class="metric-input"><input type="text" id="p2-age" placeholder=""></div></div>
+          <div class="metric"><div class="metric-label">Conv → Propose</div><div class="metric-input"><input type="text" id="p2-conv" placeholder=""></div></div>
+        </div>
+      </div>
+      <div class="stage-col">
+        <div class="stage-col-head">Stage 3 · Propose</div>
+        <div class="stage-col-body">
+          <div class="metric"><div class="metric-label">Count</div><div class="metric-input"><input type="text" id="p3-count" placeholder=""></div></div>
+          <div class="metric"><div class="metric-label">Avg age</div><div class="metric-input"><input type="text" id="p3-age" placeholder=""></div></div>
+          <div class="metric"><div class="metric-label">Conv → Close</div><div class="metric-input"><input type="text" id="p3-conv" placeholder=""></div></div>
+        </div>
+      </div>
+      <div class="stage-col">
+        <div class="stage-col-head">Stage 4 · Close</div>
+        <div class="stage-col-body">
+          <div class="metric"><div class="metric-label">Count</div><div class="metric-input"><input type="text" id="p4-count" placeholder=""></div></div>
+          <div class="metric"><div class="metric-label">Avg age</div><div class="metric-input"><input type="text" id="p4-age" placeholder=""></div></div>
+          <div class="metric"><div class="metric-label">Conv (won/lost)</div><div class="metric-input"><input type="text" id="p4-conv" placeholder=""></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px;margin-bottom:0;">
+      <label for="data-gaps">If you wrote "?" for any number, what data would you need to start collecting?</label>
+      <textarea id="data-gaps" placeholder="Name the specific data source or change in process that would let you fill the missing cells."></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 2 — Forecast Buckets -->
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">Sort current deals into three forecasting buckets</span></div>
+  <p class="step-sub">Use the strict definitions. Deals that don't cleanly land in any of the three are the ones you don't yet understand — surface them.</p>
+
+  <div class="bucket-card committed">
+    <div class="bucket-head"><span class="bucket-name">Committed</span></div>
+    <div class="bucket-def">Verbal or written YES. Waiting only on signature or first payment. Not "they sounded enthusiastic" — actual commitment.</div>
+    <div class="bucket-deals-list" id="committed-list"></div>
+    <button class="add-deal-btn" type="button" onclick="addDeal('committed')">+ Add a committed deal</button>
+  </div>
+
+  <div class="bucket-card best-case">
+    <div class="bucket-head"><span class="bucket-name">Best-case</span></div>
+    <div class="bucket-def">Active deal. Engaged buyer. Realistic timing. NOT just "looking promising" — there's specific evidence of engagement.</div>
+    <div class="bucket-deals-list" id="best-case-list"></div>
+    <button class="add-deal-btn" type="button" onclick="addDeal('best-case')">+ Add a best-case deal</button>
+  </div>
+
+  <div class="bucket-card pipeline-b">
+    <div class="bucket-head"><span class="bucket-name">Pipeline</span></div>
+    <div class="bucket-def">Qualified but not yet active. They've passed the prospect bar but aren't currently in a live conversation cycle.</div>
+    <div class="bucket-deals-list" id="pipeline-list"></div>
+    <button class="add-deal-btn" type="button" onclick="addDeal('pipeline')">+ Add a pipeline deal</button>
+  </div>
+
+  <div class="bucket-card dontfit">
+    <div class="bucket-head"><span class="bucket-name">Don't cleanly fit</span></div>
+    <div class="bucket-def">Deals you've been privately weighting at 50% or 70% but can't honestly place in any of the three buckets above. These are the ones you don't actually understand yet.</div>
+    <div class="bucket-deals-list" id="dontfit-list"></div>
+    <button class="add-deal-btn" type="button" onclick="addDeal('dontfit')">+ Add a deal that doesn't fit</button>
+  </div>
+</section>
+
+<!-- STEP 3 — Dashboard Design -->
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">Design the one dashboard</span></div>
+  <p class="step-sub">Five things. One screen. Name what's on it AND what you're deliberately leaving off. The leaving-off is the work.</p>
+
+  <div class="block-card green-edge">
+    <p class="field-def" style="margin-bottom:14px;">The five things on your one screen. Each one should be a metric that changes your recommendation when it changes.</p>
+    <div class="dashboard-five">
+      <div class="dashboard-slot"><div class="slot-num">1</div><input type="text" id="d-slot-1" placeholder='e.g., "Pipeline view — count/age/conversion per stage"'></div>
+      <div class="dashboard-slot"><div class="slot-num">2</div><input type="text" id="d-slot-2" placeholder='e.g., "Committed bucket dollar total"'></div>
+      <div class="dashboard-slot"><div class="slot-num">3</div><input type="text" id="d-slot-3" placeholder=""></div>
+      <div class="dashboard-slot"><div class="slot-num">4</div><input type="text" id="d-slot-4" placeholder=""></div>
+      <div class="dashboard-slot"><div class="slot-num">5</div><input type="text" id="d-slot-5" placeholder=""></div>
+    </div>
+  </div>
+
+  <div class="block-card amber-edge">
+    <div class="field" style="margin-bottom:0;">
+      <label for="leave-off">What you're deliberately leaving off the dashboard</label>
+      <p class="field-def">Be specific. Name the metrics, charts, or reports that won't be on your one screen — even though somebody (including past you) thought they should be.</p>
+      <textarea id="leave-off" placeholder="e.g., Marketing-attribution funnel. Pipeline coverage ratio. CAC by channel. Lead velocity score. Anything you don't act on weekly." style="min-height:80px;"></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your One Dashboard</h2>
+    <p>The pipeline view, the buckets, the screen, and what got left off.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Build at least the pipeline view or sort one deal to generate.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+<script>
+const EXAMPLE={
+  pipelineView:{p1:{count:"47",age:"5d",conv:"62%"},p2:{count:"29",age:"12d",conv:"41%"},p3:{count:"12",age:"9d",conv:"58%"},p4:{count:"7",age:"4d",conv:"won 5 / lost 2"}},
+  dataGaps:"Stage-age tracking needs CRM stage-date stamps. Currently we capture stage transitions in notes but don't compute age automatically. Engineering ask: 1-day to add a created_at field to the stage history table and a SUM/AVG query in the dashboard view.",
+  committed:[
+    {name:"Sarah M. \u2014 12-week PT package",value:"$2,400"},
+    {name:"Topeka acquisition follow-on",value:"$18K"},
+  ],
+  bestCase:[
+    {name:"Wichita corporate gym partnership",value:"$45K"},
+    {name:"Marathon training cohort (8 prospects)",value:"$19,200"},
+    {name:"James R. \u2014 nutrition + PT bundle",value:"$3,800"},
+  ],
+  pipeline:[
+    {name:"Q4 referral pipeline (estimated)",value:"$60K"},
+    {name:"Marathon-training email list re-engagement",value:"$40K"},
+  ],
+  dontfit:[
+    {name:"Bryan K. (said yes verbally, then went dark)",value:"$2,400"},
+    {name:"OKC corporate inquiry (no decision-maker confirmed)",value:"$30K"},
+  ],
+  dSlots:[
+    "Pipeline view \u2014 count/age/conversion across the 4 stages",
+    "Committed bucket dollar total + count of deals",
+    "Best-case bucket dollar total + count of deals",
+    "Pipeline bucket dollar total + count of deals",
+    "4-week trend line for committed + best-case combined",
+  ],
+  leaveOff:"Pipeline coverage ratio (vanity). CAC by channel (we don't use it weekly). Lead velocity score (correlated with count, not adding info). 12-stage marketing-attribution funnel (we run one motion per location, not multi-touch). Per-rep leaderboard (creates politics, not insight). Conversion-rate by lead source (looked at quarterly is enough). Weighted forecast number (the whole point of three buckets is to avoid it).",
+};
+
+let dealCounter = 0;
+
+function val(id){return (document.getElementById(id)?.value||"").toString().trim();}
+function setEl(id,v){const e=document.getElementById(id);if(e)e.value=v==null?"":v;}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function addDeal(bucket, name, value){
+  const listId = bucket + "-list";
+  const list = document.getElementById(listId);
+  if(!list)return;
+  const id = "deal-" + (++dealCounter);
+  const row = document.createElement("div");
+  row.className = "deal-row";
+  row.dataset.bucket = bucket;
+  row.innerHTML = `
+    <input type="text" data-role="name" placeholder="Deal name / prospect" value="${escapeHtml(name||'')}">
+    <input type="text" data-role="value" placeholder="$ value" value="${escapeHtml(value||'')}">
+    <button type="button" class="remove-btn" onclick="this.parentElement.remove()" title="Remove">\u00D7</button>
+  `;
+  list.appendChild(row);
+}
+
+function getDeals(bucket){
+  const list = document.getElementById(bucket + "-list");
+  if(!list)return [];
+  return Array.from(list.querySelectorAll(".deal-row")).map(row=>({
+    name: row.querySelector('[data-role="name"]').value.trim(),
+    value: row.querySelector('[data-role="value"]').value.trim(),
+  })).filter(d=>d.name||d.value);
+}
+
+function clearBucket(bucket){
+  const list = document.getElementById(bucket + "-list");
+  if(list) list.innerHTML = "";
+}
+
+function useExample(){
+  const hasContent = val("p1-count") || getDeals("committed").length > 0 || val("d-slot-1");
+  if(hasContent && !confirm("This will replace what you've entered with a worked example. Continue?")) return;
+  // Pipeline view
+  ["p1","p2","p3","p4"].forEach((p,i)=>{
+    const key = "p"+(i+1);
+    setEl(key+"-count", EXAMPLE.pipelineView[key].count);
+    setEl(key+"-age", EXAMPLE.pipelineView[key].age);
+    setEl(key+"-conv", EXAMPLE.pipelineView[key].conv);
+  });
+  setEl("data-gaps", EXAMPLE.dataGaps);
+  // Buckets
+  ["committed","best-case","pipeline","dontfit"].forEach(b=>clearBucket(b));
+  EXAMPLE.committed.forEach(d=>addDeal("committed", d.name, d.value));
+  EXAMPLE.bestCase.forEach(d=>addDeal("best-case", d.name, d.value));
+  EXAMPLE.pipeline.forEach(d=>addDeal("pipeline", d.name, d.value));
+  EXAMPLE.dontfit.forEach(d=>addDeal("dontfit", d.name, d.value));
+  // Dashboard
+  EXAMPLE.dSlots.forEach((t,i)=>setEl("d-slot-"+(i+1), t));
+  setEl("leave-off", EXAMPLE.leaveOff);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function clearAll(){
+  if(!confirm("Clear all entries and start over?"))return;
+  ["p1","p2","p3","p4"].forEach(p=>["count","age","conv"].forEach(m=>setEl(p+"-"+m,"")));
+  setEl("data-gaps","");
+  ["committed","best-case","pipeline","dontfit"].forEach(b=>clearBucket(b));
+  [1,2,3,4,5].forEach(i=>setEl("d-slot-"+i,""));
+  setEl("leave-off","");
+  document.getElementById("output-section").innerHTML = '<div class="empty-output">Build at least the pipeline view or sort one deal to generate.</div>';
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function generate(){
+  const out = document.getElementById("output-section");
+  const data = {
+    pipeline: {
+      p1: {count: val("p1-count"), age: val("p1-age"), conv: val("p1-conv")},
+      p2: {count: val("p2-count"), age: val("p2-age"), conv: val("p2-conv")},
+      p3: {count: val("p3-count"), age: val("p3-age"), conv: val("p3-conv")},
+      p4: {count: val("p4-count"), age: val("p4-age"), conv: val("p4-conv")},
+    },
+    dataGaps: val("data-gaps"),
+    buckets: {
+      committed: getDeals("committed"),
+      bestCase: getDeals("best-case"),
+      pipeline: getDeals("pipeline"),
+      dontfit: getDeals("dontfit"),
+    },
+    dSlots: [1,2,3,4,5].map(i=>val("d-slot-"+i)),
+    leaveOff: val("leave-off"),
+  };
+
+  const anyPipeline = ["p1","p2","p3","p4"].some(p => data.pipeline[p].count || data.pipeline[p].age || data.pipeline[p].conv);
+  const totalDeals = data.buckets.committed.length + data.buckets.bestCase.length + data.buckets.pipeline.length + data.buckets.dontfit.length;
+  const anyDashboard = data.dSlots.some(s=>s);
+
+  if(!anyPipeline && totalDeals === 0 && !anyDashboard){
+    out.innerHTML = '<div class="empty-output">Build at least the pipeline view, sort one deal, or design one dashboard slot to generate.</div>';
+    out.scrollIntoView({behavior:"smooth", block:"start"});
+    return;
+  }
+
+  let html = '<div class="strategy-doc">';
+
+  // Pipeline view
+  if(anyPipeline){
+    html += `<div class="strategy-block"><div class="strategy-label">Your pipeline view</div>`;
+    html += `<div class="pipeline-out">`;
+    const stageNames = ["Stage 1 \u00B7 Prospect","Stage 2 \u00B7 Discover","Stage 3 \u00B7 Propose","Stage 4 \u00B7 Close"];
+    const convLabels = ["\u2192 Discover","\u2192 Propose","\u2192 Close","Won/Lost"];
+    ["p1","p2","p3","p4"].forEach((p,i)=>{
+      const d = data.pipeline[p];
+      html += `<div class="po-col"><div class="po-head">${escapeHtml(stageNames[i])}</div><div class="po-body">`;
+      html += `<div class="po-m"><div class="po-m-lab">Count</div><div class="po-m-val ${d.count?'':'empty'}">${d.count?escapeHtml(d.count):'\u2014'}</div></div>`;
+      html += `<div class="po-m"><div class="po-m-lab">Avg age</div><div class="po-m-val ${d.age?'':'empty'}">${d.age?escapeHtml(d.age):'\u2014'}</div></div>`;
+      html += `<div class="po-m"><div class="po-m-lab">Conv ${convLabels[i]}</div><div class="po-m-val ${d.conv?'':'empty'}">${d.conv?escapeHtml(d.conv):'\u2014'}</div></div>`;
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+    if(data.dataGaps){
+      html += `<div style="margin-top:14px;padding:12px 14px;background:var(--cream-soft);border-left:3px solid var(--amber);border-radius:0;font-family:var(--font-display);font-size:13px;color:var(--ink-soft);"><strong style="color:var(--amber);font-family:var(--font-body);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;">Data gaps to close:</strong><br>${escapeHtml(data.dataGaps)}</div>`;
+    }
+    html += `</div>`;
+  }
+
+  // Forecast buckets
+  if(totalDeals > 0){
+    html += `<div class="strategy-block"><div class="strategy-label">Your forecast buckets</div>`;
+    html += `<div class="bucket-out">`;
+    const bMap = [
+      {key:"committed", name:"Committed", deals:data.buckets.committed},
+      {key:"best-case", name:"Best-case", deals:data.buckets.bestCase},
+      {key:"pipeline-b", name:"Pipeline", deals:data.buckets.pipeline},
+    ];
+    bMap.forEach(b=>{
+      html += `<div class="bo-col ${b.key}"><div class="bo-name">${b.name} \u00B7 ${b.deals.length}</div><div class="bo-deals">`;
+      if(b.deals.length === 0){
+        html += `<div class="bo-empty">No deals sorted here.</div>`;
+      } else {
+        b.deals.forEach(d=>{
+          html += `<div class="bo-deal">${escapeHtml(d.name)}${d.value?' \u00B7 <strong>'+escapeHtml(d.value)+'</strong>':''}</div>`;
+        });
+      }
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+    // Don't-fit section
+    if(data.buckets.dontfit.length > 0){
+      html += `<div style="margin-top:12px;padding:12px 14px;background:var(--cream-soft);border-left:3px solid var(--amber);border-radius:0;font-family:var(--font-display);font-size:13px;color:var(--ink-soft);">`;
+      html += `<div style="font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:6px;">Deals that don't cleanly fit \u00B7 ${data.buckets.dontfit.length}</div>`;
+      data.buckets.dontfit.forEach(d=>{
+        html += `<div style="padding:3px 0;">\u2022 ${escapeHtml(d.name)}${d.value?' \u00B7 <strong>'+escapeHtml(d.value)+'</strong>':''}</div>`;
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+
+  // Dashboard design
+  if(anyDashboard || data.leaveOff){
+    html += `<div class="strategy-block"><div class="strategy-label">Your one dashboard</div>`;
+    html += `<div class="dashboard-out"><div class="do-bar">SALES DASHBOARD \u00B7 MONDAY MORNING</div><div class="do-grid">`;
+    data.dSlots.forEach((slot,i)=>{
+      const isEmpty = !slot;
+      html += `<div class="do-slot ${isEmpty?'empty':''}"><div class="do-slot-num">${i+1}</div><div class="do-slot-text">${slot?escapeHtml(slot):'\u2014 slot not yet filled'}</div></div>`;
+    });
+    html += `</div></div>`;
+    if(data.leaveOff){
+      html += `<div class="leave-off-out"><div class="lo-label">Deliberately left off</div><div class="lo-text">${escapeHtml(data.leaveOff)}</div></div>`;
+    }
+    html += `</div>`;
+  }
+
+  html += '</div>';
+
+  // Teaching detectors
+  const obs = [];
+
+  // Detector 1: Stage-age inflation hint — look for ages that suggest deals are stalled
+  const ageWarnings = [];
+  ["p1","p2","p3"].forEach((p,i)=>{
+    const ageStr = data.pipeline[p].age;
+    if(!ageStr) return;
+    // Extract numeric value from age string (e.g. "12d" -> 12, "3 weeks" -> ?)
+    const match = ageStr.match(/(\d+)\s*(d|day|days|w|wk|week|weeks|m|month|months)?/i);
+    if(match){
+      const n = parseInt(match[1]);
+      const unit = (match[2]||"d").toLowerCase();
+      const days = unit.startsWith("d") ? n : unit.startsWith("w") ? n*7 : unit.startsWith("m") ? n*30 : n;
+      // Heuristic: > 14 days in discover or > 21 days in propose is worth flagging
+      if(i === 1 && days > 14) ageWarnings.push(`Discover stage at ${ageStr} \u2014 deals may be stalling in discovery`);
+      if(i === 2 && days > 21) ageWarnings.push(`Propose stage at ${ageStr} \u2014 deals may be sitting in proposal limbo`);
+    }
+  });
+  if(ageWarnings.length > 0){
+    obs.push({warn:true, text:`<strong>Stage-age signal firing.</strong> ${ageWarnings.join('. ')}. This is the leading indicator from this session \u2014 conversion mechanics have likely changed, weeks before the close rate will move. Worth investigating which deals are stuck and why.`});
+  }
+
+  // Detector 2: Conversion erosion — look for the diagnostic intersection (high age + low conversion)
+  const erosionStages = [];
+  ["p1","p2","p3"].forEach((p,i)=>{
+    const convStr = data.pipeline[p].conv;
+    const ageStr = data.pipeline[p].age;
+    if(!convStr || !ageStr) return;
+    const convMatch = convStr.match(/(\d+)\s*%/);
+    if(convMatch){
+      const conv = parseInt(convMatch[1]);
+      const ageMatch = ageStr.match(/(\d+)/);
+      const age = ageMatch ? parseInt(ageMatch[1]) : 0;
+      if(conv < 50 && age > 10){
+        erosionStages.push(["Prospect","Discover","Propose"][i]);
+      }
+    }
+  });
+  if(erosionStages.length > 0){
+    obs.push({warn:true, text:`<strong>Age rising AND conversion dropping at: ${erosionStages.join(', ')}.</strong> This is the intersection where deals are dying. Most pipeline reports won't show you this because they only show count. Investigate what's changed at this stage \u2014 it's usually a discovery or proposal-handling issue.`});
+  }
+
+  // Detector 3: Forecast bucket balance — too many deals in committed vs. evidence
+  if(data.buckets.committed.length > data.buckets.bestCase.length + data.buckets.pipeline.length){
+    obs.push({warn:true, text:`<strong>More deals in committed than in best-case + pipeline combined.</strong> That's an inverted funnel \u2014 highly unusual and usually means your team's definition of 'committed' has loosened. Check: do these deals have written or verbal YES, waiting only on signature? Or are some of them "looking really good"? Tighten the definition before this becomes a forecast accuracy problem.`});
+  }
+
+  // Detector 4: Don't-fit bucket is large
+  if(data.buckets.dontfit.length >= 3){
+    obs.push(`<strong>${data.buckets.dontfit.length} deals don't cleanly fit any bucket.</strong> That's not a forecasting failure \u2014 it's actionable information. These are the deals you don't understand yet. Pick the top one and ask: what one specific piece of information would let you place it in a bucket? Go get that information this week.`);
+  } else if(data.buckets.dontfit.length === 0 && totalDeals >= 5){
+    obs.push({warn:true, text:`<strong>Zero deals in the don't-fit bucket.</strong> When you have ${totalDeals} active deals and every one cleanly fits a bucket, two possibilities: either your bucket definitions are well-internalized (good), or you're being optimistic about which bucket deals belong in (more common). Honest re-check: would you bet personal money on the committed-bucket deals closing this month?`});
+  }
+
+  // Detector 5: Dashboard discipline — too many vanity metrics
+  const slotsText = data.dSlots.filter(s=>s).join(" ").toLowerCase();
+  const vanityRegex = /\b(cac by channel|lvs|lead velocity|attribution funnel|coverage ratio|nps|cohort|burn rate|net promoter|ltv:cac|leaderboard)\b/i;
+  if(vanityRegex.test(slotsText)){
+    obs.push({warn:true, text:`<strong>One of your five dashboard slots looks like a vanity metric.</strong> CAC by channel, lead velocity scoring, attribution funnels, coverage ratios \u2014 these belong in quarterly review, not on the Monday-morning screen. The test: does this metric change your recommendation when it changes? If not, it goes on the leave-off list.`});
+  }
+
+  // Detector 6: Weighted forecasting attempt — "weighted" or "%" in dashboard slots
+  const weightedRegex = /\b(weighted|probability|%\s*close|expected value|forecast probability)\b/i;
+  if(weightedRegex.test(slotsText)){
+    obs.push({warn:true, text:`<strong>One of your dashboard slots mentions weighted or probability forecasting.</strong> The whole point of three buckets is to avoid a single weighted number that lies twice \u2014 at the math layer and the political layer. Replace this with one of the three bucket totals, not a weighted average.`});
+  }
+
+  // Detector 7: Leave-off discipline
+  if(!data.leaveOff && data.dSlots.filter(s=>s).length >= 3){
+    obs.push({warn:true, text:`<strong>You filled dashboard slots but didn't name what you're leaving off.</strong> The leaving-off IS the work \u2014 it's where the discipline lives. Half the metrics on most owner dashboards are vanity, another quarter are correlated with the metrics that matter. Name explicitly what isn't going on the screen.`});
+  } else if(data.leaveOff){
+    const leaveOffLen = data.leaveOff.split(/[,.;\n]/).filter(s=>s.trim()).length;
+    if(leaveOffLen >= 5){
+      obs.push(`<strong>You named ${leaveOffLen} things you're leaving off.</strong> That's the discipline. The dashboard that produces decisions is the one you had the conviction to subtract from. Print the dashboard on one page and post it where you can see it Monday morning.`);
+    }
+  }
+
+  // Detector 8: Pipeline data gaps (lots of empty cells)
+  const totalCells = 12;
+  const filledCells = ["p1","p2","p3","p4"].reduce((acc,p)=>{
+    return acc + (data.pipeline[p].count?1:0) + (data.pipeline[p].age?1:0) + (data.pipeline[p].conv?1:0);
+  }, 0);
+  if(anyPipeline && filledCells < 6){
+    obs.push({warn:true, text:`<strong>Only ${filledCells} of 12 pipeline cells filled.</strong> The pipeline view doesn't work without the data. The most important thing this week isn't building the dashboard \u2014 it's filling the gaps you flagged in step 1. Pick the one piece of data that would let you fill the most cells and get it Monday.`});
+  } else if(filledCells === 12){
+    obs.push(`<strong>All 12 pipeline cells filled.</strong> The data discipline is in place \u2014 most owners can't fill more than half. Now the test is whether the numbers move week-over-week and whether you act on what they say.`);
+  }
+
+  obs.forEach(o=>{
+    if(typeof o === "string") html += `<div class="observation">${o}</div>`;
+    else html += `<div class="observation ${o.warn?'warn':''}">${o.text}</div>`;
+  });
+
+  out.innerHTML = html;
+  out.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+// Initial state: one empty deal row per bucket
+addDeal("committed");
+addDeal("best-case");
+addDeal("pipeline");
+</script>
+</body>
+</html>

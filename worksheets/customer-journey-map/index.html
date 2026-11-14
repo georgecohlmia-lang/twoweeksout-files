@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Journey Map Worksheet · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+
+:root{
+  --ink:#10131a; --paper:#fbfaf6; --white:#ffffff; --cobalt:#2747f5; --cobalt2:#1b36c9; --signal:#ff5a1f;
+  --slate:#59616e; --fog:#9ba3af; --sky:#93abff; --mist:#e9ecf5; --line:#d5d9e4; --inkline:#2c313c; --onink:#c9ced8;
+  --good:#0d6b4c; --good-tint:#e2f5ea; --warn:#7d5300; --warn-tint:#fff3cd; --danger:#b3261e; --danger-tint:#fde9e7;
+  --module:#F986DD;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+  --text:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--module);border-bottom:2px solid var(--ink)}
+.two-wm{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.two-mod{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header.top{padding:52px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.deck{font-size:18px;color:var(--slate);max-width:700px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.btn{border:2px solid var(--ink);background:var(--white);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.btn.primary:hover{background:var(--cobalt2);border-color:var(--cobalt2)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.ink:hover{background:var(--inkline)}
+.btn.quiet{border-color:var(--line);color:var(--slate);font-weight:500}
+.saved{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);margin-left:auto}
+.meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:22px}
+.meta label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date],select,textarea{width:100%;background:var(--white);border:1px solid var(--line);border-bottom:2px solid var(--ink);padding:10px 12px;border-radius:0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--mist)}
+textarea{resize:vertical;min-height:64px;line-height:1.5;overflow:hidden}
+::placeholder{color:#8a919c}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-top:28px}
+.progress .wrap{display:flex;gap:6px;padding:12px 24px;flex-wrap:wrap}
+.step-pill{flex:1 1 180px;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--white);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--slate);text-decoration:none}
+.step-pill b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog)}
+.step-pill.done{border-color:var(--good);color:var(--good);background:var(--good-tint)}
+.step-pill.done b{color:var(--good)}
+
+section.step{padding:52px 0 8px}
+.step-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.step-num{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--cobalt)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);line-height:1.05;letter-spacing:-.035em}
+.intro{color:var(--slate);max-width:720px;margin:10px 0 22px}
+.group-label{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px;display:flex;gap:12px;align-items:center}
+.group-label::after{content:"";flex:1;height:2px;background:var(--ink)}
+.group-note{font-size:14px;color:var(--slate);margin:-4px 0 14px;max-width:720px}
+
+.box{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:12px}
+.box.money{border-left-color:var(--cobalt)}
+.box-top{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-bottom:12px}
+.box-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.box-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.box-q{grid-column:2;font-size:14px;color:var(--slate)}
+.box-q b{color:var(--ink);font-weight:600}
+.len{font-size:12px;color:var(--fog);margin-top:6px;min-height:18px}
+.len.long{color:var(--warn)}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.marks .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark:hover{border-color:var(--ink)}
+.mark[aria-pressed=true][data-m=known]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=assumed]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.mark[aria-pressed=true][data-m=unknown]{background:var(--mist);border-color:var(--ink);color:var(--ink)}
+.evidence{margin-top:12px;display:none}
+.evidence.show{display:block}
+.evidence label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.evidence label span{font-weight:400;color:var(--slate)}
+.flag{font-size:13px;margin-top:8px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.flag.show{display:block}
+
+.callout{background:var(--ink);color:var(--paper);padding:22px 26px;margin:6px 0 18px}
+.callout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.callout p{color:var(--onink);font-size:15px}
+.callout p b{color:#fff}
+
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 14px}
+.tally div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.tally .v{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.tally .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.tally .known .v{color:var(--good)} .tally .assumed .v{color:var(--warn)}
+.read{padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:760px}
+.read.alert{border-left-color:var(--danger);background:var(--danger-tint)}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pick label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.pick label:hover{border-color:var(--ink)}
+.pick input{margin-top:3px;accent-color:var(--cobalt)}
+.pick label.on{border:2px solid var(--signal);padding:11px 13px}
+.pick small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.pick small.known{color:var(--good)} .pick small.assumed{color:var(--warn)} .pick small.unknown{color:var(--slate)}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.field .help{font-size:13px;color:var(--slate);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:grid;gap:8px;margin:6px 0 4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--white);border:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--good)}
+.reopen{display:flex;flex-wrap:wrap;gap:8px}
+.reopen label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:7px 12px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.reopen input{accent-color:var(--cobalt)}
+
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.summary div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.summary h5{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.summary p{font-size:14.5px;white-space:pre-wrap}
+.next{margin:44px 0 70px;padding:24px 26px;border:2px solid var(--ink);background:var(--white)}
+.next .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px}
+.next p{color:var(--slate)}
+.print-only{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;display:none;z-index:50}
+.toast.show{display:block}
+@media print{input[type=date]::-webkit-calendar-picker-indicator{display:none}select{background-image:none}}
+
+.mode{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.mode label{display:flex;gap:8px;align-items:center;padding:9px 14px;background:var(--white);border:1px solid var(--line);font-size:14px;font-weight:600;cursor:pointer}
+.mode label.on{border:2px solid var(--signal);padding:8px 13px}
+.mode input{accent-color:var(--cobalt)}
+.trigger{background:var(--white);border:2px solid var(--ink);padding:22px 24px}
+.trigger textarea{min-height:56px;font-size:17px}
+.ex-note{display:none;margin:0 0 16px;padding:12px 16px;background:var(--warn-tint);color:var(--warn);font-size:14px;max-width:760px}
+.ex-note.show{display:block}
+.rowcard{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:18px 20px;margin-bottom:12px}
+.rowcard.after{border-left-color:var(--cobalt)}
+.rowcard.stall{outline:3px solid var(--signal);outline-offset:-1px}
+.rc-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.rc-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog);min-width:24px}
+.rc-top select{width:auto;flex:0 1 220px;padding:7px 10px;font-size:13px;font-weight:600}
+.rc-tools{margin-left:auto;display:flex;gap:6px}
+.ibtn{border:1px solid var(--line);background:var(--paper);min-width:34px;height:34px;padding:0 10px;font-size:13px;font-weight:600;cursor:pointer}
+.ibtn:hover{border-color:var(--ink)}
+.ibtn:disabled{opacity:.35;cursor:default}
+.qlabel{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.q textarea{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.02em;min-height:0;resize:none}
+.cols4{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.cols4 label{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
+.cols4 label span{font-weight:400;color:var(--slate)}
+.cols4 .believe label{color:var(--cobalt)}
+.cols4 textarea{min-height:58px;font-size:14.5px}
+.hint{font-size:13px;margin-top:10px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.hint.show{display:block}
+.addrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 4px}
+.addrow .count{font-size:14px;color:var(--slate)}
+.health{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0 14px}
+.health>div{background:var(--white);border:1px solid var(--line);padding:14px 16px;min-width:0}
+.health .v{font-family:var(--display);font-weight:800;font-size:34px;line-height:1;letter-spacing:-.03em}
+.health .l{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.health .ok .v{color:var(--good)} .health .no .v{color:var(--warn)}
+.reads{display:grid;gap:8px}
+.read{padding:12px 16px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:14.5px;max-width:800px}
+.read.alert{border-left-color:var(--warn);background:var(--warn-tint);color:#5c3d00}
+.read.good{border-left-color:var(--good);background:var(--good-tint);color:#0a4f38}
+.stallpick{display:grid;gap:8px;margin-bottom:16px}
+.stallpick label{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:15px;font-weight:600}
+.stallpick label.on{border:2px solid var(--signal);padding:11px 13px}
+.stallpick small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);font-weight:700}
+.stallpick input{margin-top:4px;accent-color:var(--signal)}
+.out-head{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;justify-content:space-between}
+.stamp{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;background:var(--warn-tint);color:var(--warn);border:1px solid var(--warn)}
+.stamp.v2{background:var(--good-tint);color:var(--good);border-color:var(--good)}
+.trigbar{margin:14px 0 12px;padding:14px 18px;background:var(--ink);color:#fff}
+.trigbar b{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);display:block;margin-bottom:4px}
+.scroll{overflow-x:auto;border:2px solid var(--ink)}
+table.jmap{border-collapse:collapse;width:100%;min-width:860px;background:var(--white);font-size:13.5px;line-height:1.45}
+.jmap th{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:10px;background:var(--mist);border-bottom:2px solid var(--ink);vertical-align:bottom}
+.jmap th.b{color:var(--cobalt)}
+.jmap td{padding:10px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;white-space:pre-wrap}
+.jmap td:last-child,.jmap th:last-child{border-right:none}
+.jmap td.q{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:-.01em;width:20%}
+.jmap td.ph{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);width:11%}
+.jmap td.n{font-family:var(--mono);font-weight:700;color:var(--fog);width:3%}
+.jmap td.e{color:var(--fog)}
+.jmap tr.salebreak td{background:var(--ink);color:#fff;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border:none}
+.jmap tr.stall td{background:#fff1ea}
+.jmap tr.stall td.q::after{content:"Stalls longest";display:block;margin-top:6px;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--signal);color:var(--ink);padding:2px 6px;width:max-content}
+@media (max-width:760px){
+  .meta,.grid2,.summary,.cols4{grid-template-columns:1fr}
+  .health{grid-template-columns:1fr 1fr}
+  .progress{position:static}
+  .rc-top select{flex:1 1 100%}
+  .rc-tools{margin-left:0}
+}
+@media print{
+  @page{size:letter landscape;margin:.4in}
+  body{background:#fff;font-size:10pt}
+  .two-band,.toolbar,.progress,section.step,.next,.toast,.saved,.no-print,.mode{display:none!important}
+  header.top{padding:0 0 8px;border-bottom:2px solid #000}
+  h1{font-size:18pt;margin:2px 0}
+  .eyebrow{font-size:8pt}
+  .meta label{font-size:7pt;margin-bottom:2px}
+  .trigbar{padding:7px 12px;margin:8px 0}
+  .out-head h2{font-size:13pt!important}
+  .jmap th{padding:5px 7px;font-size:7pt}
+  .jmap td{padding:5px 7px}
+  .summary{margin-top:8px}.summary div{padding:8px 12px}.summary p{font-size:9pt}
+  .deck{display:none}
+  .meta{grid-template-columns:2fr 1fr 1fr;margin-top:8px}
+  .meta input,.meta select{border:none;border-bottom:1px solid #999;padding:2px 0;-webkit-appearance:none;appearance:none}
+  #out{display:block!important;padding-top:8px}
+  #out h2{font-size:15pt}
+  .scroll{overflow:visible}
+  table.jmap{min-width:0;font-size:8.5pt}
+  .jmap td.q{font-size:9.5pt}
+  .jmap tr{page-break-inside:avoid}
+  .jmap th,.jmap td,.trigbar,.stamp,.summary div,.jmap tr.salebreak td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .summary{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">06 / Build What Customers Want</span></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Worksheet · Mapping the Customer Journey</div>
+  <h1>Draw it from <em>their seat.</em></h1>
+  <p class="deck">Start before they’ve heard of you. Name each row by the question the customer is holding, fill all four columns in their words, and keep going past the sale. Then mark it a draft: the next session replaces your guesses with what customers actually did.</p>
+  <div class="toolbar">
+    <button class="btn primary" id="useExample" type="button">Use the lesson’s example</button>
+    <button class="btn ink" id="printBtn" type="button">Print / Save as PDF</button>
+    <button class="btn" id="xlsxBtn" type="button">Download to Excel</button>
+    <button class="btn quiet" id="clearBtn" type="button">Clear all</button>
+    <span class="saved" id="saved">Saves automatically in this browser</span>
+  </div>
+  <div class="meta">
+    <div><label for="bizName">Business</label><input type="text" id="bizName" data-k="bizName" placeholder="Your business, or the one you’re planning"></div>
+    <div><label for="status">Map status</label>
+      <select id="status" data-k="status"><option value="draft">Draft: what I believe today</option><option value="v2">Version 2: from customer interviews</option></select></div>
+    <div><label for="mDate">Date</label><input type="date" id="mDate" data-k="mDate"></div>
+  </div>
+  <div class="mode" id="modePick">
+    <label id="mode-live"><input type="radio" name="mode" data-k="mode" value="live"> I have customers</label>
+    <label id="mode-pre"><input type="radio" name="mode" data-k="mode" value="pre"> I’m pre-launch</label>
+  </div>
+</header>
+</div>
+
+<nav class="progress" aria-label="Progress">
+  <div class="wrap">
+    <a class="step-pill" id="p1" href="#s1"><b>01</b><span>Guess the trigger</span></a>
+    <a class="step-pill" id="p2" href="#s2"><b>02</b><span>Name the rows <span id="p2n">0</span></span></a>
+    <a class="step-pill" id="p3" href="#s2"><b>03</b><span>Fill four columns <span id="p3n">0/0</span></span></a>
+    <a class="step-pill" id="p4" href="#s4"><b>04</b><span>Circle the stall</span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section class="step" id="s1">
+  <div class="step-head"><span class="step-num">STEP 01</span></div>
+  <h2>Write your guess at the trigger. One sentence.</h2>
+  <p class="intro">The first row is the one before you exist. A number came back wrong. A colleague said something that stuck. A parent got a diagnosis. People don’t wake up wanting what you sell. They wake up having had something happen, and then they go looking. <b>Don’t ask why they chose you. Ask what was going on the week they started looking.</b></p>
+  <div class="trigger">
+    <label class="qlabel" for="trigger">My guess at the trigger</label>
+    <textarea id="trigger" data-k="trigger" placeholder="e.g., Their bookkeeper quit in the middle of tax season and nobody else knew the system."></textarea>
+    <p class="help" id="trigHelp" style="font-size:13px;color:var(--slate);margin-top:8px">Keep it. When you talk to real customers you’ll find out, and the gap between your guess and their answer is usually the most useful thing on the page.</p>
+  </div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head"><span class="step-num">STEP 02 + 03</span></div>
+  <h2>Name every row by the question they’re holding. Then fill four columns.</h2>
+  <p class="intro" id="rowsIntro">A new row starts when the question in the customer’s head changes. Not when your process hands off, and not when a system logs something. Five to nine rows covers most businesses. Write every column in the customer’s words, not yours.</p>
+  <div class="ex-note" id="exNote">The lesson gives the seven row questions and the detail behind rows one, two and seven, plus what the month-two and month-fourteen members are working out. Cells it doesn’t cover are left blank rather than made up. A month-six row is missing on purpose: after the signature, Upstream’s map stopped.</div>
+  <div id="rows"></div>
+  <div class="addrow">
+    <button class="btn" type="button" id="addRow">+ Add a row</button>
+    <span class="count" id="rowCount"></span>
+  </div>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head"><span class="step-num">CHECK</span></div>
+  <h2>Is this their journey, or your process?</h2>
+  <div class="health">
+    <div id="h1"><div class="v" id="hRows">0</div><div class="l">Rows</div></div>
+    <div id="h2"><div class="v" id="hFull">0</div><div class="l">Rows with all four</div></div>
+    <div id="h3"><div class="v" id="hBelieve">0</div><div class="l">“Need to believe” filled</div></div>
+    <div id="h4"><div class="v" id="hAfter">0</div><div class="l">Rows after the sale</div></div>
+  </div>
+  <div class="reads" id="reads"></div>
+</section>
+
+<section class="step" id="s4">
+  <div class="step-head"><span class="step-num">STEP 04</span></div>
+  <h2>Circle the row where people stall longest.</h2>
+  <p class="intro">Journeys stall where something the customer doubts hasn’t been resolved yet. Look hardest at the “need to believe” column. Then put a clock on it: how long do you think people sit in that row?</p>
+  <div class="stallpick" id="stallPick"></div>
+  <div class="grid2">
+    <div class="field"><label for="stallWhy">Why you think they stall there</label><p class="help">What hasn’t been resolved for them yet?</p><textarea id="stallWhy" data-k="stallWhy" placeholder="e.g., They need to believe the price holds after year one, and nothing we hand them says so."></textarea></div>
+    <div class="field"><label for="stallTime">How long you think they sit there</label><p class="help">Your guess now. Interviews will tell you the real number.</p><textarea id="stallTime" data-k="stallTime" placeholder="e.g., A few days"></textarea></div>
+  </div>
+  <div class="field">
+    <label for="askNext">What you most want to ask a real customer</label>
+    <p class="help">Bring this into Interviewing for the Journey.</p>
+    <textarea id="askNext" data-k="askNext" placeholder="e.g., What was going on the week you started looking?"></textarea>
+  </div>
+</section>
+
+<section id="out" class="step">
+  <div class="step-head"><span class="step-num">YOUR MAP</span></div>
+  <div class="out-head"><h2 id="outTitle">Your customer journey</h2><span class="stamp" id="stamp">Draft · what I believe today</span></div>
+  <div class="trigbar"><b>Trigger (my guess)</b><span id="oTrig">Not written yet.</span></div>
+  <div class="scroll"><table class="jmap" id="jmap"></table></div>
+  <div class="summary">
+    <div><h5>Where I think they stall longest</h5><p id="sStall">Not circled yet.</p></div>
+    <div><h5>What I most want to ask a real customer</h5><p id="sAsk">Not written yet.</p></div>
+  </div>
+</section>
+
+<div class="next no-print">
+  <div class="k">Next session</div>
+  <p><b style="color:var(--ink)">Interviewing for the Journey.</b> Bring this draft. You’ll replace your guesses with what customers actually did, starting with the trigger.</p>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY='two_cjm_v1';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  var savedEl=document.getElementById('saved'),t0,tt;
+  function flash(s){savedEl.textContent=s;clearTimeout(t0);t0=setTimeout(function(){savedEl.textContent='Saves automatically in this browser'},1200)}
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));flash('Saved')}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function plusDays(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+  function nice(s){if(!s)return '';var p=s.split('-');if(p.length!==3)return s;var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1];return m+' '+(+p[2])+', '+p[0]}
+  function toast(s){var el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2800)}
+  function t(v){return String(v==null?'':v).trim()}
+  function bindStatic(){
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var k=el.dataset.k,v=state[k];
+      if(el.type==='checkbox') el.checked=!!v;
+      else if(el.type==='radio') el.checked=(v===el.value);
+      else el.value=v!=null?v:'';
+    });
+  }
+  function onField(e){
+    var el=e.target,k=el.dataset&&el.dataset.k;
+    if(!k)return false;
+    if(el.type==='radio'){if(!el.checked)return true;state[k]=el.value}
+    else state[k]=el.type==='checkbox'?el.checked:el.value;
+    persist();render();return true;
+  }
+  function fileName(base,suffix){return ((t(state.bizName)||base).replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||base)+(suffix||'')+'.xlsx'}
+  function sheet(rows,cols){var ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=cols.map(function(w){return{wch:w}});return ws}
+  function grow(el){if(el.offsetParent===null)return;el.style.height='auto';el.style.height=(el.scrollHeight+3)+'px'}
+  function growAll(){document.querySelectorAll('textarea').forEach(grow)}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target)});
+  var rzT;window.addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(growAll,120)});
+  setTimeout(growAll,0);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(growAll);
+  function wire(opts){
+    document.getElementById('useExample').addEventListener('click',function(){
+      if(opts.hasData()&&!confirm('Replace what you’ve entered with the lesson’s example? Your current answers will be cleared.'))return;
+      state=opts.example();opts.rebuild();persist();render();growAll();toast('The lesson’s example is loaded. Edit anything to make it yours.');
+    });
+    document.getElementById('clearBtn').addEventListener('click',function(){
+      if(!confirm('Clear every answer on this worksheet? This can’t be undone.'))return;
+      try{localStorage.removeItem(KEY)}catch(e){}
+      state=opts.fresh();opts.rebuild();persist();render();growAll();
+    });
+    document.getElementById('printBtn').addEventListener('click',function(){render();window.print()});
+    document.getElementById('xlsxBtn').addEventListener('click',function(){
+      if(typeof XLSX==='undefined'){toast('The Excel export couldn’t load. Check your connection and try again.');return}
+      opts.xlsx();
+    });
+  }
+
+  var PHASES=[
+    ['before','Before they know you',0],['looking','Looking and choosing',0],['sale','At the sale',0],
+    ['m2','Month two',1],['m6','Month six',1],['m14','Month fourteen',1],['after','Later, after the sale',1]];
+  var PRE={before:'Before they look for help',looking:'Looking for a fix',sale:'When they pay for a fix',m2:'Month two of the fix',m6:'Month six of the fix',m14:'Month fourteen of the fix',after:'Later on'};
+  function phaseName(id){if(state.mode==='pre'&&PRE[id])return PRE[id];var p=PHASES.filter(function(x){return x[0]===id})[0];return p?p[1]:''}
+  function isAfter(id){var p=PHASES.filter(function(x){return x[0]===id})[0];return !!(p&&p[2])}
+  var QPH={before:'e.g., Something is wrong and nobody has fixed it.',looking:'e.g., Who do people I trust use?',sale:'e.g., Can we keep paying for this?',m2:'e.g., Was this worth the money?',m6:'e.g., Is this still working for me?',m14:'e.g., What else could they do for me?',after:'The question they’re holding now'};
+  var COLS=[['doing','What they’re doing','the literal action','e.g., Asking a friend; searching at night; sitting in a waiting room'],
+            ['feeling','What they’re feeling','the specific worry or hope','e.g., Worried it’ll cost more than they can carry'],
+            ['believe','What they need to believe to take the next step','the one owners skip','e.g., That this is for someone like me'],
+            ['drop','Where they drop','who stops, and what was in front of them','e.g., After the first call, when the price came up']];
+  var FUNNEL=/^\s*(awareness|interest|consideration|evaluation|research|purchase|decision|intake|onboarding|lead|leads|conversion|retention|sign[- ]?up|sale|sales|closing|follow[- ]?up|nurture|discovery|proposal|activation|renewal|upsell)\b/i;
+  function blankRow(ph){return{phase:ph,q:'',doing:'',feeling:'',believe:'',drop:''}}
+  function fresh(){return{mDate:iso(new Date()),status:'draft',mode:'live',stall:'',rows:['before','looking','looking','sale','m2','m6','m14'].map(blankRow)}}
+  var EXAMPLE=function(){return{
+    bizName:'Upstream Medicine (the lesson’s example)',status:'draft',mode:'live',mDate:iso(new Date()),ex:true,
+    trigger:'Something is wrong and nobody has fixed it: they’ve already been through three or four specialists without an answer.',
+    rows:[
+      {phase:'before',q:'Something is wrong and nobody has fixed it.',doing:'Going through three or four specialists without an answer.',feeling:'',believe:'',drop:''},
+      {phase:'looking',q:'Who do people I trust rate?',doing:'Asking someone they trust. Most were sent by another physician.',feeling:'',believe:'',drop:''},
+      {phase:'looking',q:'Is this the kind of thing I want?',doing:'',feeling:'',believe:'',drop:''},
+      {phase:'looking',q:'Are these people serious?',doing:'',feeling:'',believe:'',drop:''},
+      {phase:'looking',q:'What am I walking into?',doing:'',feeling:'',believe:'',drop:''},
+      {phase:'looking',q:'Can they help with my thing?',doing:'',feeling:'',believe:'',drop:''},
+      {phase:'sale',q:'Can we carry this indefinitely?',doing:'Talking it over at a kitchen table with a spouse, days later, repeating a conversation they only half remember.',feeling:'Not about the medicine. Worried about whether they can keep paying for it.',believe:'We can keep paying for this, indefinitely.',drop:'Two people took a consultation and never signed. Nothing from the practice went home with them.'},
+      {phase:'m2',q:'Was this worth the money?',doing:'',feeling:'',believe:'',drop:''},
+      {phase:'m14',q:'What doesn’t the practice do yet?',doing:'Noticing what the practice doesn’t do yet.',feeling:'Stopped thinking about the cost a while ago.',believe:'',drop:''}
+    ],
+    stall:'6',
+    stallWhy:'Row seven isn’t about the medicine. The person who has to believe it isn’t in the room. It gets resolved at a kitchen table with a spouse, and nothing the practice built goes home with them.',
+    stallTime:'Six to eleven weeks from consultation to signature. The physicians had assumed days.',
+    askNext:'What would have had to be true for you to sign that month?'
+  }};
+  if(!state.rows){var f=fresh();Object.keys(f).forEach(function(k){if(state[k]==null)state[k]=f[k]})}
+  if(!state.mDate)state.mDate=iso(new Date());
+
+  var rowsEl=document.getElementById('rows');
+  function rowHTML(r,i,n){
+    var opts=PHASES.map(function(p){return '<option value="'+p[0]+'"'+(r.phase===p[0]?' selected':'')+'>'+esc(phaseName(p[0]))+'</option>'}).join('');
+    return '<div class="rowcard'+(isAfter(r.phase)?' after':'')+(String(i)===String(state.stall)?' stall':'')+'" id="rc'+i+'">'+
+      '<div class="rc-top"><span class="rc-n">'+String(i+1).padStart(2,'0')+'</span>'+
+      '<select data-r="'+i+'" data-f="phase" aria-label="Where in the journey">'+opts+'</select>'+
+      '<span class="rc-tools"><button type="button" class="ibtn" data-act="up" data-i="'+i+'" aria-label="Move row up"'+(i===0?' disabled':'')+'>↑</button>'+
+      '<button type="button" class="ibtn" data-act="down" data-i="'+i+'" aria-label="Move row down"'+(i===n-1?' disabled':'')+'>↓</button>'+
+      '<button type="button" class="ibtn" data-act="del" data-i="'+i+'" aria-label="Remove row">Remove</button></span></div>'+
+      '<div class="q"><label class="qlabel" for="q'+i+'">The question they’re holding</label><textarea rows="1" id="q'+i+'" data-r="'+i+'" data-f="q" placeholder="'+esc(QPH[r.phase]||QPH.after)+'">'+esc(r.q)+'</textarea></div>'+
+      '<div class="cols4">'+COLS.map(function(c){return '<div class="'+c[0]+'"><label for="'+c[0]+i+'">'+c[1]+' <span>· '+c[2]+'</span></label><textarea id="'+c[0]+i+'" data-r="'+i+'" data-f="'+c[0]+'" rows="2" placeholder="'+esc(c[3])+'">'+esc(r[c[0]])+'</textarea></div>'}).join('')+'</div>'+
+      '<div class="hint" id="hq'+i+'">That reads like a stage of your process. Name the row by the question in the customer’s head, in their words.</div>'+
+      '<div class="hint" id="hc'+i+'">Only the first column is filled. A map like that is your operations diagram with the customer’s name on it.</div>'+
+    '</div>';
+  }
+  function buildRows(){var n=state.rows.length;rowsEl.innerHTML=state.rows.map(function(r,i){return rowHTML(r,i,n)}).join('');growAll()}
+  function rebuild(){bindStatic();buildRows();}
+
+  rowsEl.addEventListener('input',function(e){
+    var el=e.target;if(el.dataset.r==null)return;
+    var r=state.rows[+el.dataset.r];r[el.dataset.f]=el.value;
+    if(el.dataset.f==='phase'){document.getElementById('rc'+el.dataset.r).classList.toggle('after',isAfter(el.value));var q=document.getElementById('q'+el.dataset.r);q.placeholder=QPH[el.value]||QPH.after}
+    persist();render();
+  });
+  rowsEl.addEventListener('click',function(e){
+    var b=e.target.closest('[data-act]');if(!b)return;var i=+b.dataset.i,R=state.rows,s=state.stall===''||state.stall==null?-1:+state.stall;
+    if(b.dataset.act==='del'){
+      var r=R[i];if((r.q||r.doing||r.feeling||r.believe||r.drop)&&!confirm('Remove row '+(i+1)+'?'))return;
+      R.splice(i,1);if(s===i)state.stall='';else if(s>i)state.stall=String(s-1);
+    }else{
+      var j=b.dataset.act==='up'?i-1:i+1;if(j<0||j>=R.length)return;var tmp=R[i];R[i]=R[j];R[j]=tmp;
+      if(s===i)state.stall=String(j);else if(s===j)state.stall=String(i);
+    }
+    buildRows();persist();render();
+  });
+  document.getElementById('addRow').addEventListener('click',function(){
+    var last=state.rows[state.rows.length-1];state.rows.push(blankRow(last&&isAfter(last.phase)?'after':'looking'));buildRows();persist();render();
+    var q=document.getElementById('q'+(state.rows.length-1));if(q)q.focus();
+  });
+  document.addEventListener('input',function(e){if(e.target.closest('#rows'))return;onField(e)});
+  document.addEventListener('change',function(e){
+    if(e.target.closest('#rows'))return;
+    if(e.target.name==='stall'){state.stall=e.target.value;persist();render();document.querySelectorAll('.rowcard').forEach(function(c,i){c.classList.toggle('stall',String(i)===state.stall)});return}
+    if(e.target.name==='mode'){onField(e);buildRows();return}
+    if(e.target.type==='checkbox'||e.target.type==='radio'||e.target.tagName==='SELECT')onField(e);
+  });
+
+  function rowState(r){var four=COLS.every(function(c){return t(r[c[0]])});var onlyDoing=t(r.doing)&&!t(r.feeling)&&!t(r.believe)&&!t(r.drop);return{four:four,onlyDoing:onlyDoing,funnel:FUNNEL.test(r.q||'')&&t(r.q).length<40}}
+  function render(){
+    var R=state.rows,n=R.length,named=0,full=0,bel=0,after=0,phases={};
+    R.forEach(function(r,i){
+      var s=rowState(r);if(t(r.q))named++;if(s.four)full++;if(t(r.believe))bel++;if(isAfter(r.phase))after++;phases[r.phase]=1;
+      var hq=document.getElementById('hq'+i),hc=document.getElementById('hc'+i);
+      if(hq)hq.classList.toggle('show',s.funnel);if(hc)hc.classList.toggle('show',!!s.onlyDoing);
+    });
+    document.getElementById('exNote').classList.toggle('show',!!state.ex);
+    document.getElementById('rowCount').textContent=n+' row'+(n===1?'':'s')+(n<5?' · fewer than five usually means a funnel':n>9?' · more than nine usually means your own process':' · in the five-to-nine range');
+    document.getElementById('hRows').textContent=n;document.getElementById('hFull').textContent=full;document.getElementById('hBelieve').textContent=bel;document.getElementById('hAfter').textContent=after;
+    document.getElementById('h1').className=n>=5&&n<=9?'ok':'no';document.getElementById('h2').className=n&&full===n?'ok':'no';
+    document.getElementById('h3').className=n&&bel===n?'ok':'no';document.getElementById('h4').className=phases.m2&&phases.m6&&phases.m14?'ok':'no';
+    var reads=[],pre=state.mode==='pre';
+    if(!t(state.trigger))reads.push(['alert','No trigger yet. Write your one-sentence guess at the top before you go further.']);
+    if(!phases.before)reads.push(['alert','No row before they know you. The first row is the one where you’re nowhere in it.']);
+    if(n<5)reads.push(['alert','Fewer than five rows. You’ve probably drawn a funnel, which hides the breaks.']);
+    if(n>9)reads.push(['alert','More than nine rows. Check whether some of them are your own hand-offs rather than a new question in the customer’s head.']);
+    var miss=['m2','m6','m14'].filter(function(p){return !phases[p]}).map(phaseName);
+    if(!after)reads.push(['alert','The map stops at the sale. The customer is still holding questions in month two and month fourteen, and that’s where everything you sell next has to live.']);
+    else if(miss.length)reads.push(['alert','No row yet for '+miss.join(', ').replace(/, ([^,]*)$/,' or $1')+'. Carry it past the sale through month two, month six and month fourteen.']);
+    var fun=R.filter(function(r){return rowState(r).funnel}).length;if(fun)reads.push(['alert',fun+' row'+(fun>1?'s are':' is')+' named like a stage of your process. Rename by the question they’re holding.']);
+    var od=R.filter(function(r){return rowState(r).onlyDoing}).length;if(od)reads.push(['alert',od+' row'+(od>1?'s have':' has')+' only “what they’re doing” filled. That’s your operations diagram with the customer’s name on it.']);
+    if(n&&bel<n)reads.push(['',(n-bel)+' row'+(n-bel>1?'s are':' is')+' missing “what they need to believe.” It’s the column owners skip, and it’s where journeys stall.']);
+    if(pre)reads.unshift(['','Pre-launch: you’re mapping how the people you intend to serve handle this problem today, without you. The gaps show up on their own.']);
+    if(!reads.length||(reads.length===1&&pre))reads.push(['good','A complete draft. Circle the row where you think people stall, then take it to real customers.']);
+    document.getElementById('reads').innerHTML=reads.map(function(r){return '<div class="read '+r[0]+'">'+esc(r[1])+'</div>'}).join('');
+    // stall pick
+    var sp=document.getElementById('stallPick');
+    sp.innerHTML=R.map(function(r,i){var on=String(i)===String(state.stall);return '<label class="'+(on?'on':'')+'"><input type="radio" name="stall" value="'+i+'"'+(on?' checked':'')+'><span><small>Row '+(i+1)+' · '+esc(phaseName(r.phase))+'</small>'+(t(r.q)?esc(r.q):'<span style="color:var(--fog);font-weight:500">No question named yet</span>')+'</span></label>'}).join('')||'<p class="help">Add rows first.</p>';
+    // mode labels
+    ['live','pre'].forEach(function(m){document.getElementById('mode-'+m).classList.toggle('on',(state.mode||'live')===m)});
+    document.getElementById('rowsIntro').textContent=pre?'You’re pre-launch, so map how the people you intend to serve handle this problem today, without you. A new row starts when the question in their head changes. Five to nine rows. Write every column in their words, and keep going past the point where they pay someone, because that’s where the gaps you could fill show up.':'A new row starts when the question in the customer’s head changes. Not when your process hands off, and not when a system logs something. Five to nine rows covers most businesses. Write every column in the customer’s words, not yours.';
+    // progress
+    [['p1',!!t(state.trigger)],['p2',n>=5&&named===n],['p3',n>0&&full===n],['p4',state.stall!==''&&state.stall!=null&&+state.stall<n]].forEach(function(p){document.getElementById(p[0]).classList.toggle('done',p[1])});
+    document.getElementById('p2n').textContent=named+'/'+n;document.getElementById('p3n').textContent=full+'/'+n;
+    // output
+    var biz=t(state.bizName);document.getElementById('outTitle').textContent=biz?biz+': customer journey':'Your customer journey';
+    var st=document.getElementById('stamp');st.textContent=state.status==='v2'?'Version 2 · from customer interviews':'Draft · what I believe today';st.className='stamp'+(state.status==='v2'?' v2':'');
+    document.getElementById('oTrig').textContent=t(state.trigger)||'Not written yet.';
+    var h='<thead><tr><th>#</th><th>Where</th><th>The question they’re holding</th><th>Doing</th><th>Feeling</th><th class="b">Need to believe</th><th>Where they drop</th></tr></thead><tbody>',broke=false;
+    R.forEach(function(r,i){
+      if(!broke&&isAfter(r.phase)){broke=true;h+='<tr class="salebreak"><td colspan="7">'+(pre?'After they’ve paid for a fix':'After the sale')+'</td></tr>'}
+      h+='<tr class="'+(String(i)===String(state.stall)?'stall':'')+'"><td class="n">'+(i+1)+'</td><td class="ph">'+esc(phaseName(r.phase))+'</td><td class="q">'+(t(r.q)?esc(r.q):'<span style="color:var(--fog)">—</span>')+'</td>'+
+        COLS.map(function(c){var v=t(r[c[0]]);return '<td class="'+(v?'':'e')+'">'+(v?esc(v):'—')+'</td>'}).join('')+'</tr>';
+    });
+    if(!broke)h+='<tr class="salebreak"><td colspan="7">After the sale · not mapped yet</td></tr>';
+    document.getElementById('jmap').innerHTML=h+'</tbody>';
+    var si=state.stall!==''&&state.stall!=null?+state.stall:-1,sr=R[si];
+    document.getElementById('sStall').textContent=sr?'Row '+(si+1)+': '+(t(sr.q)||'(no question named)')+(t(state.stallTime)?'\nHow long: '+t(state.stallTime):'')+(t(state.stallWhy)?'\nWhy: '+t(state.stallWhy):''):'Not circled yet.';
+    document.getElementById('sAsk').textContent=t(state.askNext)||'Not written yet.';
+  }
+  function hasData(){return !!(t(state.bizName)||t(state.trigger)||t(state.stallWhy)||state.rows.some(function(r){return t(r.q)||t(r.doing)||t(r.feeling)||t(r.believe)||t(r.drop)}))}
+  function xlsx(){
+    var wb=XLSX.utils.book_new(),R=state.rows;
+    var a=[['Two Weeks Out · Mapping the Customer Journey'],['Business',state.bizName||''],['Status',state.status==='v2'?'Version 2: from customer interviews':'Draft: what I believe today'],['Mode',state.mode==='pre'?'Pre-launch: how they handle it today, without me':'I have customers'],['Date',state.mDate||''],['Trigger (my guess)',state.trigger||''],[],
+      ['#','Where','The question they’re holding','What they’re doing','What they’re feeling','What they need to believe to take the next step','Where they drop','Stalls longest']];
+    R.forEach(function(r,i){a.push([i+1,phaseName(r.phase),r.q||'',r.doing||'',r.feeling||'',r.believe||'',r.drop||'',String(i)===String(state.stall)?'Yes':''])});
+    XLSX.utils.book_append_sheet(wb,sheet(a,[4,22,34,34,30,36,34,13]),'Journey map');
+    var si=state.stall!==''&&state.stall!=null?+state.stall:-1,sr=R[si];
+    var b=[['Trigger (my guess)',state.trigger||''],[],['Row where they stall longest',sr?'Row '+(si+1)+': '+(sr.q||''):''],['Why',state.stallWhy||''],['How long',state.stallTime||''],[],['What I most want to ask a real customer',state.askNext||''],[],['Next session','Interviewing for the Journey: replace the draft with what customers actually did.']];
+    XLSX.utils.book_append_sheet(wb,sheet(b,[38,100]),'Trigger and stall');
+    XLSX.writeFile(wb,fileName('Customer_Journey_Map',state.status==='v2'?'_v2':'_draft'));
+  }
+  wire({hasData:hasData,example:EXAMPLE,fresh:fresh,rebuild:rebuild,xlsx:xlsx});
+  rebuild();render();
+})();
+</script>
+</body>
+</html>

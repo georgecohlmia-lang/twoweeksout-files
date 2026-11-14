@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Strategy Playbook · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --accent:#2747f5;
+    --accent-light:#2747f5;
+    --accent-soft:#e9ecf5;
+    --accent-faint:#fbfaf6;
+    --emerald:#0d6b4c;
+    --emerald-bright:#0d6b4c;
+    --emerald-soft:#e2f5ea;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#fbfaf6;
+    --bg:#fbfaf6;
+    --warn:#7d5300;
+    --warn-soft:#fff3cd;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* === HEADER === */
+  .header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 36px;font-weight:800;
+    color: var(--ink);
+    margin: 0 0 8px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* === LIVE SCORECARD PANEL === */
+  .live-panel {
+    position: sticky;
+    top: 0;
+    background: var(--accent);
+    color: white;
+    padding: 14px 24px;
+    margin: -40px -24px 36px;
+    z-index: 100;
+    display: none;
+  }
+  .live-panel.active { display: block; }
+  .live-panel-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .live-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .live-top {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .live-top-name { font-style: italic; }
+  .live-score-pill {
+    background: rgba(255,255,255,0.15);
+    padding: 4px 12px;
+    border-radius:0;
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 8px;
+  }
+
+  /* === SECTIONS === */
+  .section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--accent-faint);
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    flex-shrink: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    margin: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .section-body {
+    padding: 28px;
+  }
+
+  /* === FORM ELEMENTS === */
+  .field { margin-bottom: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .label-hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 2px;
+  }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  textarea { resize: vertical; min-height: 60px; }
+
+  /* === USE EXAMPLE BUTTON === */
+  .field-with-example {
+    position: relative;
+  }
+  .use-example-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    margin-left: 8px;
+    line-height: 1.2;
+  }
+  .use-example-btn:hover {
+    background: var(--accent-soft);
+  }
+  .use-example-btn:active { transform: translateY(1px); }
+  .commit-card .use-example-btn {
+    border-color: rgba(255,255,255,0.6);
+    color: white;
+  }
+  .commit-card .use-example-btn:hover {
+    background: rgba(255,255,255,0.15);
+  }
+  .label-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .label-row label {
+    margin-bottom: 0;
+  }
+  .option-example-btn-wrap {
+    margin-left: auto;
+  }
+
+  /* === OPTIONS LIST === */
+  .options-list { display: flex; flex-direction: column; gap: 16px; }
+  .option-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 20px;
+    background: var(--bg);
+  }
+  .option-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .option-badge {
+    background: var(--accent);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .option-name-input { flex: 1; font-weight: 600; }
+  .option-remove {
+    background: transparent;
+    border: none;color:#59616e;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px 8px;
+    border-radius:0;
+  }
+  .option-remove:hover { color: var(--danger); background: var(--danger-soft); }
+  .add-option {
+    background: white;
+    border: 1.5px dashed var(--border);
+    color: var(--accent);
+    font-weight: 500;
+    padding: 14px;
+    width: 100%;
+    border-radius:0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .add-option:hover { background: var(--accent-soft); border-color: var(--accent); }
+  .add-option:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* === SCORING TABLE === */
+  .scoring-wrapper { overflow-x: auto; margin-top: 8px; }
+  .scoring-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .scoring-table th {
+    background: var(--accent);
+    color: white;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .scoring-table th.option-col { text-align: left; padding-left: 16px; }
+  .scoring-table td {
+    border: 1px solid var(--border);
+    padding: 12px 8px;
+    background: white;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .scoring-table td.option-label {
+    text-align: left;
+    padding-left: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .scoring-table td.total-cell {
+    background: var(--accent-soft);
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  .lens-hint {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    text-transform: none;
+    letter-spacing: 0.5px;
+    margin-top: 3px;
+    font-style: italic;
+  }
+  .score-select {
+    width: 60px;
+    padding: 6px 4px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background: white;
+  }
+
+  /* === RANKING PANEL === */
+  .ranking-panel { display: flex; flex-direction: column; gap: 12px; }
+  .ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    background: white;
+    transition: all 0.2s;
+  }
+  .ranking-item.rank-1 {
+    border-color: var(--emerald);
+    background: var(--emerald-soft);
+    border-width: 2px;
+  }
+  .ranking-item.rank-1 .ranking-num {
+    background: var(--emerald);
+  }
+  .ranking-num {
+    background: var(--muted);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .ranking-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .ranking-name { font-weight: 600; font-size: 16px; color: var(--ink); }
+  .ranking-meta {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .ranking-score {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 28px;font-weight:800;
+    color: var(--ink);letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .ranking-score-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: -4px;
+  }
+  .ranking-empty {
+    padding: 32px;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+    background: var(--bg);
+    border-radius:0;
+  }
+
+  /* === COMMENTARY === */
+  .insight-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .insight-card {
+    padding: 14px 16px;
+    background: var(--accent-soft);
+    border-radius:0;
+  }
+  .insight-card.start { background: var(--emerald-soft); }
+  .insight-card.start .insight-label { color: var(--emerald); }
+  .insight-card.defer { background: var(--warn-soft); }
+  .insight-card.defer .insight-label { color: var(--warn); }
+  .insight-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .insight-text {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  /* === COMMIT SECTION === */
+  .commit-card {
+    background: var(--accent);
+    color: white;
+    padding: 28px;
+    border-radius:0;
+    margin-top: 16px;
+  }
+  .commit-card label { color: rgba(255,255,255,0.85); }
+  .commit-card input, .commit-card textarea, .commit-card select {
+    background: rgba(255,255,255,0.95);
+    border-color: transparent;
+  }
+  .commit-card .top-pick {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .commit-card .top-pick-name {
+    font-style: normal;
+    font-weight: 600;
+    color: white;
+  }
+
+  /* === DOWNLOAD BAR === */
+  .download-bar {
+    margin-top: 32px;
+    padding: 28px;
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius:0;
+    text-align: center;
+  }
+  .download-bar h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .download-bar p {
+    color: var(--muted);
+    margin: 0 0 20px;
+    font-size: 14px;
+  }
+  .download-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 12px 24px;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-secondary {
+    background: white;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-secondary:hover { background: var(--accent-soft); }
+  .btn-icon { font-size: 18px; }
+
+  /* === CLEAR ALL — quiet, de-emphasized destructive control === */
+  .clear-all-wrap {
+    margin-top: 16px;
+    text-align: center;
+  }
+  .btn-clear {
+    background: transparent;
+    border: none;color:#59616e;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .btn-clear:hover { color: var(--danger); background: var(--danger-soft); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* === SAVE INDICATOR === */
+  .save-indicator {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: white;
+    padding: 10px 16px;
+    border-radius:0;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .save-indicator.show { opacity: 0.85; transform: translateY(0); }
+
+  /* === PDF DOCUMENT STYLES === */
+  .pdf-document {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 8.5in;
+    background: white;
+    padding: 0.7in 0.8in;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+  }
+  .pdf-document .pdf-header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+  }
+  .pdf-document .pdf-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pdf-document h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .pdf-document .pdf-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .pdf-document .pdf-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .pdf-document .pdf-section-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 28px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pdf-document table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin: 8px 0;
+  }
+  .pdf-document table th {
+    background: var(--accent);
+    color: white;
+    padding: 8px 6px;
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .pdf-document table th.left { text-align: left; padding-left: 10px; }
+  .pdf-document table td {
+    border: 1px solid var(--border);
+    padding: 8px 6px;
+    text-align: center;
+  }
+  .pdf-document table td.left {
+    text-align: left;
+    padding-left: 10px;
+    font-weight: 600;
+  }
+  .pdf-document table td.total {
+    background: var(--accent-soft);
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .pdf-document .pdf-ranking { margin-top: 8px; }
+  .pdf-document .pdf-rank-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+  .pdf-document .pdf-rank-row.first {
+    border-color: var(--emerald);
+    background: var(--emerald-soft);
+  }
+  .pdf-document .pdf-rank-n {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    color: var(--muted);
+    width: 24px;
+    text-align: center;
+  }
+  .pdf-document .pdf-rank-row.first .pdf-rank-n { color: var(--emerald); }
+  .pdf-document .pdf-rank-name { flex: 1; font-weight: 600; }
+  .pdf-document .pdf-rank-total {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .pdf-document .pdf-first-move {
+    background: var(--accent);
+    color: white;
+    padding: 16px 20px;
+    border-radius:0;
+    margin-top: 8px;
+  }
+  .pdf-document .pdf-first-move-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    opacity: 0.85;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .pdf-document .pdf-first-move-name {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    margin-bottom: 10px;letter-spacing:-.03em;font-style:normal;}
+  .pdf-document .pdf-first-move-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    font-size: 11px;
+  }
+  .pdf-document .pdf-first-move-grid div span {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+  .pdf-document .pdf-principle {
+    margin-top: 28px;
+    padding: 16px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  .pdf-document .pdf-footer {
+    margin-top: 32px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;color:#59616e;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 24px 16px 60px; }
+    h1 { font-size: 28px; }
+    .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    .insight-row { grid-template-columns: 1fr; }
+    .download-buttons { flex-direction: column; }
+    .section-body { padding: 20px; }
+  }
+
+  /* === PRINT — render only the playbook document === */
+  @page {
+    size: letter;
+    margin: 0.7in 0.8in;
+  }
+  @media print {
+    /* Hide the interactive worksheet entirely */
+    .live-panel,
+    .container,
+    .save-indicator,
+    .help-floating { display: none !important; }
+
+    /* Reveal the playbook document as normal flowed content */
+    .pdf-document {
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      visibility: visible !important;
+      padding: 0 !important;
+      z-index: auto !important;
+    }
+    html, body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    /* Avoid awkward breaks inside tables and cards */
+    .pdf-document table { page-break-inside: auto; }
+    .pdf-document tr { page-break-inside: avoid; }
+    .pdf-document .pdf-section-title { page-break-after: avoid; }
+    .pdf-document .pdf-principle { page-break-inside: avoid; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#BFE34F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.live-panel{margin:0 0 36px}
+/* contrast on dark and tinted blocks */
+th span.lens-hint{color:#e6eaff}
+div.commit-card div.label-hint{color:#e6eaff !important}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">10 / Grow Without Losing Control</span></div>
+
+<div class="live-panel" id="livePanel">
+  <div class="live-panel-inner">
+    <div>
+      <div class="live-label">Top scoring move</div>
+      <div class="live-top">
+        <span class="live-top-name" id="liveTopName">—</span>
+        <span class="live-score-pill" id="liveTopScore">—</span>
+      </div>
+    </div>
+    <div style="font-size: 12px; opacity: 0.85;">
+      <span id="liveOptionCount">0</span> options · <span id="liveScoredCount">0</span> scored
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">Worksheet · Growth Strategy</div>
+    <h1>Build Your Growth Strategy Playbook</h1>
+    <div class="subtitle">List your options. Score them across four lenses. Commit to the right first move.</div>
+  </div>
+
+  <!-- SECTION 1 — BUSINESS CONTEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <h2 class="section-title">Your business — at a glance</h2>
+        <div class="section-sub">Anchor the playbook to your specific business. The scoring depends on context.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field">
+          <label for="businessName">Business name</label>
+          <input type="text" id="businessName" placeholder="e.g. Acme Advisory">
+        </div>
+        <div class="field">
+          <label for="ownerName">Your name</label>
+          <input type="text" id="ownerName" placeholder="e.g. David Chen">
+        </div>
+      </div>
+      <div class="field-row-3">
+        <div class="field">
+          <label for="currentRevenue">Current annual revenue</label>
+          <input type="text" id="currentRevenue" placeholder="e.g. $2.0M">
+        </div>
+        <div class="field">
+          <label for="teamSize">Team size</label>
+          <input type="text" id="teamSize" placeholder="e.g. 12 FTE">
+        </div>
+        <div class="field">
+          <label for="industry">Industry</label>
+          <input type="text" id="industry" placeholder="e.g. Fractional CFO services">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — LIST OPTIONS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <h2 class="section-title">List your growth options</h2>
+        <div class="section-sub">Every path you're weighing. Include the ones you've quietly avoided — they often score better than you expect.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="options-list" id="optionsList"></div>
+      <button class="add-option" id="addOptionBtn" type="button">+ Add another option</button>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — SCORE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <h2 class="section-title">Score each option — 1 to 5 per lens</h2>
+        <div class="section-sub">Higher is better. 5 = strongest on that lens. 1 = weakest. You're not building a model — you're forcing a comparison.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="scoring-wrapper">
+        <table class="scoring-table" id="scoringTable">
+          <thead>
+            <tr>
+              <th class="option-col">Growth Option</th>
+              <th>
+                Capital Required
+                <span class="lens-hint">Higher = less capital needed</span>
+              </th>
+              <th>
+                Strategic Fit
+                <span class="lens-hint">Higher = deepens the core</span>
+              </th>
+              <th>
+                Time to Result
+                <span class="lens-hint">Higher = faster signal</span>
+              </th>
+              <th>
+                Recoverability
+                <span class="lens-hint">Higher = easier to walk back</span>
+              </th>
+              <th>Total / 20</th>
+            </tr>
+          </thead>
+          <tbody id="scoringBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — RANKING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <h2 class="section-title">Your ranked sequence</h2>
+        <div class="section-sub">Auto-computed. The framework usually pushes toward something smaller and faster than your gut wanted.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="ranking-panel" id="rankingPanel">
+        <div class="ranking-empty">List and score at least one option to see your ranking.</div>
+      </div>
+      <div class="insight-row" id="insightRow" style="display:none;">
+        <div class="insight-card start">
+          <div class="insight-label">Start here</div>
+          <div class="insight-text" id="insightStart">—</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-label">Fund next</div>
+          <div class="insight-text" id="insightNext">—</div>
+        </div>
+        <div class="insight-card defer">
+          <div class="insight-label">Defer</div>
+          <div class="insight-text" id="insightDefer">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — COMMIT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <h2 class="section-title">Commit the first move</h2>
+        <div class="section-sub">Name the winner. Set a start date. Name the owner. Define what success looks like in 90 days.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="commit-card">
+        <div class="top-pick">
+          Your highest-scoring move:
+          <span class="top-pick-name" id="commitTopName">— list and score your options first</span>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <div class="label-row">
+              <label for="firstMoveOwner">Who owns this move?</label>
+              <div class="option-example-btn-wrap">
+                <button class="use-example-btn" data-example-commit="owner" type="button">Use example</button>
+              </div>
+            </div>
+            <input type="text" id="firstMoveOwner" placeholder="e.g. Owner + Head of Sales">
+          </div>
+          <div class="field">
+            <label for="firstMoveStart">When does it start?</label>
+            <input type="date" id="firstMoveStart">
+          </div>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="firstMoveSuccess">What does success look like in 90 days?</label>
+            <div class="option-example-btn-wrap">
+              <button class="use-example-btn" data-example-commit="success" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint" style="color:rgba(255,255,255,0.7);">A specific number or milestone — not aspirational language.</div>
+          <textarea id="firstMoveSuccess" placeholder="e.g. 8 quarterly business reviews completed with top-20 clients; 3 expansion offers in pipeline at $25K+ ARR each"></textarea>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="firstMoveNotDoing">What are you NOT doing this quarter?</label>
+            <div class="option-example-btn-wrap">
+              <button class="use-example-btn" data-example-commit="notDoing" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint" style="color:rgba(255,255,255,0.7);">The discipline of the framework is the moves you're refusing. Name them.</div>
+          <textarea id="firstMoveNotDoing" placeholder="e.g. No geographic expansion. No second service line. No acquisition conversations."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD BAR -->
+  <div class="download-bar">
+    <h2>Save or print your playbook</h2>
+    <p>Two artifacts. The PDF is your formal playbook to share with your team. The Excel scorecard is editable as conditions change.</p>
+    <div class="download-buttons">
+      <button class="btn btn-primary" id="downloadPdfBtn">
+        <span class="btn-icon">🖨️</span> Save / Print Playbook
+      </button>
+      <button class="btn btn-secondary" id="downloadXlsxBtn">
+        <span class="btn-icon">📊</span> Download Scorecard (Excel)
+      </button>
+    </div>
+  </div>
+
+  <div class="clear-all-wrap">
+    <button class="btn-clear" id="clearAllBtn" type="button">Clear all and start over</button>
+  </div>
+
+</div>
+
+<div class="save-indicator" id="saveIndicator">Saved</div>
+
+<!-- Hidden PDF document for rendering -->
+<div class="pdf-document" id="pdfDocument"></div>
+
+<script>
+'use strict';
+
+const STORAGE_KEY = 'Two Weeks Out_growthFrameworks_v1';
+const MAX_OPTIONS = 8;
+const MIN_OPTIONS = 1;
+
+// === EXAMPLE BANK ===
+// Rotating bank for option name/description, indexed by row position
+const OPTION_EXAMPLES = [
+  { name: 'Existing-client expansion', desc: 'More revenue from the relationships you already have' },
+  { name: 'Service-line extension', desc: 'Add adjacent services your customers already buy elsewhere' },
+  { name: 'Automation and AI', desc: 'Lift margin by automating delivery and back-office work' },
+  { name: 'Geographic expansion', desc: 'Open one new city anchored to an existing client relationship' },
+  { name: 'Acquisition', desc: 'Buy a smaller firm with complementary clients or capability' },
+  { name: 'Premium tier', desc: 'Higher-end version of the offer for top 20% of customers' },
+  { name: 'Strategic partnership', desc: 'Co-delivery or referral relationship with a complementary firm' },
+  { name: 'Downstream offering', desc: 'New service customers buy after they\'re done with the core engagement' },
+];
+
+const COMMIT_EXAMPLES = {
+  owner: 'Owner + Head of Client Success',
+  success: '8 quarterly business reviews completed with top-20 clients; 3 expansion offers in pipeline at $25K+ ARR each; 1 expansion offer closed',
+  notDoing: 'No geographic expansion conversations. No second service-line build. No acquisition outreach. We will say no to inbound on these three categories for 90 days.',
+};
+
+// === STATE ===
+const defaultOptions = [
+  { name: 'Existing-client expansion', desc: 'More revenue from the relationships you already have', scores: { cap: '', fit: '', time: '', rec: '' } },
+  { name: '', desc: '', scores: { cap: '', fit: '', time: '', rec: '' } },
+  { name: '', desc: '', scores: { cap: '', fit: '', time: '', rec: '' } },
+];
+
+let state = {
+  business: { name: '', owner: '', revenue: '', team: '', industry: '' },
+  options: JSON.parse(JSON.stringify(defaultOptions)),
+  commit: { owner: '', start: '', success: '', notDoing: '' }
+};
+
+// === PERSISTENCE ===
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    flashSaved();
+  } catch (e) { console.warn('Save failed:', e); }
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.business) state.business = { ...state.business, ...parsed.business };
+      if (parsed.options && Array.isArray(parsed.options) && parsed.options.length > 0) state.options = parsed.options;
+      if (parsed.commit) state.commit = { ...state.commit, ...parsed.commit };
+    }
+  } catch (e) { console.warn('Load failed:', e); }
+}
+function flashSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+// === RENDER ===
+function render() {
+  renderBusiness();
+  renderOptionsList();
+  renderScoringTable();
+  renderRanking();
+  renderCommit();
+  updateLivePanel();
+}
+
+function renderBusiness() {
+  document.getElementById('businessName').value = state.business.name || '';
+  document.getElementById('ownerName').value = state.business.owner || '';
+  document.getElementById('currentRevenue').value = state.business.revenue || '';
+  document.getElementById('teamSize').value = state.business.team || '';
+  document.getElementById('industry').value = state.business.industry || '';
+}
+
+function renderOptionsList() {
+  const list = document.getElementById('optionsList');
+  list.innerHTML = '';
+  state.options.forEach((opt, i) => {
+    const card = document.createElement('div');
+    card.className = 'option-card';
+    const example = OPTION_EXAMPLES[i % OPTION_EXAMPLES.length];
+    card.innerHTML = `
+      <div class="option-card-header">
+        <div class="option-badge">${i + 1}</div>
+        <input type="text" class="option-name-input" data-i="${i}" data-field="name"
+               value="${escapeHtml(opt.name)}" placeholder="Name this growth option (e.g. Service-line extension)">
+        <button class="use-example-btn" data-example-option="${i}" type="button"
+                title="Fill in an example you can edit">Use example</button>
+        ${state.options.length > MIN_OPTIONS ? `<button class="option-remove" data-i="${i}" type="button" title="Remove">×</button>` : ''}
+      </div>
+      <input type="text" data-i="${i}" data-field="desc"
+             value="${escapeHtml(opt.desc)}" placeholder="One line describing what this move means in your business">
+    `;
+    list.appendChild(card);
+  });
+
+  // Wire up inputs
+  list.querySelectorAll('input[data-i]').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const i = +e.target.dataset.i;
+      const field = e.target.dataset.field;
+      state.options[i][field] = e.target.value;
+      save();
+      // Light refresh — just the scoring labels and ranking, no full re-render
+      refreshScoringLabels();
+      renderRanking();
+      updateLivePanel();
+    });
+  });
+  list.querySelectorAll('.option-remove').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const i = +e.target.dataset.i;
+      state.options.splice(i, 1);
+      save();
+      render();
+    });
+  });
+  list.querySelectorAll('[data-example-option]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const i = +e.target.dataset.exampleOption;
+      const ex = OPTION_EXAMPLES[i % OPTION_EXAMPLES.length];
+      const opt = state.options[i];
+      const hasContent = (opt.name && opt.name.trim()) || (opt.desc && opt.desc.trim());
+      if (hasContent && !confirm('Replace what you\'ve already written with the example?')) return;
+      state.options[i].name = ex.name;
+      state.options[i].desc = ex.desc;
+      save();
+      render();
+    });
+  });
+
+  const addBtn = document.getElementById('addOptionBtn');
+  addBtn.disabled = state.options.length >= MAX_OPTIONS;
+  addBtn.textContent = state.options.length >= MAX_OPTIONS
+    ? `Maximum ${MAX_OPTIONS} options`
+    : '+ Add another option';
+}
+
+function refreshScoringLabels() {
+  document.querySelectorAll('#scoringBody tr').forEach((tr, i) => {
+    const cell = tr.querySelector('td.option-label');
+    if (cell) cell.textContent = optionLabel(i);
+  });
+}
+
+function optionLabel(i) {
+  const o = state.options[i];
+  return o.name || `Option ${i + 1}`;
+}
+
+function renderScoringTable() {
+  const body = document.getElementById('scoringBody');
+  body.innerHTML = '';
+  state.options.forEach((opt, i) => {
+    const tr = document.createElement('tr');
+    const total = computeTotal(opt);
+    tr.innerHTML = `
+      <td class="option-label">${escapeHtml(optionLabel(i))}</td>
+      ${renderScoreCell(i, 'cap', opt.scores.cap)}
+      ${renderScoreCell(i, 'fit', opt.scores.fit)}
+      ${renderScoreCell(i, 'time', opt.scores.time)}
+      ${renderScoreCell(i, 'rec', opt.scores.rec)}
+      <td class="total-cell">${total > 0 ? total : '—'}</td>
+    `;
+    body.appendChild(tr);
+  });
+
+  body.querySelectorAll('.score-select').forEach(sel => {
+    sel.addEventListener('change', e => {
+      const i = +e.target.dataset.i;
+      const lens = e.target.dataset.lens;
+      state.options[i].scores[lens] = e.target.value;
+      save();
+      // Update just this row's total + ranking
+      const row = e.target.closest('tr');
+      const total = computeTotal(state.options[i]);
+      row.querySelector('.total-cell').textContent = total > 0 ? total : '—';
+      renderRanking();
+      renderCommit();
+      updateLivePanel();
+    });
+  });
+}
+
+function renderScoreCell(i, lens, value) {
+  const v = value || '';
+  const opts = [1, 2, 3, 4, 5].map(n =>
+    `<option value="${n}" ${String(n) === String(v) ? 'selected' : ''}>${n}</option>`
+  ).join('');
+  return `<td>
+    <select class="score-select" data-i="${i}" data-lens="${lens}">
+      <option value="" ${v === '' ? 'selected' : ''}>—</option>
+      ${opts}
+    </select>
+  </td>`;
+}
+
+function computeTotal(opt) {
+  const vals = [opt.scores.cap, opt.scores.fit, opt.scores.time, opt.scores.rec];
+  if (vals.some(v => v === '' || v === null || v === undefined)) return 0;
+  return vals.reduce((sum, v) => sum + (+v || 0), 0);
+}
+
+function rankedOptions() {
+  return state.options
+    .map((o, i) => ({ ...o, idx: i, total: computeTotal(o), scored: isFullyScored(o) }))
+    .filter(o => o.name && o.name.trim().length > 0)
+    .sort((a, b) => {
+      if (a.scored !== b.scored) return a.scored ? -1 : 1;
+      return b.total - a.total;
+    });
+}
+
+function isFullyScored(opt) {
+  return ['cap', 'fit', 'time', 'rec'].every(k => opt.scores[k] !== '' && opt.scores[k] !== undefined);
+}
+
+function renderRanking() {
+  const panel = document.getElementById('rankingPanel');
+  const insightRow = document.getElementById('insightRow');
+  const ranked = rankedOptions();
+  const scoredRanked = ranked.filter(o => o.scored);
+
+  if (ranked.length === 0) {
+    panel.innerHTML = '<div class="ranking-empty">List and score at least one option to see your ranking.</div>';
+    insightRow.style.display = 'none';
+    return;
+  }
+
+  panel.innerHTML = ranked.map((o, i) => {
+    const isFirst = i === 0 && o.scored;
+    return `
+      <div class="ranking-item ${isFirst ? 'rank-1' : ''}">
+        <div class="ranking-num">${i + 1}</div>
+        <div class="ranking-content">
+          <div class="ranking-name">${escapeHtml(o.name)}</div>
+          <div class="ranking-meta">${o.scored
+            ? (o.desc ? escapeHtml(o.desc) : 'Scored across all four lenses')
+            : 'Score across all four lenses to rank'}</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="ranking-score">${o.scored ? o.total : '—'}</div>
+          <div class="ranking-score-label">${o.scored ? '/ 20' : 'Not scored'}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  if (scoredRanked.length >= 1) {
+    insightRow.style.display = '';
+    const top = scoredRanked[0];
+    document.getElementById('insightStart').textContent =
+      `${top.name} (${top.total}/20). ` + commentaryFor('start', top);
+    if (scoredRanked.length >= 2) {
+      const next = scoredRanked[1];
+      document.getElementById('insightNext').textContent =
+        `${next.name} (${next.total}/20). ` + commentaryFor('next', next);
+    } else {
+      document.getElementById('insightNext').textContent =
+        'Score a second option to identify what funds next.';
+    }
+    const lowest = scoredRanked[scoredRanked.length - 1];
+    if (scoredRanked.length >= 3 && lowest.total < top.total) {
+      document.getElementById('insightDefer').textContent =
+        `${lowest.name} (${lowest.total}/20). ` + commentaryFor('defer', lowest);
+    } else {
+      document.getElementById('insightDefer').textContent =
+        'Score additional options to identify what to defer.';
+    }
+  } else {
+    insightRow.style.display = 'none';
+  }
+}
+
+function commentaryFor(slot, opt) {
+  if (slot === 'start') {
+    if (opt.total >= 17) return 'Strong on every lens. This is the move that earns the right to the others.';
+    if (opt.total >= 13) return 'Highest available. Run it deliberately — it funds what comes next.';
+    return 'Your strongest option, but the score is modest. Refine the option or test a smaller version first.';
+  }
+  if (slot === 'next') {
+    if (opt.total >= 14) return 'Build on the cash and proof the first move generates.';
+    return 'Strong enough to queue. Don\'t start it until the first move is producing.';
+  }
+  if (slot === 'defer') {
+    if (opt.total <= 8) return 'Real potential, but not yet earned. The risk is too concentrated.';
+    return 'Reasonable, but lower priority. The fast wins fund the slow bets.';
+  }
+  return '';
+}
+
+function renderCommit() {
+  document.getElementById('firstMoveOwner').value = state.commit.owner || '';
+  document.getElementById('firstMoveStart').value = state.commit.start || '';
+  document.getElementById('firstMoveSuccess').value = state.commit.success || '';
+  document.getElementById('firstMoveNotDoing').value = state.commit.notDoing || '';
+
+  const scoredRanked = rankedOptions().filter(o => o.scored);
+  const topName = scoredRanked.length > 0
+    ? `${scoredRanked[0].name} — ${scoredRanked[0].total}/20`
+    : '— list and score your options first';
+  document.getElementById('commitTopName').textContent = topName;
+}
+
+function updateLivePanel() {
+  const panel = document.getElementById('livePanel');
+  const ranked = rankedOptions();
+  const scoredCount = ranked.filter(o => o.scored).length;
+
+  if (ranked.length === 0) {
+    panel.classList.remove('active');
+    return;
+  }
+  panel.classList.add('active');
+  document.getElementById('liveOptionCount').textContent = ranked.length;
+  document.getElementById('liveScoredCount').textContent = scoredCount;
+
+  if (scoredCount > 0) {
+    const top = ranked.filter(o => o.scored)[0];
+    document.getElementById('liveTopName').textContent = top.name;
+    document.getElementById('liveTopScore').textContent = `${top.total}/20`;
+  } else {
+    document.getElementById('liveTopName').textContent = '— score options to see';
+    document.getElementById('liveTopScore').textContent = '';
+  }
+}
+
+// === BUSINESS FIELD HANDLERS ===
+function wireBusinessFields() {
+  const map = {
+    businessName: 'name',
+    ownerName: 'owner',
+    currentRevenue: 'revenue',
+    teamSize: 'team',
+    industry: 'industry',
+  };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.business[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireCommitFields() {
+  const map = {
+    firstMoveOwner: 'owner',
+    firstMoveStart: 'start',
+    firstMoveSuccess: 'success',
+    firstMoveNotDoing: 'notDoing',
+  };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.commit[key] = e.target.value;
+      save();
+    });
+  });
+
+  // Wire "Use example" buttons for commit fields
+  document.querySelectorAll('[data-example-commit]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.exampleCommit;
+      const exampleText = COMMIT_EXAMPLES[key];
+      if (exampleText === undefined) return;
+      const existing = state.commit[key];
+      if (existing && existing.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+      state.commit[key] = exampleText;
+      const inputId = {
+        owner: 'firstMoveOwner',
+        success: 'firstMoveSuccess',
+        notDoing: 'firstMoveNotDoing',
+      }[key];
+      const el = document.getElementById(inputId);
+      if (el) {
+        el.value = exampleText;
+        // Focus and place cursor at end so the owner can immediately edit
+        el.focus();
+        el.setSelectionRange(exampleText.length, exampleText.length);
+      }
+      save();
+    });
+  });
+}
+
+// === ESCAPE ===
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// === ADD OPTION ===
+document.getElementById('addOptionBtn').addEventListener('click', () => {
+  if (state.options.length >= MAX_OPTIONS) return;
+  state.options.push({ name: '', desc: '', scores: { cap: '', fit: '', time: '', rec: '' } });
+  save();
+  render();
+});
+
+// === PDF DOWNLOAD ===
+document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+  buildPdfDocument();
+  // Give the browser a moment to lay out the freshly-built content before printing.
+  setTimeout(() => { window.print(); }, 60);
+});
+
+function buildPdfDocument() {
+  const el = document.getElementById('pdfDocument');
+  const b = state.business;
+  const c = state.commit;
+  const ranked = rankedOptions();
+  const scoredRanked = ranked.filter(o => o.scored);
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  const businessLine = [b.name, b.industry, b.revenue].filter(Boolean).join(' · ');
+  const ownerLine = [b.owner, b.team].filter(Boolean).join(' · ');
+
+  let html = `
+    <div class="pdf-header">
+      <div class="pdf-eyebrow">Two Weeks Out · Growth Strategy Playbook</div>
+      <h1>${escapeHtml(b.name || 'Your Growth Playbook')}</h1>
+      <div class="pdf-subtitle">${escapeHtml(businessLine || 'Growth strategy playbook')}</div>
+    </div>
+    <div class="pdf-meta">
+      ${ownerLine ? `Prepared by ${escapeHtml(ownerLine)} · ` : ''}${today}
+    </div>
+  `;
+
+  // Scorecard table
+  html += `<div class="pdf-section-title">Growth Options — Scored</div>`;
+  if (state.options.filter(o => o.name).length === 0) {
+    html += `<div style="font-size:12px; color:#59616e; font-style:italic;">No growth options listed.</div>`;
+  } else {
+    html += `<table>
+      <thead>
+        <tr>
+          <th class="left">Growth Option</th>
+          <th>Capital</th><th>Strategic Fit</th><th>Time</th><th>Recoverability</th>
+          <th>Total / 20</th>
+        </tr>
+      </thead>
+      <tbody>`;
+    state.options.filter(o => o.name).forEach(o => {
+      const t = computeTotal(o);
+      html += `<tr>
+        <td class="left">${escapeHtml(o.name)}</td>
+        <td>${o.scores.cap || '—'}</td>
+        <td>${o.scores.fit || '—'}</td>
+        <td>${o.scores.time || '—'}</td>
+        <td>${o.scores.rec || '—'}</td>
+        <td class="total">${t > 0 ? t : '—'}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // Ranking
+  if (scoredRanked.length > 0) {
+    html += `<div class="pdf-section-title">Ranked Sequence</div><div class="pdf-ranking">`;
+    scoredRanked.forEach((o, i) => {
+      html += `<div class="pdf-rank-row ${i === 0 ? 'first' : ''}">
+        <div class="pdf-rank-n">${i + 1}</div>
+        <div class="pdf-rank-name">${escapeHtml(o.name)}</div>
+        <div class="pdf-rank-total">${o.total}/20</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // First move commitment
+  if (scoredRanked.length > 0) {
+    const top = scoredRanked[0];
+    html += `<div class="pdf-section-title">First Move — Committed</div>
+      <div class="pdf-first-move">
+        <div class="pdf-first-move-label">Starting move (${top.total}/20)</div>
+        <div class="pdf-first-move-name">${escapeHtml(top.name)}</div>
+        <div class="pdf-first-move-grid">
+          <div><span>Owner</span>${escapeHtml(c.owner || '— to be assigned')}</div>
+          <div><span>Start date</span>${escapeHtml(c.start ? formatDate(c.start) : '— to be set')}</div>
+          <div><span>90-day success</span>${escapeHtml(c.success || '— to be defined')}</div>
+        </div>
+      </div>`;
+    if (c.notDoing && c.notDoing.trim()) {
+      html += `<div style="margin-top:16px; padding:14px 16px; border:1px solid #e9ecf5; border-radius:0; font-size:12px;">
+        <div style="font-size:9px; letter-spacing:3px; color:#59616e; text-transform:uppercase; margin-bottom:6px; font-weight:600;">What we are NOT doing this quarter</div>
+        ${escapeHtml(c.notDoing)}
+      </div>`;
+    }
+  }
+
+  html += `<div class="pdf-principle">Sequence the proof before you fund the scale.</div>`;
+  html += `<div class="pdf-footer">Two Weeks Out · From Corporate Operator to Confident Owner</div>`;
+
+  el.innerHTML = html;
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch { return iso; }
+}
+
+// === EXCEL DOWNLOAD ===
+document.getElementById('downloadXlsxBtn').addEventListener('click', () => {
+  try {
+    const wb = XLSX.utils.book_new();
+    const b = state.business;
+    const businessSlug = (b.name || 'business').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
+
+    // Scorecard sheet
+    const header = ['Growth Option', 'Description', 'Capital (1-5)', 'Strategic Fit (1-5)', 'Time to Result (1-5)', 'Recoverability (1-5)', 'Total / 20'];
+    const rows = [header];
+    state.options.filter(o => o.name).forEach(o => {
+      const t = computeTotal(o);
+      rows.push([
+        o.name,
+        o.desc || '',
+        o.scores.cap || '',
+        o.scores.fit || '',
+        o.scores.time || '',
+        o.scores.rec || '',
+        t > 0 ? t : ''
+      ]);
+    });
+
+    // Empty rows for adding more
+    for (let i = 0; i < 3; i++) {
+      rows.push(['', '', '', '', '', '', '']);
+    }
+
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols'] = [
+      { wch: 32 }, { wch: 40 },
+      { wch: 14 }, { wch: 16 }, { wch: 16 }, { wch: 16 },
+      { wch: 12 }
+    ];
+    XLSX.utils.book_append_sheet(wb, ws, 'Scorecard');
+
+    // Business context sheet
+    const ctxRows = [
+      ['Field', 'Value'],
+      ['Business name', b.name || ''],
+      ['Owner', b.owner || ''],
+      ['Current revenue', b.revenue || ''],
+      ['Team size', b.team || ''],
+      ['Industry', b.industry || ''],
+      [''],
+      ['First Move', ''],
+      ['Owner', state.commit.owner || ''],
+      ['Start date', state.commit.start || ''],
+      ['90-day success', state.commit.success || ''],
+      ['Not doing this quarter', state.commit.notDoing || ''],
+    ];
+    const ctxWs = XLSX.utils.aoa_to_sheet(ctxRows);
+    ctxWs['!cols'] = [{ wch: 24 }, { wch: 60 }];
+    XLSX.utils.book_append_sheet(wb, ctxWs, 'Context');
+
+    // Scoring guide sheet
+    const guideRows = [
+      ['Lens', 'What 1 looks like', 'What 5 looks like'],
+      ['Capital Required', 'Significant cash or working capital needed', 'Minimal cash; mostly senior time'],
+      ['Strategic Fit', 'Pulls the brand sideways', 'Deepens what you\'re already known for'],
+      ['Time to Result', 'Multi-year cycle to know if it worked', 'Signal within one quarter'],
+      ['Recoverability', 'A failed bet hurts the business badly', 'You can absorb a failed attempt and try again'],
+      [''],
+      ['Principle', 'Sequence the proof before you fund the scale.', ''],
+    ];
+    const guideWs = XLSX.utils.aoa_to_sheet(guideRows);
+    guideWs['!cols'] = [{ wch: 20 }, { wch: 50 }, { wch: 50 }];
+    XLSX.utils.book_append_sheet(wb, guideWs, 'Scoring Guide');
+
+    XLSX.writeFile(wb, `growth_scorecard_${businessSlug}.xlsx`);
+  } catch (e) {
+    alert('Excel generation failed. Please try again.');
+    console.error(e);
+  }
+});
+
+// === CLEAR ALL ===
+// Wipes saved data and resets the worksheet to its initial state.
+// Clearing storage then reloading re-runs this file's own seeding logic,
+// guaranteeing a correct fresh state without a hand-written reset.
+function wireClearAll() {
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    const ok = confirm(
+      'Clear everything and start over?\n\n' +
+      'This permanently erases all your entries in this worksheet and cannot be undone.'
+    );
+    if (!ok) return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.warn('Could not clear storage:', e);
+    }
+    location.reload();
+  });
+}
+
+// === INIT ===
+load();
+render();
+wireBusinessFields();
+wireCommitFields();
+wireClearAll();
+</script>
+</body>
+</html>

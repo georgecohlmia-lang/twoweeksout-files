@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scalable Systems Playbook · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --accent:#2747f5;
+    --accent-light:#2747f5;
+    --accent-soft:#e9ecf5;
+    --accent-faint:#fbfaf6;
+    --emerald:#0d6b4c;
+    --emerald-bright:#0d6b4c;
+    --emerald-soft:#e2f5ea;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#fbfaf6;
+    --bg:#fbfaf6;
+    --warn:#7d5300;
+    --warn-soft:#fff3cd;
+    --warn-border:#ffd23f;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* === HEADER === */
+  .header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 36px;font-weight:800;
+    color: var(--ink);
+    margin: 0 0 8px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .subtitle { font-size: 16px; color: var(--muted); font-style: italic; }
+
+  /* === LIVE PANEL === */
+  .live-panel {
+    position: sticky;
+    top: 0;
+    padding: 14px 24px;
+    margin: -40px -24px 36px;
+    z-index: 100;
+    display: none;
+    color: white;
+    background: var(--accent);
+  }
+  .live-panel.active { display: block; }
+  .live-panel-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .live-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .live-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .live-stats { display: flex; gap: 14px; align-items: center; }
+  .live-stat { display: flex; flex-direction: column; align-items: center; }
+  .live-stat-value { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .live-stat-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; }
+  .live-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.25); }
+
+  /* === SECTIONS === */
+  .section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--accent-faint);
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    flex-shrink: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    margin: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .section-body { padding: 28px; }
+
+  /* === FORM ELEMENTS === */
+  .field { margin-bottom: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .label-hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 2px;
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  textarea { resize: vertical; min-height: 60px; }
+
+  /* === USE EXAMPLE BUTTON === */
+  .use-example-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .use-example-btn:hover { background: var(--accent-soft); }
+  .use-example-btn:active { transform: translateY(1px); }
+  .label-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    gap: 12px;
+  }
+  .label-row label { margin-bottom: 0; }
+  .example-btn-wrap { margin-left: auto; }
+
+  /* === INFO STRIP === */
+  .info-strip {
+    background: var(--accent-soft);
+    border-radius:0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .info-strip strong { color: var(--accent); }
+
+  /* === ENABLE/OPTIMIZE PRINCIPLE CARD === */
+  .principle-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .principle-card {
+    border-radius:0;
+    padding: 18px 20px;
+  }
+  .principle-card.enable {
+    background: var(--emerald-soft);
+    border: 1px solid var(--emerald);
+  }
+  .principle-card.optimize {
+    background: var(--warn-soft);
+    border: 1px solid var(--warn-border);
+  }
+  .principle-card-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .principle-card.enable .principle-card-label { color: var(--emerald); }
+  .principle-card.optimize .principle-card-label { color: var(--warn); }
+  .principle-card-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .principle-card-text { font-size: 13px; color: var(--ink-soft); }
+
+  /* === SYSTEMS TABLE === */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-top: 8px;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 860px;
+  }
+  .data-table thead th {
+    background: var(--accent);
+    color: white;
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .data-table thead th:first-child { padding-left: 14px; }
+  .data-table tbody td {
+    border-top: 1px solid var(--border);
+    padding: 5px 6px;
+    background: white;
+    vertical-align: middle;
+  }
+  .data-table tbody tr.row-build td { background: var(--emerald-soft); }
+  .data-table tbody tr.row-hold td { background: var(--warn-soft); }
+  .data-table input, .data-table select {
+    border: 1px solid transparent;
+    padding: 7px 8px;
+    background: transparent;
+    width: 100%;
+    font-size: 13px;
+  }
+  .data-table input:focus, .data-table select:focus {
+    background: white;
+    border-color: var(--accent);
+    border-radius:0;
+  }
+  .data-table tbody tr.row-build input:focus,
+  .data-table tbody tr.row-build select:focus,
+  .data-table tbody tr.row-hold input:focus,
+  .data-table tbody tr.row-hold select:focus { background: white; }
+  .row-num {
+    text-align: center;
+    width: 38px;
+    padding-left: 8px !important;color:#59616e;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .row-actions { width: 34px; text-align: center; }
+  .row-remove {
+    background: transparent;
+    border: none;color:#59616e;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px 6px;
+    border-radius:0;
+  }
+  .row-remove:hover { color: var(--danger); background: var(--danger-soft); }
+  .verdict-select { font-weight: 600; }
+  .verdict-select.is-build { color: var(--emerald); }
+  .verdict-select.is-hold { color: var(--warn); }
+
+  /* === TABLE ACTIONS === */
+  .table-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .btn-small {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-small:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .btn-small:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* === HOLD-TRIGGER LIST === */
+  .trigger-list { display: flex; flex-direction: column; gap: 14px; }
+  .trigger-card {
+    border: 1px solid var(--warn-border);
+    border-left: 4px solid var(--warn);
+    border-radius:0;
+    padding: 16px 20px;
+    background: var(--warn-soft);
+  }
+  .trigger-card-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .trigger-card-cat {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--warn);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .trigger-card .field { margin-bottom: 0; }
+  .trigger-card input { background: white; }
+  .empty-hint {
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+    background: var(--bg);
+    border-radius:0;
+    font-size: 14px;
+  }
+
+  /* === COMMIT CARD === */
+  .commit-card {
+    background: var(--accent);
+    color: white;
+    padding: 28px;
+    border-radius:0;
+    margin-top: 16px;
+  }
+  .commit-card label { color: rgba(255,255,255,0.85); }
+  .commit-card input, .commit-card textarea, .commit-card select {
+    background: rgba(255,255,255,0.95);
+    border-color: transparent;
+  }
+  .commit-card .label-hint { color: rgba(255,255,255,0.7); }
+
+  /* === DOWNLOAD BAR === */
+  .download-bar {
+    margin-top: 32px;
+    padding: 28px;
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius:0;
+    text-align: center;
+  }
+  .download-bar h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .download-bar p { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .download-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 12px 24px;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-secondary {
+    background: white;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-secondary:hover { background: var(--accent-soft); }
+  .btn-icon { font-size: 18px; }
+
+  /* === CLEAR ALL — quiet, de-emphasized destructive control === */
+  .clear-all-wrap {
+    margin-top: 16px;
+    text-align: center;
+  }
+  .btn-clear {
+    background: transparent;
+    border: none;color:#59616e;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .btn-clear:hover { color: var(--danger); background: var(--danger-soft); }
+
+  /* === SAVE INDICATOR === */
+  .save-indicator {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: white;
+    padding: 10px 16px;
+    border-radius:0;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .save-indicator.show { opacity: 0.85; transform: translateY(0); }
+
+  /* === HEADER TOOLTIP === */
+  .th-help { display: inline-flex; align-items: center; gap: 5px; }
+  .help-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius:0;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: help;
+    flex-shrink: 0;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .help-icon:hover, .help-icon:focus { background: rgba(255,255,255,0.5); outline: none; }
+  .help-floating {
+    position: fixed;
+    width: 270px;
+    background: var(--ink);
+    color: white;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius:0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-transform: none;
+    box-shadow:none;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s;
+  }
+  .help-floating.visible { opacity: 1; }
+  .help-floating::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: var(--arrow-left, 50%);
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--ink);
+  }
+  .help-floating.help-below::after {
+    top: auto;
+    bottom: 100%;
+    border-top-color: transparent;
+    border-bottom-color: var(--ink);
+  }
+  .help-floating-eg {
+    display: block;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    color: var(--emerald-bright);
+    font-style: italic;
+  }
+
+  /* === PDF DOCUMENT === */
+  .pdf-document {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 8.5in;
+    background: white;
+    padding: 0.7in 0.8in;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+  }
+  .pdf-document .pdf-header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .pdf-document .pdf-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pdf-document h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .pdf-document .pdf-subtitle { font-size: 13px; color: var(--muted); font-style: italic; }
+  .pdf-document .pdf-meta { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+  .pdf-document .pdf-section-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pdf-document .pdf-next-stage {
+    background: var(--accent);
+    color: white;
+    padding: 14px 18px;
+    border-radius:0;
+    margin: 8px 0 4px;
+  }
+  .pdf-document .pdf-next-stage-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pdf-document .pdf-next-stage-text {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .pdf-document table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin: 6px 0;
+  }
+  .pdf-document table th {
+    background: var(--accent);
+    color: white;
+    padding: 6px 7px;
+    text-align: left;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .pdf-document table td {
+    border: 1px solid var(--border);
+    padding: 6px 7px;
+    vertical-align: top;
+  }
+  .pdf-document table td.v-build { color: var(--emerald); font-weight: 700; }
+  .pdf-document table td.v-hold { color: var(--warn); font-weight: 700; }
+  .pdf-document .pdf-principle {
+    margin-top: 24px;
+    padding: 14px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  .pdf-document .pdf-footer {
+    margin-top: 26px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;color:#59616e;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 24px 16px 60px; }
+    h1 { font-size: 28px; }
+    .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    .principle-split { grid-template-columns: 1fr; }
+    .download-buttons { flex-direction: column; }
+    .section-body { padding: 20px; }
+  }
+
+  /* === PRINT — render only the playbook document === */
+  @page {
+    size: letter;
+    margin: 0.7in 0.8in;
+  }
+  @media print {
+    /* Hide the interactive worksheet entirely */
+    .live-panel,
+    .container,
+    .save-indicator,
+    .help-floating { display: none !important; }
+
+    /* Reveal the playbook document as normal flowed content */
+    .pdf-document {
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      visibility: visible !important;
+      padding: 0 !important;
+      z-index: auto !important;
+    }
+    html, body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    /* Avoid awkward breaks inside tables and cards */
+    .pdf-document table { page-break-inside: auto; }
+    .pdf-document tr { page-break-inside: avoid; }
+    .pdf-document .pdf-section-title { page-break-after: avoid; }
+    .pdf-document .pdf-principle { page-break-inside: avoid; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#BFE34F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.live-panel{margin:0 0 36px}
+/* contrast on dark and tinted blocks */
+div.commit-card button.use-example-btn{color:#ffffff}
+div.commit-card div.label-hint{color:#e6eaff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">10 / Grow Without Losing Control</span></div>
+
+<div class="live-panel" id="livePanel">
+  <div class="live-panel-inner">
+    <div>
+      <div class="live-label">Systems roadmap</div>
+      <div class="live-headline" id="liveHeadline">—</div>
+    </div>
+    <div class="live-stats">
+      <div class="live-stat">
+        <div class="live-stat-value" id="liveBuildCount">0</div>
+        <div class="live-stat-label">Build now</div>
+      </div>
+      <div class="live-divider"></div>
+      <div class="live-stat">
+        <div class="live-stat-value" id="liveHoldCount">0</div>
+        <div class="live-stat-label">Hold for proof</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">Worksheet · Scalable Systems</div>
+    <h1>Build Your Scalable Systems Roadmap</h1>
+    <div class="subtitle">Build the systems that enable your next stage — not the ones that optimize a stage you haven't reached.</div>
+  </div>
+
+  <!-- SECTION 1 — BUSINESS CONTEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <h2 class="section-title">Your business — at a glance</h2>
+        <div class="section-sub">Where you are now. Systems decisions only make sense against your current stage.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field">
+          <label for="businessName">Business name</label>
+          <input type="text" id="businessName" placeholder="e.g. Acme Advisory">
+        </div>
+        <div class="field">
+          <label for="ownerName">Your name</label>
+          <input type="text" id="ownerName" placeholder="e.g. David Chen">
+        </div>
+      </div>
+      <div class="field-row-3">
+        <div class="field">
+          <label for="currentRevenue">Current annual revenue</label>
+          <input type="text" id="currentRevenue" placeholder="e.g. $2.4M">
+        </div>
+        <div class="field">
+          <label for="teamSize">Team size</label>
+          <input type="text" id="teamSize" placeholder="e.g. 14 FTE">
+        </div>
+        <div class="field">
+          <label for="customerCount">Customer count</label>
+          <input type="text" id="customerCount" placeholder="e.g. ~90">
+        </div>
+      </div>
+      <div class="field">
+        <div class="label-row">
+          <label for="manualNow">What's still mostly manual or owner-dependent today?</label>
+          <div class="example-btn-wrap">
+            <button class="use-example-btn" data-example="manualNow" type="button">Use example</button>
+          </div>
+        </div>
+        <div class="label-hint">An honest snapshot of where the duct tape is. This is what your systems roadmap will address.</div>
+        <textarea id="manualNow" placeholder="e.g. Client onboarding runs through the owner's inbox. Reporting is hand-built each month in spreadsheets. No shared CRM — pipeline lives in the owner's head."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — THE ENABLE-VS-OPTIMIZE TEST -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <h2 class="section-title">The enable-vs-optimize test</h2>
+        <div class="section-sub">A system is worth building if it enables your next stage. It's premature if it only optimizes this one.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="principle-split">
+        <div class="principle-card enable">
+          <div class="principle-card-label">Build it — it enables</div>
+          <div class="principle-card-title">Enabling systems</div>
+          <div class="principle-card-text">Without it, you cannot reach the next stage. It unlocks growth you can't otherwise reach. Build these slightly ahead of need.</div>
+        </div>
+        <div class="principle-card optimize">
+          <div class="principle-card-label">Hold it — it only optimizes</div>
+          <div class="principle-card-title">Optimizing systems</div>
+          <div class="principle-card-text">It makes the current stage smoother, faster, prettier — but you'd grow fine without it. Premature scaling lives here. Hold until proof.</div>
+        </div>
+      </div>
+
+      <div class="info-strip">
+        You can't decide what <strong>enables the next stage</strong> until you've named the next stage. Be specific — a stage, not a wish.
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label for="nextStage">Your next stage of growth — named specifically</label>
+          <div class="example-btn-wrap">
+            <button class="use-example-btn" data-example="nextStage" type="button">Use example</button>
+          </div>
+        </div>
+        <div class="label-hint">A concrete, near-term stage: a revenue level, a team size, a market, a customer count.</div>
+        <textarea id="nextStage" placeholder="e.g. From ~90 clients to ~140 over the next 18 months, served by the existing senior team plus two hires — without the owner in every delivery."></textarea>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <div class="label-row">
+          <label for="stageBlockers">What about today's setup would break at that next stage?</label>
+          <div class="example-btn-wrap">
+            <button class="use-example-btn" data-example="stageBlockers" type="button">Use example</button>
+          </div>
+        </div>
+        <div class="label-hint">The things that work now but won't survive the jump. These point straight at your enabling systems.</div>
+        <textarea id="stageBlockers" placeholder="e.g. Owner-run onboarding won't scale past ~110 clients. Spreadsheet reporting already takes two days a month. Pipeline-in-the-owner's-head fails the moment a second salesperson joins."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — THE SYSTEMS INVENTORY -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <h2 class="section-title">The systems inventory</h2>
+        <div class="section-sub">List every system you're considering. Classify each: build now, or hold for proof.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="info-strip">
+        Include <strong>AI and automation</strong> here too — judged by the same test. AI that's a productivity multiplier today may be "build now"; AI as an optimization layer for scale you don't have yet is "hold for proof." Same lens, no exception.
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th class="row-num">#</th>
+              <th style="min-width: 180px;">System or tool</th>
+              <th style="min-width: 140px;">Category</th>
+              <th style="min-width: 200px;">
+                <span class="th-help">What it does for you
+                  <span class="help-icon" tabindex="0"
+                    data-help="The growth it unlocks, or the constraint it removes. If you can only describe it as 'cleaner' or 'nicer', that's a signal it optimizes rather than enables."
+                    data-help-eg='e.g. "Lets a non-owner run onboarding"'>?</span>
+                </span>
+              </th>
+              <th style="min-width: 150px;">
+                <span class="th-help">Verdict
+                  <span class="help-icon" tabindex="0"
+                    data-help="Build now = it enables your named next stage. Hold for proof = it only optimizes the current stage; wait for a trigger before building it."
+                    data-help-eg='e.g. Build now · Hold for proof'>?</span>
+                </span>
+              </th>
+              <th class="row-actions"></th>
+            </tr>
+          </thead>
+          <tbody id="systemsBody"></tbody>
+        </table>
+      </div>
+      <div class="table-actions">
+        <button class="btn-small" id="addSystemRow" type="button">+ Add system</button>
+        <button class="btn-small" id="fillSystemExamples" type="button">Use examples (fills empty rows)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — PROOF TRIGGERS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <h2 class="section-title">Name the proof trigger</h2>
+        <div class="section-sub">For every "hold for proof" system: the specific signal that flips it to build.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="info-strip">
+        A held system without a trigger is just a system you forgot. The trigger is a <strong>specific, observable signal</strong> — a number, a hire, a milestone — that says "the proof has arrived; now build it."
+      </div>
+      <div class="trigger-list" id="triggerList"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — THE 90-DAY SYSTEMS PLAN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <h2 class="section-title">The 90-day systems plan</h2>
+        <div class="section-sub">What you build first, who owns it, and what you're explicitly NOT building yet.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="commit-card">
+        <div class="field">
+          <div class="label-row">
+            <label for="planFirst">Which "build now" system goes first — and why that one?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="planFirst" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">Of the systems you classified "build now," the single one to start in the next 90 days.</div>
+          <textarea id="planFirst" placeholder="e.g. Shared CRM first. It's the foundation a second salesperson needs, and pipeline-in-the-owner's-head is the constraint closest to breaking."></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <div class="label-row">
+              <label for="planOwner">Who owns the build?</label>
+              <div class="example-btn-wrap">
+                <button class="use-example-btn" data-example="planOwner" type="button">Use example</button>
+              </div>
+            </div>
+            <input type="text" id="planOwner" placeholder="e.g. Operations lead, with owner sign-off">
+          </div>
+          <div class="field">
+            <label for="planStart">When does it start?</label>
+            <input type="date" id="planStart">
+          </div>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="planSuccess">What does "done" look like in 90 days?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="planSuccess" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">A specific, observable outcome — not "CRM implemented" but what it lets you do.</div>
+          <textarea id="planSuccess" placeholder="e.g. Every active deal lives in the CRM; the owner can hand pipeline to a new salesperson without a handover meeting; weekly pipeline review runs off the CRM, not memory."></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <div class="label-row">
+            <label for="planNotBuilding">What are you explicitly NOT building yet?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="planNotBuilding" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">Name the held systems. Naming what you're refusing is how you avoid premature scaling.</div>
+          <textarea id="planNotBuilding" placeholder="e.g. No custom client portal, no BI dashboard, no AI optimization layer. Each waits for its named trigger. We will resist building these even when they feel overdue."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD BAR -->
+  <div class="download-bar">
+    <h2>Save or print your playbook</h2>
+    <p>The PDF is your formal systems roadmap. The Excel sheet holds the inventory so you can re-classify as proof arrives.</p>
+    <div class="download-buttons">
+      <button class="btn btn-primary" id="downloadPdfBtn">
+        <span class="btn-icon">🖨️</span> Save / Print Roadmap
+      </button>
+      <button class="btn btn-secondary" id="downloadXlsxBtn">
+        <span class="btn-icon">📊</span> Download Inventory (Excel)
+      </button>
+    </div>
+  </div>
+
+  <div class="clear-all-wrap">
+    <button class="btn-clear" id="clearAllBtn" type="button">Clear all and start over</button>
+  </div>
+
+</div>
+
+<div class="save-indicator" id="saveIndicator">Saved</div>
+<div class="pdf-document" id="pdfDocument"></div>
+
+<script>
+'use strict';
+
+const STORAGE_KEY = 'Two Weeks Out_scalableSystems_v1';
+const MAX_SYSTEM_ROWS = 20;
+const MIN_SYSTEM_ROWS = 3;
+
+// === CATEGORY OPTIONS ===
+const CATEGORY_OPTIONS = ['Operations', 'Sales & marketing', 'Finance', 'People & hiring', 'AI & automation', 'Product & delivery'];
+
+// === VERDICT OPTIONS ===
+const VERDICT_OPTIONS = ['Build now', 'Hold for proof'];
+
+// === SYSTEM EXAMPLES ===
+// Transferable, type-illustrative — span categories and both verdicts.
+const SYSTEM_EXAMPLES = [
+  { name: 'Shared CRM / pipeline system', category: 'Sales & marketing', does: 'Lets pipeline live outside the owner\'s head — a precondition for a second salesperson', verdict: 'Build now' },
+  { name: 'Documented onboarding process', category: 'Operations', does: 'Lets a non-owner run customer onboarding start to finish', verdict: 'Build now' },
+  { name: 'Accounting / bookkeeping system', category: 'Finance', does: 'Keeps the numbers reliable enough to make decisions on — basic infrastructure', verdict: 'Build now' },
+  { name: 'AI-assisted content & research workflow', category: 'AI & automation', does: 'Multiplies a small team\'s output today — a productivity gain available now', verdict: 'Build now' },
+  { name: 'Custom-built client portal', category: 'Product & delivery', does: 'Makes the experience slicker — but customers are not blocked without it', verdict: 'Hold for proof' },
+  { name: 'BI dashboard / analytics layer', category: 'Operations', does: 'Optimizes reporting you can still do by hand at current scale', verdict: 'Hold for proof' },
+  { name: 'AI optimization / personalization layer', category: 'AI & automation', does: 'Needs scale and data you don\'t yet have to pay back its cost', verdict: 'Hold for proof' },
+  { name: 'Formal hiring & onboarding pipeline', category: 'People & hiring', does: 'Enables hiring in volume — premature if you hire a few times a year', verdict: 'Hold for proof' },
+];
+
+// === EXAMPLE TEXT ===
+const EXAMPLES = {
+  manualNow: 'Client onboarding runs through the owner\'s inbox and a checklist only the owner knows. Monthly reporting is hand-built in spreadsheets — about two days of work. There is no shared CRM; the sales pipeline lives in the owner\'s head and a notebook.',
+  nextStage: 'From roughly 90 clients to about 140 over the next 18 months, delivered by the existing senior team plus two new hires — and critically, without the owner personally involved in every engagement.',
+  stageBlockers: 'Owner-run onboarding won\'t hold past ~110 clients. Hand-built spreadsheet reporting already eats two days a month and will not scale. Pipeline-in-the-owner\'s-head fails the moment a second salesperson is hired. These three are what break first.',
+  planFirst: 'The shared CRM goes first. Pipeline-in-the-owner\'s-head is the constraint closest to breaking, and the CRM is the foundation a second salesperson cannot start without. It enables the next stage rather than just tidying this one.',
+  planOwner: 'Operations lead owns the build day to day, with owner sign-off on the pipeline stages and required fields. One half-day per week of the owner\'s time for the first six weeks.',
+  planSuccess: 'Every active deal lives in the CRM with a clear stage. The owner can hand the full pipeline to a new salesperson without a handover meeting. The weekly pipeline review runs off the CRM, not anyone\'s memory.',
+  planNotBuilding: 'We are NOT building the custom client portal, the BI dashboard, or the AI optimization layer this quarter. Each has a named trigger and waits for it. We will resist building these even when they start to feel overdue — that feeling is the premature-scaling trap.',
+};
+
+// === STATE ===
+let state = {
+  business: { name: '', owner: '', revenue: '', team: '', customers: '', manualNow: '' },
+  stage: { nextStage: '', blockers: '' },
+  systems: [],
+  triggers: {},   // keyed by system id -> trigger text
+  plan: { first: '', owner: '', start: '', success: '', notBuilding: '' },
+};
+
+let systemSeq = 1;
+function makeSystem(name, category, does, verdict) {
+  return {
+    id: 's' + (systemSeq++),
+    name: name || '',
+    category: category || '',
+    does: does || '',
+    verdict: verdict || '',
+  };
+}
+
+// Seed with empty rows
+for (let i = 0; i < 5; i++) state.systems.push(makeSystem());
+
+// === PERSISTENCE ===
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ state, systemSeq }));
+    flashSaved();
+  } catch (e) { console.warn('Save failed:', e); }
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const p = parsed.state || parsed;
+    if (p.business) state.business = { ...state.business, ...p.business };
+    if (p.stage) state.stage = { ...state.stage, ...p.stage };
+    if (Array.isArray(p.systems) && p.systems.length > 0) {
+      state.systems = p.systems.map(s => ({
+        id: s.id || ('s' + (systemSeq++)),
+        name: s.name || '',
+        category: s.category || '',
+        does: s.does || '',
+        verdict: s.verdict || '',
+      }));
+    }
+    if (p.triggers && typeof p.triggers === 'object') state.triggers = p.triggers;
+    if (p.plan) state.plan = { ...state.plan, ...p.plan };
+    if (typeof parsed.systemSeq === 'number' && parsed.systemSeq > systemSeq) {
+      systemSeq = parsed.systemSeq;
+    }
+  } catch (e) { console.warn('Load failed:', e); }
+}
+function flashSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function buildSelectOptions(options, selected, placeholder) {
+  let html = `<option value=""${!selected ? ' selected' : ''}>${escapeHtml(placeholder || '—')}</option>`;
+  let matched = false;
+  options.forEach(opt => {
+    const isSel = String(opt) === String(selected);
+    if (isSel) matched = true;
+    html += `<option value="${escapeHtml(opt)}"${isSel ? ' selected' : ''}>${escapeHtml(opt)}</option>`;
+  });
+  if (selected && !matched) {
+    html += `<option value="${escapeHtml(selected)}" selected>${escapeHtml(selected)}</option>`;
+  }
+  return html;
+}
+
+// === RENDER ===
+function render() {
+  renderBusiness();
+  renderStage();
+  renderSystems();
+  renderTriggers();
+  renderPlan();
+  updateLivePanel();
+}
+
+function renderBusiness() {
+  document.getElementById('businessName').value = state.business.name || '';
+  document.getElementById('ownerName').value = state.business.owner || '';
+  document.getElementById('currentRevenue').value = state.business.revenue || '';
+  document.getElementById('teamSize').value = state.business.team || '';
+  document.getElementById('customerCount').value = state.business.customers || '';
+  document.getElementById('manualNow').value = state.business.manualNow || '';
+}
+
+function renderStage() {
+  document.getElementById('nextStage').value = state.stage.nextStage || '';
+  document.getElementById('stageBlockers').value = state.stage.blockers || '';
+}
+
+function isSystemNamed(s) {
+  return s.name && s.name.trim();
+}
+
+function renderSystems() {
+  const body = document.getElementById('systemsBody');
+  body.innerHTML = '';
+  state.systems.forEach((s, i) => {
+    const tr = document.createElement('tr');
+    if (s.verdict === 'Build now') tr.className = 'row-build';
+    else if (s.verdict === 'Hold for proof') tr.className = 'row-hold';
+    const verdictClass = s.verdict === 'Build now' ? 'is-build' : (s.verdict === 'Hold for proof' ? 'is-hold' : '');
+    tr.innerHTML = `
+      <td class="row-num">${i + 1}</td>
+      <td><input type="text" data-sys="${s.id}" data-field="name" value="${escapeHtml(s.name)}" placeholder="System or tool"></td>
+      <td><select data-sys="${s.id}" data-field="category">${buildSelectOptions(CATEGORY_OPTIONS, s.category, 'Category')}</select></td>
+      <td><input type="text" data-sys="${s.id}" data-field="does" value="${escapeHtml(s.does)}" placeholder="What growth it unlocks"></td>
+      <td><select class="verdict-select ${verdictClass}" data-sys="${s.id}" data-field="verdict">${buildSelectOptions(VERDICT_OPTIONS, s.verdict, '— classify —')}</select></td>
+      <td class="row-actions">
+        ${state.systems.length > MIN_SYSTEM_ROWS ? `<button class="row-remove" data-sys-remove="${s.id}" type="button" title="Remove row">×</button>` : ''}
+      </td>
+    `;
+    body.appendChild(tr);
+  });
+
+  body.querySelectorAll('[data-sys]').forEach(inp => {
+    const evt = inp.tagName === 'SELECT' ? 'change' : 'input';
+    inp.addEventListener(evt, e => {
+      const s = state.systems.find(x => x.id === e.target.dataset.sys);
+      if (!s) return;
+      s[e.target.dataset.field] = e.target.value;
+      save();
+      // Verdict and name changes ripple into row color, triggers, live panel
+      if (e.target.dataset.field === 'verdict' || e.target.dataset.field === 'name' || e.target.dataset.field === 'category') {
+        renderSystems();
+        renderTriggers();
+        updateLivePanel();
+      }
+    });
+  });
+  body.querySelectorAll('[data-sys-remove]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const id = e.target.dataset.sysRemove;
+      state.systems = state.systems.filter(s => s.id !== id);
+      delete state.triggers[id];
+      save();
+      renderSystems();
+      renderTriggers();
+      updateLivePanel();
+    });
+  });
+
+  const addBtn = document.getElementById('addSystemRow');
+  addBtn.disabled = state.systems.length >= MAX_SYSTEM_ROWS;
+  addBtn.textContent = state.systems.length >= MAX_SYSTEM_ROWS
+    ? `Maximum ${MAX_SYSTEM_ROWS} systems`
+    : '+ Add system';
+}
+
+function renderTriggers() {
+  const list = document.getElementById('triggerList');
+  list.innerHTML = '';
+  const held = state.systems.filter(s => isSystemNamed(s) && s.verdict === 'Hold for proof');
+
+  if (held.length === 0) {
+    list.innerHTML = '<div class="empty-hint">No systems are classified "hold for proof" yet. Once you mark a system to hold in Section 3, name its proof trigger here.</div>';
+    return;
+  }
+
+  held.forEach(s => {
+    const triggerText = state.triggers[s.id] || '';
+    const card = document.createElement('div');
+    card.className = 'trigger-card';
+    card.innerHTML = `
+      <div class="trigger-card-name">${escapeHtml(s.name)}</div>
+      <div class="trigger-card-cat">${escapeHtml(s.category || 'Uncategorized')}</div>
+      <div class="field">
+        <label>The proof trigger — what specific signal flips this to "build"?</label>
+        <input type="text" data-trigger="${s.id}" value="${escapeHtml(triggerText)}"
+               placeholder="e.g. When we pass 120 clients · When we hire a third salesperson · When monthly reporting exceeds 3 days">
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  list.querySelectorAll('[data-trigger]').forEach(inp => {
+    inp.addEventListener('input', e => {
+      state.triggers[e.target.dataset.trigger] = e.target.value;
+      save();
+    });
+  });
+}
+
+function renderPlan() {
+  document.getElementById('planFirst').value = state.plan.first || '';
+  document.getElementById('planOwner').value = state.plan.owner || '';
+  document.getElementById('planStart').value = state.plan.start || '';
+  document.getElementById('planSuccess').value = state.plan.success || '';
+  document.getElementById('planNotBuilding').value = state.plan.notBuilding || '';
+}
+
+function updateLivePanel() {
+  const panel = document.getElementById('livePanel');
+  const named = state.systems.filter(isSystemNamed);
+  const buildCount = named.filter(s => s.verdict === 'Build now').length;
+  const holdCount = named.filter(s => s.verdict === 'Hold for proof').length;
+  const unclassified = named.filter(s => !s.verdict).length;
+
+  const anyContent = named.length > 0 || state.business.name || state.stage.nextStage;
+  if (!anyContent) {
+    panel.classList.remove('active');
+    return;
+  }
+  panel.classList.add('active');
+
+  document.getElementById('liveBuildCount').textContent = buildCount;
+  document.getElementById('liveHoldCount').textContent = holdCount;
+
+  const headline = document.getElementById('liveHeadline');
+  if (named.length === 0) {
+    headline.textContent = 'List your systems in Section 3';
+  } else if (unclassified > 0) {
+    headline.textContent = `${named.length} systems · ${unclassified} still unclassified`;
+  } else {
+    headline.textContent = `${named.length} systems classified`;
+  }
+}
+
+// === FIELD WIRING ===
+function wireBusinessFields() {
+  const map = {
+    businessName: 'name', ownerName: 'owner', currentRevenue: 'revenue',
+    teamSize: 'team', customerCount: 'customers', manualNow: 'manualNow',
+  };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.business[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireStageFields() {
+  document.getElementById('nextStage').addEventListener('input', e => {
+    state.stage.nextStage = e.target.value;
+    save();
+    updateLivePanel();
+  });
+  document.getElementById('stageBlockers').addEventListener('input', e => {
+    state.stage.blockers = e.target.value;
+    save();
+  });
+}
+
+function wirePlanFields() {
+  const map = { planFirst: 'first', planOwner: 'owner', planStart: 'start', planSuccess: 'success', planNotBuilding: 'notBuilding' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.plan[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireAddSystem() {
+  document.getElementById('addSystemRow').addEventListener('click', () => {
+    if (state.systems.length >= MAX_SYSTEM_ROWS) return;
+    state.systems.push(makeSystem());
+    save();
+    renderSystems();
+    updateLivePanel();
+  });
+}
+
+function wireFillExamples() {
+  document.getElementById('fillSystemExamples').addEventListener('click', () => {
+    let exampleIdx = 0;
+    let filled = 0;
+    state.systems.forEach(s => {
+      if (!s.name && !s.does && exampleIdx < SYSTEM_EXAMPLES.length) {
+        const ex = SYSTEM_EXAMPLES[exampleIdx];
+        s.name = ex.name;
+        s.category = ex.category;
+        s.does = ex.does;
+        s.verdict = ex.verdict;
+        exampleIdx++;
+        filled++;
+      }
+    });
+    while (exampleIdx < SYSTEM_EXAMPLES.length && state.systems.length < MAX_SYSTEM_ROWS) {
+      const ex = SYSTEM_EXAMPLES[exampleIdx];
+      state.systems.push(makeSystem(ex.name, ex.category, ex.does, ex.verdict));
+      exampleIdx++;
+      filled++;
+    }
+    if (filled === 0) {
+      alert('No empty rows to fill. Clear a row first, or rows are already populated.');
+      return;
+    }
+    save();
+    renderSystems();
+    renderTriggers();
+    updateLivePanel();
+  });
+}
+
+// === USE EXAMPLE BUTTONS (static fields) ===
+function wireExampleButtons() {
+  document.querySelectorAll('[data-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.example;
+      const exampleText = EXAMPLES[key];
+      if (exampleText === undefined) return;
+
+      const targets = {
+        manualNow: { el: 'manualNow', get: () => state.business.manualNow, set: v => state.business.manualNow = v },
+        nextStage: { el: 'nextStage', get: () => state.stage.nextStage, set: v => state.stage.nextStage = v },
+        stageBlockers: { el: 'stageBlockers', get: () => state.stage.blockers, set: v => state.stage.blockers = v },
+        planFirst: { el: 'planFirst', get: () => state.plan.first, set: v => state.plan.first = v },
+        planOwner: { el: 'planOwner', get: () => state.plan.owner, set: v => state.plan.owner = v },
+        planSuccess: { el: 'planSuccess', get: () => state.plan.success, set: v => state.plan.success = v },
+        planNotBuilding: { el: 'planNotBuilding', get: () => state.plan.notBuilding, set: v => state.plan.notBuilding = v },
+      };
+      const t = targets[key];
+      if (!t) return;
+      const existing = t.get();
+      if (existing && existing.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+      t.set(exampleText);
+      const el = document.getElementById(t.el);
+      el.value = exampleText;
+      el.focus();
+      el.setSelectionRange(exampleText.length, exampleText.length);
+      save();
+    });
+  });
+}
+
+// === FLOATING HELP TOOLTIP ===
+function setupHelpTooltips() {
+  const tip = document.createElement('div');
+  tip.className = 'help-floating';
+  tip.setAttribute('role', 'tooltip');
+  document.body.appendChild(tip);
+  let hideTimer = null;
+
+  function showFor(icon) {
+    clearTimeout(hideTimer);
+    const help = icon.getAttribute('data-help') || '';
+    const eg = icon.getAttribute('data-help-eg') || '';
+    tip.innerHTML = escapeHtml(help) + (eg ? `<span class="help-floating-eg">${escapeHtml(eg)}</span>` : '');
+    tip.style.visibility = 'hidden';
+    tip.classList.add('visible');
+
+    const iconRect = icon.getBoundingClientRect();
+    const tipRect = tip.getBoundingClientRect();
+    const margin = 8;
+    let left = iconRect.left + iconRect.width / 2 - tipRect.width / 2;
+    let top = iconRect.top - tipRect.height - 10;
+    const maxLeft = window.innerWidth - tipRect.width - margin;
+    if (left < margin) left = margin;
+    if (left > maxLeft) left = maxLeft;
+    let arrowOnTop = false;
+    if (top < margin) {
+      top = iconRect.bottom + 10;
+      arrowOnTop = true;
+    }
+    let arrowLeft = iconRect.left + iconRect.width / 2 - left;
+    arrowLeft = Math.max(14, Math.min(tipRect.width - 14, arrowLeft));
+    tip.style.setProperty('--arrow-left', arrowLeft + 'px');
+    tip.classList.toggle('help-below', arrowOnTop);
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.visibility = 'visible';
+  }
+  function hide() {
+    hideTimer = setTimeout(() => tip.classList.remove('visible'), 60);
+  }
+  document.addEventListener('mouseover', e => {
+    const icon = e.target.closest('.help-icon');
+    if (icon) showFor(icon);
+  });
+  document.addEventListener('mouseout', e => {
+    const icon = e.target.closest('.help-icon');
+    if (icon) hide();
+  });
+  document.addEventListener('focusin', e => {
+    const icon = e.target.closest('.help-icon');
+    if (icon) showFor(icon);
+  });
+  document.addEventListener('focusout', e => {
+    const icon = e.target.closest('.help-icon');
+    if (icon) hide();
+  });
+  window.addEventListener('scroll', () => tip.classList.remove('visible'), true);
+  window.addEventListener('resize', () => tip.classList.remove('visible'));
+}
+
+// === FORMAT DATE ===
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch { return iso; }
+}
+
+// === PDF DOWNLOAD ===
+document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+  buildPdfDocument();
+  // Give the browser a moment to lay out the freshly-built content before printing.
+  setTimeout(() => { window.print(); }, 60);
+});
+
+function buildPdfDocument() {
+  const el = document.getElementById('pdfDocument');
+  const b = state.business;
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const named = state.systems.filter(isSystemNamed);
+  const buildList = named.filter(s => s.verdict === 'Build now');
+  const holdList = named.filter(s => s.verdict === 'Hold for proof');
+
+  const businessLine = [b.name, b.revenue, b.team].filter(Boolean).join(' · ');
+
+  let html = `
+    <div class="pdf-header">
+      <div class="pdf-eyebrow">Two Weeks Out · Scalable Systems Roadmap</div>
+      <h1>${escapeHtml(b.name || 'Your Systems Roadmap')}</h1>
+      <div class="pdf-subtitle">${escapeHtml(businessLine || 'Scalable systems roadmap')}</div>
+    </div>
+    <div class="pdf-meta">${b.owner ? `Prepared by ${escapeHtml(b.owner)} · ` : ''}${today}</div>
+  `;
+
+  // Next stage
+  if (state.stage.nextStage) {
+    html += `<div class="pdf-section-title">The Next Stage</div>
+      <div class="pdf-next-stage">
+        <div class="pdf-next-stage-label">What we're building systems to reach</div>
+        <div class="pdf-next-stage-text">${escapeHtml(state.stage.nextStage)}</div>
+      </div>`;
+    if (state.stage.blockers) {
+      html += `<div style="font-size:11px; color:#10131a; margin-top:8px;"><strong>What breaks at that stage:</strong> ${escapeHtml(state.stage.blockers)}</div>`;
+    }
+  }
+
+  // Build-now systems
+  if (buildList.length > 0) {
+    html += `<div class="pdf-section-title">Build Now — Enabling Systems (${buildList.length})</div>
+      <table>
+        <thead><tr><th style="width:32%;">System</th><th style="width:22%;">Category</th><th style="width:46%;">What it enables</th></tr></thead>
+        <tbody>`;
+    buildList.forEach(s => {
+      html += `<tr>
+        <td><strong>${escapeHtml(s.name)}</strong></td>
+        <td>${escapeHtml(s.category || '—')}</td>
+        <td>${escapeHtml(s.does || '—')}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // Hold-for-proof systems with triggers
+  if (holdList.length > 0) {
+    html += `<div class="pdf-section-title">Hold for Proof — with Triggers (${holdList.length})</div>
+      <table>
+        <thead><tr><th style="width:30%;">System</th><th style="width:20%;">Category</th><th style="width:50%;">Proof trigger — flips to "build" when…</th></tr></thead>
+        <tbody>`;
+    holdList.forEach(s => {
+      html += `<tr>
+        <td><strong>${escapeHtml(s.name)}</strong></td>
+        <td>${escapeHtml(s.category || '—')}</td>
+        <td>${escapeHtml(state.triggers[s.id] || '— trigger not yet named —')}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // 90-day plan
+  const p = state.plan;
+  const planFilled = p.first || p.owner || p.start || p.success || p.notBuilding;
+  if (planFilled) {
+    html += `<div class="pdf-section-title">The 90-Day Systems Plan</div>
+      <table>
+        <tbody>
+          <tr><td style="width:26%;"><strong>Build first</strong></td><td>${escapeHtml(p.first || '—')}</td></tr>
+          <tr><td><strong>Owner</strong></td><td>${escapeHtml(p.owner || '—')}</td></tr>
+          <tr><td><strong>Start date</strong></td><td>${escapeHtml(p.start ? formatDate(p.start) : '—')}</td></tr>
+          <tr><td><strong>90-day "done"</strong></td><td>${escapeHtml(p.success || '—')}</td></tr>
+          <tr><td><strong>NOT building yet</strong></td><td>${escapeHtml(p.notBuilding || '—')}</td></tr>
+        </tbody>
+      </table>`;
+  }
+
+  html += `<div class="pdf-principle">Build the systems that enable your next stage — not the ones that optimize a stage you haven't reached.</div>`;
+  html += `<div class="pdf-footer">Two Weeks Out · From Corporate Operator to Confident Owner</div>`;
+
+  el.innerHTML = html;
+}
+
+// === EXCEL DOWNLOAD ===
+document.getElementById('downloadXlsxBtn').addEventListener('click', () => {
+  try {
+    const wb = XLSX.utils.book_new();
+    const b = state.business;
+    const slug = (b.name || 'business').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
+
+    // === Sheet 1: Systems Inventory ===
+    const invHeader = ['#', 'System or tool', 'Category', 'What it does for you', 'Verdict', 'Proof trigger (if held)'];
+    const invRows = [invHeader];
+    state.systems.forEach((s, i) => {
+      invRows.push([
+        i + 1,
+        s.name || '',
+        s.category || '',
+        s.does || '',
+        s.verdict || '',
+        s.verdict === 'Hold for proof' ? (state.triggers[s.id] || '') : '',
+      ]);
+    });
+    for (let j = 0; j < 3; j++) invRows.push([state.systems.length + j + 1, '', '', '', '', '']);
+    const invWs = XLSX.utils.aoa_to_sheet(invRows);
+    invWs['!cols'] = [{ wch: 5 }, { wch: 32 }, { wch: 20 }, { wch: 44 }, { wch: 16 }, { wch: 44 }];
+    XLSX.utils.book_append_sheet(wb, invWs, 'Systems Inventory');
+
+    // === Sheet 2: Roadmap ===
+    const roadRows = [
+      ['Field', 'Value'],
+      ['Business', b.name || ''],
+      ['Owner', b.owner || ''],
+      ['Current revenue', b.revenue || ''],
+      ['Team size', b.team || ''],
+      ['Customer count', b.customers || ''],
+      ['Manual / owner-dependent today', b.manualNow || ''],
+      [''],
+      ['THE NEXT STAGE', ''],
+      ['Next stage of growth', state.stage.nextStage || ''],
+      ['What breaks at that stage', state.stage.blockers || ''],
+      [''],
+      ['THE 90-DAY PLAN', ''],
+      ['Build first', state.plan.first || ''],
+      ['Owner', state.plan.owner || ''],
+      ['Start date', state.plan.start || ''],
+      ['90-day "done"', state.plan.success || ''],
+      ['NOT building yet', state.plan.notBuilding || ''],
+    ];
+    const roadWs = XLSX.utils.aoa_to_sheet(roadRows);
+    roadWs['!cols'] = [{ wch: 30 }, { wch: 72 }];
+    XLSX.utils.book_append_sheet(wb, roadWs, 'Roadmap');
+
+    XLSX.writeFile(wb, `systems_inventory_${slug}.xlsx`);
+  } catch (e) {
+    alert('Excel generation failed. Please try again.');
+    console.error(e);
+  }
+});
+
+// === CLEAR ALL ===
+// Wipes saved data and resets the worksheet to its initial state.
+// Clearing storage then reloading re-runs this file's own seeding logic,
+// guaranteeing a correct fresh state without a hand-written reset.
+function wireClearAll() {
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    const ok = confirm(
+      'Clear everything and start over?\n\n' +
+      'This permanently erases all your entries in this worksheet and cannot be undone.'
+    );
+    if (!ok) return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.warn('Could not clear storage:', e);
+    }
+    location.reload();
+  });
+}
+
+// === INIT ===
+load();
+render();
+wireBusinessFields();
+wireStageFields();
+wireAddSystem();
+wireFillExamples();
+wirePlanFields();
+wireExampleButtons();
+setupHelpTooltips();
+wireClearAll();
+</script>
+</body>
+</html>

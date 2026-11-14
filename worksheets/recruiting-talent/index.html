@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your Recruiting Plan for This Role — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#e9ecf5;
+    --bg:#ffffff;
+    --bg-soft:#fbfaf6;
+    --green:#2747f5;
+    --bright:#2747f5;
+    --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5;
+    --amber:#7d5300;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--bg-soft);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+    background: var(--bg);
+  }
+  header.brand {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 34px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--green);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin: 0;
+  }
+  .step {
+    margin: 38px 0 0;
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+  }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .step-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 28px;font-weight:800;
+    color: var(--bright);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 4px 0 18px;
+    font-style: italic;
+  }
+  label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"], textarea {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 9px 11px;
+    width: 100%;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--em-soft);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.5;
+  }
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+
+  /* Step 1 — role */
+  .role-card {
+    background: var(--em-soft);
+    border-left: 4px solid var(--green);
+    border-radius:0;
+    padding: 16px 20px;
+  }
+  .role-card label { color: var(--green); font-weight: 600; }
+  .role-card input { background: white; }
+
+  /* Step 2 — levers, Step 5 — fit */
+  .block-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .block-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .block-prompt {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 12px;
+  }
+
+  /* Step 3 — pitch */
+  .pitch-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .pitch-tag {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+  }
+  .pitch-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .pitch-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 12px;
+  }
+
+  /* Step 4 — sourcing, Step 6 — running list */
+  .channel-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .channel-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .channel-prompt {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 12px;
+  }
+  .person-row {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr 30px;
+    gap: 10px;
+    margin-bottom: 6px;
+    align-items: center;
+  }
+  .person-row.header {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+  }
+  .person-row.header > div { padding: 0 2px; }
+  .add-row {
+    background: var(--em-soft);
+    border: 1px dashed var(--green);
+    color: var(--green);
+    padding: 6px 12px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius:0;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .add-row:hover { background: #e9ecf5; }
+  .remove-row {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    line-height: 1;
+  }
+  .remove-row:hover { color: var(--danger); }
+
+  /* Step 5 — fit grid */
+  .fit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Output */
+  .output-section {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 3px solid var(--ink);
+  }
+  .output-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;font-weight:800;
+    color: var(--ink);
+    margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+    font-style: italic;
+  }
+  .output-role {
+    text-align: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    color: var(--green);
+    margin-bottom: 28px;
+    padding: 14px 20px;
+    background: var(--em-soft);
+    border-radius:0;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .out-block {
+    margin-bottom: 26px;
+    page-break-inside: avoid;
+  }
+  .out-block-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .lever-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .lever-out {
+    border-left: 3px solid var(--green);
+    padding: 10px 14px;
+    background: var(--bg-soft);
+    border-radius:0;
+  }
+  .lever-out-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .lever-out-body, .pitch-out-body {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  .lever-out-empty, .channel-out-empty {color:#59616e;
+    font-style: italic;
+    font-size: 13px;
+  }
+  .pitch-out {
+    border-left: 3px solid var(--bright);
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    background: var(--bg-soft);
+    border-radius:0;
+  }
+  .pitch-out-tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--bright);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .channel-out {
+    margin-bottom: 14px;
+  }
+  .channel-out-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .channel-out ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .channel-out li {
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .channel-out li:last-child { border-bottom: none; }
+  .channel-out li strong { color: var(--ink); font-weight: 600; }
+  .observation {
+    margin-top: 24px;
+    padding: 14px 18px;
+    background: var(--em-soft);
+    border-radius:0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .observation strong { color: var(--green); }
+  .empty-output {
+    padding: 36px;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius:0;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius:0;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--ink-soft);
+  }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary {
+    background: var(--green);
+    color: white;border-color:#ffffff;
+  }
+  .btn-primary:hover { background: #1b36c9; }
+  .btn-example {
+    background: var(--cream-soft);
+    color: var(--amber);
+    border-color: var(--cream-soft);
+    font-weight: 600;
+  }
+  .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 32px 28px; }
+    .toolbar { display: none; }
+    .add-row, .remove-row { display: none; }
+    .step { page-break-inside: avoid; }
+    .out-block { page-break-inside: avoid; }
+    input, textarea {
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius:0;
+      padding: 4px 0;
+      background: transparent;
+    }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#7C97FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">09 / Build and Lead Your Team</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">Two Weeks Out  ·  Team Building and Leadership Development</p>
+  <h1>Your Recruiting Plan for This Role</h1>
+  <p class="lede">Articulate the four levers, draft the three-part pitch, name your sourcing channels, and start the running list. Walk away with a working recruiting playbook for one specific seat.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<!-- Step 1 — Role -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">01</span>
+    <span class="step-title">The role you're recruiting for</span>
+  </div>
+  <p class="step-sub">This worksheet builds a recruiting plan for one specific seat. Name it here so everything below is anchored to a real role.</p>
+  <div class="role-card">
+    <div class="field">
+      <label for="role-name">Role title</label>
+      <input type="text" id="role-name" placeholder="e.g., Account Management Lead, Senior Operator – Phoenix, Director of Delivery">
+    </div>
+  </div>
+</section>
+
+<!-- Step 2 — Four levers -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">02</span>
+    <span class="step-title">Your four levers, in concrete terms</span>
+  </div>
+  <p class="step-sub">For each lever, describe what your business specifically offers a strong senior candidate. Concrete and defensible — not generic.</p>
+
+  <div class="block-card">
+    <div class="block-name">Scope</div>
+    <p class="block-prompt">At a big company, a senior person owns a slice. At yours, they own a whole function — and they own it visibly.</p>
+    <textarea id="lever-scope" placeholder="e.g., Owns the entire account-management function — sets the standard, hires the team, owns the client outcomes, reports directly to the owner."></textarea>
+  </div>
+
+  <div class="block-card">
+    <div class="block-name">Proximity to the owner</div>
+    <p class="block-prompt">Working directly with the principal. Weekly time, real input into direction.</p>
+    <textarea id="lever-proximity" placeholder="e.g., Weekly 1:1 with me as owner. Sits on the senior team. Real input into strategic decisions, not just execution."></textarea>
+  </div>
+
+  <div class="block-card">
+    <div class="block-name">Speed</div>
+    <p class="block-prompt">Decisions in days, not quarters. Ideas get tried. The work has visible consequences.</p>
+    <textarea id="lever-speed" placeholder="e.g., New programs can launch in 60 days, not 6 months. No committee approval cycle. Tests we run this quarter shape what the company does next."></textarea>
+  </div>
+
+  <div class="block-card">
+    <div class="block-name">A real stake in what they build</div>
+    <p class="block-prompt">Not necessarily equity. A meaningful share in what they help build — structured well enough that they feel it.</p>
+    <textarea id="lever-stake" placeholder="e.g., Cash profit-share — 10% of profit above $X target, distributed annually. Or: multi-year retention bonus structured so it grows with tenure."></textarea>
+  </div>
+</section>
+
+<!-- Step 3 — Three-part pitch -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">03</span>
+    <span class="step-title">The three-part pitch</span>
+  </div>
+  <p class="step-sub">Sell the seat, not the company. Senior candidates' tolerance for vague pitches is exactly inverse to their seniority.</p>
+
+  <div class="pitch-card">
+    <div class="pitch-tag">PART 1</div>
+    <div class="pitch-name">What the role owns</div>
+    <p class="pitch-sub">Scope, team, decisions, budget. Specifics. Not "wear many hats" — that tells a senior candidate you haven't done the work.</p>
+    <textarea id="pitch-owns" placeholder="The named function, team size, decision rights, and budget this seat actually owns…"></textarea>
+  </div>
+
+  <div class="pitch-card">
+    <div class="pitch-tag">PART 2</div>
+    <div class="pitch-name">What the first 90 days look like</div>
+    <p class="pitch-sub">Named priorities. The people they will work with. The decisions you expect from them.</p>
+    <textarea id="pitch-90" placeholder="The 2–3 priorities for their first 90 days, the team they will inherit, and the early decisions you expect…"></textarea>
+  </div>
+
+  <div class="pitch-card">
+    <div class="pitch-tag">PART 3</div>
+    <div class="pitch-name">Where the role goes in two years</div>
+    <p class="pitch-sub">The real path. What success would mean for compensation, scope, responsibility. Honest. Defensible.</p>
+    <textarea id="pitch-2y" placeholder="What success looks like at the two-year mark — scope expansion, compensation evolution, the next level of responsibility…"></textarea>
+  </div>
+</section>
+
+<!-- Step 4 — Sourcing -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">04</span>
+    <span class="step-title">Sourcing — name actual people</span>
+  </div>
+  <p class="step-sub">Strong senior people are not browsing job boards. They come from three sources. Name people, not just channels.</p>
+
+  <div class="channel-card">
+    <div class="channel-name">Your network — and your network's network</div>
+    <p class="channel-prompt">Warm referrals from past colleagues, current clients, trusted advisors. The strongest source.</p>
+    <div class="person-row header">
+      <div>Person / initials</div>
+      <div>Their context</div>
+      <div></div>
+    </div>
+    <div id="network-list"></div>
+    <button class="add-row" type="button" onclick="addPersonRow('network')">+ Add a contact</button>
+  </div>
+
+  <div class="channel-card">
+    <div class="channel-name">The deliberate poach</div>
+    <p class="channel-prompt">Specific people at competitors or adjacent firms whose work you respect.</p>
+    <div class="person-row header">
+      <div>Person / initials</div>
+      <div>Where they are now</div>
+      <div></div>
+    </div>
+    <div id="poach-list"></div>
+    <button class="add-row" type="button" onclick="addPersonRow('poach')">+ Add a target</button>
+  </div>
+
+  <div class="channel-card">
+    <div class="channel-name">The boomerang</div>
+    <p class="channel-prompt">People who left the industry or stepped back during a life moment and might be ready to come back.</p>
+    <div class="person-row header">
+      <div>Person / initials</div>
+      <div>Why they stepped back / why they might return</div>
+      <div></div>
+    </div>
+    <div id="boomerang-list"></div>
+    <button class="add-row" type="button" onclick="addPersonRow('boomerang')">+ Add a boomerang</button>
+  </div>
+</section>
+
+<!-- Step 5 — Beyond fit -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">05</span>
+    <span class="step-title">Beyond "fit" — two harder questions</span>
+  </div>
+  <p class="step-sub">Replace "cultural fit" — which usually means "someone I would enjoy working with" — with two more useful questions.</p>
+
+  <div class="fit-grid">
+    <div class="block-card" style="margin: 0;">
+      <div class="block-name">Working-norms check</div>
+      <p class="block-prompt">What specific working norms would create real friction in your business?</p>
+      <textarea id="fit-norms" placeholder="e.g., Decision-making under uncertainty — we move fast and revise; a candidate who needs full information before deciding will struggle."></textarea>
+    </div>
+    <div class="block-card" style="margin: 0;">
+      <div class="block-name">Complement — what's missing</div>
+      <p class="block-prompt">What does the existing team lack that this hire should bring?</p>
+      <textarea id="fit-complement" placeholder="e.g., We are heavy on craft and light on operational rigor. This hire should bring systems thinking, not creative chops we already have."></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- Step 6 — Running list -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">06</span>
+    <span class="step-title">Your running list</span>
+  </div>
+  <p class="step-sub">Strong people you would hire if the right seat opened. Light, irregular touchpoints long before you need them. Start now.</p>
+
+  <div class="channel-card">
+    <div class="person-row header">
+      <div>Person / initials</div>
+      <div>Where they are now / what makes them noteworthy</div>
+      <div></div>
+    </div>
+    <div id="running-list"></div>
+    <button class="add-row" type="button" onclick="addPersonRow('running')">+ Add a person</button>
+  </div>
+</section>
+
+<!-- OUTPUT -->
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Recruiting Playbook</h2>
+    <p>The sharpened pitch and sourcing plan for this specific seat.</p>
+  </div>
+
+  <div id="output-section">
+    <div class="empty-output">Complete Steps 1–6 above and click Generate to produce your printable playbook.</div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+// =============================================================================
+// USE EXAMPLE — Andrew & Rima's Account Management Lead
+// =============================================================================
+const EXAMPLE = {
+  role: "Account Management Lead",
+  levers: {
+    scope: "Owns the entire account-management function — eight account managers reporting in, full responsibility for client retention, expansion, and the standard of work delivered. Sets hiring, sets the standard, owns the P&L for the AM function. Reports directly to me as owner.",
+    proximity: "Weekly 1:1 with me. Sits on the senior team alongside our delivery and ops leads. Real input into strategic decisions — which client segments we go after, what services we sunset, how we price the next tier. Not just execution within someone else's plan.",
+    speed: "We can launch a new client program in 60 days from concept. No committee approval cycle. If they want to test a new service offering with two willing clients next month, that's a conversation, not a strategy review. What we try this quarter shapes what the company does next quarter.",
+    stake: "Cash profit-share — 10% of profit above an $X annual target, distributed in February. Plus a three-year retention bonus that vests in equal installments and meaningfully grows the total comp. The math is on one page; they can calculate it themselves at any point."
+  },
+  pitch: {
+    owns: "The AM function end to end — eight people today, growing to twelve over the next eighteen months as we open Phoenix. Owns the client portfolio (currently ~$2M in ARR), hiring decisions for new AMs, the standard of work delivered, and the AM compensation structure. Has a $200K discretionary budget for tools, training, and client investment.",
+    "90": "Three priorities in the first 90 days. First, deep one-on-ones with each of the eight current AMs and the top fifteen clients — assess where the function actually is. Second, decide which two clients are at risk and what to do about each. Third, recommend a hiring plan for the next two AM seats and start that recruiting. I expect a written 90-day assessment and recommendations at day 75, and then we run with their plan.",
+    "2y": "At the two-year mark, this role expands to VP of Client Services — adding oversight of the delivery team and a seat at the equity-substitute table. Compensation grows accordingly, with a meaningful step up in both base and the profit-share percentage. The path is real, not aspirational; we have a written summary of the milestones that trigger it."
+  },
+  fit: {
+    norms: "Decision-making under uncertainty — we move fast and revise. A candidate who needs full information before committing will struggle here. We value direct disagreement voiced respectfully, and we read silence in meetings as a problem to investigate, not consensus to celebrate.",
+    complement: "We are strong on craft and client relationships and notably weaker on operational rigor — process design, measurement, systematic onboarding of new AMs. This hire should bring the operational discipline the current team doesn't have, not more of the relationship skills we're already deep in."
+  },
+  sourcing: {
+    network: [
+      { name: "J.M.", ctx: "Former Director of Account Services at our last agency — would know strong AM leads from her network" },
+      { name: "Top client at firm X", ctx: "Has worked with a half-dozen agencies and respects the AM leadership at two of them" }
+    ],
+    poach: [
+      { name: "K.R.", ctx: "AM Director at competitor Y, three-year tenure, ran their Phoenix expansion — exactly the profile" },
+      { name: "S.T.", ctx: "Senior AM at holding agency Z, on a slow career track, recently passed over for a director role" }
+    ],
+    boomerang: [
+      { name: "L.W.", ctx: "Stepped back from agency work two years ago after her second child; has consulted lightly — may be ready to return part-time then full" }
+    ]
+  },
+  running: [
+    { name: "K.R.", ctx: "AM Director, competitor Y, the poach target above — keep light contact regardless" },
+    { name: "M.D.", ctx: "Senior delivery lead at a holding agency, three years out of school but exceptional — too junior today, possible in 18 months" },
+    { name: "P.H.", ctx: "Currently in-house at a former client, would be a strong functional leader if she ever wanted to leave" }
+  ]
+};
+
+function useExample() {
+  const hasContent = !!val("role-name") ||
+    !!val("lever-scope") || !!val("lever-proximity") || !!val("lever-speed") || !!val("lever-stake") ||
+    !!val("pitch-owns") || !!val("pitch-90") || !!val("pitch-2y") ||
+    !!val("fit-norms") || !!val("fit-complement") ||
+    (getRows("network").length + getRows("poach").length + getRows("boomerang").length + getRows("running").length) > 0;
+
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+
+  // Clear without confirmation (we already confirmed if needed)
+  document.querySelectorAll("input[type='text'], textarea").forEach(el => el.value = "");
+  ["network", "poach", "boomerang", "running"].forEach(ch => {
+    document.getElementById(`${ch}-list`).innerHTML = "";
+    rowCounters[ch] = 0;
+  });
+
+  // Populate fields
+  document.getElementById("role-name").value = EXAMPLE.role;
+  document.getElementById("lever-scope").value = EXAMPLE.levers.scope;
+  document.getElementById("lever-proximity").value = EXAMPLE.levers.proximity;
+  document.getElementById("lever-speed").value = EXAMPLE.levers.speed;
+  document.getElementById("lever-stake").value = EXAMPLE.levers.stake;
+  document.getElementById("pitch-owns").value = EXAMPLE.pitch.owns;
+  document.getElementById("pitch-90").value = EXAMPLE.pitch["90"];
+  document.getElementById("pitch-2y").value = EXAMPLE.pitch["2y"];
+  document.getElementById("fit-norms").value = EXAMPLE.fit.norms;
+  document.getElementById("fit-complement").value = EXAMPLE.fit.complement;
+
+  EXAMPLE.sourcing.network.forEach(p => addPersonRow("network", p.name, p.ctx));
+  EXAMPLE.sourcing.poach.forEach(p => addPersonRow("poach", p.name, p.ctx));
+  EXAMPLE.sourcing.boomerang.forEach(p => addPersonRow("boomerang", p.name, p.ctx));
+  EXAMPLE.running.forEach(p => addPersonRow("running", p.name, p.ctx));
+
+  // Scroll to top so the learner sees the populated worksheet from Step 1
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================================================
+// SIMPLE REPEATABLE ROWS
+// =============================================================================
+const rowCounters = { network: 0, poach: 0, boomerang: 0, running: 0 };
+
+function addPersonRow(channel, prefName, prefContext) {
+  const id = `${channel}-${++rowCounters[channel]}`;
+  const list = document.getElementById(`${channel}-list`);
+  const row = document.createElement("div");
+  row.className = "person-row";
+  row.id = id;
+  row.innerHTML = `
+    <input type="text" id="${id}-name" placeholder="Initials or name" value="${escapeHtml(prefName || '')}">
+    <input type="text" id="${id}-ctx" placeholder="One-line context" value="${escapeHtml(prefContext || '')}">
+    <button class="remove-row" type="button" onclick="removeRow('${id}')" title="Remove">✕</button>
+  `;
+  list.appendChild(row);
+}
+function removeRow(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+function getRows(channel) {
+  const rows = [];
+  document.querySelectorAll(`#${channel}-list .person-row`).forEach(r => {
+    const name = document.getElementById(`${r.id}-name`)?.value.trim() || "";
+    const ctx  = document.getElementById(`${r.id}-ctx`)?.value.trim()  || "";
+    if (name || ctx) rows.push({ name, ctx });
+  });
+  return rows;
+}
+
+// =============================================================================
+// OUTPUT
+// =============================================================================
+function val(id) { return (document.getElementById(id)?.value || "").trim(); }
+
+function generate() {
+  const out = document.getElementById("output-section");
+  const role = val("role-name");
+
+  if (!role) {
+    out.innerHTML = '<div class="empty-output">Name the role in Step 1 to generate your playbook.</div>';
+    out.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  const levers = {
+    Scope:      val("lever-scope"),
+    Proximity:  val("lever-proximity"),
+    Speed:      val("lever-speed"),
+    Stake:      val("lever-stake"),
+  };
+  const pitch = {
+    "What the role owns":   val("pitch-owns"),
+    "The first 90 days":    val("pitch-90"),
+    "The two-year path":    val("pitch-2y"),
+  };
+  const fit = {
+    "Working-norms check": val("fit-norms"),
+    "Complement":          val("fit-complement"),
+  };
+  const sourcing = {
+    "Your network":          getRows("network"),
+    "The deliberate poach":  getRows("poach"),
+    "The boomerang":         getRows("boomerang"),
+  };
+  const running = getRows("running");
+
+  let html = `<div class="output-role">${escapeHtml(role)}</div>`;
+
+  // Four levers
+  html += `<div class="out-block"><div class="out-block-title">Your four levers</div><div class="lever-grid">`;
+  Object.entries(levers).forEach(([name, body]) => {
+    html += `<div class="lever-out">
+      <div class="lever-out-name">${name}</div>
+      ${body ? `<div class="lever-out-body">${escapeHtml(body)}</div>` : `<div class="lever-out-empty">Not yet articulated.</div>`}
+    </div>`;
+  });
+  html += `</div></div>`;
+
+  // Three-part pitch
+  html += `<div class="out-block"><div class="out-block-title">The three-part pitch</div>`;
+  let pi = 0;
+  Object.entries(pitch).forEach(([name, body]) => {
+    pi++;
+    html += `<div class="pitch-out">
+      <div class="pitch-out-tag">Part ${pi} — ${name}</div>
+      ${body ? `<div class="pitch-out-body">${escapeHtml(body)}</div>` : `<div class="lever-out-empty">Not yet drafted.</div>`}
+    </div>`;
+  });
+  html += `</div>`;
+
+  // Sourcing
+  html += `<div class="out-block"><div class="out-block-title">Sourcing channels</div>`;
+  Object.entries(sourcing).forEach(([name, rows]) => {
+    html += `<div class="channel-out"><div class="channel-out-name">${name}</div>`;
+    if (rows.length === 0) {
+      html += `<div class="channel-out-empty">No names listed yet.</div>`;
+    } else {
+      html += `<ul>`;
+      rows.forEach(r => {
+        const left = r.name ? `<strong>${escapeHtml(r.name)}</strong>` : "";
+        const sep  = (r.name && r.ctx) ? " — " : "";
+        const right = r.ctx ? escapeHtml(r.ctx) : "";
+        html += `<li>${left}${sep}${right}</li>`;
+      });
+      html += `</ul>`;
+    }
+    html += `</div>`;
+  });
+  html += `</div>`;
+
+  // Beyond fit
+  html += `<div class="out-block"><div class="out-block-title">Beyond "fit"</div><div class="lever-grid">`;
+  Object.entries(fit).forEach(([name, body]) => {
+    html += `<div class="lever-out">
+      <div class="lever-out-name">${name}</div>
+      ${body ? `<div class="lever-out-body">${escapeHtml(body)}</div>` : `<div class="lever-out-empty">Not yet articulated.</div>`}
+    </div>`;
+  });
+  html += `</div></div>`;
+
+  // Running list
+  html += `<div class="out-block"><div class="out-block-title">Your running list</div>`;
+  if (running.length === 0) {
+    html += `<div class="channel-out-empty">No names on the list yet.</div>`;
+  } else {
+    html += `<ul style="margin:0;padding-left:0;list-style:none;">`;
+    running.forEach(r => {
+      const left = r.name ? `<strong>${escapeHtml(r.name)}</strong>` : "";
+      const sep  = (r.name && r.ctx) ? " — " : "";
+      const right = r.ctx ? escapeHtml(r.ctx) : "";
+      html += `<li style="padding:6px 0;border-bottom:1px solid var(--border-soft);font-size:14px;color:var(--ink-soft);">${left}${sep}${right}</li>`;
+    });
+    html += `</ul>`;
+  }
+  html += `</div>`;
+
+  // Two or three light observations
+  const obs = buildObservations({ levers, pitch, sourcing, running });
+  obs.forEach(o => { html += `<div class="observation">${o}</div>`; });
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function buildObservations({ levers, pitch, sourcing, running }) {
+  const obs = [];
+
+  // Lever readiness
+  const leverFilled = Object.values(levers).filter(v => v).length;
+  if (leverFilled === 0) {
+    obs.push(`<strong>The role is not yet pitch-ready.</strong> You have not articulated any of the four levers. Until you can name what scope, proximity, speed, and a real stake look like in your business specifically, the pitch will feel generic to a senior candidate.`);
+  } else if (leverFilled < 4) {
+    const missing = Object.entries(levers).filter(([_, v]) => !v).map(([k]) => k);
+    obs.push(`<strong>${missing.length === 1 ? "One lever" : missing.length + " levers"} not yet articulated:</strong> ${missing.join(", ")}. The four levers work as a set — a candidate evaluating the seat will notice what's missing as much as what's there.`);
+  } else {
+    obs.push(`<strong>All four levers articulated.</strong> The pitch has a real foundation. Test it against a trusted advisor before delivering it to a candidate — if any lever doesn't read as concrete, sharpen it before going live.`);
+  }
+
+  // Sourcing presence
+  const totalSourced = Object.values(sourcing).reduce((sum, rows) => sum + rows.length, 0);
+  const channelsUsed = Object.values(sourcing).filter(rows => rows.length > 0).length;
+  if (totalSourced === 0) {
+    obs.push(`<strong>No sourcing channels populated.</strong> The strongest hires come from named people, not job boards. Even one or two names per channel is a more productive starting point than waiting for the perfect candidate to apply.`);
+  } else if (channelsUsed < 3) {
+    obs.push(`<strong>Sourcing is concentrated in ${channelsUsed === 1 ? "one channel" : channelsUsed + " channels"}.</strong> Spreading across all three — network, deliberate poach, boomerang — gives you more shots on goal. The strong hire usually comes from the channel you almost didn't bother with.`);
+  }
+
+  // Running list discipline
+  if (running.length === 0) {
+    obs.push(`<strong>The running list is empty.</strong> The owners who recruit best don't start when they have a seat to fill — they keep a list of strong people they would hire if the right seat opened. Even five names today is a real start.`);
+  } else if (running.length < 5) {
+    obs.push(`<strong>Your running list has ${running.length} ${running.length === 1 ? "name" : "names"}.</strong> The discipline scales — work toward 8–10 names, with light irregular touchpoints, so the next seat that opens starts half-recruited.`);
+  }
+
+  return obs;
+}
+
+// =============================================================================
+// UTILITIES
+// =============================================================================
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function clearAll() {
+  if (!confirm("Clear all entries and start over?")) return;
+  document.querySelectorAll("input[type='text'], textarea").forEach(el => el.value = "");
+  ["network", "poach", "boomerang", "running"].forEach(ch => {
+    document.getElementById(`${ch}-list`).innerHTML = "";
+    rowCounters[ch] = 0;
+  });
+  seedRows();
+  document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete Steps 1–6 above and click Generate to produce your printable playbook.</div>';
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function seedRows() {
+  // Seed two rows in each sourcing channel and three in the running list so the structure is clear
+  addPersonRow("network");
+  addPersonRow("network");
+  addPersonRow("poach");
+  addPersonRow("poach");
+  addPersonRow("boomerang");
+  addPersonRow("running");
+  addPersonRow("running");
+  addPersonRow("running");
+}
+
+// INIT
+seedRows();
+</script>
+</body>
+</html>

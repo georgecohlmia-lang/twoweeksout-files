@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Run the Diagnostic. Then the Engine. — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#10131a;--ink-soft:#10131a;--muted:#59616e;--muted-soft:#9ba3af;--border:#e9ecf5;--border-soft:#e9ecf5;--bg:#ffffff;--bg-soft:#fbfaf6;--green:#2747f5;--bright:#2747f5;--em-soft:#e9ecf5;--cream-soft:#e9ecf5;--amber:#7d5300;--font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  *{box-sizing:border-box;}html,body{margin:0;padding:0;}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg-soft);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:920px;margin:0 auto;padding:56px 48px 80px;background:var(--bg);}
+  header.brand{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:34px;}
+  .eyebrow{font-size:11px;letter-spacing:2.5px;color:var(--green);font-weight:600;text-transform:uppercase;margin:0 0 6px;}
+  h1{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:32px;line-height:1.2;color:var(--ink);margin:0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;color:var(--ink-soft);font-size:16px;margin:0;}
+  .step{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--border);}
+  .step:first-of-type{border-top:none;padding-top:0;}
+  .step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .step-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:28px;font-weight:800;color:var(--bright);line-height:1;letter-spacing:-.03em;font-style:normal;}
+  .step-title{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:22px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub{color:var(--muted);font-size:14px;margin:4px 0 18px;font-style:italic;}
+  label{font-size:13px;color:var(--ink-soft);font-weight:500;display:block;margin-bottom:5px;}
+  .field-def{font-size:12px;color:var(--muted);font-style:italic;line-height:1.45;margin-bottom:7px;}
+  input[type="text"],input[type="number"],textarea,select{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);background:white;border:1px solid var(--border);border-radius:0;padding:9px 11px;width:100%;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--em-soft);}
+  textarea{resize:vertical;min-height:54px;line-height:1.5;}
+  .field{margin-bottom:14px;}
+  .block-card{border:1px solid var(--border);border-radius:0;padding:16px 18px;margin-bottom:12px;background:white;}
+  .block-card.green-edge{border-left:4px solid var(--green);}
+  .block-card.amber-edge{border-left:4px solid var(--amber);}
+  /* Diagnostic question rows */
+  .diag-row{margin-bottom:14px;padding:14px 16px;background:white;border:1px solid var(--border);border-radius:0;border-left:4px solid var(--green);}
+  .diag-row .diag-q{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+  .diag-row .diag-d{font-size:12px;color:var(--muted);font-style:italic;line-height:1.45;margin-bottom:10px;}
+  /* Three-part referral ask */
+  .ask-builder{display:grid;gap:10px;}
+  .ask-part{display:grid;grid-template-columns:36px 1fr;gap:10px;align-items:start;}
+  .ask-part .part-num{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:18px;font-weight:600;color:white;background:var(--green);border-radius:0;width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
+  .ask-part .part-content{display:flex;flex-direction:column;}
+  .ask-part .part-content label{margin-bottom:2px;}
+  /* Prospect list rows */
+  .prospect-row{display:grid;grid-template-columns:1fr 1.4fr 28px;gap:8px;margin-bottom:6px;align-items:start;}
+  .prospect-row .remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:0;width:28px;height:28px;border-radius:0;}
+  .prospect-row .remove-btn:hover{background:var(--cream-soft);color:var(--amber);}
+  .add-prospect-btn{background:none;border:1px dashed var(--border);color:var(--muted);font-size:12px;padding:7px 12px;border-radius:0;cursor:pointer;width:100%;margin-top:4px;}
+  .add-prospect-btn:hover{border-color:var(--green);color:var(--green);background:var(--bg-soft);}
+  .narrow-toggle{padding:12px 14px;background:var(--cream-soft);border:1px solid var(--amber);border-radius:0;margin-bottom:14px;}
+  .narrow-toggle label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;color:var(--ink-soft);}
+  .narrow-toggle input{accent-color:var(--green);width:18px;height:18px;margin-top:2px;cursor:pointer;}
+  .narrow-toggle .toggle-text{font-size:13px;line-height:1.55;}
+  .narrow-toggle .toggle-text strong{color:var(--amber);}
+  .narrow-content{display:none;}
+  .narrow-content.active{display:block;}
+  /* Output */
+  .output-section{margin-top:48px;padding-top:36px;border-top:3px solid var(--ink);}
+  .output-header{text-align:center;margin-bottom:28px;}
+  .output-header .eyebrow{color:var(--bright);}
+  .output-header h2{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--ink);margin:4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p{color:var(--muted);font-size:14px;margin:0;font-style:italic;}
+  .strategy-doc{border:2px solid var(--ink);border-radius:0;padding:32px 36px;background:white;}
+  .strategy-block{margin-bottom:28px;}
+  .strategy-block:last-child{margin-bottom:0;}
+  .strategy-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .verdict-card{padding:16px 20px;background:var(--em-soft);border-left:4px solid var(--green);border-radius:0;margin-bottom:14px;}
+  .verdict-card.warn{background:var(--cream-soft);border-left-color:var(--amber);}
+  .verdict-card .verdict-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;letter-spacing:1.5px;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:6px;}
+  .verdict-card.warn .verdict-label{color:var(--amber);}
+  .verdict-card .verdict-text{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;color:var(--ink);font-weight:600;line-height:1.5;}
+  .ask-out{background:var(--em-soft);border-left:4px solid var(--green);padding:14px 18px;border-radius:0;}
+  .ask-out .ao-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);margin-bottom:8px;}
+  .ask-out .ao-script{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);line-height:1.6;font-style:normal;}
+  .prospect-list-out .prospect-out{padding:10px 0;border-bottom:1px solid var(--border-soft);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;}
+  .prospect-list-out .prospect-out:last-child{border-bottom:none;}
+  .prospect-list-out .prospect-name{font-weight:600;color:var(--ink);}
+  .prospect-list-out .prospect-reason{color:var(--ink-soft);font-style:italic;margin-top:2px;}
+  .observation{margin-top:24px;padding:14px 18px;background:var(--em-soft);border-radius:0;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .observation strong{color:var(--green);}
+  .observation.warn{background:var(--cream-soft);}
+  .observation.warn strong{color:var(--amber);}
+  .empty-output{padding:36px;background:var(--bg-soft);border:1px dashed var(--border);border-radius:0;text-align:center;color:var(--muted);font-style:italic;}
+  .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-top:36px;padding-top:22px;border-top:1px solid var(--border);}
+  .btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:0;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink-soft);}
+  .btn:hover{background:var(--bg-soft);}
+  .btn-primary{background:var(--green);color:white;border-color:#ffffff;}
+  .btn-primary:hover{background:#1b36c9;}
+  .btn-example{background:var(--cream-soft);color:var(--amber);border-color:var(--cream-soft);}
+  .btn-example:hover{background:#d5d9e4;}
+  .btn-ghost{color:var(--muted);}
+  @media print{body{background:white;}.sheet{max-width:none;padding:28px 24px;}.toolbar{display:none;}input,textarea,select{border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;background:transparent;}.empty-output{display:none;}.step,.strategy-doc{page-break-inside:avoid;}}
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#FF7C98;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">08 / Turn Interest Into Revenue</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Sales Strategy and Execution Excellence</p>
+  <h1>Run the Diagnostic. Then the Engine.</h1>
+  <p class="lede">Three questions to know whether you should add prospecting. The right referral ask, written down. The optional 10-name list, only if you've earned it.</p>
+  <div style="margin-top:14px;"><button class="btn btn-example" type="button" onclick="useExample()">Use Marcus's example to start</button></div>
+</header>
+
+<!-- STEP 1 — Diagnostic -->
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">Run the conversion-first diagnostic</span></div>
+  <p class="step-sub">Three questions, in order. The answers tell you whether you should be adding prospecting at all.</p>
+
+  <div class="diag-row">
+    <div class="diag-q">Q1 · What's your close rate on qualified conversations?</div>
+    <div class="diag-d">Real number. From the dashboard you built in session 5. If you don't know it, write "don't know" — that's diagnostic information.</div>
+    <input type="text" id="q1-close-rate" placeholder='e.g., "58%" or "don’t know"'>
+  </div>
+
+  <div class="diag-row">
+    <div class="diag-q">Q2 · How many qualified conversations per week?</div>
+    <div class="diag-d">A qualified conversation is one where the prospect has confirmed a real reason and could plausibly close. Not "calls had." Real conversations.</div>
+    <input type="text" id="q2-volume" placeholder='e.g., "12" or "don’t know"'>
+  </div>
+
+  <div class="diag-row">
+    <div class="diag-q">Q3 · Is referral or inbound producing some flow already?</div>
+    <div class="diag-d">Yes/no/some. If yes, you optimize that before adding a new channel.</div>
+    <input type="text" id="q3-existing-flow" placeholder='e.g., "yes — most of our deals come from member referrals"'>
+  </div>
+</section>
+
+<!-- STEP 2 — Referral ask -->
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">Write your three-part referral ask</span></div>
+  <p class="step-sub">Specific. Named. Cognitive load on you, not on them. Use it at the end of every close-worthy conversation this week.</p>
+
+  <div class="block-card green-edge">
+    <div class="ask-builder">
+      <div class="ask-part">
+        <div class="part-num">1</div>
+        <div class="part-content">
+          <label for="ask-1">Name the specific person you're trying to reach</label>
+          <p class="field-def">Concrete attributes — role, situation, size, stage. Not "people like you" or "anyone interested."</p>
+          <input type="text" id="ask-1" placeholder='e.g., "I’m looking for owner-operators with 5–10 locations who’ve made an acquisition in the last two years"'>
+        </div>
+      </div>
+      <div class="ask-part">
+        <div class="part-num">2</div>
+        <div class="part-content">
+          <label for="ask-2">Name what would be valuable about the conversation</label>
+          <p class="field-def">In their language, not yours. Why would they take the meeting?</p>
+          <input type="text" id="ask-2" placeholder='e.g., "to talk through how they integrated sales playbooks across the acquired chains"'>
+        </div>
+      </div>
+      <div class="ask-part">
+        <div class="part-num">3</div>
+        <div class="part-content">
+          <label for="ask-3">Ask for a named introduction</label>
+          <p class="field-def">Not "do you know anyone." A specific named ask: "Is there one person who comes to mind?"</p>
+          <input type="text" id="ask-3" placeholder='e.g., "Is there one specific person who comes to mind?"'>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 3 — Narrow outreach (conditional) -->
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">If — and only if — earned: 10 named prospects</span></div>
+  <p class="step-sub">Build a list ONLY if your conversion is solid and your referral motion is flowing. Otherwise, skip this step.</p>
+
+  <div class="narrow-toggle">
+    <label>
+      <input type="checkbox" id="narrow-unlock" onchange="document.getElementById('narrow-content').classList.toggle('active', this.checked)">
+      <span class="toggle-text"><strong>I've earned this step.</strong> My close rate is above 50%, referrals/inbound are producing some flow, and I'm ready to add a narrow-outreach motion on top.</span>
+    </label>
+  </div>
+
+  <div class="narrow-content" id="narrow-content">
+    <div class="block-card green-edge">
+      <p class="field-def" style="margin-bottom:10px;">Each prospect needs a <strong>specific real reason</strong> — something you know about their situation that connects to your offer. Templates defeat the purpose.</p>
+      <div id="prospect-list">
+        <!-- prospect rows added dynamically -->
+      </div>
+      <button class="add-prospect-btn" type="button" onclick="addProspect()">+ Add a named prospect</button>
+    </div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Prospecting Plan</h2>
+    <p>The diagnostic verdict, your ask, and the list — if you've earned it.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Answer the three diagnostic questions to generate.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+<script>
+const EXAMPLE={
+  q1: "58%",
+  q2: "12",
+  q3: "Yes — about 40% of new prospects come from existing member referrals, but only at two of eight locations. The other six stopped asking explicitly.",
+  ask1: "I'm looking for fitness or wellness operators with 3+ locations who've grown through acquisition rather than greenfield expansion",
+  ask2: "to talk through how they integrated sales practices and dashboards across acquired locations without forcing everyone onto one system",
+  ask3: "Is there one specific person who comes to mind?",
+  narrowUnlocked: true,
+  prospects: [
+    {name: "Dana K. — Allied Health Group", reason: "Acquired three Topeka-area clinics in 2024; she spoke at the regional ops conference about playbook integration in October. Specific overlap with the work we just finished with Marcus."},
+    {name: "Reggie M. — Iron & Bone Fitness", reason: "Quoted in last month\u2019s Athletic Business article about declining tour-to-join conversion. He named the exact symptom we just fixed at MeridianFit."},
+    {name: "Sam T. — Bayfront Aquatics", reason: "Just posted a sales-ops job listing that reads like our consultative-motion playbook. Reaching out about whether they want a fractional consultant before they hire."},
+  ],
+};
+
+let prospectCounter = 0;
+
+function val(id){return (document.getElementById(id)?.value||"").toString().trim();}
+function checked(id){return !!document.getElementById(id)?.checked;}
+function setEl(id,v){const e=document.getElementById(id);if(e)e.value=v==null?"":v;}
+function setCheck(id,v){const e=document.getElementById(id);if(e)e.checked=!!v;}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function addProspect(name, reason){
+  const list = document.getElementById('prospect-list');
+  const id = "p-" + (++prospectCounter);
+  const row = document.createElement('div');
+  row.className = 'prospect-row';
+  row.innerHTML = `
+    <input type="text" data-role="name" placeholder="Name & company" value="${escapeHtml(name||'')}">
+    <textarea data-role="reason" placeholder="The specific real reason you're reaching out — what you know about their situation that connects to your offer.">${escapeHtml(reason||'')}</textarea>
+    <button type="button" class="remove-btn" onclick="this.parentElement.remove()" title="Remove">×</button>
+  `;
+  list.appendChild(row);
+}
+
+function getProspects(){
+  return Array.from(document.querySelectorAll('#prospect-list .prospect-row')).map(row=>({
+    name: row.querySelector('[data-role="name"]').value.trim(),
+    reason: row.querySelector('[data-role="reason"]').value.trim(),
+  })).filter(p=>p.name||p.reason);
+}
+
+function clearProspects(){
+  document.getElementById('prospect-list').innerHTML = '';
+}
+
+function useExample(){
+  const hasContent = val('q1-close-rate') || val('ask-1') || getProspects().length > 0;
+  if(hasContent && !confirm("This will replace what you've entered with a worked example. Continue?")) return;
+  setEl('q1-close-rate', EXAMPLE.q1);
+  setEl('q2-volume', EXAMPLE.q2);
+  setEl('q3-existing-flow', EXAMPLE.q3);
+  setEl('ask-1', EXAMPLE.ask1);
+  setEl('ask-2', EXAMPLE.ask2);
+  setEl('ask-3', EXAMPLE.ask3);
+  if(EXAMPLE.narrowUnlocked){
+    setCheck('narrow-unlock', true);
+    document.getElementById('narrow-content').classList.add('active');
+    clearProspects();
+    EXAMPLE.prospects.forEach(p => addProspect(p.name, p.reason));
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function clearAll(){
+  if(!confirm("Clear all entries and start over?"))return;
+  ['q1-close-rate','q2-volume','q3-existing-flow','ask-1','ask-2','ask-3'].forEach(id=>setEl(id,''));
+  setCheck('narrow-unlock', false);
+  document.getElementById('narrow-content').classList.remove('active');
+  clearProspects();
+  document.getElementById('output-section').innerHTML = '<div class="empty-output">Answer the three diagnostic questions to generate.</div>';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// Parse close-rate string to a percentage or null
+function parseCloseRate(s){
+  if(!s) return null;
+  if(/don\u2019t know|don't know|dont know|unknown|no idea/i.test(s)) return 'unknown';
+  const m = s.match(/(\d+(?:\.\d+)?)\s*%?/);
+  if(m){
+    const n = parseFloat(m[1]);
+    // If it's a decimal like 0.58, convert
+    if(n < 1) return n * 100;
+    return n;
+  }
+  return null;
+}
+
+function parseVolume(s){
+  if(!s) return null;
+  if(/don\u2019t know|don't know|dont know|unknown|no idea/i.test(s)) return 'unknown';
+  const m = s.match(/(\d+)/);
+  return m ? parseInt(m[1]) : null;
+}
+
+function generate(){
+  const out = document.getElementById('output-section');
+  const data = {
+    q1: val('q1-close-rate'),
+    q2: val('q2-volume'),
+    q3: val('q3-existing-flow'),
+    ask1: val('ask-1'),
+    ask2: val('ask-2'),
+    ask3: val('ask-3'),
+    narrowUnlocked: checked('narrow-unlock'),
+    prospects: getProspects(),
+  };
+
+  if(!data.q1 && !data.q2 && !data.q3 && !data.ask1 && data.prospects.length === 0){
+    out.innerHTML = '<div class="empty-output">Answer at least the diagnostic questions to generate.</div>';
+    out.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
+  }
+
+  const closeRate = parseCloseRate(data.q1);
+  const volume = parseVolume(data.q2);
+
+  let html = '<div class="strategy-doc">';
+
+  // Diagnostic verdict
+  html += `<div class="strategy-block"><div class="strategy-label">The conversion-first diagnostic</div>`;
+  let verdict, verdictWarn = false;
+  if(closeRate === 'unknown' || volume === 'unknown'){
+    verdict = `You don't yet know your close rate or weekly conversation volume. The work goes to session 5 first — build the dashboard. Adding prospecting before you can measure conversion is exactly the trap this session names.`;
+    verdictWarn = true;
+  } else if(typeof closeRate === 'number' && closeRate < 50){
+    verdict = `Your close rate is ${closeRate}% — under the 50% bar. The problem is conversion, not volume. Adding prospecting now multiplies the leakage. Go back through sessions 2\u20134 and fix the conversion mechanics before adding any prospecting motion.`;
+    verdictWarn = true;
+  } else if(typeof closeRate === 'number' && closeRate >= 50 && /yes|some|already|most|coming/i.test(data.q3)){
+    verdict = `Close rate at ${closeRate}%, referrals/inbound producing flow already. Your job is to optimize the existing channel before adding a new one. The referral motion below is the highest-leverage move.`;
+  } else if(typeof closeRate === 'number' && closeRate >= 50){
+    verdict = `Close rate at ${closeRate}%, conversion is solid, no significant existing flow yet. You\u2019ve earned the right to add a prospecting motion. Start with referrals — and only add narrow outreach if referrals plateau.`;
+  } else {
+    verdict = `Answer all three diagnostic questions to get a real verdict.`;
+    verdictWarn = true;
+  }
+  html += `<div class="verdict-card ${verdictWarn?'warn':''}"><div class="verdict-label">${verdictWarn?'Verdict — work goes elsewhere first':'Verdict — you\u2019ve earned the prospecting motion'}</div><div class="verdict-text">${escapeHtml(verdict)}</div></div>`;
+  html += `</div>`;
+
+  // Referral ask
+  if(data.ask1 || data.ask2 || data.ask3){
+    html += `<div class="strategy-block"><div class="strategy-label">Your three-part referral ask</div>`;
+    html += `<div class="ask-out"><div class="ao-label">The script — use at the end of every close-worthy conversation</div><div class="ao-script">`;
+    if(data.ask1) html += `"I'm looking for ${escapeHtml(data.ask1.replace(/^["'\u201C\u201D]?I.m looking for /i,'').replace(/^I.m looking for /i,''))}`;
+    if(data.ask2){
+      const ask2Clean = data.ask2.replace(/^["'\u201C\u201D]/, '').replace(/^to /i, '');
+      html += ` \u2014 to ${escapeHtml(ask2Clean)}`;
+    }
+    if(data.ask1) html += `." `;
+    if(data.ask3) html += `<br><br>"${escapeHtml(data.ask3.replace(/^["'\u201C\u201D]|["'\u201C\u201D]$/g, ''))}"`;
+    html += `</div></div></div>`;
+  }
+
+  // Narrow outreach (only if unlocked AND prospects exist)
+  if(data.narrowUnlocked && data.prospects.length > 0){
+    html += `<div class="strategy-block"><div class="strategy-label">Your narrow-outreach list \u00B7 ${data.prospects.length} named prospects</div>`;
+    html += `<div class="prospect-list-out">`;
+    data.prospects.forEach((p, i)=>{
+      html += `<div class="prospect-out"><div class="prospect-name">${i+1}. ${escapeHtml(p.name||'(unnamed)')}</div>`;
+      if(p.reason) html += `<div class="prospect-reason">${escapeHtml(p.reason)}</div>`;
+      html += `</div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  html += '</div>';
+
+  // Teaching detectors
+  const obs = [];
+
+  // Detector 1: Trying to do narrow outreach without earning it
+  if(data.narrowUnlocked && data.prospects.length > 0){
+    if(closeRate === 'unknown' || (typeof closeRate === 'number' && closeRate < 50)){
+      obs.push({warn:true, text:`<strong>You've unlocked narrow outreach without passing the diagnostic.</strong> The whole session argues against this — adding prospecting to an unmeasured or leaky funnel wastes both the prospects and the owner time. Park the list. Fix conversion first. Come back to the list once Q1 is at 50%+.`});
+    }
+  }
+
+  // Detector 2: Vague referral ask (Part 1 reads like "anyone interested" or is too generic)
+  if(data.ask1){
+    const vagueAskRegex = /\b(anyone|someone|people who|folks who|interested|might need|could use|possibly)\b/i;
+    if(vagueAskRegex.test(data.ask1)){
+      obs.push({warn:true, text:`<strong>Your Part 1 (who you're trying to reach) is too generic.</strong> Words like "anyone," "someone," "people who might need" put the cognitive work back on the other person — exactly what the session says to avoid. Rewrite with concrete attributes: role, situation, size, recent event.`});
+    }
+  }
+
+  // Detector 3: Part 3 isn't a named ask
+  if(data.ask3){
+    const generalAskRegex = /\b(anyone|anybody|do you know any|know of any|anyone come to mind|folks)\b/i;
+    if(generalAskRegex.test(data.ask3) && !/\b(one|specific|particular)\b/i.test(data.ask3)){
+      obs.push({warn:true, text:`<strong>Your Part 3 is asking for "anyone," not a named introduction.</strong> The whole point is the cognitive load: "do you know anyone" makes them scan a mental list and evaluate fit. "Is there one specific person who comes to mind" lets them surface one name. Same conversation, different question, conversion more than doubles.`});
+    }
+  }
+
+  // Detector 4: Templated narrow outreach (reasons look duplicated/generic)
+  if(data.prospects.length >= 3){
+    const reasons = data.prospects.map(p=>p.reason).filter(r=>r);
+    // Check for generic phrasing across multiple reasons
+    const genericPatterns = /\b(I think you might|you'd benefit|we help companies|reach out about our|wanted to introduce|would love to chat about)\b/i;
+    const genericCount = reasons.filter(r=>genericPatterns.test(r)).length;
+    if(genericCount >= 2){
+      obs.push({warn:true, text:`<strong>${genericCount} of your prospect reasons read as templates, not specific.</strong> "I think you might benefit," "we help companies," "wanted to introduce" — these are template language. The session bar is a real reason you know about their situation: a quote, an article, a recent move, a posted job, a mentioned name. If you can't write that for a name, that name doesn't belong on the list.`});
+    }
+  }
+
+  // Detector 5: Too many prospects (over the 20 limit)
+  if(data.prospects.length > 20){
+    obs.push({warn:true, text:`<strong>${data.prospects.length} prospects \u2014 over the 10\u201320 bar.</strong> Once the list gets bigger than 20, the per-message effort drops and you're back to cold outreach with extra steps. Cut the list to your top 10\u201315 — the ones where the real reason is sharpest.`});
+  }
+
+  // Detector 6: Conversion solid but no referral ask written
+  if(typeof closeRate === 'number' && closeRate >= 50 && !data.ask1 && !data.ask2 && !data.ask3){
+    obs.push({warn:true, text:`<strong>Conversion is solid but you haven't written the referral ask.</strong> Referrals are the highest-leverage source — and most owners either ask wrong or stop asking. The session\u2019s assignment is to write the three-part ask BEFORE adding any other channel. Spend 10 minutes on it now.`});
+  }
+
+  // Detector 7: Module-close synthesis observation (always good news if they got here)
+  if(typeof closeRate === 'number' && closeRate >= 50 && (data.ask1 || data.ask2 || data.ask3)){
+    obs.push(`<strong>You've built the engine across six sessions and you're adding deliberate prospecting on top.</strong> The module discipline: run this for one full quarter before adjusting anything. Adjust too early and you're tuning to noise. The dashboard from session 5 will tell you what to change \u2014 trust the numbers, not the impatience.`);
+  }
+
+  obs.forEach(o=>{
+    if(typeof o === 'string') html += `<div class="observation">${o}</div>`;
+    else html += `<div class="observation ${o.warn?'warn':''}">${o.text}</div>`;
+  });
+
+  out.innerHTML = html;
+  out.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Initial state: one empty prospect row (hidden until unlock)
+addProspect();
+</script>
+</body>
+</html>

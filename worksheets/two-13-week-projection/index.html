@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>13-Week Cash View — Owner Worksheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- SheetJS for Excel export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --ink:#10131a;
+    --ink-soft:#59616e;
+    --ink-muted:#59616e;
+    --paper:#fbfaf6;
+    --paper-2:#e9ecf5;
+    --rule:#d5d9e4;
+    --rule-soft:#d5d9e4;
+    --accent:#2747f5;       /* burnt sienna */
+    --accent-soft:#93abff;
+    --green:#0d6b4c;
+    --green-soft:#e2f5ea;
+    --warn-bg:#fff3cd;
+    --warn-ink:#7d5300;
+    --focus:#fff3cd;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    background-image:
+      rgba(39,71,245,0.04),
+      rgba(13,107,76,0.04);
+    min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 56px 80px;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 52px;
+    line-height: 1;
+    margin: 0 0 12px;letter-spacing:-.03em;font-style:normal;}
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .sub {
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 58ch;
+    margin: 0;
+  }
+  .meta {
+    text-align: right;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+  .meta strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- Setup strip ---------- */
+  .setup {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    margin-bottom: 36px;
+  }
+  .setup-field {
+    padding: 16px 20px;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .setup-field:last-child { border-right: none; }
+  .setup-field label {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+  .setup-field input {
+    border: none;
+    background: transparent;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    padding: 0;
+    outline: none;
+    width: 100%;letter-spacing:-.03em;font-style:normal;}
+  .setup-field input:focus { background: var(--focus); }
+
+  /* ---------- Table ---------- */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    margin-bottom: 24px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 12px;
+    min-width: 1180px;
+  }
+  thead th {
+    position: sticky; top: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 12px 8px;
+    text-align: right;
+    border-right: 1px solid #10131a;
+    white-space: nowrap;
+  }
+  thead th:first-child {
+    text-align: left;
+    width: 220px;
+    padding-left: 16px;
+  }
+  thead th.week-col { min-width: 78px; }
+  thead .week-num {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--paper);
+  }
+  thead .week-date {
+    display: block;
+    font-size: 9px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+    margin-top: 2px;
+    letter-spacing: 0.08em;
+  }
+
+  tbody tr { border-bottom: 1px solid var(--rule-soft); }
+  tbody td {
+    padding: 0;
+    border-right: 1px solid var(--rule-soft);
+    text-align: right;
+    vertical-align: middle;
+    height: 32px;
+  }
+  tbody td:first-child {
+    padding: 8px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    text-align: left;
+    background: var(--paper-2);
+    border-right: 1px solid var(--rule);
+  }
+  tbody td input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    padding: 8px 10px;
+    text-align: right;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 12px;
+    color: var(--ink);
+    outline: none;
+  }
+  tbody td input:focus { background: var(--focus); }
+  tbody td input::placeholder { color: #9ba3af; }
+
+  /* Section headers */
+  .section-row td {
+    background: var(--paper-2) !important;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace!important;
+    font-size: 10px !important;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted) !important;
+    font-weight: 500 !important;
+    padding: 10px 16px !important;
+    height: auto;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-row .section-count {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;font-style:normal;
+    color: var(--ink-muted);
+    letter-spacing: 0;
+    text-transform: none;
+    margin-left: 8px;
+    font-weight: 400;
+  }
+
+  /* Subtotal / computed rows */
+  .subtotal td {
+    font-weight: 600;
+    background: #e9ecf5;
+    color: var(--ink);
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .subtotal td:first-child { background: #d5d9e4; }
+  .cash-in .subtotal td { color: var(--green); }
+  .cash-out .subtotal td { color: var(--accent); }
+
+  .opening td, .closing td {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px;
+  }
+  .opening td:first-child, .closing td:first-child {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-right: 1px solid #10131a;
+  }
+
+  .below-threshold { background: var(--warn-bg) !important; color: var(--warn-ink) !important; position: relative; }
+  .below-threshold::after {
+    content: "▼";
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 8px;
+    color: var(--warn-ink);
+  }
+
+  /* add row button */
+  .add-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: var(--paper-2);
+    border-right: 1px solid var(--rule);
+    width: 220px;
+  }
+  .add-row button {
+    background: transparent;
+    border: 1px dashed var(--ink-muted);
+    color: var(--ink-muted);
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    cursor: pointer;
+    border-radius:0;
+    transition: all 0.15s;
+  }
+  .add-row button:hover { color: var(--accent); border-color: var(--accent); }
+  .delete-btn {
+    background: none; border: none;
+    font-size: 14px; color: var(--ink-muted);
+    cursor: pointer; padding: 0 4px;
+    opacity: 0; transition: opacity 0.15s;
+    line-height: 1;
+  }
+  tbody td:first-child:hover .delete-btn { opacity: 1; }
+  .delete-btn:hover { color: var(--accent); }
+
+  td:first-child .row-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  td:first-child .row-label input {
+    background: transparent;
+    border: none;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    padding: 0;
+    outline: none;
+    flex: 1;
+    text-align: left;
+  }
+  td:first-child .row-label input:focus { background: var(--focus); }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .btn {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--accent);border-color:#ffffff; }
+  .btn-excel { background: var(--green); border-color: var(--green); color: var(--paper); }
+  .btn-excel:hover { background: #0d6b4c; border-color: #0d6b4c; }
+  .btn-ghost { border-color: var(--rule); color: var(--ink-soft); }
+  .toolbar-note {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-left: auto;
+  }
+
+  /* ---------- Footer guidance ---------- */
+  .guidance {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  .guide-card h3 {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+    font-weight: 500;
+  }
+  .guide-card h3 .num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;font-weight:800;font-style:normal;
+    color: var(--ink);
+    margin-right: 8px;
+    vertical-align: -6px;letter-spacing:-.03em;line-height:1.04;}
+  .guide-card p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.6;
+  }
+  .guide-card .pull {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px;
+    color: var(--ink);
+    margin-top: 10px;
+    padding-left: 12px;
+    border-left: 2px solid var(--accent);
+  }
+
+  .colophon {
+    text-align: center;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .colophon em {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Print ---------- */
+  @media print {
+    @page { size: letter landscape; margin: 0.4in; }
+    body { background: white; }
+    .page { padding: 0; max-width: none; }
+    .toolbar, .add-row button, .delete-btn { display: none !important; }
+    .add-row { padding: 6px 16px; }
+    header { margin-bottom: 16px; padding-bottom: 12px; }
+    h1 { font-size: 28px; }
+    .sub { font-size: 11px; }
+    .meta { font-size: 9px; }
+    .setup { margin-bottom: 16px; }
+    .setup-field { padding: 8px 12px; }
+    .setup-field input { font-size: 14px; }
+    .table-wrap { overflow: visible; border: 1px solid black; }
+    table { font-size: 9px; min-width: 0; width: 100%; page-break-inside: avoid; }
+    thead th { padding: 6px 4px; font-size: 8px; }
+    thead .week-num { font-size: 11px; }
+    thead .week-date { font-size: 7px; }
+    tbody td { height: auto; }
+    tbody td:first-child { padding: 4px 8px; font-size: 10px; }
+    tbody td input { padding: 4px 6px; font-size: 9px; }
+    .section-row td { font-size: 8px !important; padding: 4px 8px !important; }
+    .subtotal td, .opening td, .closing td { padding: 4px 6px; font-size: 9px; }
+    .opening td, .closing td { font-size: 10px; }
+    .guidance { page-break-before: auto; margin-top: 20px; padding-top: 16px; gap: 16px; }
+    .guide-card p { font-size: 10px; }
+    .guide-card .pull { font-size: 11px; }
+    .colophon { margin-top: 20px; font-size: 8px; }
+  }
+
+  @media (max-width: 900px) {
+    .page { padding: 24px; }
+    h1 { font-size: 36px; }
+    .setup { grid-template-columns: repeat(2, 1fr); }
+    .setup-field:nth-child(2) { border-right: none; }
+    .setup-field:nth-child(1), .setup-field:nth-child(2) { border-bottom: 1px solid var(--rule); }
+    .guidance { grid-template-columns: 1fr; gap: 20px; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#2CCFC4;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">03 / Master Your Cash</span></div>
+<div class="page">
+
+  <header>
+    <div>
+      <p class="eyebrow">Two Weeks Out Playbook</p>
+      <h1>The 13-Week <em>Cash View</em></h1>
+      <p class="sub">A owner's worksheet for the one financial question that matters most: <em>what does the bank account look like from now to 90 days out, and where is it going to hurt?</em></p>
+    </div>
+    <div class="meta">
+      <div>Horizon <strong>13 weeks · 1 quarter</strong></div>
+      <div>Cadence <strong>Monday, 15 min</strong></div>
+    </div>
+  </header>
+
+  <section class="setup">
+    <div class="setup-field">
+      <label>Company</label>
+      <input type="text" id="company" placeholder="Your company name">
+    </div>
+    <div class="setup-field">
+      <label>View Start Date (Monday)</label>
+      <input type="date" id="startDate">
+    </div>
+    <div class="setup-field">
+      <label>Opening Bank Balance — Week 1</label>
+      <input type="number" id="openingBalance" placeholder="0" step="100">
+    </div>
+    <div class="setup-field">
+      <label>Minimum Cash Threshold</label>
+      <input type="number" id="threshold" placeholder="0" step="100">
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <button class="btn btn-excel" onclick="exportExcel()">Download to Excel</button>
+    <button class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
+    <button class="btn btn-ghost" onclick="if(confirm(&#39;Clear all amounts? Line item names are kept.&#39;)) clearAmounts()">Clear Amounts</button>
+    <span class="toolbar-note">Download to Excel to save your work.</span>
+  </div>
+
+  <div class="table-wrap">
+    <table id="cashTable">
+      <thead>
+        <tr id="headerRow"><th>Line Item</th><th class="week-col"><span class="week-num">W1</span><span class="week-date">May 25</span></th><th class="week-col"><span class="week-num">W2</span><span class="week-date">Jun 1</span></th><th class="week-col"><span class="week-num">W3</span><span class="week-date">Jun 8</span></th><th class="week-col"><span class="week-num">W4</span><span class="week-date">Jun 15</span></th><th class="week-col"><span class="week-num">W5</span><span class="week-date">Jun 22</span></th><th class="week-col"><span class="week-num">W6</span><span class="week-date">Jun 29</span></th><th class="week-col"><span class="week-num">W7</span><span class="week-date">Jul 6</span></th><th class="week-col"><span class="week-num">W8</span><span class="week-date">Jul 13</span></th><th class="week-col"><span class="week-num">W9</span><span class="week-date">Jul 20</span></th><th class="week-col"><span class="week-num">W10</span><span class="week-date">Jul 27</span></th><th class="week-col"><span class="week-num">W11</span><span class="week-date">Aug 3</span></th><th class="week-col"><span class="week-num">W12</span><span class="week-date">Aug 10</span></th><th class="week-col"><span class="week-num">W13</span><span class="week-date">Aug 17</span></th></tr>
+      </thead>
+      <tbody id="tableBody"><tr class="opening"><td>Opening Balance</td><td id="open-0">—</td><td id="open-1">—</td><td id="open-2">—</td><td id="open-3">—</td><td id="open-4">—</td><td id="open-5">—</td><td id="open-6">—</td><td id="open-7">—</td><td id="open-8">—</td><td id="open-9">—</td><td id="open-10">—</td><td id="open-11">—</td><td id="open-12">—</td></tr><tr class="section-row"><td colspan="14">Cash In <span class="section-count">— inflows placed in the week the money actually lands</span></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Client A — invoice" data-section="cashIn" data-idx="0" data-field="name">
+        <button class="delete-btn" data-section="cashIn" data-idx="0" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="0" data-week="12" placeholder="—"></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Client B — invoice" data-section="cashIn" data-idx="1" data-field="name">
+        <button class="delete-btn" data-section="cashIn" data-idx="1" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="1" data-week="12" placeholder="—"></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Client C — invoice" data-section="cashIn" data-idx="2" data-field="name">
+        <button class="delete-btn" data-section="cashIn" data-idx="2" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="2" data-week="12" placeholder="—"></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Other inflows" data-section="cashIn" data-idx="3" data-field="name">
+        <button class="delete-btn" data-section="cashIn" data-idx="3" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashIn" data-idx="3" data-week="12" placeholder="—"></td></tr><tr><td class="add-row" colspan="14"><button data-add="cashIn">+ Add line</button></td></tr><tr class="subtotal cash-in"><td>Total Cash In</td><td id="in-sum-0">—</td><td id="in-sum-1">—</td><td id="in-sum-2">—</td><td id="in-sum-3">—</td><td id="in-sum-4">—</td><td id="in-sum-5">—</td><td id="in-sum-6">—</td><td id="in-sum-7">—</td><td id="in-sum-8">—</td><td id="in-sum-9">—</td><td id="in-sum-10">—</td><td id="in-sum-11">—</td><td id="in-sum-12">—</td></tr><tr class="section-row"><td colspan="14">Cash Out <span class="section-count">— committed outflows, week by week</span></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Payroll" data-section="cashOut" data-idx="0" data-field="name">
+        <button class="delete-btn" data-section="cashOut" data-idx="0" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="0" data-week="12" placeholder="—"></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Rent" data-section="cashOut" data-idx="1" data-field="name">
+        <button class="delete-btn" data-section="cashOut" data-idx="1" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="1" data-week="12" placeholder="—"></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Software &amp; subscriptions" data-section="cashOut" data-idx="2" data-field="name">
+        <button class="delete-btn" data-section="cashOut" data-idx="2" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="2" data-week="12" placeholder="—"></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Loan / SBA payment" data-section="cashOut" data-idx="3" data-field="name">
+        <button class="delete-btn" data-section="cashOut" data-idx="3" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="3" data-week="12" placeholder="—"></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Subcontractors" data-section="cashOut" data-idx="4" data-field="name">
+        <button class="delete-btn" data-section="cashOut" data-idx="4" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="4" data-week="12" placeholder="—"></td></tr><tr><td>
+      <div class="row-label">
+        <input type="text" value="Other outflows" data-section="cashOut" data-idx="5" data-field="name">
+        <button class="delete-btn" data-section="cashOut" data-idx="5" title="Remove line">×</button>
+      </div></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="0" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="1" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="2" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="3" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="4" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="5" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="6" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="7" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="8" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="9" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="10" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="11" placeholder="—"></td><td><input type="number" step="100" value="" data-section="cashOut" data-idx="5" data-week="12" placeholder="—"></td></tr><tr><td class="add-row" colspan="14"><button data-add="cashOut">+ Add line</button></td></tr><tr class="subtotal cash-out"><td>Total Cash Out</td><td id="out-sum-0">—</td><td id="out-sum-1">—</td><td id="out-sum-2">—</td><td id="out-sum-3">—</td><td id="out-sum-4">—</td><td id="out-sum-5">—</td><td id="out-sum-6">—</td><td id="out-sum-7">—</td><td id="out-sum-8">—</td><td id="out-sum-9">—</td><td id="out-sum-10">—</td><td id="out-sum-11">—</td><td id="out-sum-12">—</td></tr><tr class="closing"><td>Closing Balance</td><td id="close-0">—</td><td id="close-1">—</td><td id="close-2">—</td><td id="close-3">—</td><td id="close-4">—</td><td id="close-5">—</td><td id="close-6">—</td><td id="close-7">—</td><td id="close-8">—</td><td id="close-9">—</td><td id="close-10">—</td><td id="close-11">—</td><td id="close-12">—</td></tr></tbody>
+    </table>
+  </div>
+
+  <section class="guidance">
+    <div class="guide-card">
+      <h3><span class="num">1</span>Build the structure</h3>
+      <p>Three sections, nothing more: opening balance, cash in, cash out. Closing feeds next week's opening. If updating this takes more than 30 minutes a week, you've built too much.</p>
+    </div>
+    <div class="guide-card">
+      <h3><span class="num">2</span>Populate with real data</h3>
+      <p>Weeks 1–4: actual opening balance, inflows placed in the week the money <em>realistically lands</em> (not the week the order was placed), committed outflows. Weeks 5–13: directional, following your normal monthly pattern.</p>
+    </div>
+    <div class="guide-card">
+      <h3><span class="num">3</span>Make it a Monday habit</h3>
+      <p>Set a recurring 8:00 AM Monday reminder. Fifteen minutes: update the opening balance, adjust any cash-in that did not land as expected, roll the view forward one week. The calendar event matters more than the formula.</p>
+      <p class="pull">"Now I'm not reacting to the bank account. I'm managing it."</p>
+    </div>
+  </section>
+
+  <p class="colophon">
+    Before any significant financial decision, look at the view first. <em>Can you afford it that specific week, without creating a problem?</em>
+  </p>
+
+</div>
+
+<script>
+  // -------- Configuration --------
+  const WEEKS = 13;
+  const DEFAULT_CASH_IN = [
+    "Client A — invoice",
+    "Client B — invoice",
+    "Client C — invoice",
+    "Other inflows",
+  ];
+  const DEFAULT_CASH_OUT = [
+    "Payroll",
+    "Rent",
+    "Software & subscriptions",
+    "Loan / SBA payment",
+    "Subcontractors",
+    "Other outflows",
+  ];
+
+  // -------- State --------
+  let state = {
+    company: "",
+    startDate: "",
+    openingBalance: 0,
+    threshold: 0,
+    cashIn: DEFAULT_CASH_IN.map(n => ({ name: n, values: new Array(WEEKS).fill("") })),
+    cashOut: DEFAULT_CASH_OUT.map(n => ({ name: n, values: new Array(WEEKS).fill("") })),
+  };
+
+  // -------- Utilities --------
+  const fmt = (n) => {
+    if (n === 0) return "—";
+    const sign = n < 0 ? "-" : "";
+    const abs = Math.abs(n);
+    return sign + "$" + Math.round(abs).toLocaleString();
+  };
+  const parseNum = (v) => {
+    if (v === "" || v == null) return 0;
+    const n = parseFloat(String(v).replace(/[$,\s]/g, ""));
+    return isNaN(n) ? 0 : n;
+  };
+
+  function weekDateLabel(startDateStr, weekIdx) {
+    if (!startDateStr) return "";
+    const d = new Date(startDateStr + "T00:00:00");
+    if (isNaN(d)) return "";
+    d.setDate(d.getDate() + weekIdx * 7);
+    const m = d.toLocaleString("en-US", { month: "short" });
+    return m + " " + d.getDate();
+  }
+
+  // -------- Rendering --------
+  function renderHeader() {
+    const row = document.getElementById("headerRow");
+    row.innerHTML = '<th>Line Item</th>';
+    for (let i = 0; i < WEEKS; i++) {
+      const th = document.createElement("th");
+      th.className = "week-col";
+      const dateLabel = weekDateLabel(state.startDate, i);
+      th.innerHTML = `<span class="week-num">W${i + 1}</span><span class="week-date">${dateLabel || '\u00A0'}</span>`;
+      row.appendChild(th);
+    }
+  }
+
+  function renderBody() {
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+
+    // --- Opening balance row ---
+    const openingRow = document.createElement("tr");
+    openingRow.className = "opening";
+    openingRow.innerHTML = `<td>Opening Balance</td>` +
+      Array.from({ length: WEEKS }, (_, i) =>
+        `<td id="open-${i}">${fmt(0)}</td>`
+      ).join("");
+    tbody.appendChild(openingRow);
+
+    // --- Cash In section ---
+    const cashInHeader = document.createElement("tr");
+    cashInHeader.className = "section-row";
+    cashInHeader.innerHTML = `<td colspan="${WEEKS + 1}">Cash In <span class="section-count">— inflows placed in the week the money actually lands</span></td>`;
+    tbody.appendChild(cashInHeader);
+
+    state.cashIn.forEach((row, idx) => {
+      tbody.appendChild(buildItemRow(row, idx, "cashIn"));
+    });
+    tbody.appendChild(buildAddRow("cashIn"));
+
+    const cashInSubtotal = document.createElement("tr");
+    cashInSubtotal.className = "subtotal cash-in";
+    cashInSubtotal.innerHTML = `<td>Total Cash In</td>` +
+      Array.from({ length: WEEKS }, (_, i) => `<td id="in-sum-${i}">${fmt(0)}</td>`).join("");
+    tbody.appendChild(cashInSubtotal);
+
+    // --- Cash Out section ---
+    const cashOutHeader = document.createElement("tr");
+    cashOutHeader.className = "section-row";
+    cashOutHeader.innerHTML = `<td colspan="${WEEKS + 1}">Cash Out <span class="section-count">— committed outflows, week by week</span></td>`;
+    tbody.appendChild(cashOutHeader);
+
+    state.cashOut.forEach((row, idx) => {
+      tbody.appendChild(buildItemRow(row, idx, "cashOut"));
+    });
+    tbody.appendChild(buildAddRow("cashOut"));
+
+    const cashOutSubtotal = document.createElement("tr");
+    cashOutSubtotal.className = "subtotal cash-out";
+    cashOutSubtotal.innerHTML = `<td>Total Cash Out</td>` +
+      Array.from({ length: WEEKS }, (_, i) => `<td id="out-sum-${i}">${fmt(0)}</td>`).join("");
+    tbody.appendChild(cashOutSubtotal);
+
+    // --- Closing balance ---
+    const closingRow = document.createElement("tr");
+    closingRow.className = "closing";
+    closingRow.innerHTML = `<td>Closing Balance</td>` +
+      Array.from({ length: WEEKS }, (_, i) => `<td id="close-${i}">${fmt(0)}</td>`).join("");
+    tbody.appendChild(closingRow);
+
+    recalc();
+  }
+
+  function buildItemRow(row, idx, section) {
+    const tr = document.createElement("tr");
+    const labelCell = document.createElement("td");
+    labelCell.innerHTML = `
+      <div class="row-label">
+        <input type="text" value="${escapeHtml(row.name)}"
+               data-section="${section}" data-idx="${idx}" data-field="name" />
+        <button class="delete-btn" data-section="${section}" data-idx="${idx}" title="Remove line">×</button>
+      </div>`;
+    tr.appendChild(labelCell);
+
+    for (let w = 0; w < WEEKS; w++) {
+      const td = document.createElement("td");
+      const val = row.values[w];
+      td.innerHTML = `<input type="number" step="100" value="${val}"
+                           data-section="${section}" data-idx="${idx}"
+                           data-week="${w}" placeholder="—" />`;
+      tr.appendChild(td);
+    }
+    return tr;
+  }
+
+  function buildAddRow(section) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.className = "add-row";
+    td.colSpan = WEEKS + 1;
+    td.innerHTML = `<button data-add="${section}">+ Add line</button>`;
+    tr.appendChild(td);
+    return tr;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  // -------- Recalculation --------
+  function recalc() {
+    const threshold = parseNum(state.threshold);
+    let runningOpen = parseNum(state.openingBalance);
+
+    for (let w = 0; w < WEEKS; w++) {
+      const inSum = state.cashIn.reduce((s, r) => s + parseNum(r.values[w]), 0);
+      const outSum = state.cashOut.reduce((s, r) => s + parseNum(r.values[w]), 0);
+      const close = runningOpen + inSum - outSum;
+
+      setCellText(`open-${w}`, fmt(runningOpen), runningOpen, threshold);
+      setCellText(`in-sum-${w}`, fmt(inSum), null, null);
+      setCellText(`out-sum-${w}`, fmt(outSum), null, null);
+      setCellText(`close-${w}`, fmt(close), close, threshold);
+
+      runningOpen = close;
+    }
+  }
+
+  function setCellText(id, text, value, threshold) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = text;
+    el.classList.remove("below-threshold");
+    if (value !== null && threshold > 0 && value < threshold) {
+      el.classList.add("below-threshold");
+    }
+  }
+
+  // -------- Event wiring --------
+  document.addEventListener("input", (e) => {
+    const t = e.target;
+    if (t.id === "company") { state.company = t.value; return; }
+    if (t.id === "startDate") { state.startDate = t.value; renderHeader(); return; }
+    if (t.id === "openingBalance") { state.openingBalance = t.value; recalc(); return; }
+    if (t.id === "threshold") { state.threshold = t.value; recalc(); return; }
+
+    if (t.dataset && t.dataset.section) {
+      const section = t.dataset.section;
+      const idx = parseInt(t.dataset.idx, 10);
+      if (t.dataset.field === "name") {
+        state[section][idx].name = t.value;
+      } else if (t.dataset.week != null) {
+        state[section][idx].values[parseInt(t.dataset.week, 10)] = t.value;
+        recalc();
+      }
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (e.target.dataset && e.target.dataset.add) {
+      const section = e.target.dataset.add;
+      state[section].push({ name: "New line", values: new Array(WEEKS).fill("") });
+      renderBody();
+    }
+    if (e.target.classList.contains("delete-btn")) {
+      const section = e.target.dataset.section;
+      const idx = parseInt(e.target.dataset.idx, 10);
+      if (state[section].length <= 1) { alert("Keep at least one line in this section."); return; }
+      state[section].splice(idx, 1);
+      renderBody();
+    }
+  });
+
+  function clearAmounts() {
+    state.cashIn.forEach(r => r.values = new Array(WEEKS).fill(""));
+    state.cashOut.forEach(r => r.values = new Array(WEEKS).fill(""));
+    state.openingBalance = "";
+    document.getElementById("openingBalance").value = "";
+    renderBody();
+  }
+
+  // -------- Excel export --------
+  function colLetter(colIdx) {
+    // colIdx is 1-based
+    let s = "";
+    while (colIdx > 0) {
+      const r = (colIdx - 1) % 26;
+      s = String.fromCharCode(65 + r) + s;
+      colIdx = Math.floor((colIdx - 1) / 26);
+    }
+    return s;
+  }
+
+  function exportExcel() {
+    const wb = XLSX.utils.book_new();
+
+    // ---- Build the 13-Week View sheet as a 2D array with formulas ----
+    // We'll populate a sheet object directly so we can include formulas & formatting.
+    const sheet = {};
+    const $num = '"$"#,##0;("$"#,##0);"—"';
+
+    const writeCell = (addr, value, opts = {}) => {
+      const cell = { v: value };
+      if (opts.t) cell.t = opts.t;
+      else if (typeof value === "number") cell.t = "n";
+      else cell.t = "s";
+      if (opts.f) { cell.f = opts.f; delete cell.v; cell.t = "n"; }
+      if (opts.z) cell.z = opts.z;
+      if (opts.s) cell.s = opts.s;
+      sheet[addr] = cell;
+    };
+
+    // Styles (note: plain SheetJS community build only preserves limited styling,
+    // but basic number formats via `z` come through reliably in Excel)
+    // Row 1: Title
+    writeCell("A1", "THE 13-WEEK CASH VIEW");
+    // Row 2: subtitle
+    writeCell("A2", "A owner's worksheet — Two Weeks Out Playbook");
+
+    // Setup rows 4-7
+    writeCell("A4", "COMPANY");
+    writeCell("B4", state.company || "");
+    writeCell("A5", "VIEW START DATE (MONDAY)");
+    writeCell("B5", state.startDate || "");
+    writeCell("A6", "OPENING BANK BALANCE — WEEK 1");
+    writeCell("B6", parseNum(state.openingBalance), { z: $num });
+    writeCell("A7", "MINIMUM CASH THRESHOLD");
+    writeCell("B7", parseNum(state.threshold), { z: $num });
+
+    // Header row 9
+    const HEADER = 9;
+    writeCell(`A${HEADER}`, "LINE ITEM");
+    for (let i = 0; i < WEEKS; i++) {
+      const dateLbl = weekDateLabel(state.startDate, i);
+      const label = `W${i + 1}${dateLbl ? "\n" + dateLbl : ""}`;
+      writeCell(`${colLetter(2 + i)}${HEADER}`, label);
+    }
+
+    // Opening balance row 10 — formulas
+    const OPEN = 10;
+    writeCell(`A${OPEN}`, "Opening Balance");
+    // Week 1 opening = B6
+    writeCell(`B${OPEN}`, null, { f: "B6", z: $num });
+    // Weeks 2-13 opening = prior week's closing (we'll fill in after we know closing row)
+    // — placeholder, will update below
+
+    // Cash In header row 11
+    const CIN_HDR = 11;
+    writeCell(`A${CIN_HDR}`, "CASH IN — inflows placed in the week the money actually lands");
+
+    // Cash In items starting row 12
+    const CIN_START = 12;
+    state.cashIn.forEach((row, i) => {
+      const r = CIN_START + i;
+      writeCell(`A${r}`, row.name);
+      for (let w = 0; w < WEEKS; w++) {
+        const val = parseNum(row.values[w]);
+        writeCell(`${colLetter(2 + w)}${r}`, val, { z: $num });
+      }
+    });
+    const CIN_END = CIN_START + state.cashIn.length - 1;
+
+    // Cash In subtotal
+    const CIN_SUB = CIN_END + 1;
+    writeCell(`A${CIN_SUB}`, "Total Cash In");
+    for (let w = 0; w < WEEKS; w++) {
+      const c = colLetter(2 + w);
+      writeCell(`${c}${CIN_SUB}`, null, { f: `SUM(${c}${CIN_START}:${c}${CIN_END})`, z: $num });
+    }
+
+    // Cash Out header
+    const COUT_HDR = CIN_SUB + 1;
+    writeCell(`A${COUT_HDR}`, "CASH OUT — committed outflows, week by week");
+
+    const COUT_START = COUT_HDR + 1;
+    state.cashOut.forEach((row, i) => {
+      const r = COUT_START + i;
+      writeCell(`A${r}`, row.name);
+      for (let w = 0; w < WEEKS; w++) {
+        const val = parseNum(row.values[w]);
+        writeCell(`${colLetter(2 + w)}${r}`, val, { z: $num });
+      }
+    });
+    const COUT_END = COUT_START + state.cashOut.length - 1;
+
+    // Cash Out subtotal
+    const COUT_SUB = COUT_END + 1;
+    writeCell(`A${COUT_SUB}`, "Total Cash Out");
+    for (let w = 0; w < WEEKS; w++) {
+      const c = colLetter(2 + w);
+      writeCell(`${c}${COUT_SUB}`, null, { f: `SUM(${c}${COUT_START}:${c}${COUT_END})`, z: $num });
+    }
+
+    // Closing balance
+    const CLOSE = COUT_SUB + 1;
+    writeCell(`A${CLOSE}`, "Closing Balance");
+    for (let w = 0; w < WEEKS; w++) {
+      const c = colLetter(2 + w);
+      writeCell(`${c}${CLOSE}`, null, {
+        f: `${c}${OPEN}+${c}${CIN_SUB}-${c}${COUT_SUB}`,
+        z: $num,
+      });
+    }
+
+    // Now fill in Opening formulas for W2-W13 (reference prior week's closing)
+    for (let w = 1; w < WEEKS; w++) {
+      const priorC = colLetter(2 + w - 1);
+      const thisC = colLetter(2 + w);
+      writeCell(`${thisC}${OPEN}`, null, { f: `${priorC}${CLOSE}`, z: $num });
+    }
+
+    // Set sheet range
+    const lastCol = colLetter(WEEKS + 1);
+    sheet["!ref"] = `A1:${lastCol}${CLOSE}`;
+
+    // Column widths
+    sheet["!cols"] = [{ wch: 30 }];
+    for (let i = 0; i < WEEKS; i++) sheet["!cols"].push({ wch: 12 });
+
+    // Row heights (header row taller for wrapped labels)
+    sheet["!rows"] = [];
+    sheet["!rows"][HEADER - 1] = { hpt: 32 };
+
+    XLSX.utils.book_append_sheet(wb, sheet, "13-Week View");
+
+    // ---- Instructions sheet ----
+    const instructions = [
+      ["HOW TO USE THIS WORKSHEET"],
+      ["The single most useful financial tool in an operating business."],
+      [""],
+      ["WHY 13 WEEKS"],
+      ["Thirteen weeks is one quarter — far enough ahead to act on a problem, recent enough to be grounded in real data. Too short (four weeks) and you see a problem with only days to respond. Too long and projections get too speculative to use as an operational tool. Thirteen weeks sits in the sweet spot."],
+      [""],
+      ["THE ARCHITECTURE — THREE SECTIONS"],
+      ["Opening Balance · Cash In · Cash Out. That's the whole thing. Closing balance = opening + in − out, and it feeds the next week's opening. Thirteen times, and you have your view. If maintaining this takes more than 30 minutes a week, you've built too much — strip it back."],
+      [""],
+      ["STEP 1 — BUILD THE STRUCTURE"],
+      ["In the '13-Week View' tab: company name, view start date (this coming Monday), opening bank balance, and your minimum cash threshold."],
+      [""],
+      ["STEP 2 — POPULATE THE FIRST FOUR WEEKS WITH REAL DATA"],
+      ["Weeks 1–4 should be specific: actual opening balance, inflows placed in the week the money realistically lands (not the week the order was placed — time each inflow to when it actually clears the account), and every committed outflow week by week. Weeks 5–13 can follow your normal monthly pattern — near weeks specific, far weeks directional."],
+      [""],
+      ["STEP 3 — SET YOUR MINIMUM CASH THRESHOLD"],
+      ["Enter a number below which you will not let the balance fall without taking action. Typically two to four weeks of committed outflows. Every Monday, you're checking that all thirteen weeks stay above it."],
+      [""],
+      ["STEP 4 — THE MONDAY MORNING HABIT"],
+      ["This is not a document you build once. It's a practice. Set a recurring 8:00 AM Monday reminder. Fifteen minutes: update the opening bank balance, adjust any cash-in that did not land as expected, roll the view forward one week. The calendar event matters more than the formula."],
+      [""],
+      ["USING IT TO MAKE REAL DECISIONS"],
+      ["Before any significant financial decision — a hire, a purchase, a project that requires upfront spend — look at the view first. The question is not whether you can afford it in aggregate. It's whether you can afford it that specific week without creating a problem."],
+      [""],
+      ["THE SHIFT"],
+      ["\"Now I'm not reacting to the bank account. I'm managing it.\""],
+    ];
+    const instrSheet = XLSX.utils.aoa_to_sheet(instructions);
+    instrSheet["!cols"] = [{ wch: 110 }];
+    // Wrap long rows
+    instrSheet["!rows"] = instructions.map(r => {
+      const text = (r[0] || "");
+      if (text.length > 100) return { hpt: Math.min(80, 15 + text.length / 10) };
+      return { hpt: 18 };
+    });
+    XLSX.utils.book_append_sheet(wb, instrSheet, "How to Use");
+
+    // Put "How to Use" first
+    wb.SheetNames = ["How to Use", "13-Week View"];
+
+    // File name
+    const stamp = new Date().toISOString().slice(0, 10);
+    const safeName = (state.company || "cashview").replace(/[^a-z0-9]+/gi, "_").toLowerCase();
+    XLSX.writeFile(wb, `${safeName}_13wk_${stamp}.xlsx`);
+  }
+
+  // -------- Init --------
+  (function init() {
+    // Default start date: next Monday
+    const today = new Date();
+    const daysUntilMon = (8 - today.getDay()) % 7 || 7;
+    const nextMon = new Date(today);
+    nextMon.setDate(today.getDate() + daysUntilMon);
+    const iso = nextMon.toISOString().slice(0, 10);
+    state.startDate = iso;
+    document.getElementById("startDate").value = iso;
+
+    renderHeader();
+    renderBody();
+  })();
+</script>
+
+
+</body></html>

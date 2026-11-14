@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your Partnership and Referral Plan — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a; --ink-soft:#10131a; --muted:#59616e; --muted-soft:#9ba3af;
+    --border:#e9ecf5; --border-soft:#e9ecf5;
+    --bg:#ffffff; --bg-soft:#fbfaf6;
+    --green:#2747f5; --bright:#2747f5; --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5; --amber:#7d5300;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--bg-soft);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+    background: var(--bg);
+  }
+  header.brand {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 34px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--green);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin: 0;
+  }
+  .step {
+    margin: 38px 0 0;
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+  }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .step-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 28px;font-weight:800;
+    color: var(--bright);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 4px 0 18px;
+    font-style: italic;
+  }
+  label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .field-def {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.45;
+    margin-bottom: 7px;
+  }
+  .field-example {
+    font-size: 12px;color:#59616e;
+    line-height: 1.45;
+    margin-top: 6px;
+    padding-left: 2px;
+  }
+  .field-example .ex-tag {
+    color: var(--bright);
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-right: 6px;
+  }
+  input[type="text"], textarea, select {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 9px 11px;
+    width: 100%;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--em-soft);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.5;
+  }
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  .block-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .block-card.green-edge {
+    border-left: 4px solid var(--green);
+  }
+  .block-card.amber-edge {
+    border-left: 4px solid var(--amber);
+  }
+  .block-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .block-card.amber-edge .block-name {
+    color: var(--amber);
+  }
+  .block-prompt {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 12px;
+  }
+
+  /* Dynamic-list row styling */
+  .entry-row {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: var(--bg-soft);
+    position: relative;
+  }
+  .entry-row .remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;color:#59616e;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius:0;
+  }
+  .entry-row .remove-btn:hover {
+    background: var(--em-soft);
+    color: var(--amber);
+  }
+  .entry-row .row-grid-2 {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-right: 30px;
+  }
+  .entry-row .row-full {
+    margin-bottom: 0;
+  }
+  .add-row-btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    color: var(--green);
+    background: var(--em-soft);
+    border: 1px dashed var(--green);
+    border-radius:0;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .add-row-btn:hover { background: #e9ecf5; }
+  .list-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .list-count.under { color: var(--amber); }
+  .list-count.good { color: var(--green); }
+
+  /* Refusal checklist */
+  .refusal-list {
+    margin-bottom: 14px;
+  }
+  .refusal-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .refusal-item:hover {
+    background: var(--cream-soft);
+  }
+  .refusal-item input[type="checkbox"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--amber);
+    cursor: pointer;
+  }
+  .refusal-item.checked {
+    background: var(--cream-soft);
+    border-color: var(--amber);
+  }
+  .refusal-item.checked .refusal-label {
+    color: var(--amber);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+  }
+  .refusal-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    flex: 1;
+    transition: all 0.15s;
+  }
+
+  /* Output */
+  .output-section {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 3px solid var(--ink);
+  }
+  .output-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;font-weight:800;
+    color: var(--ink);
+    margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+    font-style: italic;
+  }
+  .strategy-doc {
+    border: 2px solid var(--ink);
+    border-radius:0;
+    padding: 32px 36px;
+    background: white;
+    page-break-inside: avoid;
+  }
+  .strategy-block {
+    margin-bottom: 28px;
+    page-break-inside: avoid;
+  }
+  .strategy-block:last-child { margin-bottom: 0; }
+  .strategy-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .entry-output {
+    background: var(--bg-soft);
+    border-left: 3px solid var(--green);
+    padding: 12px 16px;
+    border-radius:0;
+    margin-bottom: 10px;
+  }
+  .entry-output:last-child { margin-bottom: 0; }
+  .entry-output.aspirational {
+    border-left-color: var(--amber);
+    background: var(--cream-soft);
+  }
+  .entry-output .etag {
+    font-size: 10px;
+    color: var(--green);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+  }
+  .entry-output.aspirational .etag { color: var(--amber); }
+  .entry-output .ename {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .entry-output .edetail {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 4px;
+  }
+  .entry-output .edetail strong {
+    color: var(--green);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-right: 4px;
+  }
+  .entry-output.aspirational .edetail strong { color: var(--amber); }
+  .referral-line-card {
+    background: var(--em-soft);
+    border-left: 4px solid var(--green);
+    padding: 16px 20px;
+    border-radius:0;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .referral-line-card .rtag {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 10px;
+    color: var(--green);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    font-style: normal;
+  }
+  .refusals-output {
+    margin-top: 8px;
+  }
+  .refusals-output .rrow {
+    background: var(--cream-soft);
+    border-left: 3px solid var(--amber);
+    padding: 10px 14px;
+    border-radius:0;
+    margin-bottom: 6px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--amber);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+  }
+  .refusal-why-box {
+    background: var(--bg-soft);
+    border-left: 3px solid var(--ink);
+    padding: 12px 16px;
+    border-radius:0;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+    line-height: 1.55;
+  }
+  .observation {
+    margin-top: 24px;
+    padding: 14px 18px;
+    background: var(--em-soft);
+    border-radius:0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .observation strong { color: var(--green); }
+  .empty-output {
+    padding: 36px;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius:0;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius:0;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--ink-soft);
+  }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary {
+    background: var(--green);
+    color: white;border-color:#ffffff;
+  }
+  .btn-primary:hover { background: #1b36c9; }
+  .btn-example {
+    background: var(--cream-soft);
+    color: var(--amber);
+    border-color: var(--cream-soft);
+    font-weight: 600;
+  }
+  .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 28px 24px; }
+    .toolbar, .add-row-btn, .remove-btn { display: none; }
+    .step { page-break-inside: avoid; }
+    .strategy-doc { page-break-inside: avoid; }
+    input, textarea, select {
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius:0;
+      padding: 4px 0;
+      background: transparent;
+    }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#D596FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">07 / Find Your Customers</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Marketing for Bootstrapped Ventures</p>
+  <h1>Your Partnership and Referral Plan</h1>
+  <p class="lede">Relationships, not deals. Recommendation, not infrastructure. The product is the program.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<!-- Step 1 — Peer Owners -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">01</span>
+    <span class="step-title">Name your peer owners</span>
+  </div>
+  <p class="step-sub">Three to five people whose work you genuinely read and whose audience overlaps yours. Not aspirational names — real peers. Be honest about the relationship state.</p>
+
+  <div class="block-card green-edge">
+    <div class="block-name">Your peer network</div>
+    <p class="block-prompt">Other owners, writers, operators at your stage whose audience overlaps yours. <strong>The finding method:</strong> list the people whose new piece you actually open when it lands — not aspirational names — then narrow to those at your stage whose audience overlaps yours. <strong>The cultivation method:</strong> become a genuine reader first — reference their work where it fits, comment with something that adds, send the occasional note. The relationship-state dropdown is the honesty mechanism — if you can't articulate audience overlap concretely, the peer doesn't belong here.</p>
+    <div id="peer-list">
+      <!-- rows added dynamically -->
+    </div>
+    <button class="add-row-btn" type="button" onclick="addPeer()">+ Add another peer</button>
+    <div class="list-count" id="peer-count">0 peers — aim for 3 to 5.</div>
+    <div class="field-example" style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
+      <span class="ex-tag">Example</span>A owner writing about regenerative agriculture — adjacent category, audience reads about food systems · A condiment subscription brand owner — adjacent DTC business model, audience cares about supply chain
+    </div>
+  </div>
+</section>
+
+<!-- Step 2 — Recommender Relationships -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">02</span>
+    <span class="step-title">Identify your recommender relationships</span>
+  </div>
+  <p class="step-sub">Three to seven people whose recommendation would carry disproportionate weight in your category. Some may already actively recommend you. Most are probably aspirational — that's fine, and honest absence is the assignment too.</p>
+
+  <div class="block-card green-edge">
+    <div class="block-name">Your recommenders</div>
+    <p class="block-prompt">Editors of respected publications. Established owners whose audience trusts their judgment. Writers with substantially larger reach. Asymmetric by design — their recommendation matters far more to you than yours to them. <strong>The method, since you cannot ask:</strong> identify the 3–7 whose specific audience is the one you want (not the most famous), engage with their work seriously over months, and produce at least one piece so good it's genuinely worth recommending — usually the anchor piece. Then wait, visibly doing the work.</p>
+    <div id="recommender-list">
+      <!-- rows added dynamically -->
+    </div>
+    <button class="add-row-btn" type="button" onclick="addRecommender()">+ Add another recommender</button>
+    <div class="list-count" id="recommender-count">0 recommenders — aim for 3 to 7.</div>
+    <div class="field-example" style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
+      <span class="ex-tag">Example</span>Editor of an independent food-business publication — actively recommends · Category-veteran owner 10 years ahead — knows my work but hasn't recommended yet · Substack writer with much larger audience — aspirational, working toward it
+    </div>
+  </div>
+
+  <div class="block-card green-edge">
+    <div class="block-name">The realistic assessment</div>
+    <p class="block-prompt">The work that produces recommender relationships is the work whose return you cannot see for a long time. Be specific about where your work is today versus where it needs to be.</p>
+    <div class="field" style="margin-bottom: 0;">
+      <label for="realistic-assessment">What does your work need to be doing in 6–12 months that it isn't doing today?</label>
+      <div class="field-def">Be honest. If your anchor pieces aren't yet at the depth a respected editor would link to, name that. If your category perspective isn't yet distinctive enough, name that. The named gap is what guides the six-month production plan.</div>
+      <textarea id="realistic-assessment" placeholder="The honest gap between today's work and what would earn recognition…"></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>My anchor pieces are getting deeper, but I've only published two at the four-thousand-word depth that the editor would naturally link. I need three or four more at that depth in the next six months, on questions only I can answer from inside the grocery-chain experience, before I'd expect his recommendation to repeat reliably.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 3 — Customer Referrals -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">03</span>
+    <span class="step-title">Sketch your customer referral motion</span>
+  </div>
+  <p class="step-sub">One line. A personal-ask discipline. And the formal infrastructure you're explicitly choosing NOT to build. Programs do not fix products that aren't referrable; the product is the program.</p>
+
+  <div class="block-card green-edge">
+    <div class="block-name">The one line</div>
+    <p class="block-prompt">A single hand-written line in your post-purchase communication (or its equivalent moment). No incentive, no code, no tracking. Just an invitation.</p>
+    <div class="field" style="margin-bottom: 0;">
+      <label for="referral-line">Your line</label>
+      <div class="field-def">If you don't have a post-purchase email specifically, name the equivalent moment — the natural point of communication right after a customer has experienced the value, when asking for a referral feels organic.</div>
+      <textarea id="referral-line" placeholder="The line, as you'd actually write it…"></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>"If you like what you receive, the best compliment is forwarding this to a friend who would too — here is the page to send them."</div>
+    </div>
+  </div>
+
+  <div class="block-card green-edge">
+    <div class="block-name">The personal-ask discipline</div>
+    <p class="block-prompt">Not a list of customer names. A discipline. What kind of customer will you personally ask, and at what moment? The moment matters more than the list.</p>
+    <div class="field" style="margin-bottom: 0;">
+      <label for="personal-ask">What kind of customer, what moment</label>
+      <div class="field-def">The lesson's framing: personally, in the right moment, no incentive. Name the qualifying signal that tells you a customer is ready to be asked — and the natural moment to ask.</div>
+      <textarea id="personal-ask" placeholder="The discipline of asking…"></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>Customers who have been subscribed for 6+ months and have replied to two or more of my emails. Moment: when they email me with a specific positive observation about a recent box, I'll thank them and ask if there's anyone they'd recommend it to.</div>
+    </div>
+  </div>
+
+  <div class="block-card amber-edge">
+    <div class="block-name">What you're explicitly NOT building</div>
+    <p class="block-prompt">The trap is partnership infrastructure that looks like motion and produces nothing. Check each form of formal infrastructure you are explicitly committing to not build.</p>
+    <div class="refusal-list" id="refusal-list">
+      <!-- Generated dynamically so checkboxes work as commitments -->
+    </div>
+    <div class="field" style="margin-bottom: 0; margin-top: 14px;">
+      <label for="refusal-why">Why you're refusing these builds</label>
+      <div class="field-def">The reasoning anchors the commitment. Naming the why makes it easier to hold the discipline when the corporate-reflex pull arrives — which it will.</div>
+      <textarea id="refusal-why" placeholder="Why these are not the right builds for now…"></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>None of these would earn their place at my scale — the operational cost would exceed any return, and they would signal to my actual recommenders that I've replaced relationship work with transactional infrastructure. I'll revisit in two or three years if the relationships have produced enough to justify formalizing.</div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTPUT -->
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Partnership and Referral Plan</h2>
+    <p>The operating doc for the partnership, recommender, and referral work you'll do over the next ninety days and beyond.</p>
+  </div>
+
+  <div id="output-section">
+    <div class="empty-output">Complete the steps above and click Generate to produce your plan.</div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+// =============================================================================
+// REFUSAL ITEMS — the corporate-reflex builds the learner can commit to NOT building
+// =============================================================================
+const REFUSAL_ITEMS = [
+  "Affiliate program with codes and tracking",
+  "Sponsored content arrangements with adjacent newsletters",
+  "Coordinated co-marketing calendar",
+  "Partner enablement deck or onboarding materials",
+  "Quarterly partner business reviews",
+  "Formal referral program with rewards or incentives",
+];
+
+// =============================================================================
+// EXAMPLE — Priya's partnership and referral plan
+// =============================================================================
+const EXAMPLE = {
+  peers: [
+    {
+      name: "Owner writing about regenerative agriculture",
+      overlap: "Adjacent category \u2014 her audience reads about food systems and land-use, which overlaps with what mine cares about on supply chain and clean-label",
+      state: "real_active",
+      commitment: "Comment substantively on her anchor pieces (~3 in 90 days) and mention her work in The Pantry Edit when a thread naturally connects.",
+    },
+    {
+      name: "Owner of a condiment subscription brand",
+      overlap: "Adjacent DTC business model \u2014 audience cares about supply chain, ingredient sourcing, and the operational realities behind clean-label brands",
+      state: "real_active",
+      commitment: "Continue the existing mutual-mention pattern; she introduced me to an editor last quarter, I'll return the gesture when an editor relationship of mine becomes relevant.",
+    },
+    {
+      name: "Owner writing about food retail from a different vantage",
+      overlap: "Different perspective on the same category I write about \u2014 he covers the buy-side, I cover the brand-side. Audience is largely the same.",
+      state: "real_active",
+      commitment: "Already in active mutual amplification. Plan: one substantive cross-mention per quarter, more if work naturally connects.",
+    },
+    {
+      name: "Owner of a clean-label snack brand",
+      overlap: "Same category, comparable scale \u2014 closest direct peer. Audience is essentially identical.",
+      state: "i_read_them",
+      commitment: "I've been reading her work for ~4 months but haven't engaged substantively yet. Plan: comment on her next 2 anchor pieces with insider perspective; reach out via email after that if it feels natural.",
+    },
+  ],
+  recommenders: [
+    {
+      role: "Editor at independent food-business publication",
+      state: "active",
+      detail: "Has linked my anchor pieces in his Friday recommendations 5 separate times. The recommendation drives roughly 80\u2013120 newsletter subscribers each time.",
+    },
+    {
+      role: "Category-veteran owner, 10 years ahead in clean-label",
+      state: "active",
+      detail: "Mentions my work in his own writing about once a quarter. Each mention drives 30\u201350 new subscribers. The recognition came after I published the supermarket supply-chain anchor piece.",
+    },
+    {
+      role: "Food-policy Substack writer with larger audience",
+      state: "active",
+      detail: "Has cross-recommended The Pantry Edit twice. Each cross-recommendation drives ~60 subscribers and a small wave of replies. I'm not asking for more; the recognition will repeat when she finds another natural connection.",
+    },
+  ],
+  realisticAssessment: "My anchor pieces are getting deeper, but I've only published two at the four-thousand-word depth that the editor naturally links. I need three or four more pieces at that depth in the next six months \u2014 on questions only I can answer from inside the grocery-chain experience \u2014 before I'd expect his recommendation to repeat reliably or before the category-veteran would mention me more than once a quarter. The work isn't there yet at consistent depth.",
+  referralLine: "\u201CIf you like what you receive, the best compliment is forwarding this to a friend who would too \u2014 here is the page to send them.\u201D",
+  personalAsk: "Customers who have been subscribed for 6+ months and have replied to two or more of my emails. Moment: when they email me with a specific positive observation about a recent box or essay, I'll thank them, mention that the best compliment is forwarding to a friend, and link the subscription page. No incentive, no tracking, no follow-up if they don't act.",
+  refusals: [
+    "Affiliate program with codes and tracking",
+    "Sponsored content arrangements with adjacent newsletters",
+    "Coordinated co-marketing calendar",
+    "Partner enablement deck or onboarding materials",
+    "Quarterly partner business reviews",
+    "Formal referral program with rewards or incentives",
+  ],
+  refusalWhy: "None of these would earn their place at my scale. The operational cost to design and maintain them would exceed any return, and they would signal to my actual recommenders \u2014 the editor, the category-veteran owner \u2014 that I've replaced relationship work with transactional infrastructure. The recommendations I get today are because the work is good and the relationships are real, not because there's a kickback. I'll revisit in two or three years only if the underlying relationships have produced enough to justify formalizing.",
+};
+
+// =============================================================================
+// HELPERS
+// =============================================================================
+function val(id) { return (document.getElementById(id)?.value || "").toString().trim(); }
+function setEl(id, v) { const e = document.getElementById(id); if (e) e.value = v == null ? "" : v; }
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+// =============================================================================
+// REFUSAL CHECKLIST — render once on init
+// =============================================================================
+function renderRefusalList() {
+  const list = document.getElementById("refusal-list");
+  list.innerHTML = "";
+  REFUSAL_ITEMS.forEach((item, i) => {
+    const row = document.createElement("label");
+    row.className = "refusal-item";
+    row.innerHTML = `
+      <input type="checkbox" class="refusal-checkbox" data-item="${escapeHtml(item)}" onchange="toggleRefusal(this)">
+      <span class="refusal-label">${escapeHtml(item)}</span>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function toggleRefusal(checkbox) {
+  const row = checkbox.closest(".refusal-item");
+  if (checkbox.checked) row.classList.add("checked");
+  else row.classList.remove("checked");
+}
+
+function getCheckedRefusals() {
+  return Array.from(document.querySelectorAll(".refusal-checkbox"))
+    .filter(c => c.checked)
+    .map(c => c.dataset.item);
+}
+
+function setCheckedRefusals(items) {
+  document.querySelectorAll(".refusal-checkbox").forEach(c => {
+    const isChecked = items.includes(c.dataset.item);
+    c.checked = isChecked;
+    const row = c.closest(".refusal-item");
+    if (isChecked) row.classList.add("checked");
+    else row.classList.remove("checked");
+  });
+}
+
+// =============================================================================
+// PEER LIST DYNAMICS
+// =============================================================================
+let peerCounter = 0;
+
+function addPeer(initial) {
+  if (peerCounter >= 7) return;
+  peerCounter += 1;
+  const list = document.getElementById("peer-list");
+  const row = document.createElement("div");
+  row.className = "entry-row";
+  row.innerHTML = `
+    <button class="remove-btn" type="button" onclick="removePeer(this)" title="Remove">\u00D7</button>
+    <div class="row-grid-2">
+      <div class="field" style="margin-bottom: 0;">
+        <label>Name, role, or category</label>
+        <input type="text" class="peer-name" placeholder="Who they are\u2026" oninput="updatePeerCount()">
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label>Relationship state</label>
+        <select class="peer-state">
+          <option value="">Select\u2026</option>
+          <option value="real_active">We have a real relationship; we've amplified each other</option>
+          <option value="i_read_them">I read their work; they may not know me yet</option>
+          <option value="aspirational">I'd like this to be a peer relationship; I haven't engaged yet</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom: 10px;">
+      <label>How your audience overlaps theirs</label>
+      <input type="text" class="peer-overlap" placeholder="What they cover that your audience also cares about\u2026">
+    </div>
+    <div class="field row-full">
+      <label>What you'll commit to in the next 90 days</label>
+      <input type="text" class="peer-commitment" placeholder="Read, comment, mention \u2014 the specific engagement plan\u2026">
+    </div>
+  `;
+  if (initial) {
+    row.querySelector(".peer-name").value = initial.name || "";
+    row.querySelector(".peer-state").value = initial.state || "";
+    row.querySelector(".peer-overlap").value = initial.overlap || "";
+    row.querySelector(".peer-commitment").value = initial.commitment || "";
+  }
+  list.appendChild(row);
+  updatePeerCount();
+}
+
+function removePeer(btn) {
+  btn.closest(".entry-row").remove();
+  updatePeerCount();
+}
+
+function getPeerValues() {
+  return Array.from(document.querySelectorAll("#peer-list .entry-row")).map(row => ({
+    name: row.querySelector(".peer-name").value.trim(),
+    state: row.querySelector(".peer-state").value,
+    overlap: row.querySelector(".peer-overlap").value.trim(),
+    commitment: row.querySelector(".peer-commitment").value.trim(),
+  })).filter(p => p.name);
+}
+
+function updatePeerCount() {
+  const count = getPeerValues().length;
+  const el = document.getElementById("peer-count");
+  el.classList.remove("under", "good");
+  if (count === 0) {
+    el.textContent = "0 peers \u2014 aim for 3 to 5.";
+  } else if (count < 3) {
+    el.textContent = `${count} ${count === 1 ? "peer" : "peers"} \u2014 aim for at least 3.`;
+    el.classList.add("under");
+  } else if (count <= 5) {
+    el.textContent = `${count} peers \u2014 you're in the target range.`;
+    el.classList.add("good");
+  } else {
+    el.textContent = `${count} peers \u2014 over the recommendation. Consider tightening.`;
+  }
+}
+
+// =============================================================================
+// RECOMMENDER LIST DYNAMICS
+// =============================================================================
+let recommenderCounter = 0;
+
+function addRecommender(initial) {
+  if (recommenderCounter >= 7) return;
+  recommenderCounter += 1;
+  const list = document.getElementById("recommender-list");
+  const row = document.createElement("div");
+  row.className = "entry-row";
+  row.innerHTML = `
+    <button class="remove-btn" type="button" onclick="removeRecommender(this)" title="Remove">\u00D7</button>
+    <div class="row-grid-2">
+      <div class="field" style="margin-bottom: 0;">
+        <label>Role or category</label>
+        <input type="text" class="rec-role" placeholder="Editor, owner, writer, operator\u2026" oninput="updateRecommenderCount()">
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label>Relationship state</label>
+        <select class="rec-state">
+          <option value="">Select\u2026</option>
+          <option value="active">They actively recommend me</option>
+          <option value="aware">They know my work but haven't recommended yet</option>
+          <option value="aspirational">Aspirational \u2014 I'm working to earn the chance</option>
+        </select>
+      </div>
+    </div>
+    <div class="field row-full">
+      <label>What they're doing (if active) OR what you're producing to earn it (if aspirational)</label>
+      <input type="text" class="rec-detail" placeholder="The recognition motion or the work you'll produce\u2026">
+    </div>
+  `;
+  if (initial) {
+    row.querySelector(".rec-role").value = initial.role || "";
+    row.querySelector(".rec-state").value = initial.state || "";
+    row.querySelector(".rec-detail").value = initial.detail || "";
+  }
+  list.appendChild(row);
+  updateRecommenderCount();
+}
+
+function removeRecommender(btn) {
+  btn.closest(".entry-row").remove();
+  updateRecommenderCount();
+}
+
+function getRecommenderValues() {
+  return Array.from(document.querySelectorAll("#recommender-list .entry-row")).map(row => ({
+    role: row.querySelector(".rec-role").value.trim(),
+    state: row.querySelector(".rec-state").value,
+    detail: row.querySelector(".rec-detail").value.trim(),
+  })).filter(r => r.role);
+}
+
+function updateRecommenderCount() {
+  const count = getRecommenderValues().length;
+  const el = document.getElementById("recommender-count");
+  el.classList.remove("under", "good");
+  if (count === 0) {
+    el.textContent = "0 recommenders \u2014 aim for 3 to 7. Honest absence is fine too.";
+  } else if (count < 3) {
+    el.textContent = `${count} \u2014 aim for at least 3. Aspirational entries are valid.`;
+    el.classList.add("under");
+  } else if (count <= 7) {
+    el.textContent = `${count} recommenders \u2014 you're in the target range.`;
+    el.classList.add("good");
+  } else {
+    el.textContent = `${count} \u2014 over the recommendation. Consider tightening.`;
+  }
+}
+
+// =============================================================================
+// USE EXAMPLE
+// =============================================================================
+function useExample() {
+  const hasContent = getPeerValues().length > 0 || getRecommenderValues().length > 0 || !!val("referral-line");
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+
+  // Peers
+  document.getElementById("peer-list").innerHTML = "";
+  peerCounter = 0;
+  EXAMPLE.peers.forEach(p => addPeer(p));
+
+  // Recommenders
+  document.getElementById("recommender-list").innerHTML = "";
+  recommenderCounter = 0;
+  EXAMPLE.recommenders.forEach(r => addRecommender(r));
+
+  setEl("realistic-assessment", EXAMPLE.realisticAssessment);
+  setEl("referral-line", EXAMPLE.referralLine);
+  setEl("personal-ask", EXAMPLE.personalAsk);
+  setCheckedRefusals(EXAMPLE.refusals);
+  setEl("refusal-why", EXAMPLE.refusalWhy);
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================================================
+// GENERATE OUTPUT
+// =============================================================================
+function generate() {
+  const out = document.getElementById("output-section");
+  const peers = getPeerValues();
+  const recommenders = getRecommenderValues();
+  const realisticAssessment = val("realistic-assessment");
+  const referralLine = val("referral-line");
+  const personalAsk = val("personal-ask");
+  const refusals = getCheckedRefusals();
+  const refusalWhy = val("refusal-why");
+
+  // Minimum required: at least 1 peer, at least 1 recommender (or honest assessment), a referral line
+  if (peers.length < 1 || (recommenders.length < 1 && !realisticAssessment) || !referralLine) {
+    out.innerHTML = '<div class="empty-output">To generate your plan, fill in at minimum: 1 peer owner, either 1 recommender or your realistic assessment, and your customer referral line.</div>';
+    out.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  const peerStateLabels = {
+    real_active: "ACTIVE PEER",
+    i_read_them: "EMERGING",
+    aspirational: "ASPIRATIONAL",
+  };
+
+  const recStateLabels = {
+    active: "ACTIVELY RECOMMENDS",
+    aware: "KNOWS MY WORK",
+    aspirational: "ASPIRATIONAL",
+  };
+
+  let html = '<div class="strategy-doc">';
+
+  // Peer block
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">PEER NETWORK  \u00B7  ${peers.length} ${peers.length === 1 ? "PEER" : "PEERS"}</div>
+      ${peers.map(p => {
+        const isAspirational = p.state === "aspirational" || p.state === "i_read_them";
+        const stateLabel = peerStateLabels[p.state] || "STATE UNSET";
+        return `
+          <div class="entry-output${isAspirational ? " aspirational" : ""}">
+            <div class="etag">${stateLabel}</div>
+            <div class="ename">${escapeHtml(p.name)}</div>
+            ${p.overlap ? `<div class="edetail"><strong>Overlap:</strong> ${escapeHtml(p.overlap)}</div>` : ""}
+            ${p.commitment ? `<div class="edetail"><strong>90-day commit:</strong> ${escapeHtml(p.commitment)}</div>` : ""}
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+
+  // Recommender block
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">RECOMMENDER RELATIONSHIPS  \u00B7  ${recommenders.length} ${recommenders.length === 1 ? "ENTRY" : "ENTRIES"}</div>
+      ${recommenders.length > 0 ? recommenders.map(r => {
+        const isAspirational = r.state === "aspirational" || r.state === "aware";
+        const stateLabel = recStateLabels[r.state] || "STATE UNSET";
+        return `
+          <div class="entry-output${isAspirational ? " aspirational" : ""}">
+            <div class="etag">${stateLabel}</div>
+            <div class="ename">${escapeHtml(r.role)}</div>
+            ${r.detail ? `<div class="edetail">${escapeHtml(r.detail)}</div>` : ""}
+          </div>
+        `;
+      }).join("") : '<div class="entry-output aspirational"><div class="etag">HONEST ABSENCE</div><div class="ename">No recommenders identified yet</div><div class="edetail">That is also the assignment. See the realistic assessment below for what you&#39;ll produce to earn the chance.</div></div>'}
+      ${realisticAssessment ? `
+      <div class="refusal-why-box" style="margin-top: 14px;">
+        <strong style="font-size: 10px; color: var(--green); text-transform: uppercase; letter-spacing: 1.5px; font-style: normal; display: block; margin-bottom: 6px;">THE 6\u201312 MONTH GAP</strong>
+        ${escapeHtml(realisticAssessment)}
+      </div>` : ""}
+    </div>
+  `;
+
+  // Customer referral block
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">CUSTOMER REFERRAL MOTION</div>
+      <div class="referral-line-card">
+        <div class="rtag">THE ONE LINE</div>
+        ${escapeHtml(referralLine)}
+      </div>
+      ${personalAsk ? `
+      <div class="refusal-why-box" style="margin-top: 14px;">
+        <strong style="font-size: 10px; color: var(--green); text-transform: uppercase; letter-spacing: 1.5px; font-style: normal; display: block; margin-bottom: 6px;">PERSONAL-ASK DISCIPLINE</strong>
+        ${escapeHtml(personalAsk)}
+      </div>` : ""}
+    </div>
+  `;
+
+  // Refusals block
+  if (refusals.length > 0 || refusalWhy) {
+    html += `
+      <div class="strategy-block">
+        <div class="strategy-label" style="color: var(--amber); border-bottom-color: var(--amber);">WHAT I'M EXPLICITLY NOT BUILDING</div>
+        <div class="refusals-output">
+          ${refusals.map(r => `<div class="rrow">${escapeHtml(r)}</div>`).join("")}
+        </div>
+        ${refusalWhy ? `
+        <div class="refusal-why-box">
+          <strong style="font-size: 10px; color: var(--amber); text-transform: uppercase; letter-spacing: 1.5px; font-style: normal; display: block; margin-bottom: 6px;">THE REASONING</strong>
+          ${escapeHtml(refusalWhy)}
+        </div>` : ""}
+      </div>
+    `;
+  }
+
+  html += '</div>'; // strategy-doc
+
+  // Observations
+  const observations = buildObservations({ peers, recommenders, realisticAssessment, referralLine, personalAsk, refusals, refusalWhy });
+  observations.forEach(o => { html += `<div class="observation">${o}</div>`; });
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function buildObservations(d) {
+  const obs = [];
+
+  // Fewer than 3 peers
+  if (d.peers.length < 3) {
+    obs.push(`<strong>You have ${d.peers.length} ${d.peers.length === 1 ? "peer" : "peers"}.</strong> The lesson's target is 3 to 5. Below 3, the mutual-amplification motion doesn't have enough surface area to compound. Keep watching for owners, writers, and operators whose work you naturally read \u2014 the list builds over a year, not a week.`);
+  }
+
+  // All peers aspirational or "i_read_them" — no real relationships yet
+  const activePeers = d.peers.filter(p => p.state === "real_active");
+  if (d.peers.length >= 2 && activePeers.length === 0) {
+    obs.push(`<strong>You have no active peer relationships yet.</strong> All of your entries are aspirational or one-way. That's an honest starting point, not a failure \u2014 but the amplification motion needs at least one or two real relationships to start producing return. Pick the one or two highest-potential peers and start engaging substantively with their work this week. Six months in, that becomes the foundation.`);
+  }
+
+  // No peers have state set
+  const peersWithoutState = d.peers.filter(p => !p.state).length;
+  if (d.peers.length > 0 && peersWithoutState > 0) {
+    obs.push(`<strong>${peersWithoutState} of your peer entries don't have a relationship state set.</strong> The state dropdown is the honesty mechanism \u2014 it tells you (and any future reader of this plan) which relationships are real and which are aspirational. Unstated state usually means "I haven't actually thought about whether they know me." Set it honestly.`);
+  }
+
+  // No recommenders at all, and no realistic assessment
+  if (d.recommenders.length === 0 && !d.realisticAssessment) {
+    obs.push(`<strong>You have no recommenders identified and no realistic assessment.</strong> Honest absence is a valid answer \u2014 most owners at this stage have no recommenders yet. But the assignment includes naming what you'll produce in the next six months to earn the chance. Write the realistic assessment.`);
+  }
+
+  // All recommenders aspirational with no work-being-produced statement
+  const activeRecs = d.recommenders.filter(r => r.state === "active");
+  if (d.recommenders.length >= 2 && activeRecs.length === 0 && !d.realisticAssessment) {
+    obs.push(`<strong>All your recommender entries are aspirational, and you haven't named the 6\u201312 month production gap.</strong> The work that produces recommender relationships is the work whose return you cannot see for a long time. If you can't name what your work needs to do that it isn't doing today, the aspirational recommenders will stay aspirational.`);
+  }
+
+  // Incentive language in the referral line — regex detect
+  if (d.referralLine) {
+    const incentiveRegex = /\b(discount|free shipping|free month|get \$|earn|reward|code\s*:|use code|coupon|promo|% off|percent off|sign-up bonus)\b/i;
+    if (incentiveRegex.test(d.referralLine)) {
+      obs.push(`<strong>Your referral line contains incentive language.</strong> The lesson is explicit: customer referrals come from product quality and personal asking \u2014 not incentives. Incentives reduce the quality of the recommendation (the recommender is now compensated, not endorsing). Reframe the line as an invitation, not a transaction.`);
+    }
+  }
+
+  // No personal-ask discipline named
+  if (!d.personalAsk || d.personalAsk.length < 40) {
+    obs.push(`<strong>Your personal-ask discipline is brief or unstated.</strong> The lesson framed personal asking as "personally, in the right moment, no incentive." Without naming the qualifying signal and the natural moment, the practice doesn't actually happen \u2014 it stays an idea. Be specific about which customers and which moment.`);
+  }
+
+  // No refusals committed to
+  if (d.refusals.length === 0) {
+    obs.push(`<strong>You haven't committed to refusing any formal partnership infrastructure.</strong> The trap is the build that looks like motion and produces nothing. Naming what you're explicitly NOT building makes it easier to hold the discipline when the corporate-reflex pull arrives \u2014 which, for most owners, it does. Check at least the items you'd otherwise be tempted to build first.`);
+  } else if (d.refusals.length < REFUSAL_ITEMS.length) {
+    const unchecked = REFUSAL_ITEMS.length - d.refusals.length;
+    obs.push(`<strong>You've committed to refusing ${d.refusals.length} of ${REFUSAL_ITEMS.length} formal builds.</strong> The ${unchecked} unchecked ${unchecked === 1 ? "item is" : "items are"} the build you might still be tempted to construct. Be honest about whether ${unchecked === 1 ? "it earns its place" : "they earn their place"} \u2014 most of them don't, at your scale.`);
+  }
+
+  return obs;
+}
+
+function clearAll() {
+  if (!confirm("Clear all entries and start over?")) return;
+  document.querySelectorAll("input[type='text'], textarea, select").forEach(el => el.value = "");
+  document.getElementById("peer-list").innerHTML = "";
+  document.getElementById("recommender-list").innerHTML = "";
+  peerCounter = 0;
+  recommenderCounter = 0;
+  setCheckedRefusals([]);
+  for (let i = 0; i < 3; i++) addPeer();
+  for (let i = 0; i < 3; i++) addRecommender();
+  updatePeerCount();
+  updateRecommenderCount();
+  document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your plan.</div>';
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================================================
+// INIT
+// =============================================================================
+renderRefusalList();
+for (let i = 0; i < 3; i++) addPeer();
+for (let i = 0; i < 3; i++) addRecommender();
+updatePeerCount();
+updateRecommenderCount();
+</script>
+</body>
+</html>

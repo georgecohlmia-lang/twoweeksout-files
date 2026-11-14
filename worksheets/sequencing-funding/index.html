@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<!-- saved from url=(0261)file:///C:/Users/georg/OneDrive/Desktop/Two Weeks Out/V6/Course%20-%20Financial%20Planning%20and%20Management%20Excellence/Module%205%20-%20Bootstrap%20Funding%20Sources/Lesson%204%20-%20Sequencing%20Funding%20Moves%20Over%20Your%20First%2024%20Months/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funding Sequence Worksheet — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10131a;
+    --navy-2:#2c313c;
+    --navy-dk:#10131a;
+    --gold:#2747f5;
+    --gold-dk:#2747f5;
+    --gold-lt:#e9ecf5;
+    --red:#b3261e;
+    --teal:#2747f5;
+    --cream:#e9ecf5;
+    --cream-dk:#d5d9e4;
+    --slate:#9ba3af;
+    --paper:#fbfaf6;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --rule:#d5d9e4;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .frame { max-width: 920px; margin: 0 auto; padding: 56px 40px 120px; }
+
+  /* masthead */
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 36px;
+    margin-bottom: 48px;
+  }
+  .brand-stripe {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .brand-stripe::after { content: ''; flex: 1; height: 1px; background: var(--cream-dk); }
+  h1.title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 56px;
+    line-height: 1.05;letter-spacing:-.03em;
+    color: var(--navy); margin-bottom: 18px;font-style:normal;}
+  h1.title em { font-style: italic; color: var(--gold); font-weight: 500; }
+  .deck { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 19px; color: var(--ink-soft); max-width: 660px; }
+
+  /* progress */
+  .progress { display: flex; gap: 4px; margin: 40px 0 20px; }
+  .progress-step { flex: 1; height: 3px; background: var(--cream-dk); transition: background 0.4s; }
+  .progress-step.active { background: var(--gold); }
+  .progress-step.done { background: var(--navy); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;color:#59616e; text-transform: uppercase;
+    margin-bottom: 48px; gap: 12px;
+  }
+  .progress-label span.current { color: var(--navy); }
+
+  /* panels */
+  .panel { display: none; animation: fadeIn 0.4s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel-header { margin-bottom: 36px; }
+  .panel-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; line-height: 1.1; color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .panel-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft); max-width: 660px;
+  }
+
+  /* warning callout */
+  .warning-callout {
+    background: var(--navy);
+    color: white;
+    padding: 24px 28px;
+    margin: 24px 0;
+    border-left: 6px solid var(--red);
+  }
+  .warning-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 10px;
+  }
+  .warning-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;font-style:normal;
+    font-size: 20px; color: white; line-height: 1.35;
+  }
+  .warning-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--cream-dk); line-height: 1.55; margin-top: 10px;
+  }
+
+  /* form fields */
+  .field { margin-bottom: 28px; }
+  .field-label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; color: var(--navy); margin-bottom: 6px;
+  }
+  .field-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .field-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;color:#59616e; margin-bottom: 12px;
+    padding-left: 10px; border-left: 2px solid var(--cream-dk);
+    line-height: 1.55;
+  }
+  .field-example.with-copy {
+    display: flex; align-items: flex-start; gap: 12px;
+    justify-content: space-between;
+  }
+  .field-example .ex-text { flex: 1; font-style: italic; color: var(--ink-soft); }
+  .copy-link {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--cream-dk);
+    color: var(--gold-dk);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .copy-link:hover { background: var(--gold-lt); border-color: var(--gold); color: var(--navy); }
+  .copy-link.copied { background: var(--teal);border-color:#ffffff; color: white; }
+
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-bottom: 2px solid var(--navy);
+    padding: 13px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--navy);
+    border-radius:0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-bottom-color: var(--gold);
+    background: var(--gold-lt);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; gap: 0; } }
+
+  .currency-prefix { position: relative; }
+  .currency-prefix::before {
+    content: '$';
+    position: absolute;
+    left: 16px; top: 50%; transform: translateY(-50%);color:#59616e; font-weight: 600;
+    pointer-events: none; z-index: 1;
+  }
+  .currency-prefix input { padding-left: 30px; }
+
+  /* sub-cards */
+  .sub-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--gold);
+    padding: 24px 26px;
+    margin-bottom: 22px;
+  }
+  .sub-card-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 2px 8px; margin-bottom: 12px;
+    background: var(--gold);color:#ffffff;
+  }
+  .sub-card-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: var(--navy); margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .sub-card-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--ink-soft); margin-bottom: 18px;
+  }
+
+  /* gate-question style for stage diagnostic */
+  .gate-q {
+    background: var(--paper);
+    border: 1px solid var(--cream-dk);
+    padding: 18px 22px;
+    margin-bottom: 12px;
+  }
+  .gate-q-text {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 16px; color: var(--navy); margin-bottom: 4px; line-height: 1.4;
+  }
+  .gate-q-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12.5px;
+    color: var(--ink-soft); margin-bottom: 12px;
+  }
+  .gate-options { display: flex; gap: 10px; }
+  .gate-options label {
+    flex: 1;
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 10px 14px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 12px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: all 0.15s;
+  }
+  .gate-options input { display: none; }
+  .gate-options label:hover { border-color: var(--gold); color: var(--navy); }
+  .gate-options label:has(input:checked) {
+    background: var(--navy);border-color:#fbfaf6; color: white;
+  }
+
+  /* nav */
+  .nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer; border: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dk); }
+  .btn-secondary {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--cream-dk);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  /* output */
+  .output { display: none; }
+  .output.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .output-masthead {
+    border-top: 4px solid var(--navy);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 0 28px;
+    margin-bottom: 40px;
+  }
+  .output-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 44px; line-height: 1.05;
+    color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .output-title em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .output-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .output-meta {
+    display: flex; gap: 32px; margin-top: 20px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; letter-spacing: 0.08em; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .output-meta span strong {
+    color: var(--navy); display: block; font-size: 16px;
+    letter-spacing: 0; text-transform: none; margin-top: 2px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; line-height: 1.15; color: var(--navy); margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+  .section p {
+    margin-bottom: 14px; line-height: 1.65; color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .section p strong { color: var(--navy); font-weight: 600; }
+
+  /* ARTIFACT 1 — the stage map */
+  .stage-map {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 0;
+    margin: 20px 0;
+  }
+  .stage {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--cream-dk);
+    align-items: start;
+  }
+  .stage:last-child { border-bottom: none; }
+  .stage.complete { background: rgba(39,71,245,0.05); }
+  .stage.current { background: var(--gold-lt); border-left: 4px solid var(--gold); padding-left: 24px; }
+  .stage.future { opacity: 0.6; }
+  .stage-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 38px;
+    color: var(--cream-dk); line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .stage.complete .stage-num { color: var(--teal); }
+  .stage.current .stage-num { color: var(--gold-dk); }
+  .stage-content { padding-top: 4px; }
+  .stage-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 9.5px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 3px 8px; margin-bottom: 8px;
+  }
+  .stage.complete .stage-tag { background: var(--teal); color: white; }
+  .stage.current .stage-tag { background: var(--gold);color:#ffffff; }
+  .stage.future .stage-tag { background: var(--cream-dk); color: var(--ink-soft); }
+  .stage-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 22px; color: var(--navy); margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .stage-window {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; margin-bottom: 10px;
+    letter-spacing: 0.04em;
+  }
+  .stage-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--ink-soft); line-height: 1.6;
+  }
+  .stage-body strong { color: var(--navy); }
+  .stage-gate {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: white;
+    border-left: 3px solid var(--gold);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12.5px;
+    color: var(--ink-soft); line-height: 1.55;
+  }
+  .stage-gate strong { color: var(--red); font-weight: 700; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+
+  /* verdict block */
+  .verdict {
+    border-left: 6px solid var(--navy);
+    background: white;
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .verdict.green { border-left-color: var(--teal); }
+  .verdict.amber { border-left-color: var(--gold); }
+  .verdict.red { border-left-color: var(--red); }
+  .verdict-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; margin-bottom: 8px;
+  }
+  .verdict.green .verdict-label { color: var(--teal); }
+  .verdict.amber .verdict-label { color: var(--gold-dk); }
+  .verdict.red .verdict-label { color: var(--red); }
+  .verdict-headline {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 22px;
+    color: var(--navy); margin-bottom: 10px; line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .verdict-body {
+    color: var(--ink-soft); font-size: 15px; line-height: 1.6;
+  }
+
+  /* ARTIFACT 2 — the raise signal card (gold-bordered) */
+  .signal-card {
+    background: var(--gold-lt);
+    border: 2px solid var(--gold);
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .signal-card h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 26px; color: var(--navy); margin-bottom: 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .signal-card .signal-tagline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--ink-soft); margin-bottom: 24px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(39,71,245,0.4);
+  }
+  .signal-component {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px dashed rgba(39,71,245,0.4);
+  }
+  .signal-component:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .signal-component-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .signal-component-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 20px; color: var(--navy); line-height: 1.4;letter-spacing:-.03em;font-style:normal;}
+
+  /* ARTIFACT 3 — the next-90-days card (navy) */
+  .play-card {
+    background: var(--navy);
+    color: white;
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .play-header {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 6px;
+  }
+  .play-card h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 24px; color: white; margin-bottom: 8px;letter-spacing:-.03em;font-style:normal;}
+  .play-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--cream-dk); margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .play-move {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .play-move:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .play-move-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--gold); margin-bottom: 4px;
+  }
+  .play-move-text {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 18px; color: white; line-height: 1.4; margin-bottom: 8px;
+  }
+  .play-move-coach {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--cream-dk); line-height: 1.55;
+  }
+  .play-rule {
+    background: rgba(179,38,30,0.18);
+    border-left: 3px solid var(--red);
+    padding: 14px 18px;
+    margin-top: 28px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: rgba(255,255,255,0.92); line-height: 1.6;
+  }
+  .play-rule strong { color: white; font-weight: 700; }
+
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+  .signature {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;color:#59616e;
+  }
+  .signature .left { color: var(--gold); font-weight: 700; }
+  .hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--red); margin-top: 6px;
+  }
+
+  /* print */
+  @media print {
+    @page { margin: 0.5in; size: letter; }
+    body { background: white; font-size: 10.5pt; }
+    .frame { padding: 0; max-width: none; }
+    .panel, .progress, .progress-label, .actions, .nav, .masthead { display: none !important; }
+    .output { display: block !important; }
+    .output-title { font-size: 28pt; }
+    .section-title { font-size: 16pt; }
+    .stage, .verdict, .signal-card, .play-card, .warning-callout, .stage-map {
+      page-break-inside: avoid; box-shadow: none;
+    }
+    .play-card { background: white !important; color: var(--navy) !important; border: 2px solid var(--navy); }
+    .play-card h3, .play-move-text { color: var(--navy) !important; }
+    .play-card .play-sub, .play-move-coach { color: var(--ink-soft) !important; }
+    .play-move-num, .play-header { color: var(--gold-dk) !important; }
+    .play-rule { color: var(--navy) !important; background: #fbfaf6 !important; }
+    .play-rule strong { color: var(--red) !important; }
+    .section { margin-bottom: 28px; }
+    .signature { page-break-inside: avoid; }
+    #artifact-2, #artifact-3 { page-break-before: always; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#93BEDD;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.warning-callout div.warning-label{color:#93abff}
+div.stage-map div.stage-num{color:#10131a}
+div.play-card div.play-header{color:#93abff}
+div.play-card p.play-sub{color:#fbfaf6}
+div.play-card div.play-move-num{color:#93abff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">05 / Fund Your Business</span></div>
+<div class="frame">
+
+<header class="masthead" id="masthead">
+  <div class="brand-stripe">Two Weeks Out  ·  FUNDING SEQUENCE WORKSHEET</div>
+  <h1 class="title">Sequence Your<br><em>Funding Moves</em></h1>
+  <p class="deck">Identify where you are. Decide what unlocks the next stage. Define your raise signal — calmly, in advance, before pressure makes the decision for you.</p>
+</header>
+
+<div id="progress-wrap">
+  <div class="progress">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+  </div>
+  <div class="progress-label">
+    <span class="current">01 — Your Business</span>
+    <span>02 — Stage Diagnostic</span>
+    <span>03 — Your Raise Signal</span>
+  </div>
+</div>
+
+<!-- ============ PANEL 1: BUSINESS BASICS ============ -->
+<section class="panel active" id="panel-1">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP ONE  ·  YOUR BUSINESS</div>
+    <h2 class="panel-title">A few details about where you are.</h2>
+    <p class="panel-intro">Honest numbers, even rough ones, beat polished guesses. The next page will diagnose your stage from your answers — not from your self-assessment.</p>
+  </div>
+
+  <div class="warning-callout">
+    <div class="warning-label">THE PRINCIPLE THAT GOVERNS THE WHOLE WORKSHEET</div>
+    <div class="warning-headline">Most owners don't sequence funding. They react.</div>
+    <div class="warning-body">When owners react, the most expensive money — equity, high-interest credit, emergency debt — tends to be what's available when you're under pressure. The cheapest, most owner-friendly capital — revenue, founding clients, a line of credit established in advance — tends to be what you bypass when things feel urgent. This worksheet is calibrated to keep you sequencing instead of reacting.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-name">Business name</label>
+    <input type="text" id="biz-name" placeholder="Whatever you&#39;d call it talking to a friend">
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="months-in">How many months has the business been operating?</label>
+    <p class="field-help">Counted from when you took your first paying customer or launched the offer.</p>
+    <input type="number" id="months-in" placeholder="0" min="0" step="1">
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="monthly-revenue">Average monthly revenue (last 3 months)</label>
+      <p class="field-example">Cash collected, not invoiced. If you're brand new, what's been collected so far averaged out.</p>
+      <div class="currency-prefix">
+        <input type="number" id="monthly-revenue" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="monthly-fixed">Total monthly fixed cost</label>
+      <p class="field-example">Payroll, rent, software, insurance — the must-pay things.</p>
+      <div class="currency-prefix">
+        <input type="number" id="monthly-fixed" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="self-assessed-stage">Where do you think you are in the sequence?</label>
+    <p class="field-help">Your gut answer. The next page will check it against the gates. If they match, that's a confirmation. If they don't, the diagnosis wins — and the lesson's caution applies: <em>"if you're unsure where you are, you're probably earlier than you think."</em></p>
+    <select id="self-assessed-stage">
+      <option value="">— Pick one —</option>
+      <option value="1">Stage 1 — Revenue traction (proving the model works)</option>
+      <option value="2">Stage 2 — Founding clients &amp; self-funding (extending runway without debt or equity)</option>
+      <option value="3">Stage 3 — Credit as a bridge (smoothing timing gaps with a line)</option>
+      <option value="4">Stage 4 — Outside capital (the model demands it)</option>
+    </select>
+  </div>
+
+  <div class="nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(2)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 2: STAGE DIAGNOSTIC ============ -->
+<section class="panel" id="panel-2">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP TWO  ·  STAGE DIAGNOSTIC</div>
+    <h2 class="panel-title">Six gate questions. Answer honestly.</h2>
+    <p class="panel-intro">Each pair of questions tests whether you've cleared the gate to a stage. The diagnostic places you at the most advanced stage you've actually unlocked — not the one you'd like to be in.</p>
+  </div>
+
+  <!-- STAGE 1 GATES -->
+  <div class="sub-card" style="border-left-color: var(--teal);">
+    <div class="sub-card-tag" style="background: var(--teal); color: white;">GATES TO STAGE 1  ·  REVENUE TRACTION</div>
+    <div class="sub-card-title">Has the model been proven by paying customers?</div>
+
+    <div class="gate-q">
+      <div class="gate-q-text">Do you have paying customers right now — not pilots, not promises?</div>
+      <p class="gate-q-help">Money in the bank from people who chose to pay you for the offer.</p>
+      <div class="gate-options">
+        <label><input type="radio" name="g1a" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="g1a" value="no"><span>Not yet</span></label>
+      </div>
+    </div>
+
+    <div class="gate-q">
+      <div class="gate-q-text">Can you describe — clearly and consistently — what those customers are paying you for?</div>
+      <p class="gate-q-help">If you'd describe it differently to two different prospects, the offer isn't yet defined enough.</p>
+      <div class="gate-options">
+        <label><input type="radio" name="g1b" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="g1b" value="no"><span>Not really</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 2 GATES -->
+  <div class="sub-card" style="border-left-color: var(--gold);">
+    <div class="sub-card-tag">GATES TO STAGE 2  ·  FOUNDING CLIENTS &amp; SELF-FUNDING</div>
+    <div class="sub-card-title">Are you extending runway through customer relationships and design?</div>
+
+    <div class="gate-q">
+      <div class="gate-q-text">Have you structured at least one founding client agreement (prepaid or committed revenue tied to insider terms)?</div>
+      <p class="gate-q-help">Not "interested clients." Signed agreements with founding-client framing.</p>
+      <div class="gate-options">
+        <label><input type="radio" name="g2a" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="g2a" value="no"><span>Not yet</span></label>
+      </div>
+    </div>
+
+    <div class="gate-q">
+      <div class="gate-q-text">Have you tightened payment terms or improved margin mix in a deliberate way?</div>
+      <p class="gate-q-help">Net 15 instead of net 30. A higher-margin tier introduced. Drop-ship instead of inventory. Concrete moves you've actually made.</p>
+      <div class="gate-options">
+        <label><input type="radio" name="g2b" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="g2b" value="no"><span>Not yet</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 3 GATES -->
+  <div class="sub-card" style="border-left-color: var(--navy);">
+    <div class="sub-card-tag" style="background: var(--navy); color: white;">GATES TO STAGE 3  ·  CREDIT AS A BRIDGE</div>
+    <div class="sub-card-title">Is revenue predictable enough to borrow against?</div>
+
+    <div class="gate-q">
+      <div class="gate-q-text">Has revenue been predictable enough that you can forecast next month within 15%?</div>
+      <p class="gate-q-help">Not "I hope we'll be at $X." Actual evidence from the last 3-6 months that lets you predict.</p>
+      <div class="gate-options">
+        <label><input type="radio" name="g3a" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="g3a" value="no"><span>Not yet</span></label>
+      </div>
+    </div>
+
+    <div class="gate-q">
+      <div class="gate-q-text">Do you have a line of credit set up <em>before</em> you need it — and the discipline to leave it untouched until a draw passes the two-question test?</div>
+      <p class="gate-q-help">A line that exists, with rules, with you not using it for operating costs. If you don't have one yet, that's a no.</p>
+      <div class="gate-options">
+        <label><input type="radio" name="g3b" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="g3b" value="no"><span>Not yet</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 4 GATES -->
+  <div class="sub-card" style="border-left-color: var(--red);">
+    <div class="sub-card-tag" style="background: var(--red); color: white;">GATES TO STAGE 4  ·  OUTSIDE CAPITAL</div>
+    <div class="sub-card-title">Is the model demanding it — not your stress, not an investor's email?</div>
+
+    <div class="gate-q">
+      <div class="gate-q-text">Is the model proven — real revenue, real customers, clear understanding of what drives growth?</div>
+      <p class="gate-q-help">You're not funding a hypothesis. You're funding a machine you already know how to operate.</p>
+      <div class="gate-options">
+        <label><input type="radio" name="g4a" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="g4a" value="no"><span>Not yet</span></label>
+      </div>
+    </div>
+
+    <div class="gate-q">
+      <div class="gate-q-text">Do you have a specific growth opportunity with a defined window that your current funding cannot capture?</div>
+      <p class="gate-q-help">A specific use of capital with a return timeline. "Some growth I'll get to eventually" doesn't qualify.</p>
+      <div class="gate-options">
+        <label><input type="radio" name="g4b" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="g4b" value="no"><span>Not yet</span></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">←  Back</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Continue  →</button>
+  </div>
+  <p class="hint" id="diag-hint" hidden="" style="text-align:right;">Please answer all eight gate questions before continuing.</p>
+</section>
+
+<!-- ============ PANEL 3: RAISE SIGNAL ============ -->
+<section class="panel" id="panel-3">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP THREE  ·  YOUR RAISE SIGNAL</div>
+    <h2 class="panel-title">The condition that tells you outside capital is the right next move.</h2>
+    <p class="panel-intro">Three components. Define them now, calmly, while things are stable. The raise signal is your protection against the moment when desperation makes any term sheet look reasonable.</p>
+  </div>
+
+  <div class="warning-callout" style="background: var(--cream); color: var(--navy); border-left-color: var(--gold);">
+    <div class="warning-label" style="color: var(--red);">WHAT QUALIFIES AS A RAISE SIGNAL  ·  WHAT DOESN'T</div>
+    <div class="warning-headline" style="color: var(--navy); font-style: normal; font-weight: 600;">
+      <strong style="font-weight:700;">QUALIFIES:</strong> A market window that closes. A competitor accelerating their moves. A specific revenue milestone that unlocks a discrete growth investment with a measurable return timeline.<br><br>
+      <strong style="font-weight:700;">DOES NOT:</strong> "Some growth I'll get to eventually." A feeling of being tight on cash. An investor opportunity that appeared in your inbox. Stress. Urgency. FOMO.
+    </div>
+  </div>
+
+  <!-- COMPONENT 1: THE TRIGGER -->
+  <div class="sub-card">
+    <div class="sub-card-tag">COMPONENT 01  ·  THE SPECIFIC TRIGGER</div>
+    <div class="sub-card-title">The observable condition that flips the switch.</div>
+    <p class="sub-card-help">A specific revenue milestone, a team-size threshold, a market opportunity with a defined window. Not a feeling. A measurable event you'll know when you see.</p>
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="signal-trigger">My raise signal trigger:</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"When monthly recurring revenue passes $50K and a regional competitor announces a national expansion that puts our 12-month window at risk."</span>
+        <button type="button" class="copy-link" data-example="When monthly recurring revenue passes $50K and a regional competitor announces a national expansion that puts our 12-month window at risk." onclick="useExample(this, &#39;signal-trigger&#39;)">Use example</button>
+      </p>
+      <textarea id="signal-trigger" maxlength="320" placeholder="A condition you&#39;ll know when you see. Specific, observable, measurable."></textarea>
+    </div>
+  </div>
+
+  <!-- COMPONENT 2: THE COST OF NOT RAISING -->
+  <div class="sub-card">
+    <div class="sub-card-tag">COMPONENT 02  ·  THE COST OF NOT RAISING</div>
+    <div class="sub-card-title">If the trigger fires and you don't raise, what specifically do you forgo?</div>
+    <p class="sub-card-help">This is the test from the lesson: <em>"the cost of not raising was higher than the cost of raising."</em> You need to be able to name what you'd lose. If you can't, the trigger isn't really a trigger.</p>
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="signal-cost">If the trigger fires and we don't raise, we forgo:</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"The 18-month head start in the western region. Once the competitor moves, the cost to acquire customers there triples and we lose the owner-friendly press cycle."</span>
+        <button type="button" class="copy-link" data-example="The 18-month head start in the western region. Once the competitor moves, the cost to acquire customers there triples and we lose the owner-friendly press cycle." onclick="useExample(this, &#39;signal-cost&#39;)">Use example</button>
+      </p>
+      <textarea id="signal-cost" maxlength="320" placeholder="Be specific. What growth, what window, what opportunity is lost. &#39;Some growth&#39; doesn&#39;t qualify."></textarea>
+    </div>
+  </div>
+
+  <!-- COMPONENT 3: WHAT THE CAPITAL FUNDS -->
+  <div class="sub-card">
+    <div class="sub-card-tag">COMPONENT 03  ·  WHAT THE CAPITAL FUNDS</div>
+    <div class="sub-card-title">Specific destinations. Not a general operating budget.</div>
+    <p class="sub-card-help">Each item should have a projected return timeline. The script is direct: <em>"capital had specific destinations, not a general operating budget."</em></p>
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="signal-uses">When we raise, the capital specifically funds:</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"A complete sales team (5 hires, 9-month payback). Expanded marketing in the western region (12-month payback). One product launch tied to a confirmed channel partner (6-month payback)."</span>
+        <button type="button" class="copy-link" data-example="A complete sales team (5 hires, 9-month payback). Expanded marketing in the western region (12-month payback). One product launch tied to a confirmed channel partner (6-month payback)." onclick="useExample(this, &#39;signal-uses&#39;)">Use example</button>
+      </p>
+      <textarea id="signal-uses" maxlength="380" placeholder="Specific destinations with return timelines. If you can&#39;t name them, you&#39;re not ready to raise."></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">←  Back</button>
+    <button class="btn btn-primary" id="generate-btn" onclick="generateOutput()">Generate My Strategy  →</button>
+  </div>
+  <p class="hint" id="generate-hint" hidden="" style="text-align:right;">Please fill in the required fields before generating.</p>
+</section>
+
+<!-- ============ OUTPUT ============ -->
+<section class="output" id="output"></section>
+
+</div>
+
+<script>
+  let currentStep = 1;
+
+  function goTo(n) {
+    if (n > currentStep && !validate(currentStep)) return;
+    currentStep = n;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    document.querySelectorAll('.progress-step').forEach(s => {
+      const step = parseInt(s.dataset.step);
+      s.classList.remove('active', 'done');
+      if (step < n) s.classList.add('done');
+      else if (step === n) s.classList.add('active');
+    });
+    document.querySelectorAll('.progress-label span').forEach((l, i) => {
+      l.classList.toggle('current', (i + 1) === n);
+    });
+  }
+
+  function validate(step) {
+    if (step === 1) {
+      const required = ['biz-name', 'months-in', 'monthly-revenue', 'monthly-fixed'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (el.value === '' || el.value === null) { el.focus(); return false; }
+      }
+      const stage = document.getElementById('self-assessed-stage');
+      if (!stage.value) { stage.focus(); return false; }
+      return true;
+    }
+    if (step === 2) {
+      const gates = ['g1a','g1b','g2a','g2b','g3a','g3b','g4a','g4b'];
+      for (const g of gates) {
+        if (!document.querySelector(`input[name="${g}"]:checked`)) {
+          document.getElementById('diag-hint').hidden = false;
+          return false;
+        }
+      }
+      return true;
+    }
+    return true;
+  }
+
+  function generateOutput() {
+    const required = ['signal-trigger', 'signal-cost', 'signal-uses'];
+    for (const id of required) {
+      const el = document.getElementById(id);
+      if (!el.value || el.value.toString().trim() === '') {
+        document.getElementById('generate-hint').hidden = false;
+        el.focus();
+        return;
+      }
+    }
+    const data = collect();
+    document.getElementById('output').innerHTML = renderOutput(data);
+    document.getElementById('output').classList.add('active');
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function collect() {
+    const num = id => {
+      const el = document.getElementById(id);
+      const v = parseFloat(el.value);
+      return isNaN(v) ? 0 : v;
+    };
+    const str = id => document.getElementById(id).value.trim();
+    const sel = id => document.getElementById(id).value;
+    const gate = name => document.querySelector(`input[name="${name}"]:checked`).value;
+    return {
+      bizName: str('biz-name'),
+      monthsIn: num('months-in'),
+      monthlyRevenue: num('monthly-revenue'),
+      monthlyFixed: num('monthly-fixed'),
+      selfAssessed: parseInt(sel('self-assessed-stage')),
+      g1a: gate('g1a'), g1b: gate('g1b'),
+      g2a: gate('g2a'), g2b: gate('g2b'),
+      g3a: gate('g3a'), g3b: gate('g3b'),
+      g4a: gate('g4a'), g4b: gate('g4b'),
+      signalTrigger: str('signal-trigger'),
+      signalCost: str('signal-cost'),
+      signalUses: str('signal-uses')
+    };
+  }
+
+  function renderOutput(d) {
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // ----- diagnose actual stage -----
+    // A stage is unlocked only if BOTH its gates are 'yes'.
+    // The diagnosed stage is the highest stage with both gates cleared,
+    // BUT only if all prior stages are also cleared (no skipping).
+    const stage1Cleared = d.g1a === 'yes' && d.g1b === 'yes';
+    const stage2Cleared = d.g2a === 'yes' && d.g2b === 'yes';
+    const stage3Cleared = d.g3a === 'yes' && d.g3b === 'yes';
+    const stage4Cleared = d.g4a === 'yes' && d.g4b === 'yes';
+
+    let diagnosedStage;
+    if (!stage1Cleared) {
+      diagnosedStage = 1; // still working toward stage 1
+    } else if (!stage2Cleared) {
+      diagnosedStage = 2; // at stage 2, working through it
+    } else if (!stage3Cleared) {
+      diagnosedStage = 3;
+    } else if (!stage4Cleared) {
+      diagnosedStage = 3; // stage 3 cleared but stage 4 not — still at stage 3, not yet ready for outside capital
+    } else {
+      diagnosedStage = 4;
+    }
+
+    // detect the "you're earlier than you think" case
+    const overestimated = d.selfAssessed > diagnosedStage;
+    const underestimated = d.selfAssessed < diagnosedStage;
+    const accurate = d.selfAssessed === diagnosedStage;
+
+    // breakeven status
+    const isBreakeven = d.monthlyRevenue >= d.monthlyFixed && d.monthlyFixed > 0;
+    const coveragePct = d.monthlyFixed > 0 ? Math.round((d.monthlyRevenue / d.monthlyFixed) * 100) : 0;
+
+    // pick the verdict
+    let verdictClass, verdictLabel, verdictHead, verdictBody;
+    if (accurate) {
+      verdictClass = 'green';
+      verdictLabel = 'STAGE CONFIRMED  ·  YOUR ASSESSMENT MATCHES THE GATES';
+      verdictHead = `You're at Stage ${diagnosedStage}. Your self-assessment matches the diagnostic.`;
+      verdictBody = `You see your business clearly. The next moves are well-defined: complete the open work in this stage, then watch for the gate that unlocks the next one. The plan below shows you what those gates are and what your 90-day priorities should be.`;
+    } else if (overestimated) {
+      verdictClass = 'red';
+      verdictLabel = 'EARLIER THAN YOU THINK  ·  THE LESSON\'S CAUTION APPLIES';
+      verdictHead = `You said Stage ${d.selfAssessed}. The gates say Stage ${diagnosedStage}.`;
+      verdictBody = `This is the case the lesson explicitly warns about — <em>"if you're unsure where you are, you're probably earlier than you think."</em> The risk of acting on the higher self-assessment is using more expensive capital before the cheaper, owner-friendly tools have been exhausted. The plan below is calibrated to your actual stage. Work the gates that are still open — that's the real unlock.`;
+    } else {
+      verdictClass = 'amber';
+      verdictLabel = 'AHEAD OF YOUR ASSESSMENT  ·  WORTH RECONSIDERING';
+      verdictHead = `You said Stage ${d.selfAssessed}. The gates show Stage ${diagnosedStage}.`;
+      verdictBody = `You may be selling yourself short. Both gates for the higher stage are clear, which means you've earned the next move in the sequence. The plan below shows you what that move looks like. That said — under-counting is structurally safer than over-counting, so confirm the gates feel honestly cleared before acting on the upgraded diagnosis.`;
+    }
+
+    // stage info
+    const stages = [
+      {
+        num: 1, title: 'Revenue Traction', window: 'Typically months 0–6',
+        body: 'Nothing else matters until you have paying customers. Revenue traction is proof the model works — and it makes every subsequent funding conversation more credible.',
+        focus: '<strong>Focus:</strong> Close the first sales. Learn what the market will pay. Build the reference base.',
+        gate: 'GATE TO ADVANCE — Both must be true: paying customers in the bank, and a clear, consistent description of what they\'re paying for.'
+      },
+      {
+        num: 2, title: 'Founding Clients & Self-Funding', window: 'Typically months 3–12',
+        body: 'Layer in the founding client program. Convert warm relationships into prepaid, committed revenue. Tighten payment terms, delay costs, improve margin mix. The goal is to extend runway without adding debt or giving up equity.',
+        focus: '<strong>Focus:</strong> One signed founding client agreement. One concrete margin or terms improvement. Both happening this quarter.',
+        gate: 'GATE TO ADVANCE — Both must be true: at least one structured founding client agreement, and a deliberate move on payment terms or margin mix.'
+      },
+      {
+        num: 3, title: 'Credit as a Bridge', window: 'Typically months 6–18',
+        body: 'Once revenue is predictable enough to borrow against, establish your credit facilities. Line of credit first — before you need it. Draw only against specific, revenue-connected purposes with specific repayment dates.',
+        focus: '<strong>Focus:</strong> A line of credit set up while things are stable. Discipline to leave it untouched until a draw passes the two-question test.',
+        gate: 'GATE TO ADVANCE — Both must be true: revenue predictable enough to forecast within 15%, and a line of credit established with the discipline to use it correctly.'
+      },
+      {
+        num: 4, title: 'Outside Capital', window: 'When the model demands it — not before',
+        body: 'Treat outside capital as Stage 4, not Stage 1. The sequence ends here precisely because everything before it makes this conversation more credible — and more on your terms.',
+        focus: '<strong>Focus:</strong> Three things must be true: the model is proven, the growth opportunity is specific with a return timeline, and the cost of not raising is higher than the cost of raising.',
+        gate: 'GATE TO ENTER — Both must be true: the model is proven (real revenue, real customers, clear understanding of what drives growth), and a specific growth opportunity exists that current funding cannot capture.'
+      }
+    ];
+
+    function stageStatus(stageNum) {
+      if (stageNum < diagnosedStage) return 'complete';
+      if (stageNum === diagnosedStage) return 'current';
+      return 'future';
+    }
+
+    // 90-day plays based on diagnosed stage
+    let plays;
+    if (diagnosedStage === 1) {
+      plays = [
+        { num: '01', text: 'Close five paying customers in the next 90 days.', coach: 'Not pilots. Not "interested" prospects. Money in the bank from people who chose your offer. The number doesn\'t matter as much as the discipline of getting it from "interest" to "paid."' },
+        { num: '02', text: 'Sharpen your offer description until it\'s identical across three pitches.', coach: 'Write it down. Read it back. If you\'d describe it differently to two prospects, the offer isn\'t defined enough yet. The clarity is what unlocks Stage 2.' },
+        { num: '03', text: 'Do not raise capital. Do not establish credit. Do not pursue founding clients yet.', coach: 'The sequence is the discipline. Stage 1 is its own work. Skipping it costs you more than you save — every subsequent funding conversation is less credible without it.' }
+      ];
+    } else if (diagnosedStage === 2) {
+      plays = [
+        { num: '01', text: 'Structure one founding client agreement.', coach: d.g2a === 'yes' ? 'You have at least one. The work now is replicating what made it land — and converting one more warm relationship the same way.' : 'Pick one warm relationship from your audit. Make the offer. Sign the agreement. The first one is the hardest; the rest follow a pattern.' },
+        { num: '02', text: 'Make one concrete cash-timing or margin move.', coach: d.g2b === 'yes' ? 'You\'ve already moved here. Pick one more — a margin tier, a payment terms upgrade, a cost delay. Compounding moves matter more than big single moves.' : 'Pick one of: tighten payment terms (net 15 instead of net 30), introduce a higher-margin tier, drop-ship instead of stocking inventory. One move. One conversation. This quarter.' },
+        { num: '03', text: 'Begin establishing credit — but do not draw.', coach: 'A line of credit takes 4-12 weeks to set up. Start the application now, while you don\'t need it. Stage 3 isn\'t about using credit; it\'s about having it ready.' }
+      ];
+    } else if (diagnosedStage === 3) {
+      plays = [
+        { num: '01', text: 'Confirm your line of credit is in place — or finish setting it up.', coach: d.g3b === 'yes' ? 'You have one. Now the discipline: leave it untouched. The line is for timing gaps. Not operating costs. Not growth.' : 'This is your highest-priority move. Apply now while revenue is stable. Banks lend to businesses that don\'t look like they need the money. Today is the right day; the day you need it is the wrong day.' },
+        { num: '02', text: 'Run the two-question test on every potential draw.', coach: 'Before any draw: <strong>What exactly is this funding?</strong> and <strong>What specific revenue event retires it, and when?</strong> If you can\'t answer with specifics, the answer is no.' },
+        { num: '03', text: 'Begin defining your raise signal — the document on the next page.', coach: 'Stage 4 is approaching as a question, not yet as an action. Defining the raise signal now means when the trigger does fire, the decision is already made — calmly, in advance, not under pressure.' }
+      ];
+    } else {
+      plays = [
+        { num: '01', text: 'Confirm all three Stage 4 conditions are true — model proven, opportunity specific, cost of waiting higher than cost of raising.', coach: 'The lesson is direct: missing any of these and you\'re raising for the wrong reason. The raise signal you wrote on the next page is the tool that makes this confirmation explicit.' },
+        { num: '02', text: 'Choose your capital structure deliberately. Debt before equity if the math works.', coach: 'The script\'s example: $2M raised in year 8 via royalty-based structure (warrants for 5% of the business) — eight years of building, still owning 95%. Debt and royalty structures preserve equity. Take them seriously before equity rounds.' },
+        { num: '03', text: 'Build the one-page capital plan (Lesson 5.5).', coach: 'You\'re past the diagnostic phase. The next move is the document — the capital plan you\'d show your spouse, your advisors, and yourself. Lesson 5.5 walks through it.' }
+      ];
+    }
+
+    return `
+      <header class="output-masthead">
+        <div class="brand-stripe">Two Weeks Out  ·  FUNDING SEQUENCE PLAN</div>
+        <h1 class="output-title">Sequence Plan<br>for <em>${escape(d.bizName)}</em></h1>
+        <p class="output-sub">Where you are. What unlocks the next stage. When outside capital becomes the right move.</p>
+        <div class="output-meta">
+          <span>Generated<strong>${today}</strong></span>
+          <span>Months operating<strong>${fmt(d.monthsIn)}</strong></span>
+          <span>Diagnosed stage<strong>Stage ${diagnosedStage}</strong></span>
+          <span>Coverage<strong>${coveragePct}% of fixed cost</strong></span>
+        </div>
+      </header>
+
+      <!-- =============== ARTIFACT 1: STAGE MAP =============== -->
+      <div class="section" id="artifact-1">
+        <div class="section-eyebrow">ARTIFACT 01  ·  YOUR STAGE MAP</div>
+        <h2 class="section-title">Where you are in the sequence.</h2>
+
+        <div class="verdict ${verdictClass}">
+          <div class="verdict-label">${verdictLabel}</div>
+          <div class="verdict-headline">${verdictHead}</div>
+          <div class="verdict-body">${verdictBody}</div>
+        </div>
+
+        <div class="stage-map">
+          ${stages.map(s => {
+            const status = stageStatus(s.num);
+            const tagText = status === 'complete' ? '✓ Cleared' : status === 'current' ? '● You are here' : '○ Not yet';
+            return `
+              <div class="stage ${status}">
+                <div class="stage-num">${String(s.num).padStart(2, '0')}</div>
+                <div class="stage-content">
+                  <span class="stage-tag">${tagText}</span>
+                  <div class="stage-title">${s.title}</div>
+                  <div class="stage-window">${s.window}</div>
+                  <div class="stage-body">${s.body}<br><br>${s.focus}</div>
+                  ${status !== 'complete' ? `<div class="stage-gate"><strong>${s.gate.split('—')[0].trim()}</strong>${s.gate.split('—').slice(1).join('—')}</div>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        ${!isBreakeven && d.monthlyFixed > 0 ? `
+          <p style="margin-top: 18px;"><strong>Note on coverage:</strong> Your monthly revenue ($${fmt(d.monthlyRevenue)}) is covering ${coveragePct}% of your monthly fixed cost ($${fmt(d.monthlyFixed)}). Until that ratio is at or above 100%, the work of Stages 1 and 2 dominates everything else. Stage 3 (credit as a bridge) and Stage 4 (outside capital) are tools that work for businesses that have crossed breakeven — using them earlier accelerates the problem they were meant to solve.</p>
+        ` : isBreakeven ? `
+          <p style="margin-top: 18px;"><strong>You're at or past breakeven</strong> — revenue is covering ${coveragePct}% of fixed cost. That structural cushion is what makes the higher-stage tools (credit, outside capital) appropriate when their gates are also cleared.</p>
+        ` : ''}
+      </div>
+
+      <!-- =============== ARTIFACT 2: RAISE SIGNAL =============== -->
+      <div class="section" id="artifact-2">
+        <div class="section-eyebrow">ARTIFACT 02  ·  YOUR RAISE SIGNAL</div>
+        <h2 class="section-title">The condition that flips the switch — defined calmly, in advance.</h2>
+        <p>This is the document you keep visible. When the trigger fires, the decision is already made. You don't have to think clearly about capital under pressure — you've already done the thinking.</p>
+
+        <div class="signal-card">
+          <h3>${escape(d.bizName)} — Raise Signal</h3>
+          <p class="signal-tagline">Defined ${today}. Reviewed quarterly. Acted on only when all three components are true simultaneously.</p>
+
+          <div class="signal-component">
+            <div class="signal-component-label">01  ·  THE TRIGGER</div>
+            <div class="signal-component-value">${escape(d.signalTrigger)}</div>
+          </div>
+
+          <div class="signal-component">
+            <div class="signal-component-label">02  ·  THE COST OF WAITING</div>
+            <div class="signal-component-value">${escape(d.signalCost)}</div>
+          </div>
+
+          <div class="signal-component">
+            <div class="signal-component-label">03  ·  WHAT THE CAPITAL FUNDS</div>
+            <div class="signal-component-value">${escape(d.signalUses)}</div>
+          </div>
+        </div>
+
+        ${diagnosedStage < 3 ? `
+          <p style="margin-top: 18px;"><strong>A note on timing:</strong> You're at Stage ${diagnosedStage}, which means the raise signal you've defined is a future tool — written now so it exists when you need it. The work in front of you is Stages ${diagnosedStage}–3, not Stage 4. The signal stays in the drawer until your business is at the gate of Stage 4 and the conditions you wrote above are simultaneously true.</p>
+        ` : diagnosedStage === 3 ? `
+          <p style="margin-top: 18px;"><strong>A note on timing:</strong> You're at Stage 3 — close enough that the raise signal is becoming a real tool. Re-read it monthly now. The trigger you wrote should still feel right. If it starts feeling like it's "almost firing," that's the signal to revisit your sequence.</p>
+        ` : `
+          <p style="margin-top: 18px;"><strong>A note on timing:</strong> You're at Stage 4. Your raise signal is now an active tool, not a future one. Confirm all three conditions are simultaneously true before any term sheet conversation. If even one is uncertain, you're being rushed by something other than the signal.</p>
+        `}
+      </div>
+
+      <!-- =============== ARTIFACT 3: NEXT 90 DAYS =============== -->
+      <div class="section" id="artifact-3">
+        <div class="section-eyebrow">ARTIFACT 03  ·  YOUR NEXT 90 DAYS</div>
+        <h2 class="section-title">Three priorities. The right ones for where you actually are.</h2>
+        <p>Calibrated to your diagnosed stage — not your self-assessment. These are the moves that compound into the next gate clearance.</p>
+
+        <div class="play-card">
+          <div class="play-header">90-DAY SEQUENCE PLAN  ·  STAGE ${diagnosedStage}</div>
+          <h3>Three moves between today and ${new Date(Date.now() + 90 * 86400000).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}.</h3>
+          <p class="play-sub">Order matters. Move 01 is your highest priority — it's what unlocks Move 02.</p>
+
+          ${plays.map(p => `
+            <div class="play-move">
+              <div class="play-move-num">Move ${p.num}</div>
+              <div class="play-move-text">${p.text}</div>
+              <div class="play-move-coach">${p.coach}</div>
+            </div>
+          `).join('')}
+
+          <div class="play-rule">
+            <strong>The discipline:</strong> Funding is not something that happens to you. It's a sequence of decisions you make in advance about what you'll use, when you'll use it, and what condition has to be true before you move to the next stage. Define the sequence before the pressure makes the decision for you.
+          </div>
+        </div>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn btn-secondary" onclick="restart()">Start Over</button>
+        <button class="btn btn-primary" onclick="window.print()">Save / Print as PDF</button>
+      </div>
+
+      <div class="signature">
+        <div class="left">Two Weeks Out</div>
+        <div>Funding Sequence Worksheet  ·  Generated ${today}</div>
+      </div>
+    `;
+  }
+
+  function restart() {
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('output').classList.remove('active');
+    document.getElementById('progress-wrap').style.display = '';
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
+    document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+    document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
+    document.getElementById('generate-hint').hidden = true;
+    document.getElementById('diag-hint').hidden = true;
+    goTo(1);
+  }
+
+  function useExample(button, fieldId) {
+    const text = button.getAttribute('data-example') || '';
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+    el.value = text;
+    el.focus();
+    const originalText = button.textContent;
+    button.textContent = 'Inserted';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('copied');
+    }, 1400);
+    const hint = document.getElementById('generate-hint');
+    if (hint) hint.hidden = true;
+  }
+
+  function escape(s) {
+    if (!s) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function fmt(n) {
+    if (!isFinite(n)) return '0';
+    return Math.round(n).toLocaleString('en-US');
+  }
+
+  // hide hints on input
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('diag-hint').hidden = true;
+    });
+  });
+</script>
+
+
+
+</body></html>

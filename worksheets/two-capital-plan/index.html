@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<!-- saved from url=(0284)file:///C:/Users/georg/OneDrive/Desktop/Two Weeks Out/V6/Course%20-%20Financial%20Planning%20and%20Management%20Excellence/Module%205%20-%20Bootstrap%20Funding%20Sources/Lesson%205%20-%20Building%20a%20Simple%20Capital%20Plan%20Your%20Spouse%20and%20Advisors%20Can%20Support/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capital Plan Worksheet — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10131a;
+    --navy-2:#2c313c;
+    --navy-dk:#10131a;
+    --gold:#2747f5;
+    --gold-dk:#2747f5;
+    --gold-lt:#e9ecf5;
+    --red:#b3261e;
+    --teal:#2747f5;
+    --cream:#e9ecf5;
+    --cream-dk:#d5d9e4;
+    --slate:#9ba3af;
+    --paper:#fbfaf6;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --rule:#d5d9e4;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .frame { max-width: 920px; margin: 0 auto; padding: 56px 40px 120px; }
+
+  /* masthead */
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 36px;
+    margin-bottom: 48px;
+  }
+  .brand-stripe {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .brand-stripe::after { content: ''; flex: 1; height: 1px; background: var(--cream-dk); }
+  h1.title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 56px;
+    line-height: 1.05;letter-spacing:-.03em;
+    color: var(--navy); margin-bottom: 18px;font-style:normal;}
+  h1.title em { font-style: italic; color: var(--gold); font-weight: 500; }
+  .deck { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 19px; color: var(--ink-soft); max-width: 660px; }
+
+  /* progress */
+  .progress { display: flex; gap: 4px; margin: 40px 0 20px; }
+  .progress-step { flex: 1; height: 3px; background: var(--cream-dk); transition: background 0.4s; }
+  .progress-step.active { background: var(--gold); }
+  .progress-step.done { background: var(--navy); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;color:#59616e; text-transform: uppercase;
+    margin-bottom: 48px; gap: 12px;
+  }
+  .progress-label span.current { color: var(--navy); }
+
+  /* panels */
+  .panel { display: none; animation: fadeIn 0.4s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel-header { margin-bottom: 36px; }
+  .panel-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; line-height: 1.1; color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .panel-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft); max-width: 660px;
+  }
+
+  /* warning callout */
+  .warning-callout {
+    background: var(--navy);
+    color: white;
+    padding: 24px 28px;
+    margin: 24px 0;
+    border-left: 6px solid var(--red);
+  }
+  .warning-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 10px;
+  }
+  .warning-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;font-style:normal;
+    font-size: 20px; color: white; line-height: 1.35;
+  }
+  .warning-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--cream-dk); line-height: 1.55; margin-top: 10px;
+  }
+
+  /* form fields */
+  .field { margin-bottom: 28px; }
+  .field-label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; color: var(--navy); margin-bottom: 6px;
+  }
+  .field-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .field-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;color:#59616e; margin-bottom: 12px;
+    padding-left: 10px; border-left: 2px solid var(--cream-dk);
+    line-height: 1.55;
+  }
+  .field-example.with-copy {
+    display: flex; align-items: flex-start; gap: 12px;
+    justify-content: space-between;
+  }
+  .field-example .ex-text { flex: 1; font-style: italic; color: var(--ink-soft); }
+  .copy-link {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--cream-dk);
+    color: var(--gold-dk);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .copy-link:hover { background: var(--gold-lt); border-color: var(--gold); color: var(--navy); }
+  .copy-link.copied { background: var(--teal);border-color:#ffffff; color: white; }
+
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-bottom: 2px solid var(--navy);
+    padding: 13px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--navy);
+    border-radius:0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-bottom-color: var(--gold);
+    background: var(--gold-lt);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; gap: 0; } }
+
+  .currency-prefix { position: relative; }
+  .currency-prefix::before {
+    content: '$';
+    position: absolute;
+    left: 16px; top: 50%; transform: translateY(-50%);color:#59616e; font-weight: 600;
+    pointer-events: none; z-index: 1;
+  }
+  .currency-prefix input { padding-left: 30px; }
+
+  /* allocation rows (use-of-funds) */
+  .allocation-list { display: grid; gap: 14px; margin-top: 16px; }
+  .allocation-row {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--teal);
+    padding: 18px 22px;
+  }
+  .allocation-row-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .allocation-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--gold-dk);
+  }
+  .allocation-fields { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 12px; }
+  @media (max-width: 700px) { .allocation-fields { grid-template-columns: 1fr; } }
+  .allocation-fields-2 { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 10px; }
+  .allocation-row input, .allocation-row select {
+    padding: 10px 12px; font-size: 14px;
+  }
+  .allocation-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 9px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;color:#59616e; margin-bottom: 4px;
+  }
+
+  /* risk-contingency rows */
+  .risk-row {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--red);
+    padding: 22px 26px;
+    margin-bottom: 16px;
+  }
+  .risk-row-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .risk-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--gold-dk);
+  }
+  .remove-btn {
+    background: transparent; border: none; cursor: pointer;color:#59616e; font-size: 18px;
+    padding: 0 4px;
+    transition: color 0.15s;
+  }
+  .remove-btn:hover { color: var(--red); }
+  .add-btn {
+    background: transparent; border: 1px dashed var(--cream-dk);
+    padding: 14px 22px; cursor: pointer; width: 100%;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.08em; color: var(--ink-soft);
+    transition: all 0.15s; text-transform: uppercase;
+  }
+  .add-btn:hover { border-color: var(--gold); color: var(--navy); background: var(--gold-lt); }
+
+  /* nav */
+  .nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer; border: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dk); }
+  .btn-secondary {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--cream-dk);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  /* output */
+  .output { display: none; }
+  .output.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .output-masthead {
+    border-top: 4px solid var(--navy);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 0 28px;
+    margin-bottom: 40px;
+  }
+  .output-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 44px; line-height: 1.05;
+    color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .output-title em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .output-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .output-meta {
+    display: flex; gap: 32px; margin-top: 20px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; letter-spacing: 0.08em; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .output-meta span strong {
+    color: var(--navy); display: block; font-size: 16px;
+    letter-spacing: 0; text-transform: none; margin-top: 2px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; line-height: 1.15; color: var(--navy); margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+  .section p {
+    margin-bottom: 14px; line-height: 1.65; color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .section p strong { color: var(--navy); font-weight: 600; }
+
+  /* THE MAIN OUTPUT — capital plan document */
+  .plan-doc {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 48px 52px;
+    margin: 20px 0;
+  }
+  .plan-doc-head {
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+  }
+  .plan-doc-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; color: var(--navy); margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .plan-doc-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--ink-soft);
+  }
+  .plan-doc h4 {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); text-transform: uppercase;
+    margin: 32px 0 12px; padding-top: 24px;
+    border-top: 1px solid var(--cream-dk);
+  }
+  .plan-doc h4:first-of-type { padding-top: 0; border-top: none; margin-top: 0; }
+
+  .plan-summary-box {
+    background: var(--gold-lt);
+    border: 1px solid var(--gold);
+    padding: 18px 22px;
+    margin-bottom: 8px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14.5px;
+    color: var(--navy); line-height: 1.6;
+  }
+  .plan-summary-box strong { color: var(--navy); font-weight: 700; }
+
+  /* allocation table inside the plan doc */
+  .allocation-table {
+    width: 100%; border-collapse: collapse;
+    margin: 8px 0;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+  }
+  .allocation-table th {
+    background: var(--navy); color: white;
+    text-align: left; padding: 10px 14px;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .allocation-table td {
+    padding: 14px;
+    border-top: 1px solid var(--cream-dk);
+    vertical-align: top;
+  }
+  .allocation-table td.cat {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 16px; color: var(--navy);
+  }
+  .allocation-table td.amt {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 16px; color: var(--navy); text-align: right;
+    white-space: nowrap;
+  }
+  .allocation-table td.src {
+    font-size: 13px; color: var(--ink-soft);
+  }
+  .allocation-table td.mil {
+    font-size: 13px; color: var(--ink-soft);
+  }
+  .allocation-table tr.total td {
+    border-top: 2px solid var(--navy);
+    font-weight: 700;
+    background: var(--cream);
+  }
+  .allocation-table tr.total td.cat,
+  .allocation-table tr.total td.amt {
+    font-size: 16px; color: var(--navy);
+  }
+
+  /* risk + contingency presentation */
+  .risk-block {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed var(--cream-dk);
+  }
+  .risk-block:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .risk-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 17px; color: var(--navy); margin-bottom: 6px;
+  }
+  .risk-name::before {
+    content: '⚠ ';
+    color: var(--red);
+    font-weight: 700;
+  }
+  .contingency-text {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--ink-soft); line-height: 1.6;
+    padding-left: 22px;
+    border-left: 2px solid var(--gold);
+    margin-top: 8px;
+  }
+  .contingency-text::before {
+    content: 'Response: ';
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  /* audience-prep card (the dual-purpose section) */
+  .audience-card {
+    background: var(--navy);
+    color: white;
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .audience-card .audience-header {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em;color:#93abff; margin-bottom: 6px;
+  }
+  .audience-card h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 24px; color: white; margin-bottom: 8px;letter-spacing:-.03em;font-style:normal;}
+  .audience-card .audience-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--cream-dk); margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .audience-block {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .audience-block:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .audience-block-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    background: var(--gold);color:#ffffff;
+    padding: 3px 8px; margin-bottom: 10px;
+  }
+  .audience-block-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 18px; color: white; margin-bottom: 10px;
+  }
+  .audience-block-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13.5px;
+    color: var(--cream-dk); line-height: 1.6;
+  }
+  .audience-block-body strong { color: var(--gold); font-weight: 700; }
+  .audience-block-body em { color: white; font-style: italic; }
+
+  /* honest-checks (where the worksheet flags inconsistencies) */
+  .honest-check {
+    background: white;
+    border-left: 4px solid var(--gold);
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--ink-soft); line-height: 1.55;
+  }
+  .honest-check strong { color: var(--red); font-weight: 700; }
+  .honest-check.green { border-left-color: var(--teal); }
+  .honest-check.green strong { color: var(--teal); }
+
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+  .signature {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;color:#59616e;
+  }
+  .signature .left { color: var(--gold); font-weight: 700; }
+  .hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--red); margin-top: 6px;
+  }
+
+  /* print */
+  @media print {
+    @page { margin: 0.5in; size: letter; }
+    body { background: white; font-size: 10.5pt; }
+    .frame { padding: 0; max-width: none; }
+    .panel, .progress, .progress-label, .actions, .nav, .masthead { display: none !important; }
+    .output { display: block !important; }
+    .output-title { font-size: 28pt; }
+    .section-title { font-size: 16pt; }
+    .plan-doc, .audience-card, .warning-callout, .allocation-table {
+      page-break-inside: avoid; box-shadow: none;
+    }
+    .audience-card { background: white !important; color: var(--navy) !important; border: 2px solid var(--navy); }
+    .audience-card h3, .audience-block-title { color: var(--navy) !important; }
+    .audience-card .audience-sub, .audience-block-body { color: var(--ink-soft) !important; }
+    .audience-block-body strong { color: var(--gold-dk) !important; }
+    .audience-block-body em { color: var(--navy) !important; }
+    .audience-block-tag { background: var(--gold) !important; color:#ffffff !important; }
+    .audience-card .audience-header { color: var(--gold-dk) !important; }
+    .section { margin-bottom: 28px; }
+    .signature { page-break-inside: avoid; }
+    #artifact-2 { page-break-before: always; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#93BEDD;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.warning-callout div.warning-label{color:#93abff}
+div.audience-card div.audience-block-body > strong{color:#93abff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">05 / Fund Your Business</span></div>
+<div class="frame">
+
+<header class="masthead" id="masthead">
+  <div class="brand-stripe">Two Weeks Out  ·  CAPITAL PLAN WORKSHEET</div>
+  <h1 class="title">Build Your<br><em>Capital Plan</em></h1>
+  <p class="deck">One page. Plain language. The document you'll share with your spouse, your advisors, your co-investors — and that becomes your training ground for the high-stakes investor conversation when the time comes.</p>
+</header>
+
+<div id="progress-wrap">
+  <div class="progress">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+  </div>
+  <div class="progress-label">
+    <span class="current">01 — Plan Basics</span>
+    <span>02 — Use of Funds</span>
+    <span>03 — Risks &amp; Contingencies</span>
+  </div>
+</div>
+
+<!-- ============ PANEL 1: BASICS ============ -->
+<section class="panel active" id="panel-1">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP ONE  ·  PLAN BASICS</div>
+    <h2 class="panel-title">A few details up front.</h2>
+    <p class="panel-intro">The plan you build here serves two audiences with the same document: the people whose lives are tied to your decisions today, and the investor who'll read this version of you a year or two from now.</p>
+  </div>
+
+  <div class="warning-callout">
+    <div class="warning-label">THE PRINCIPLE THAT GOVERNS THE WHOLE PLAN</div>
+    <div class="warning-headline">A capital plan that lives only in your head isn't a plan. It's an assumption.</div>
+    <div class="warning-body">Reassurances aren't plans. "Trust me, I've got this" isn't information — it's a feeling dressed up as one. When you walk into a room with a written document, the conversation shifts from "are you okay?" to "let me understand this." Spouses become thinking partners. Advisors become participants. Investors see a owner who's done the work. The plan doesn't have to be sophisticated. It has to be honest.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-name">Business name</label>
+    <input type="text" id="biz-name" placeholder="What you&#39;d call it talking to a friend">
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="plan-period">What period does this plan cover?</label>
+    <p class="field-help">A single planning horizon makes the math clearer. 12 months is the standard for early-stage; some owners prefer 24.</p>
+    <select id="plan-period">
+      <option value="">— Pick one —</option>
+      <option value="6 months">Next 6 months</option>
+      <option value="12 months">Next 12 months</option>
+      <option value="18 months">Next 18 months</option>
+      <option value="24 months">Next 24 months</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="plan-headline">In one sentence — what is this capital meant to accomplish?</label>
+    <p class="field-help">A clear thesis. Not "grow the business." A specific outcome the spending is in service of.</p>
+    <p class="field-example with-copy">
+      <span class="ex-text">"Reach sales-team break-even by month 9 — covering payroll from wholesale margin alone — while the founding-client cohort funds platform development."</span>
+      <button type="button" class="copy-link" data-example="Reach sales-team break-even by month 9 — covering payroll from wholesale margin alone — while the founding-client cohort funds platform development." onclick="useExample(this, &#39;plan-headline&#39;)">Use example</button>
+    </p>
+    <textarea id="plan-headline" maxlength="280" placeholder="One sentence. The single outcome the spending is in service of."></textarea>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="total-capital">Total capital this plan deploys</label>
+      <p class="field-help">Across all sources combined.</p>
+      <div class="currency-prefix">
+        <input type="number" id="total-capital" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="cash-reserves">Cash reserves at start of period (optional)</label>
+      <p class="field-help">Money on hand today — the cushion the plan starts with.</p>
+      <div class="currency-prefix">
+        <input type="number" id="cash-reserves" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(2)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 2: USE OF FUNDS ============ -->
+<section class="panel" id="panel-2">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP TWO  ·  USE OF FUNDS</div>
+    <h2 class="panel-title">Where the money goes — and what each line buys.</h2>
+    <p class="panel-intro">Three to five named destinations. Each one has an amount, a source, and a milestone it's meant to fund. When someone reads this, the conversation should move from "how much are you spending?" to "does this allocation make sense?"</p>
+  </div>
+
+  <div id="allocation-list" class="allocation-list">
+      <div class="allocation-row">
+        <div class="allocation-row-head">
+          <span class="allocation-num">Line 01</span>
+          <button class="remove-btn" onclick="removeAllocation(0)" title="Remove">×</button>
+        </div>
+
+        <div class="allocation-fields">
+          <div>
+            <span class="allocation-tag">Category</span>
+            <input type="text" placeholder="e.g., Sales team" value="" oninput="updateAllocation(0, &#39;category&#39;, this.value)">
+          </div>
+          <div>
+            <span class="allocation-tag">Amount</span>
+            <div class="currency-prefix">
+              <input type="number" placeholder="0" min="0" step="any" value="" oninput="updateAllocation(0, &#39;amount&#39;, parseFloat(this.value) || 0)">
+            </div>
+          </div>
+          <div>
+            <span class="allocation-tag">Source of funds</span>
+            <select onchange="updateAllocation(0, &#39;source&#39;, this.value)">
+              <option value="">— Pick —</option>
+              <option value="Operating revenue">Operating revenue</option>
+              <option value="Founding client prepayments">Founding client prepayments</option>
+              <option value="Line of credit">Line of credit</option>
+              <option value="Cash reserves">Cash reserves</option>
+              <option value="Personal capital">Personal capital</option>
+              <option value="Outside capital (debt)">Outside capital (debt)</option>
+              <option value="Outside capital (equity)">Outside capital (equity)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="allocation-fields-2">
+          <div>
+            <span class="allocation-tag">Milestone this funds</span>
+            <input type="text" placeholder="e.g., 135 kit orders/month by month 9" value="" oninput="updateAllocation(0, &#39;milestone&#39;, this.value)">
+          </div>
+        </div>
+      </div>
+    
+      <div class="allocation-row">
+        <div class="allocation-row-head">
+          <span class="allocation-num">Line 02</span>
+          <button class="remove-btn" onclick="removeAllocation(1)" title="Remove">×</button>
+        </div>
+
+        <div class="allocation-fields">
+          <div>
+            <span class="allocation-tag">Category</span>
+            <input type="text" placeholder="e.g., Sales team" value="" oninput="updateAllocation(1, &#39;category&#39;, this.value)">
+          </div>
+          <div>
+            <span class="allocation-tag">Amount</span>
+            <div class="currency-prefix">
+              <input type="number" placeholder="0" min="0" step="any" value="" oninput="updateAllocation(1, &#39;amount&#39;, parseFloat(this.value) || 0)">
+            </div>
+          </div>
+          <div>
+            <span class="allocation-tag">Source of funds</span>
+            <select onchange="updateAllocation(1, &#39;source&#39;, this.value)">
+              <option value="">— Pick —</option>
+              <option value="Operating revenue">Operating revenue</option>
+              <option value="Founding client prepayments">Founding client prepayments</option>
+              <option value="Line of credit">Line of credit</option>
+              <option value="Cash reserves">Cash reserves</option>
+              <option value="Personal capital">Personal capital</option>
+              <option value="Outside capital (debt)">Outside capital (debt)</option>
+              <option value="Outside capital (equity)">Outside capital (equity)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="allocation-fields-2">
+          <div>
+            <span class="allocation-tag">Milestone this funds</span>
+            <input type="text" placeholder="e.g., 135 kit orders/month by month 9" value="" oninput="updateAllocation(1, &#39;milestone&#39;, this.value)">
+          </div>
+        </div>
+      </div>
+    
+      <div class="allocation-row">
+        <div class="allocation-row-head">
+          <span class="allocation-num">Line 03</span>
+          <button class="remove-btn" onclick="removeAllocation(2)" title="Remove">×</button>
+        </div>
+
+        <div class="allocation-fields">
+          <div>
+            <span class="allocation-tag">Category</span>
+            <input type="text" placeholder="e.g., Sales team" value="" oninput="updateAllocation(2, &#39;category&#39;, this.value)">
+          </div>
+          <div>
+            <span class="allocation-tag">Amount</span>
+            <div class="currency-prefix">
+              <input type="number" placeholder="0" min="0" step="any" value="" oninput="updateAllocation(2, &#39;amount&#39;, parseFloat(this.value) || 0)">
+            </div>
+          </div>
+          <div>
+            <span class="allocation-tag">Source of funds</span>
+            <select onchange="updateAllocation(2, &#39;source&#39;, this.value)">
+              <option value="">— Pick —</option>
+              <option value="Operating revenue">Operating revenue</option>
+              <option value="Founding client prepayments">Founding client prepayments</option>
+              <option value="Line of credit">Line of credit</option>
+              <option value="Cash reserves">Cash reserves</option>
+              <option value="Personal capital">Personal capital</option>
+              <option value="Outside capital (debt)">Outside capital (debt)</option>
+              <option value="Outside capital (equity)">Outside capital (equity)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="allocation-fields-2">
+          <div>
+            <span class="allocation-tag">Milestone this funds</span>
+            <input type="text" placeholder="e.g., 135 kit orders/month by month 9" value="" oninput="updateAllocation(2, &#39;milestone&#39;, this.value)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div style="margin-top: 16px;">
+    <button class="add-btn" onclick="addAllocation()">+  Add another allocation line</button>
+  </div>
+  <p class="field-help" style="margin-top: 10px; text-align: center;">3–5 lines is right. More than 5 and the plan loses focus.</p>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">←  Back</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 3: RISKS & CONTINGENCIES ============ -->
+<section class="panel" id="panel-3">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP THREE  ·  RISKS &amp; CONTINGENCIES</div>
+    <h2 class="panel-title">Three or four specific risks. With responses already written.</h2>
+    <p class="panel-intro">This is the section most owners leave out — and the one that builds the most trust. Stay away from "market conditions" — that means nothing. Name specific things that could undermine the plan, and what you'd do if they materialize.</p>
+  </div>
+
+  <div class="warning-callout" style="background: var(--cream); color: var(--navy); border-left-color: var(--gold);">
+    <div class="warning-label" style="color: var(--red);">WHAT QUALIFIES AS A SPECIFIC RISK  ·  WHAT DOESN'T</div>
+    <div class="warning-headline" style="color: var(--navy); font-style: normal; font-weight: 600;">
+      <strong style="font-weight:700;">QUALIFIES:</strong> "The founding client cohort takes twice as long to fill." "The sales team hits break-even later than modeled." "The manufacturer changes payment terms."<br><br>
+      <strong style="font-weight:700;">DOES NOT:</strong> "Market conditions." "Macro environment." "Competition." Vague risks produce vague responses — and lose the reader's trust.
+    </div>
+  </div>
+
+  <div id="risk-list">
+      <div class="risk-row">
+        <div class="risk-row-head">
+          <span class="risk-num">Risk 01</span>
+          <button class="remove-btn" onclick="removeRisk(0)" title="Remove">×</button>
+        </div>
+
+        <div class="field" style="margin-bottom: 14px;">
+          <label class="field-label">The specific risk</label>
+          <input type="text" placeholder="e.g., The founding client cohort takes twice as long to fill" value="" oninput="updateRisk(0, &#39;name&#39;, this.value)">
+        </div>
+
+        <div class="field" style="margin-bottom: 0;">
+          <label class="field-label">Contingency — what we do if this happens</label>
+          <p class="field-help">Three sentences is enough. What's the immediate response? What's the timeline? What triggers the next decision?</p>
+          <p class="field-example with-copy">
+            <span class="ex-text">"We extend the timeline by 90 days and draw on the established credit facility to bridge payroll. If the cohort isn't filled within those 90 days, we revisit team cost structure before adding any new spend."</span>
+            <button type="button" class="copy-link" data-example="We extend the timeline by 90 days and draw on the established credit facility to bridge payroll. If the cohort isn&#39;t filled within those 90 days, we revisit team cost structure before adding any new spend." onclick="useExampleForRisk(this, 0)">Use example</button>
+          </p>
+          <textarea placeholder="Three sentences. Not a solution — a response that&#39;s already been thought through." oninput="updateRisk(0, &#39;contingency&#39;, this.value)"></textarea>
+        </div>
+      </div>
+    
+      <div class="risk-row">
+        <div class="risk-row-head">
+          <span class="risk-num">Risk 02</span>
+          <button class="remove-btn" onclick="removeRisk(1)" title="Remove">×</button>
+        </div>
+
+        <div class="field" style="margin-bottom: 14px;">
+          <label class="field-label">The specific risk</label>
+          <input type="text" placeholder="e.g., The founding client cohort takes twice as long to fill" value="" oninput="updateRisk(1, &#39;name&#39;, this.value)">
+        </div>
+
+        <div class="field" style="margin-bottom: 0;">
+          <label class="field-label">Contingency — what we do if this happens</label>
+          <p class="field-help">Three sentences is enough. What's the immediate response? What's the timeline? What triggers the next decision?</p>
+          
+          <textarea placeholder="Three sentences. Not a solution — a response that&#39;s already been thought through." oninput="updateRisk(1, &#39;contingency&#39;, this.value)"></textarea>
+        </div>
+      </div>
+    
+      <div class="risk-row">
+        <div class="risk-row-head">
+          <span class="risk-num">Risk 03</span>
+          <button class="remove-btn" onclick="removeRisk(2)" title="Remove">×</button>
+        </div>
+
+        <div class="field" style="margin-bottom: 14px;">
+          <label class="field-label">The specific risk</label>
+          <input type="text" placeholder="e.g., The founding client cohort takes twice as long to fill" value="" oninput="updateRisk(2, &#39;name&#39;, this.value)">
+        </div>
+
+        <div class="field" style="margin-bottom: 0;">
+          <label class="field-label">Contingency — what we do if this happens</label>
+          <p class="field-help">Three sentences is enough. What's the immediate response? What's the timeline? What triggers the next decision?</p>
+          
+          <textarea placeholder="Three sentences. Not a solution — a response that&#39;s already been thought through." oninput="updateRisk(2, &#39;contingency&#39;, this.value)"></textarea>
+        </div>
+      </div>
+    </div>
+
+  <div style="margin-top: 16px;">
+    <button class="add-btn" onclick="addRisk()">+  Add another risk</button>
+  </div>
+  <p class="field-help" style="margin-top: 10px; text-align: center;">Three or four is the right count. Fewer feels glib; more feels overwhelmed.</p>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">←  Back</button>
+    <button class="btn btn-primary" id="generate-btn" onclick="generateOutput()">Generate My Capital Plan  →</button>
+  </div>
+  <p class="hint" id="generate-hint" hidden="" style="text-align:right;">Please complete each risk + contingency pair before generating.</p>
+</section>
+
+<!-- ============ OUTPUT ============ -->
+<section class="output" id="output"></section>
+
+</div>
+
+<script>
+  // ---------- state ----------
+  let currentStep = 1;
+  let allocations = [
+    { category: '', amount: 0, source: '', milestone: '' },
+    { category: '', amount: 0, source: '', milestone: '' },
+    { category: '', amount: 0, source: '', milestone: '' }
+  ];
+  let risks = [
+    { name: '', contingency: '' },
+    { name: '', contingency: '' },
+    { name: '', contingency: '' }
+  ];
+
+  // ---------- allocation rendering ----------
+  function renderAllocations() {
+    const list = document.getElementById('allocation-list');
+    list.innerHTML = allocations.map((a, i) => `
+      <div class="allocation-row">
+        <div class="allocation-row-head">
+          <span class="allocation-num">Line ${String(i + 1).padStart(2, '0')}</span>
+          ${allocations.length > 1 ? `<button class="remove-btn" onclick="removeAllocation(${i})" title="Remove">×</button>` : ''}
+        </div>
+
+        <div class="allocation-fields">
+          <div>
+            <span class="allocation-tag">Category</span>
+            <input type="text" placeholder="e.g., Sales team" value="${escape(a.category)}" oninput="updateAllocation(${i}, 'category', this.value)">
+          </div>
+          <div>
+            <span class="allocation-tag">Amount</span>
+            <div class="currency-prefix">
+              <input type="number" placeholder="0" min="0" step="any" value="${a.amount || ''}" oninput="updateAllocation(${i}, 'amount', parseFloat(this.value) || 0)">
+            </div>
+          </div>
+          <div>
+            <span class="allocation-tag">Source of funds</span>
+            <select onchange="updateAllocation(${i}, 'source', this.value)">
+              <option value="">— Pick —</option>
+              <option value="Operating revenue" ${a.source === 'Operating revenue' ? 'selected' : ''}>Operating revenue</option>
+              <option value="Founding client prepayments" ${a.source === 'Founding client prepayments' ? 'selected' : ''}>Founding client prepayments</option>
+              <option value="Line of credit" ${a.source === 'Line of credit' ? 'selected' : ''}>Line of credit</option>
+              <option value="Cash reserves" ${a.source === 'Cash reserves' ? 'selected' : ''}>Cash reserves</option>
+              <option value="Personal capital" ${a.source === 'Personal capital' ? 'selected' : ''}>Personal capital</option>
+              <option value="Outside capital (debt)" ${a.source === 'Outside capital (debt)' ? 'selected' : ''}>Outside capital (debt)</option>
+              <option value="Outside capital (equity)" ${a.source === 'Outside capital (equity)' ? 'selected' : ''}>Outside capital (equity)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="allocation-fields-2">
+          <div>
+            <span class="allocation-tag">Milestone this funds</span>
+            <input type="text" placeholder="e.g., 135 kit orders/month by month 9" value="${escape(a.milestone)}" oninput="updateAllocation(${i}, 'milestone', this.value)">
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function updateAllocation(idx, field, value) {
+    allocations[idx][field] = value;
+  }
+  function addAllocation() {
+    if (allocations.length >= 5) return;
+    allocations.push({ category: '', amount: 0, source: '', milestone: '' });
+    renderAllocations();
+  }
+  function removeAllocation(idx) {
+    allocations.splice(idx, 1);
+    renderAllocations();
+  }
+
+  // ---------- risk rendering ----------
+  function renderRisks() {
+    const list = document.getElementById('risk-list');
+    list.innerHTML = risks.map((r, i) => `
+      <div class="risk-row">
+        <div class="risk-row-head">
+          <span class="risk-num">Risk ${String(i + 1).padStart(2, '0')}</span>
+          ${risks.length > 1 ? `<button class="remove-btn" onclick="removeRisk(${i})" title="Remove">×</button>` : ''}
+        </div>
+
+        <div class="field" style="margin-bottom: 14px;">
+          <label class="field-label">The specific risk</label>
+          <input type="text" placeholder="e.g., The founding client cohort takes twice as long to fill" value="${escape(r.name)}" oninput="updateRisk(${i}, 'name', this.value)">
+        </div>
+
+        <div class="field" style="margin-bottom: 0;">
+          <label class="field-label">Contingency — what we do if this happens</label>
+          <p class="field-help">Three sentences is enough. What's the immediate response? What's the timeline? What triggers the next decision?</p>
+          ${i === 0 ? `<p class="field-example with-copy">
+            <span class="ex-text">"We extend the timeline by 90 days and draw on the established credit facility to bridge payroll. If the cohort isn't filled within those 90 days, we revisit team cost structure before adding any new spend."</span>
+            <button type="button" class="copy-link" data-example="We extend the timeline by 90 days and draw on the established credit facility to bridge payroll. If the cohort isn&#39;t filled within those 90 days, we revisit team cost structure before adding any new spend." onclick="useExampleForRisk(this, ${i})">Use example</button>
+          </p>` : ''}
+          <textarea placeholder="Three sentences. Not a solution — a response that's already been thought through." oninput="updateRisk(${i}, 'contingency', this.value)">${escape(r.contingency)}</textarea>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function updateRisk(idx, field, value) {
+    risks[idx][field] = value;
+  }
+  function addRisk() {
+    if (risks.length >= 5) return;
+    risks.push({ name: '', contingency: '' });
+    renderRisks();
+  }
+  function removeRisk(idx) {
+    risks.splice(idx, 1);
+    renderRisks();
+  }
+  function useExampleForRisk(button, idx) {
+    const text = button.getAttribute('data-example') || '';
+    risks[idx].contingency = text;
+    renderRisks();
+    // visual confirm
+    setTimeout(() => {
+      const list = document.getElementById('risk-list');
+      const newButton = list.querySelector('.copy-link');
+      if (newButton) {
+        newButton.textContent = 'Inserted';
+        newButton.classList.add('copied');
+        setTimeout(() => {
+          newButton.textContent = 'Use example';
+          newButton.classList.remove('copied');
+        }, 1400);
+      }
+    }, 50);
+  }
+
+  // ---------- nav ----------
+  function goTo(n) {
+    if (n > currentStep && !validate(currentStep)) return;
+    currentStep = n;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    document.querySelectorAll('.progress-step').forEach(s => {
+      const step = parseInt(s.dataset.step);
+      s.classList.remove('active', 'done');
+      if (step < n) s.classList.add('done');
+      else if (step === n) s.classList.add('active');
+    });
+    document.querySelectorAll('.progress-label span').forEach((l, i) => {
+      l.classList.toggle('current', (i + 1) === n);
+    });
+  }
+
+  function validate(step) {
+    if (step === 1) {
+      const required = ['biz-name', 'plan-headline', 'total-capital'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el.value || el.value.toString().trim() === '') { el.focus(); return false; }
+      }
+      const period = document.getElementById('plan-period');
+      if (!period.value) { period.focus(); return false; }
+      return true;
+    }
+    if (step === 2) {
+      const filled = allocations.filter(a => a.category.trim() !== '' && a.amount > 0 && a.source !== '');
+      if (filled.length < 1) {
+        alert('Please fill in at least one allocation line (category, amount, and source) to continue.');
+        return false;
+      }
+      return true;
+    }
+    return true;
+  }
+
+  // ---------- generate ----------
+  function generateOutput() {
+    const filledRisks = risks.filter(r => r.name.trim() !== '' && r.contingency.trim() !== '');
+    if (filledRisks.length < 1) {
+      document.getElementById('generate-hint').hidden = false;
+      return;
+    }
+    const data = collect();
+    document.getElementById('output').innerHTML = renderOutput(data);
+    document.getElementById('output').classList.add('active');
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function collect() {
+    const num = id => {
+      const v = parseFloat(document.getElementById(id).value);
+      return isNaN(v) ? 0 : v;
+    };
+    const str = id => document.getElementById(id).value.trim();
+    return {
+      bizName: str('biz-name'),
+      planPeriod: document.getElementById('plan-period').value,
+      planHeadline: str('plan-headline'),
+      totalCapital: num('total-capital'),
+      cashReserves: num('cash-reserves'),
+      allocations: allocations.filter(a => a.category.trim() !== '' && a.amount > 0),
+      risks: risks.filter(r => r.name.trim() !== '' && r.contingency.trim() !== '')
+    };
+  }
+
+  function renderOutput(d) {
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const allocSum = d.allocations.reduce((s, a) => s + a.amount, 0);
+    const sumDelta = allocSum - d.totalCapital;
+    const sumDeltaPct = d.totalCapital > 0 ? Math.abs(sumDelta) / d.totalCapital * 100 : 0;
+
+    // honest checks: do allocations sum to total capital?
+    let allocCheck = '';
+    if (d.totalCapital > 0 && Math.abs(sumDelta) > 1) {
+      if (sumDeltaPct < 5) {
+        allocCheck = `<div class="honest-check green"><strong>✓ Allocations match total.</strong> Lines sum to $${fmt(allocSum)} against your stated total of $${fmt(d.totalCapital)} — within rounding. Good.</div>`;
+      } else if (sumDelta > 0) {
+        allocCheck = `<div class="honest-check"><strong>⚠ Allocations exceed total capital.</strong> Your lines sum to $${fmt(allocSum)} but your stated total is $${fmt(d.totalCapital)} — a gap of $${fmt(sumDelta)} (${sumDeltaPct.toFixed(0)}%). Either the line amounts need to come down, or the total capital figure needs to come up. This is the kind of inconsistency the script warns about — visible only when you write the plan.</div>`;
+      } else {
+        allocCheck = `<div class="honest-check"><strong>⚠ Allocations are below total capital.</strong> Your lines sum to $${fmt(allocSum)}, leaving $${fmt(-sumDelta)} unallocated against your $${fmt(d.totalCapital)} total. Either there's a fifth line not yet written down, or the total figure is overstated. An investor will ask which.</div>`;
+      }
+    } else if (d.totalCapital > 0) {
+      allocCheck = `<div class="honest-check green"><strong>✓ Allocations match total.</strong> Lines sum to $${fmt(allocSum)} — exactly matches your $${fmt(d.totalCapital)} total.</div>`;
+    }
+
+    // honest check: any risks without specifics?
+    const vagueRiskWords = ['market', 'macro', 'economy', 'competition', 'general', 'conditions', 'industry'];
+    const vagueRisks = d.risks.filter(r => {
+      const lower = r.name.toLowerCase();
+      // flag if the risk name is short and contains a vague keyword as standalone
+      return r.name.length < 40 && vagueRiskWords.some(w => lower.includes(w) && r.name.split(' ').length < 6);
+    });
+    let riskCheck = '';
+    if (vagueRisks.length > 0) {
+      riskCheck = `<div class="honest-check"><strong>⚠ One or more risks may be too vague.</strong> Risks like "${escape(vagueRisks[0].name)}" land closer to "market conditions" than to specific events. The lesson is direct: vague risks lose the reader's trust. Consider rewriting to name a specific event with a measurable trigger — e.g., what specific competitor move, what specific revenue miss, what specific input cost change.</div>`;
+    }
+
+    // sources used (for the pre-investor section)
+    const sourcesUsed = [...new Set(d.allocations.map(a => a.source).filter(s => s))];
+    const usesOutsideCapital = sourcesUsed.some(s => s.includes('Outside capital'));
+    const usesEquity = sourcesUsed.includes('Outside capital (equity)');
+
+    return `
+      <header class="output-masthead">
+        <div class="brand-stripe">Two Weeks Out  ·  CAPITAL PLAN</div>
+        <h1 class="output-title">Capital Plan<br>for <em>${escape(d.bizName)}</em></h1>
+        <p class="output-sub">${escape(d.planPeriod)} planning horizon  ·  one page  ·  plain language</p>
+        <div class="output-meta">
+          <span>Generated<strong>${today}</strong></span>
+          <span>Total capital<strong>$${fmt(d.totalCapital)}</strong></span>
+          <span>Allocations<strong>${d.allocations.length} lines</strong></span>
+          <span>Named risks<strong>${d.risks.length}</strong></span>
+        </div>
+      </header>
+
+      <!-- =============== ARTIFACT 1: THE ONE-PAGE PLAN =============== -->
+      <div class="section" id="artifact-1">
+        <div class="section-eyebrow">ARTIFACT 01  ·  YOUR ONE-PAGE CAPITAL PLAN</div>
+        <h2 class="section-title">The document you'll share.</h2>
+        <p>Print this. Hand it to your spouse, your co-investor, your advisor. It's the same document you'll update quarterly — and the same document, refined over time, that becomes your investor-grade use-of-funds when the high-stakes conversation arrives.</p>
+
+        ${allocCheck}
+        ${riskCheck}
+
+        <div class="plan-doc">
+          <div class="plan-doc-head">
+            <div class="plan-doc-title">${escape(d.bizName)} — Capital Plan</div>
+            <div class="plan-doc-sub">${escape(d.planPeriod)} horizon  ·  Adopted ${today}  ·  Reviewed quarterly</div>
+          </div>
+
+          <h4>Plan Thesis</h4>
+          <div class="plan-summary-box">
+            ${escape(d.planHeadline)}
+          </div>
+          <div style="font-family: var(--font-body); font-size: 13px; color: var(--ink-soft); line-height: 1.55; margin-top: 12px;">
+            <strong style="color: var(--navy);">Total capital deployed:</strong> $${fmt(d.totalCapital)} over ${escape(d.planPeriod)}.
+            ${d.cashReserves > 0 ? `<br><strong style="color: var(--navy);">Starting cash reserves:</strong> $${fmt(d.cashReserves)}.` : ''}
+          </div>
+
+          <h4>Use of Funds</h4>
+          <table class="allocation-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th style="text-align:right;">Amount</th>
+                <th>Source</th>
+                <th>Milestone funded</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${d.allocations.map(a => `
+                <tr>
+                  <td class="cat">${escape(a.category)}</td>
+                  <td class="amt">$${fmt(a.amount)}</td>
+                  <td class="src">${escape(a.source)}</td>
+                  <td class="mil">${escape(a.milestone) || '<em style="color: var(--slate);">— not specified —</em>'}</td>
+                </tr>
+              `).join('')}
+              <tr class="total">
+                <td class="cat">Total</td>
+                <td class="amt">$${fmt(allocSum)}</td>
+                <td class="src">${sourcesUsed.length} source${sourcesUsed.length === 1 ? '' : 's'}</td>
+                <td class="mil"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>Named Risks &amp; Contingencies</h4>
+          ${d.risks.map(r => `
+            <div class="risk-block">
+              <div class="risk-name">${escape(r.name)}</div>
+              <div class="contingency-text">${escape(r.contingency)}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- =============== ARTIFACT 2: AUDIENCE PREP =============== -->
+      <div class="section" id="artifact-2">
+        <div class="section-eyebrow">ARTIFACT 02  ·  USING THE PLAN ACROSS AUDIENCES</div>
+        <h2 class="section-title">Same document. Different conversations.</h2>
+        <p>The plan above doesn't change based on who reads it — that's the discipline. What changes is how you walk them through it. Here's how the same one-pager serves four different conversations, in roughly the order you'll have them.</p>
+
+        <div class="audience-card">
+          <div class="audience-header">CONVERSATION FRAMING  ·  FOUR AUDIENCES, ONE DOCUMENT</div>
+          <h3>The same plan. Different rooms.</h3>
+          <p class="audience-sub">The plan stays honest across all four. Your framing adapts to what each audience needs to hear first.</p>
+
+          <div class="audience-block">
+            <span class="audience-block-tag">SPOUSE / FAMILY</span>
+            <div class="audience-block-title">"Here's what I'm doing — and what I'd do if it doesn't work."</div>
+            <div class="audience-block-body">
+              Lead with the <em>risk and contingency</em> section, not the use-of-funds. Your spouse needs to know you've thought past the optimistic scenario before they need to know how the money is allocated. <strong>Open with:</strong> "I want to walk you through what I'm betting on, what I'm risking, and what I'd do if any of it doesn't go as planned." <strong>End with:</strong> "What questions does this raise for you?" — then actually wait. Transparency about risk is what builds trust. Reassurances don't.
+            </div>
+          </div>
+
+          <div class="audience-block">
+            <span class="audience-block-tag">CO-INVESTOR / EXISTING PARTNERS</span>
+            <div class="audience-block-title">"Here's how I'm allocating the capital we've put in."</div>
+            <div class="audience-block-body">
+              Lead with the <em>plan thesis</em> and the <em>use-of-funds matrix</em>. People who've already invested want to see their dollars tied to specific milestones. <strong>Open with:</strong> "Here's the thesis this period, here's how the capital allocates to it, and here's what each line is meant to deliver by when." <strong>End with:</strong> the named risks — frame them as "the things I'm watching most closely" rather than threats. The honesty earns continued trust faster than projected upside ever does.
+            </div>
+          </div>
+
+          <div class="audience-block">
+            <span class="audience-block-tag">ADVISORS / MENTORS</span>
+            <div class="audience-block-title">"Where am I wrong?"</div>
+            <div class="audience-block-body">
+              Advisors give you their best work when you give them something specific to challenge. Send the plan in advance, then in the meeting walk through it section by section asking: <strong>"What am I missing?"</strong> at each one. The <em>risks &amp; contingencies</em> section is where good advisors will push hardest — and where their pushback is most valuable. Don't defend the plan; modify it. The best advisors will tell you something that improves the next quarter's version.
+            </div>
+          </div>
+
+          <div class="audience-block">
+            <span class="audience-block-tag">FUTURE INVESTOR  ·  THE HIGH-STAKES VERSION</span>
+            <div class="audience-block-title">"Here's what these funds buy — and what I'll do if they don't."</div>
+            <div class="audience-block-body">
+              When the day comes that you're raising capital from someone whose decision changes the trajectory of your business, the first question they'll ask is: <em>how do you plan to use these funds?</em> By that point, you'll have built and presented this plan ${d.planPeriod === '6 months' ? 'a couple of times' : 'many times'} over. The document is sharper. The thinking is earned, not performed. <strong>Three things change for the investor version:</strong> the plan thesis tightens to a single quantifiable outcome, the use-of-funds shows return timeline per line (not just milestone), and the contingencies become operational ("at this trigger, we do X") rather than narrative. ${usesEquity ? 'Your current plan already includes equity capital — meaning some of these conversations are happening now, not in the future.' : usesOutsideCapital ? 'Your current plan includes outside debt — the investor conversation is closer than for most owners, and the practice you build with this document compounds directly into that meeting.' : 'Your current plan is bootstrap-only — which is exactly the right position to be in when the investor conversation eventually opens. You\'ll walk in with track record, not just thesis.'}
+            </div>
+          </div>
+
+          <div class="audience-block" style="border-bottom: none;">
+            <span class="audience-block-tag" style="background: var(--red); color: white;">THE DISCIPLINE THAT MATTERS MOST</span>
+            <div class="audience-block-title">Update this every quarter.</div>
+            <div class="audience-block-body">
+              The plan is not a one-time document. The discipline is the quarterly update — what changed, what was hit, what was missed, what the next 90 days fund. The owners who build durable businesses are the ones who do this without prompting. A plan that lives only in your head is an assumption. A plan that's reviewed quarterly with the people who matter is the foundation of how you run the business.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =============== NEXT MOVES =============== -->
+      <div class="section">
+        <div class="section-eyebrow">YOUR NEXT MOVES</div>
+        <h2 class="section-title">Three things to do this week.</h2>
+
+        <div class="plan-doc" style="padding: 28px 32px;">
+          <p style="margin-bottom: 14px;"><strong>01.</strong> Print this plan and walk through it with the person whose life is most affected by these decisions. Lead with the risks and contingencies. Ask them what questions it raises. Listen.</p>
+          <p style="margin-bottom: 14px;"><strong>02.</strong> Send the plan to one advisor in advance of your next conversation with them, with a single subject line: <em>"Where am I wrong?"</em> The pushback you get back is worth more than any framework.</p>
+          <p style="margin-bottom: 0;"><strong>03.</strong> Set a recurring quarterly calendar reminder to update this plan. The same three-step worksheet, refreshed every 90 days. The owners who build this habit walk into every future high-stakes conversation having done the exercise dozens of times — not for the first time under pressure.</p>
+        </div>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn btn-secondary" onclick="restart()">Start Over</button>
+        <button class="btn btn-primary" onclick="window.print()">Save / Print as PDF</button>
+      </div>
+
+      <div class="signature">
+        <div class="left">Two Weeks Out</div>
+        <div>Capital Plan Worksheet  ·  Generated ${today}</div>
+      </div>
+    `;
+  }
+
+  function restart() {
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('output').classList.remove('active');
+    document.getElementById('progress-wrap').style.display = '';
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
+    document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
+    document.getElementById('generate-hint').hidden = true;
+    allocations = [
+      { category: '', amount: 0, source: '', milestone: '' },
+      { category: '', amount: 0, source: '', milestone: '' },
+      { category: '', amount: 0, source: '', milestone: '' }
+    ];
+    risks = [
+      { name: '', contingency: '' },
+      { name: '', contingency: '' },
+      { name: '', contingency: '' }
+    ];
+    renderAllocations();
+    renderRisks();
+    goTo(1);
+  }
+
+  function useExample(button, fieldId) {
+    const text = button.getAttribute('data-example') || '';
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+    el.value = text;
+    el.focus();
+    const originalText = button.textContent;
+    button.textContent = 'Inserted';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('copied');
+    }, 1400);
+    const hint = document.getElementById('generate-hint');
+    if (hint) hint.hidden = true;
+  }
+
+  function escape(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function fmt(n) {
+    if (!isFinite(n)) return '0';
+    return Math.round(n).toLocaleString('en-US');
+  }
+
+  // initial render
+  renderAllocations();
+  renderRisks();
+</script>
+
+
+
+</body></html>

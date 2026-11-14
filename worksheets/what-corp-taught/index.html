@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Two Weeks Out — The Mindset Shift</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf6;
+    --card:#ffffff;
+    --ink:#10131a;
+    --ink-soft:#59616e;
+    --ink-muted:#59616e;
+    --accent:#2747f5;
+    --accent-soft:#e9ecf5;
+    --line:#e9ecf5;
+    --good:#0d6b4c;
+    --good-bg:#e2f5ea;
+    --warn:#7d5300;
+    --warn-bg:#fff3cd;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  /* ========== HEADER ========== */
+  header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+
+  .deck {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    max-width: 620px;
+  }
+
+  /* ========== HOW TO USE ========== */
+  .howto {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin-top: 32px;
+    border-radius:0;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  .howto strong { color: var(--ink); }
+
+  /* ========== SECTION ========== */
+  .section {
+    margin-top: 56px;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 4px 10px;
+    border-radius:0;
+    margin-bottom: 14px;
+  }
+
+  h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 26px;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+
+  .section-intro {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    line-height: 1.65;
+    max-width: 640px;
+  }
+
+  /* ========== PROMPT CARD ========== */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 24px 26px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .card:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .card-question {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .card-helper {
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
+    line-height: 1.55;
+  }
+
+  textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 12px 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #ffffff;
+  }
+
+  textarea::placeholder {
+    color: #9ba3af;
+  }
+
+  /* ========== USE EXAMPLE LINK ========== */
+  .field-wrap { position: relative; }
+
+  .use-example {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 0 0;
+    transition: color 0.15s ease;
+  }
+
+  .use-example:hover { color: #1b36c9; text-decoration: underline; }
+
+  .use-example::before {
+    content: "↵";
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .use-example.filled {
+    color: var(--good);
+  }
+
+  .use-example.filled::before {
+    content: "✓";
+  }
+
+  /* Light style for the dark assignment block */
+  .assignment .use-example {color:#ffd23f; }
+  .assignment .use-example:hover { color: #ffd23f; }
+  .assignment .use-example.filled { color: #6fdca3; }
+
+  /* ========== HABIT CARDS (the 4 corporate habits) ========== */
+  .habit {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+  }
+
+  .habit-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .habit-num {
+    flex: 0 0 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #ffffff;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .habit-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+  }
+
+  .habit-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 14px;
+    padding-left: 40px;
+  }
+
+  .habit-rate {
+    padding-left: 40px;
+  }
+
+  .rate-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .rate-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .rate-btn {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .rate-btn:hover {
+    border-color: var(--accent);
+    color: var(--ink);
+  }
+
+  .rate-btn.selected {
+    background: var(--accent);
+    color: #ffffff;border-color:#ffffff;
+  }
+
+  .habit-note {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    min-height: 56px;
+    resize: vertical;
+  }
+
+  .habit-note:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #ffffff;
+  }
+
+  /* ========== TRANSFER (keep / set down) ========== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .skill-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 14px 18px;
+  }
+
+  .skill-text {
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .skill-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 6px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .skill-btn.keep:hover { border-color: var(--good); color: var(--good); }
+  .skill-btn.keep.selected { background: var(--good-bg); border-color: var(--good); color: var(--good); }
+
+  .skill-btn.drop:hover { border-color: var(--warn); color: var(--warn); }
+  .skill-btn.drop.selected { background: var(--warn-bg); border-color: var(--warn); color: var(--warn); }
+
+  /* ========== ASSIGNMENT ========== */
+  .assignment {
+    background: var(--ink);
+    color: #fbfaf6;
+    border-radius:0;
+    padding: 36px 32px;
+    margin-top: 56px;
+  }
+
+  .assignment .eyebrow {color:#ffd23f; }
+  .assignment h2 { color: #fbfaf6; margin-bottom: 16px; }
+  .assignment p { color: #d5d9e4; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+
+  .assignment textarea {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.15);
+    color: #ffffff;
+  }
+  .assignment textarea:focus {
+    border-color: #7d5300;
+    background: rgba(255,255,255,0.08);
+  }
+  .assignment textarea::placeholder { color: #9ba3af; }
+
+  .assignment-step {
+    margin-bottom: 22px;
+  }
+
+  .assignment-step:last-child { margin-bottom: 0; }
+
+  .step-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #7d5300;
+    margin-bottom: 6px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: #d5d9e4;
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+
+  /* ========== ACTIONS ========== */
+  .actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius:0;
+    padding: 12px 22px;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn:hover { background: #1b36c9; transform: translateY(-1px); }
+
+  .btn.secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .btn.secondary:hover { background: var(--card); border-color: var(--accent); color: var(--accent); }
+
+  .saved-indicator {
+    display: none;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--good);
+  }
+
+  .saved-indicator.show { display: block; }
+
+  /* ========== SCORECARD ========== */
+  .scorecard {
+    margin-top: 64px;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius:0;
+    overflow: hidden;
+    box-shadow:none;
+  }
+
+  .sc-header {
+    background: var(--ink);
+    color: #ffffff;
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .sc-title-block .sc-eyebrow {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #7d5300;
+    margin-bottom: 6px;
+  }
+
+  .sc-title-block h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    color: #ffffff;
+    font-size: 22px;
+    margin: 0;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+
+  .sc-score-block {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .sc-score {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 56px;
+    line-height: 1;
+    color: #ffffff;letter-spacing:-.03em;font-style:normal;}
+
+  .sc-total {
+    font-size: 16px;color:#59616e;
+  }
+
+  /* Tier band */
+  .sc-tier {
+    padding: 16px 32px;
+    background: #fbfaf6;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .sc-tier-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius:0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .sc-tier-pill.t1 { background: #fbfaf6; color: #b3261e; }
+  .sc-tier-pill.t2 { background: #fff3cd; color: #7d5300; }
+  .sc-tier-pill.t3 { background: #e2f5ea; color: #0d6b4c; }
+  .sc-tier-pill.t4 { background: #fbfaf6; color: #2747f5; }
+
+  .sc-tier-text {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  /* Benchmark scale */
+  .sc-scale {
+    padding: 24px 32px 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .sc-scale-track {
+    position: relative;
+    height: 8px;
+    background: var(--line);
+    border-radius:0;
+    margin: 24px 0 12px;
+  }
+
+  .sc-scale-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #b3261e;
+    border-radius:0;
+    transition: width 0.5s ease;
+  }
+
+  .sc-scale-marker {
+    position: absolute;
+    top: -4px;
+    width: 4px;
+    height: 16px;
+    background: var(--ink);
+    border-radius:0;
+    transition: left 0.5s ease;
+    transform: translateX(-2px);
+  }
+
+  .sc-scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+
+  /* Dimensions grid */
+  .sc-dimensions {
+    padding: 24px 32px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
+  }
+
+  .sc-dim {
+    border-left: 3px solid var(--line);
+    padding-left: 14px;
+    transition: border-color 0.3s ease;
+  }
+
+  .sc-dim.d-low { border-left-color: #b3261e; }
+  .sc-dim.d-mid { border-left-color: #7d5300; }
+  .sc-dim.d-high { border-left-color: #0d6b4c; }
+  .sc-dim.d-top { border-left-color: var(--accent); }
+
+  .sc-dim-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+    gap: 8px;
+  }
+
+  .sc-dim-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .sc-dim-score {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .sc-dim-score .sc-dim-max {
+    color: var(--ink-muted);
+    font-weight: 400;
+    font-size: 13px;
+  }
+
+  .sc-dim-feedback {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  /* Best-in-class footer */
+  .sc-bic {
+    padding: 18px 32px 24px;
+    background: #fbfaf6;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  .sc-bic strong { color: var(--ink); font-weight: 600; }
+
+  @media (max-width: 540px) {
+    .sc-header { padding: 22px 20px; }
+    .sc-tier, .sc-scale, .sc-dimensions, .sc-bic { padding-left: 20px; padding-right: 20px; }
+    .sc-dimensions { grid-template-columns: 1fr; }
+    .sc-score { font-size: 44px; }
+  }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 540px) {
+    .container { padding: 32px 16px 64px; }
+    .skill-row { grid-template-columns: 1fr; gap: 10px; }
+    .skill-row > * { justify-self: start; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#FFD23F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sc-scale-fill{background:#2747f5}
+h1{text-wrap:balance}
+/* contrast on dark and tinted blocks */
+section.assignment div.step-label{color:#ffd23f}
+div.sc-header div.sc-eyebrow{color:#ffd23f}
+div.sc-header div.sc-total{color:#c9ced8}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">01 / Thinking Like an Owner</span></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow">Two Weeks Out · Worksheet</div>
+    <h1>The Mindset Shift</h1>
+    <p class="deck">Before we touch a single number, let's take an honest inventory of how you've been thinking about money — and decide which corporate habits to carry forward and which to set down.</p>
+    <div class="howto"><strong>How to use this worksheet:</strong> Work through each section in order. Your answers save automatically. There are no wrong answers — only honest ones.</div>
+  </header>
+
+  <!-- SECTION 1: INVISIBLE ASSUMPTIONS -->
+  <section class="section">
+    <div class="section-tag">Part 1</div>
+    <h2>The Assumptions You Can't See</h2>
+    <p class="section-intro">The biggest obstacle in this transition isn't what you don't know. It's what you think you know. Start by surfacing three financial assumptions you're carrying from your corporate career — not the obvious ones, the invisible ones.</p>
+
+    <div class="card">
+      <div class="card-question">Assumption #1</div>
+      <div class="card-helper">Think about timeline, support systems, or resources you've taken for granted. What's one assumption you're quietly making about how things will work?</div>
+      <textarea data-key="a1" placeholder="e.g., I assume I can launch and have paying customers within 90 days because that's how long the corporate launches I led used to take..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-question">Assumption #2</div>
+      <div class="card-helper">What's another one — maybe about the team you'll have, the budget you'll work with, or the runway you can give the business?</div>
+      <textarea data-key="a2" placeholder="e.g., I assume I'll be able to hire a strong number-two within the first six months..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-question">Assumption #3</div>
+      <div class="card-helper">One more. What's a belief about how customers, vendors, or partners will treat you that comes from being inside a known corporate brand?</div>
+      <textarea data-key="a3" placeholder="e.g., I assume vendors will extend me 30-day payment terms the way they always did at my old company..."></textarea>
+    </div>
+  </section>
+
+  <!-- SECTION 2: FOUR CORPORATE HABITS -->
+  <section class="section">
+    <div class="section-tag">Part 2</div>
+    <h2>The Four Corporate Habits</h2>
+    <p class="section-intro">There are four habits that tend to carry over from corporate and quietly mislead founders in year one. For each one, rate how strong this habit is in you — and write down where you see it showing up in your thinking right now.</p>
+
+    <div class="habit">
+      <div class="habit-head">
+        <div class="habit-num">1</div>
+        <div class="habit-name">Annual Budget Cycles</div>
+      </div>
+      <div class="habit-desc">In a startup, your pricing, revenue timing, and cost assumptions will change materially within ninety days. Anchoring to an annual budget either makes you spend regardless of reality or feel like a failure every month the actuals diverge.</div>
+      <div class="habit-rate">
+        <div class="rate-label">How strong is this habit in you?</div>
+        <div class="rate-options" data-habit="h1">
+          <button class="rate-btn" data-val="weak">Barely there</button>
+          <button class="rate-btn" data-val="some">Somewhat</button>
+          <button class="rate-btn" data-val="strong">Strong</button>
+          <button class="rate-btn" data-val="deep">Deeply ingrained</button>
+        </div>
+        <textarea class="habit-note" data-key="h1n" placeholder="e.g., I built a 12-month spending plan for my new venture and feel anxious whenever a month comes in over budget, even when revenue is also higher than planned..."></textarea>
+      </div>
+    </div>
+
+    <div class="habit">
+      <div class="habit-head">
+        <div class="habit-num">2</div>
+        <div class="habit-name">Timeline & Dependency Assumptions</div>
+      </div>
+      <div class="habit-desc">In corporate, you plan around other teams doing their part. In a startup, those dependencies don't exist. Timelines that felt conservative inside a corporation are almost always optimistic in startup — because they were built on infrastructure you no longer have.</div>
+      <div class="habit-rate">
+        <div class="rate-label">How strong is this habit in you?</div>
+        <div class="rate-options" data-habit="h2">
+          <button class="rate-btn" data-val="weak">Barely there</button>
+          <button class="rate-btn" data-val="some">Somewhat</button>
+          <button class="rate-btn" data-val="strong">Strong</button>
+          <button class="rate-btn" data-val="deep">Deeply ingrained</button>
+        </div>
+        <textarea class="habit-note" data-key="h2n" placeholder="e.g., I've told my spouse we'll have first revenue by month four — that timeline assumes a sales process I haven't actually built yet..."></textarea>
+      </div>
+    </div>
+
+    <div class="habit">
+      <div class="habit-head">
+        <div class="habit-num">3</div>
+        <div class="habit-name">Resources On Demand</div>
+      </div>
+      <div class="habit-desc">In corporate, the constraint is approval. In a startup, the constraint is existence. Every dollar comes from your capital, your revenue, or your credit. The resourcefulness muscle you didn't have to build before is the one your startup will demand from you on day one.</div>
+      <div class="habit-rate">
+        <div class="rate-label">How strong is this habit in you?</div>
+        <div class="rate-options" data-habit="h3">
+          <button class="rate-btn" data-val="weak">Barely there</button>
+          <button class="rate-btn" data-val="some">Somewhat</button>
+          <button class="rate-btn" data-val="strong">Strong</button>
+          <button class="rate-btn" data-val="deep">Deeply ingrained</button>
+        </div>
+        <textarea class="habit-note" data-key="h3n" placeholder="e.g., I keep mentally allocating $2k/month for a part-time bookkeeper and a designer — I'm forgetting that's $24k of cash I don't yet have a way to generate..."></textarea>
+      </div>
+    </div>
+
+    <div class="habit">
+      <div class="habit-head">
+        <div class="habit-num">4</div>
+        <div class="habit-name">Predictable Payroll</div>
+      </div>
+      <div class="habit-desc">In a startup, your draw is tied to cash that may not have arrived. And when you're responsible for making payroll for other people, the weight of that shifts in ways no corporate role prepares you for.</div>
+      <div class="habit-rate">
+        <div class="rate-label">How strong is this habit in you?</div>
+        <div class="rate-options" data-habit="h4">
+          <button class="rate-btn" data-val="weak">Barely there</button>
+          <button class="rate-btn" data-val="some">Somewhat</button>
+          <button class="rate-btn" data-val="strong">Strong</button>
+          <button class="rate-btn" data-val="deep">Deeply ingrained</button>
+        </div>
+        <textarea class="habit-note" data-key="h4n" placeholder="e.g., I'm planning to pay myself $8k/month from day one because that's what our family budget needs — without checking whether the business will have the cash to support it..."></textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: KEEP / SET DOWN -->
+  <section class="section">
+    <div class="section-tag">Part 3</div>
+    <h2>Keep It or Set It Down</h2>
+    <p class="section-intro">The financial skills you built in corporate transfer. The financial assumptions don't. Go through the list and decide which to bring with you and which to set down before they cost you.</p>
+
+    <div class="skills-grid" id="skills">
+      <!-- Skills are injected by JS -->
+    </div>
+  </section>
+
+  <!-- SECTION 4: THE SOUNDING BOARD -->
+  <section class="section">
+    <div class="section-tag">Part 4</div>
+    <h2>Your New Sounding Board</h2>
+    <p class="section-intro">In corporate, there's always someone to lean on — a mentor, a finance team, a supervisor. In a startup, that infrastructure is gone. Decisions get made by you, alone, with incomplete information. So who replaces that?</p>
+
+    <div class="card">
+      <div class="card-question">Who are the two or three people you'll genuinely turn to when you're uncertain?</div>
+      <div class="card-helper">Not who you should turn to — who you actually will. A peer founder, an old boss, a mentor, your spouse. Be specific. Names.</div>
+      <textarea data-key="sb1" placeholder="e.g., 1) My former boss Sarah — she's run a small business for ten years. 2) Marcus, a peer in the founder community I joined..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-question">What's the question you most need a sounding board for in the next 90 days?</div>
+      <div class="card-helper">The one you've been avoiding because you don't fully trust your own answer.</div>
+      <textarea data-key="sb2" placeholder="e.g., How do I price my service so I'm not just discounting myself into the ground..."></textarea>
+    </div>
+  </section>
+
+  <!-- SECTION 5: REFRAMING DIVERGENCE -->
+  <section class="section">
+    <div class="section-tag">Part 5</div>
+    <h2>Expecting the Divergence</h2>
+    <p class="section-intro">Revenue will take longer than you projected. Costs will appear that you didn't anticipate. Timelines will slip. That's not failure — it's the normal shape of an early-stage business. The founders who navigate it well are the ones who expected the divergence.</p>
+
+    <div class="card">
+      <div class="card-question">What's one specific area where you're most likely to confuse "normal divergence" with "failure"?</div>
+      <div class="card-helper">Naming it now makes it less likely to derail you when it happens.</div>
+      <textarea data-key="d1" placeholder="e.g., Revenue. I know I'll project too high and feel like I've failed when month three doesn't hit my number..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="card-question">When that divergence happens, what will you do instead of panicking?</div>
+      <div class="card-helper">A small ritual or rule you can commit to now.</div>
+      <textarea data-key="d2" placeholder="e.g., Wait 48 hours before making any decision. Talk to one of my sounding board people first..."></textarea>
+    </div>
+  </section>
+
+  <!-- ASSIGNMENT -->
+  <section class="assignment">
+    <div class="eyebrow">Your Assignment</div>
+    <h2>Two Things Before You Move On</h2>
+    <p>Pick the most important assumption you wrote down in Part 1 — the one that, if it's wrong, would hurt the most. Write what it would cost you in year one. One sentence. That exercise alone will sharpen your planning more than any spreadsheet.</p>
+
+    <div class="assignment-step">
+      <div class="step-label">1. The assumption you most need to test</div>
+      <div class="step-desc">Copy it from Part 1, or write a fresh one.</div>
+      <textarea data-key="asn1" placeholder="e.g., The assumption that I can sign three paying customers from my old corporate network within 60 days of launch..."></textarea>
+    </div>
+
+    <div class="assignment-step">
+      <div class="step-label">2. What it might cost you if it's wrong</div>
+      <div class="step-desc">One sentence. Be honest about the worst-case.</div>
+      <textarea data-key="asn2" placeholder="e.g., If wrong, it could cost me four to six months of runway and force me to take outside capital at terms I'd rather avoid..."></textarea>
+    </div>
+  </section>
+
+  <!-- SCORECARD -->
+  <section class="scorecard" id="scorecard">
+    <div class="sc-header">
+      <div class="sc-title-block">
+        <div class="sc-eyebrow">Founder Mindset Scorecard</div>
+        <h2>Where you stand right now</h2>
+      </div>
+      <div class="sc-score-block">
+        <div class="sc-score" id="sc-score">0</div>
+        <div class="sc-total">/ 100</div>
+      </div>
+    </div>
+
+    <div class="sc-tier">
+      <span class="sc-tier-pill t1" id="sc-tier-pill">Not yet started</span>
+      <div class="sc-tier-text" id="sc-tier-text">Complete the worksheet to see how your mindset compares to best-in-class founders making this transition.</div>
+    </div>
+
+    <div class="sc-scale">
+      <div class="sc-scale-track">
+        <div class="sc-scale-fill" id="sc-scale-fill" style="width: 0%;"></div>
+        <div class="sc-scale-marker" id="sc-scale-marker" style="left: 0%;"></div>
+      </div>
+      <div class="sc-scale-labels">
+        <span>Foundational<br><span style="opacity:0.6;">0–40</span></span>
+        <span>Developing<br><span style="opacity:0.6;">41–65</span></span>
+        <span>Strong<br><span style="opacity:0.6;">66–85</span></span>
+        <span>Best-in-Class<br><span style="opacity:0.6;">86–100</span></span>
+      </div>
+    </div>
+
+    <div class="sc-dimensions">
+      <div class="sc-dim" id="dim-aware">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Self-Awareness</div>
+          <div class="sc-dim-score"><span id="s-aware">0</span><span class="sc-dim-max"> / 25</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-aware">Surface the invisible assumptions you're carrying from your corporate years.</div>
+      </div>
+
+      <div class="sc-dim" id="dim-realism">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Realism</div>
+          <div class="sc-dim-score"><span id="s-realism">0</span><span class="sc-dim-max"> / 25</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-realism">Distinguish the corporate skills that transfer from the assumptions that don't.</div>
+      </div>
+
+      <div class="sc-dim" id="dim-support">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Support System</div>
+          <div class="sc-dim-score"><span id="s-support">0</span><span class="sc-dim-max"> / 25</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-support">Replace the corporate sounding board with named, real people.</div>
+      </div>
+
+      <div class="sc-dim" id="dim-resilience">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Resilience</div>
+          <div class="sc-dim-score"><span id="s-resilience">0</span><span class="sc-dim-max"> / 25</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-resilience">Pre-commit to how you'll respond when reality diverges from the plan.</div>
+      </div>
+    </div>
+
+    <div class="sc-bic">
+      <strong>What best-in-class looks like:</strong> Honest about the corporate habits that don't transfer. A short list of named people they'll call when uncertain. A clear, high-stakes assumption they're committed to testing. And a written rule for what they'll do when reality diverges from their plan — before it happens.
+    </div>
+  </section>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+    <button class="btn secondary" onclick="resetWorksheet()">Reset Worksheet</button>
+  </div>
+  <div class="saved-indicator" id="saved">✓ Your progress is saved automatically</div>
+
+</div>
+
+<script>
+  // ========== TRANSFER LIST ==========
+  const skills = [
+    "Negotiating contracts under pressure",
+    "Annual budget assumptions",
+    "Stakeholder communication",
+    "Approval-based resource allocation",
+    "Planning discipline",
+    "Predictable payroll expectations",
+    "Reading P&Ls and financial statements",
+    "Reliance on a finance team for analysis",
+    "Risk assessment and scenario thinking",
+    "Quarterly reporting rhythms",
+  ];
+
+  const skillsContainer = document.getElementById("skills");
+  skills.forEach((skill, i) => {
+    const row = document.createElement("div");
+    row.className = "skill-row";
+    row.innerHTML = `
+      <div class="skill-text">${skill}</div>
+      <button class="skill-btn keep" data-skill="${i}" data-choice="keep">Keep it</button>
+      <button class="skill-btn drop" data-skill="${i}" data-choice="drop">Set it down</button>
+    `;
+    skillsContainer.appendChild(row);
+  });
+
+  // ========== STATE ==========
+  let state = {};
+  try {
+    state = JSON.parse(localStorage.getItem("ws11") || "{}");
+  } catch (e) { state = {}; }
+
+  function save() {
+    try {
+      localStorage.setItem("ws11", JSON.stringify(state));
+      const saved = document.getElementById("saved");
+      saved.classList.add("show");
+      clearTimeout(saved._t);
+      saved._t = setTimeout(() => saved.classList.remove("show"), 1500);
+    } catch (e) {}
+    if (typeof renderScorecard === "function") renderScorecard();
+  }
+
+  // ========== TEXTAREAS ==========
+  document.querySelectorAll("textarea[data-key]").forEach(t => {
+    const k = t.dataset.key;
+    if (state[k]) t.value = state[k];
+    t.addEventListener("input", () => {
+      state[k] = t.value;
+      save();
+    });
+
+    // Add "Use example" button if there's a meaningful example in placeholder
+    const placeholder = t.getAttribute("placeholder") || "";
+    const exampleMatch = placeholder.match(/^e\.g\.,?\s*(.+?)(\.\.\.)?$/i);
+    if (exampleMatch) {
+      const exampleText = exampleMatch[1].trim();
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "use-example";
+      btn.textContent = "Use this example";
+      btn.title = "Paste this example into the field — then edit it to make it yours";
+
+      btn.addEventListener("click", () => {
+        // If the field already has content matching the example, treat it as a "clear"
+        if (t.value.trim() === exampleText) {
+          t.value = "";
+        } else {
+          t.value = exampleText;
+        }
+        state[k] = t.value;
+        save();
+        t.focus();
+        // Place cursor at the end so they can edit immediately
+        t.setSelectionRange(t.value.length, t.value.length);
+        updateExampleBtn(t, btn, exampleText);
+      });
+
+      // Insert button right after the textarea
+      t.insertAdjacentElement("afterend", btn);
+
+      // Set initial state of the button
+      updateExampleBtn(t, btn, exampleText);
+      t.addEventListener("input", () => updateExampleBtn(t, btn, exampleText));
+    }
+  });
+
+  function updateExampleBtn(textarea, btn, exampleText) {
+    if (textarea.value.trim() === exampleText) {
+      btn.classList.add("filled");
+      btn.textContent = "Example pasted — click to clear";
+    } else {
+      btn.classList.remove("filled");
+      btn.textContent = "Use this example";
+    }
+  }
+
+  // ========== HABIT RATING BUTTONS ==========
+  document.querySelectorAll(".rate-options").forEach(group => {
+    const habitKey = group.dataset.habit;
+    if (state[habitKey]) {
+      const btn = group.querySelector(`[data-val="${state[habitKey]}"]`);
+      if (btn) btn.classList.add("selected");
+    }
+    group.querySelectorAll(".rate-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        group.querySelectorAll(".rate-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        state[habitKey] = btn.dataset.val;
+        save();
+      });
+    });
+  });
+
+  // ========== KEEP / DROP BUTTONS ==========
+  document.querySelectorAll(".skill-btn").forEach(btn => {
+    const i = btn.dataset.skill;
+    const choice = btn.dataset.choice;
+    const k = "sk" + i;
+    if (state[k] === choice) btn.classList.add("selected");
+    btn.addEventListener("click", () => {
+      const row = btn.parentElement;
+      row.querySelectorAll(".skill-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      state[k] = choice;
+      save();
+    });
+  });
+
+  // ========== RESET ==========
+  function resetWorksheet() {
+    if (!confirm("Clear all your answers? This can't be undone.")) return;
+    state = {};
+    localStorage.removeItem("ws11");
+    document.querySelectorAll("textarea[data-key]").forEach(t => t.value = "");
+    document.querySelectorAll(".rate-btn.selected, .skill-btn.selected").forEach(b => b.classList.remove("selected"));
+    document.querySelectorAll(".use-example").forEach(b => {
+      b.classList.remove("filled");
+      b.textContent = "Use this example";
+    });
+    renderScorecard();
+  }
+
+  // ========== SCORING ==========
+  // The 10 skills shown in Part 3, mapped to whether they should be KEPT or DROPPED.
+  // Order matches the `skills` array above.
+  const skillAnswerKey = [
+    "keep",  // 0  Negotiating contracts under pressure
+    "drop",  // 1  Annual budget assumptions
+    "keep",  // 2  Stakeholder communication
+    "drop",  // 3  Approval-based resource allocation
+    "keep",  // 4  Planning discipline
+    "drop",  // 5  Predictable payroll expectations
+    "keep",  // 6  Reading P&Ls and financial statements
+    "drop",  // 7  Reliance on a finance team for analysis
+    "keep",  // 8  Risk assessment and scenario thinking
+    "drop",  // 9  Quarterly reporting rhythms
+  ];
+
+  // Quality of a written response, 0–1
+  function qualityOf(text) {
+    if (!text) return 0;
+    const t = text.trim();
+    if (t.length < 15) return 0.15;        // too short to count as a real answer
+    if (t.length < 50) return 0.5;         // a sentence
+    if (t.length < 120) return 0.85;       // a thoughtful sentence or two
+    return 1.0;                            // genuinely substantive
+  }
+
+  // Was this textarea left as the verbatim example?
+  function isStillExample(key, value) {
+    const el = document.querySelector(`textarea[data-key="${key}"]`);
+    if (!el) return false;
+    const placeholder = el.getAttribute("placeholder") || "";
+    const m = placeholder.match(/^e\.g\.,?\s*(.+?)(\.\.\.)?$/i);
+    if (!m) return false;
+    return value && value.trim() === m[1].trim();
+  }
+
+  // Adjusted quality: penalize if the learner just left the example as-is
+  function realQuality(key) {
+    const v = state[key] || "";
+    const q = qualityOf(v);
+    return isStillExample(key, v) ? q * 0.4 : q;
+  }
+
+  function calculateScore() {
+    // ---- Self-Awareness (25 pts) ----
+    // Three assumption fields (Part 1) up to 5 pts each = 15
+    // Four habit notes (Part 2) average up to 10
+    const a1 = realQuality("a1") * 5;
+    const a2 = realQuality("a2") * 5;
+    const a3 = realQuality("a3") * 5;
+    const habitNotesAvg = (
+      realQuality("h1n") + realQuality("h2n") + realQuality("h3n") + realQuality("h4n")
+    ) / 4;
+    const aware = a1 + a2 + a3 + habitNotesAvg * 10;
+
+    // ---- Realism (25 pts) ----
+    // 1) Habit ratings completed and rated honestly (10 pts)
+    //    Best-in-class admits at least some habits are "strong" or "deeply ingrained"
+    // 2) Skills sort accuracy (15 pts) — % correct of the 10 skills, only counting answered
+    const habitKeys = ["h1", "h2", "h3", "h4"];
+    const habitRated = habitKeys.filter(k => state[k]).length;
+    const honestRatings = habitKeys.filter(k => state[k] === "strong" || state[k] === "deep").length;
+    // Up to 6 points for completing all four ratings + up to 4 for honesty
+    const ratingScore = (habitRated / 4) * 6 + Math.min(honestRatings, 2) * 2;
+
+    let answered = 0, correct = 0;
+    skillAnswerKey.forEach((right, i) => {
+      const a = state["sk" + i];
+      if (a) {
+        answered++;
+        if (a === right) correct++;
+      }
+    });
+    const sortScore = answered > 0
+      ? (correct / skillAnswerKey.length) * 15  // missing answers = 0 credit
+      : 0;
+    const realism = ratingScore + sortScore;
+
+    // ---- Support System (25 pts) ----
+    // sb1: named sounding board (15 pts) — bonus if multiple distinct names
+    // sb2: question they need help with (10 pts)
+    let sbScore = realQuality("sb1") * 12;
+    const sb1text = state["sb1"] || "";
+    // bonus for naming multiple people (commas, "and", numbers)
+    const nameSignals = (sb1text.match(/,| and |\d\)/g) || []).length;
+    if (nameSignals >= 1 && qualityOf(sb1text) > 0.5 && !isStillExample("sb1", sb1text)) sbScore += 3;
+    sbScore += realQuality("sb2") * 10;
+    const support = Math.min(sbScore, 25);
+
+    // ---- Resilience (25 pts) ----
+    // d1: where they'll confuse divergence with failure (5)
+    // d2: pre-committed response (10)
+    // assignment 1: assumption to test (5)
+    // assignment 2: cost if wrong (5)
+    const d1 = realQuality("d1") * 5;
+    const d2 = realQuality("d2") * 10;
+    const asn1 = realQuality("asn1") * 5;
+    const asn2 = realQuality("asn2") * 5;
+    const resilience = d1 + d2 + asn1 + asn2;
+
+    return {
+      aware: Math.round(aware),
+      realism: Math.round(realism),
+      support: Math.round(support),
+      resilience: Math.round(resilience),
+      total: Math.round(aware + realism + support + resilience),
+    };
+  }
+
+  function tierFor(score) {
+    if (score === 0) return { idx: 0, name: "Not yet started", className: "t1",
+      message: "Complete the worksheet to see how your mindset compares to best-in-class founders making this transition." };
+    if (score <= 40) return { idx: 1, name: "Foundational", className: "t1",
+      message: "You're at the starting line. Your corporate instincts are largely unexamined — keep working through the worksheet to surface them." };
+    if (score <= 65) return { idx: 2, name: "Developing", className: "t2",
+      message: "You're seeing the gap between corporate and founder thinking. Push deeper on the dimensions below where your score is weakest." };
+    if (score <= 85) return { idx: 3, name: "Strong", className: "t3",
+      message: "You're thinking like a founder, not an executive in a small company. The mindset shift is well underway." };
+    return { idx: 4, name: "Best-in-Class", className: "t4",
+      message: "You're showing the self-awareness, realism, and resilience of founders who navigate year one well. Carry this clarity into the numbers." };
+  }
+
+  function dimClass(score) {
+    if (score < 8) return "d-low";
+    if (score < 16) return "d-mid";
+    if (score < 22) return "d-high";
+    return "d-top";
+  }
+
+  function feedbackFor(dim, score) {
+    const fb = {
+      aware: {
+        low:  "Surface the invisible assumptions you're carrying. The ones that feel obvious are usually the ones worth examining.",
+        mid:  "Good start. Push for more specific assumptions — timeline, support, resources — not generic ones.",
+        high: "You're building real self-awareness. Use this as the lens for the rest of the program.",
+        top:  "Best-in-class self-awareness. You see your own corporate scaffolding clearly."
+      },
+      realism: {
+        low:  "Sort the corporate skills into 'keep' and 'set down' — and rate the four habits honestly.",
+        mid:  "You're separating skills from assumptions. Be honest about which corporate habits are deeply ingrained.",
+        high: "You can tell the difference between what transfers and what doesn't. That's the whole game.",
+        top:  "You see corporate experience clearly — neither defensively nor dismissively. Rare."
+      },
+      support: {
+        low:  "Name the two or three people you'll actually call. 'Someone' is not a sounding board.",
+        mid:  "You've identified support — now make sure they're real people you'd genuinely call, not aspirational ones.",
+        high: "You have a working sounding board and know what to ask them. That's most of the battle.",
+        top:  "Named people, specific questions, real relationships. This is what replaces the corporate infrastructure."
+      },
+      resilience: {
+        low:  "Pre-commit to a response when reality diverges from your plan. The time to write it is before it happens.",
+        mid:  "You're starting to expect the divergence. Get more specific about what you'll do when it shows up.",
+        high: "You've thought through what failure feels like and how you'll respond. That preparation pays off in month four.",
+        top:  "You've turned 'expecting the divergence' from a slogan into a written plan. This is the hallmark of founders who survive year one."
+      }
+    };
+    let band;
+    if (score < 8) band = "low";
+    else if (score < 16) band = "mid";
+    else if (score < 22) band = "high";
+    else band = "top";
+    return fb[dim][band];
+  }
+
+  function renderScorecard() {
+    const s = calculateScore();
+    document.getElementById("sc-score").textContent = s.total;
+    document.getElementById("s-aware").textContent = s.aware;
+    document.getElementById("s-realism").textContent = s.realism;
+    document.getElementById("s-support").textContent = s.support;
+    document.getElementById("s-resilience").textContent = s.resilience;
+
+    const tier = tierFor(s.total);
+    const pill = document.getElementById("sc-tier-pill");
+    pill.textContent = tier.name;
+    pill.className = "sc-tier-pill " + tier.className;
+    document.getElementById("sc-tier-text").textContent = tier.message;
+
+    document.getElementById("sc-scale-fill").style.width = s.total + "%";
+    document.getElementById("sc-scale-marker").style.left = s.total + "%";
+
+    // Dimension styling + feedback
+    const dims = [
+      ["aware", s.aware],
+      ["realism", s.realism],
+      ["support", s.support],
+      ["resilience", s.resilience],
+    ];
+    dims.forEach(([key, score]) => {
+      const dimEl = document.getElementById("dim-" + key);
+      dimEl.className = "sc-dim " + dimClass(score);
+      document.getElementById("f-" + key).textContent = feedbackFor(key, score);
+    });
+  }
+
+  // Initial render (covers state restored from localStorage)
+  renderScorecard();
+</script>
+</body>
+</html>

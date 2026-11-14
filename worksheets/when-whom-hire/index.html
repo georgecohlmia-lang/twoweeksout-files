@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your First Three Hires — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#e9ecf5;
+    --bg:#ffffff;
+    --bg-soft:#fbfaf6;
+    --green:#2747f5;
+    --bright:#2747f5;
+    --em-soft:#e9ecf5;
+    --cream:#d5d9e4;
+    --cream-soft:#e9ecf5;
+    --amber:#7d5300;
+    --amber-soft:#fff3cd;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--bg-soft);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+    background: var(--bg);
+  }
+  header.brand {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 34px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--green);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin: 0;
+  }
+  .step {
+    margin: 40px 0 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+  .step-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 28px;font-weight:800;
+    color: var(--bright);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 6px 0 18px;
+    font-style: italic;
+  }
+  label { font-size: 13px; color: var(--ink-soft); font-weight: 500; }
+  select, input[type="text"], textarea {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 8px 10px;
+    width: 100%;
+  }
+  select:focus, input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--em-soft);
+  }
+  textarea { resize: vertical; min-height: 60px; }
+
+  /* Step 1 — Zero-based team */
+  .zb-row {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 0.9fr;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+  .zb-row.header {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    align-items: end;
+  }
+  .zb-row.header > div { padding: 0 4px; }
+  .zb-custom {
+    margin-top: 4px;
+    display: none;
+  }
+  .zb-custom.show { display: block; }
+  .add-row {
+    background: var(--em-soft);
+    border: 1px dashed var(--green);
+    color: var(--green);
+    padding: 8px 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius:0;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .add-row:hover { background: #e9ecf5; }
+  .remove-row {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    line-height: 1;
+  }
+  .remove-row:hover { color: var(--danger); }
+
+  /* Step 2 — Score grid */
+  .score-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 18px 18px 14px;
+    margin-bottom: 14px;
+    background: white;
+  }
+  .score-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .score-card-role {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .score-card-cat {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .score-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+    margin-bottom: 10px;
+  }
+  .score-grid label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .score-extras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 4px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .score-extras label { font-size: 12px; color: var(--ink-soft); font-weight: 600; margin-bottom: 4px; display: block; }
+  .empty-state {
+    padding: 22px;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius:0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  /* Step 4 — Readiness */
+  .ready-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .ready-card-role {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .ready-q {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .ready-q input[type="checkbox"] {
+    margin-top: 3px;
+    accent-color: var(--green);
+    cursor: pointer;
+  }
+
+  /* Step 5 — Form */
+  .form-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 16px;
+    align-items: center;
+    background: white;
+  }
+  .form-card-role {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* Output */
+  .output-section {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 3px solid var(--ink);
+  }
+  .output-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;font-weight:800;
+    color: var(--ink);
+    margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+    font-style: italic;
+  }
+  .hire-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    background: white;
+    position: relative;
+  }
+  .hire-card.rank-1 { border-left: 6px solid var(--green); }
+  .hire-card.rank-2 { border-left: 6px solid var(--bright); }
+  .hire-card.rank-3 { border-left: 6px solid var(--cream); }
+  .hire-rank-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+  .hire-rank {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 30px;font-weight:800;
+    color: var(--green);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .hire-rank-2 { color: var(--bright); }
+  .hire-rank-3 { color: var(--amber); }
+  .hire-role {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 21px;font-weight:800;
+    color: var(--ink);letter-spacing:-.03em;font-style:normal;}
+  .hire-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 10px 0 14px;
+  }
+  .tag {
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius:0;
+  }
+  .tag-multiplier { background: var(--em-soft); color: var(--green); }
+  .tag-doer { background: var(--cream-soft); color: var(--amber); }
+  .tag-form { background: var(--bg-soft); color: var(--ink-soft); border: 1px solid var(--border); }
+  .tag-score { background: white; color: var(--ink); border: 1px solid var(--border); }
+  .tag-flag { background: var(--danger-soft); color: var(--danger); }
+  .hire-reasoning {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .hire-readiness-warn {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: var(--danger-soft);
+    border-left: 3px solid var(--danger);
+    border-radius:0;
+    font-size: 13px;
+    color: #b3261e;
+  }
+  .hire-readiness-warn strong { color: var(--danger); }
+  .sequence-note {
+    margin-top: 26px;
+    padding: 16px 20px;
+    background: var(--em-soft);
+    border-radius:0;
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .sequence-note strong { color: var(--green); }
+  .empty-output {
+    padding: 36px;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius:0;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius:0;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--ink-soft);
+  }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary {
+    background: var(--green);
+    color: white;border-color:#ffffff;
+  }
+  .btn-primary:hover { background: #1b36c9; }
+  .btn-ghost { color: var(--muted); }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 32px 28px; }
+    .toolbar { display: none; }
+    .add-row, .remove-row { display: none; }
+    .step { page-break-inside: avoid; }
+    .hire-card { page-break-inside: avoid; }
+    select, input, textarea {
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius:0;
+      padding: 4px 0;
+      background: transparent;
+    }
+    .empty-output, .empty-state { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#7C97FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">09 / Build and Lead Your Team</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">Two Weeks Out  ·  Team Building and Leadership Development</p>
+  <h1>Your First Three Hires</h1>
+  <p class="lede">Work through the four frameworks from the lesson and walk away with a named, justified hire sequence.</p>
+</header>
+
+<!-- Step 1 — Zero-based team -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">01</span>
+    <span class="step-title">Build your zero-based team</span>
+  </div>
+  <p class="step-sub">List the roles your business genuinely requires to deliver on its promise. For each, mark whether it is currently filled. The gaps and partial fills are your candidate hire pool.</p>
+
+  <div id="zb-list">
+    <div class="zb-row header">
+      <div>Role</div>
+      <div>Current status</div>
+      <div></div>
+    </div>
+  </div>
+
+  <button class="add-row" type="button" onclick="addZBRow()">+ Add a role</button>
+</section>
+
+<!-- Step 2 — Score candidate roles -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">02</span>
+    <span class="step-title">Score your candidate roles</span>
+  </div>
+  <p class="step-sub">For each role marked as a gap or partial above, score 1–5 on the four criteria. Tag whether the seat is a multiplier or a doer.</p>
+
+  <div id="score-section">
+    <div class="empty-state">Mark at least one role as a gap or partial in Step 1 to begin scoring.</div>
+  </div>
+</section>
+
+<!-- Step 3 — Readiness check on top 3 -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">03</span>
+    <span class="step-title">Readiness check on your top 3</span>
+  </div>
+  <p class="step-sub">Your three highest-scoring roles appear below. Check each readiness condition honestly. Any unchecked condition will be flagged in the output.</p>
+
+  <div id="ready-section">
+    <div class="empty-state">Score at least one candidate role in Step 2 to see the readiness check.</div>
+  </div>
+</section>
+
+<!-- Step 4 — Build / Borrow / Contract -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">04</span>
+    <span class="step-title">Match the form to the work</span>
+  </div>
+  <p class="step-sub">For each of your top three, pick the form the hire should take.</p>
+
+  <div id="form-section">
+    <div class="empty-state">Score at least one candidate role in Step 2 to set the form.</div>
+  </div>
+</section>
+
+<!-- OUTPUT -->
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your First Three Hires, Justified</h2>
+    <p>Synthesized from your scores, readiness check, and multiplier-vs-doer tagging.</p>
+  </div>
+
+  <div id="output-section">
+    <div class="empty-output">Complete Steps 1–4 above to generate your hire sequence.</div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+// =============================================================================
+// DATA
+// =============================================================================
+const ROLE_TYPES = [
+  "Sales",
+  "Account Management",
+  "Marketing",
+  "Operations",
+  "Delivery / Production",
+  "Customer Success / Support",
+  "Finance / Bookkeeping",
+  "HR / People",
+  "Tech / Engineering",
+  "Administrative / EA",
+  "Functional Leadership (department head)",
+  "General Management (multi-function leader, COO-type)",
+  "Other (custom)"
+];
+const STATUS_OPTIONS = [
+  { value: "filled",  label: "Filled — the right person is in the seat" },
+  { value: "partial", label: "Partially filled — covered, but not adequately" },
+  { value: "gap",     label: "Gap — no one is in this seat" },
+  { value: "na",      label: "Doesn't apply to my business" }
+];
+const SCORE_ANCHORS = {
+  impact: [
+    "1 — Minimal: business would barely notice the difference",
+    "2 — Marginal: small lift in capability",
+    "3 — Meaningful: visible improvement to clients or output",
+    "4 — Significant: changes what the business can do",
+    "5 — Decisive: redefines the core promise of the business"
+  ],
+  constraint: [
+    "1 — Doesn't address the bottleneck",
+    "2 — Indirect: helps around the edges",
+    "3 — Partially relieves the bottleneck",
+    "4 — Directly addresses the main bottleneck",
+    "5 — Breaks the constraint that is most limiting growth"
+  ],
+  cost: [
+    "1 — Negligible: another quarter empty is fine",
+    "2 — Mild: some inconvenience, no real damage",
+    "3 — Moderate: real cost in time, money, or quality",
+    "4 — Serious: client risk or significant owner time burned",
+    "5 — Severe: revenue at risk, owner cannot sustain status quo"
+  ],
+  time: [
+    "1 — Slow: 12+ months to material contribution",
+    "2 — Long ramp: 9–12 months",
+    "3 — Standard: 6 months to material contribution",
+    "4 — Fast: 3–4 months",
+    "5 — Immediate: contribution visible in 60–90 days"
+  ]
+};
+const FORM_OPTIONS = [
+  { value: "build",    label: "Build — full-time hire" },
+  { value: "borrow",   label: "Borrow — fractional / interim" },
+  { value: "contract", label: "Contract — vendor / freelancer" }
+];
+
+// =============================================================================
+// STATE
+// =============================================================================
+let zbCounter = 0;
+const scores = {};   // roleKey -> {impact, constraint, cost, time, type}
+const ready  = {};   // roleKey -> {c1, c2, c3}
+const forms  = {};   // roleKey -> formValue
+
+// =============================================================================
+// STEP 1 — ZERO-BASED TEAM
+// =============================================================================
+function addZBRow(initialRole, initialStatus, customText) {
+  const id = `zb-${++zbCounter}`;
+  const list = document.getElementById("zb-list");
+  const row = document.createElement("div");
+  row.className = "zb-row";
+  row.id = id;
+
+  // Role dropdown
+  const roleCell = document.createElement("div");
+  const roleSel = document.createElement("select");
+  roleSel.id = `${id}-role`;
+  roleSel.innerHTML = '<option value="">Select a role…</option>' +
+    ROLE_TYPES.map(r => `<option value="${r}">${r}</option>`).join("");
+  if (initialRole) roleSel.value = initialRole;
+  roleSel.onchange = () => { onZBRoleChange(id); refresh(); };
+  roleCell.appendChild(roleSel);
+  const customInput = document.createElement("input");
+  customInput.type = "text";
+  customInput.placeholder = "Custom role name";
+  customInput.className = "zb-custom";
+  customInput.id = `${id}-custom`;
+  if (customText) { customInput.value = customText; customInput.classList.add("show"); }
+  customInput.oninput = refresh;
+  roleCell.appendChild(customInput);
+  row.appendChild(roleCell);
+
+  // Status dropdown
+  const statCell = document.createElement("div");
+  const statSel = document.createElement("select");
+  statSel.id = `${id}-status`;
+  statSel.innerHTML = '<option value="">Select status…</option>' +
+    STATUS_OPTIONS.map(s => `<option value="${s.value}">${s.label}</option>`).join("");
+  if (initialStatus) statSel.value = initialStatus;
+  statSel.onchange = refresh;
+  statCell.appendChild(statSel);
+  row.appendChild(statCell);
+
+  // Remove button
+  const removeCell = document.createElement("div");
+  const removeBtn = document.createElement("button");
+  removeBtn.className = "remove-row";
+  removeBtn.type = "button";
+  removeBtn.innerHTML = "✕";
+  removeBtn.title = "Remove this row";
+  removeBtn.onclick = () => { row.remove(); refresh(); };
+  removeCell.appendChild(removeBtn);
+  row.appendChild(removeCell);
+
+  list.appendChild(row);
+}
+function onZBRoleChange(id) {
+  const sel = document.getElementById(`${id}-role`);
+  const cust = document.getElementById(`${id}-custom`);
+  if (sel.value === "Other (custom)") cust.classList.add("show");
+  else { cust.classList.remove("show"); cust.value = ""; }
+}
+function getCandidateRoles() {
+  // Returns array of {key, role} for any row marked gap or partial with a role name
+  const out = [];
+  document.querySelectorAll(".zb-row:not(.header)").forEach(row => {
+    const id = row.id;
+    const roleSel = document.getElementById(`${id}-role`);
+    const statSel = document.getElementById(`${id}-status`);
+    if (!roleSel || !statSel) return;
+    const status = statSel.value;
+    if (status !== "gap" && status !== "partial") return;
+    let role = roleSel.value;
+    if (role === "Other (custom)") {
+      const cust = document.getElementById(`${id}-custom`);
+      role = (cust && cust.value.trim()) || "";
+    }
+    if (!role) return;
+    out.push({ key: id, role, status });
+  });
+  return out;
+}
+
+// =============================================================================
+// STEP 2 — SCORE CARDS
+// =============================================================================
+function buildScoreSection() {
+  const section = document.getElementById("score-section");
+  const candidates = getCandidateRoles();
+  if (candidates.length === 0) {
+    section.innerHTML = '<div class="empty-state">Mark at least one role as a gap or partial in Step 1 to begin scoring.</div>';
+    return;
+  }
+  section.innerHTML = "";
+  candidates.forEach(c => {
+    const existing = scores[c.key] || {};
+    const card = document.createElement("div");
+    card.className = "score-card";
+    card.innerHTML = `
+      <div class="score-card-head">
+        <div class="score-card-role">${escapeHtml(c.role)}</div>
+        <div class="score-card-cat">${c.status === "gap" ? "GAP" : "PARTIAL"}</div>
+      </div>
+      <div class="score-grid">
+        ${scoreSelect(c.key, "impact",     "Core-promise impact", existing.impact)}
+        ${scoreSelect(c.key, "constraint", "Constraint relief",   existing.constraint)}
+        ${scoreSelect(c.key, "cost",       "Cost of not hiring",  existing.cost)}
+        ${scoreSelect(c.key, "time",       "Time-to-contribution",existing.time)}
+      </div>
+      <div class="score-extras">
+        <div>
+          <label>Multiplier or doer?</label>
+          <select id="${c.key}-type" onchange="onScoreChange('${c.key}')">
+            <option value="">Select…</option>
+            <option value="multiplier" ${existing.type === "multiplier" ? "selected" : ""}>Multiplier — raises output of others</option>
+            <option value="doer" ${existing.type === "doer" ? "selected" : ""}>Doer — adds linear capacity</option>
+          </select>
+        </div>
+        <div>
+          <label>Notes (optional)</label>
+          <input type="text" id="${c.key}-notes" placeholder="Anything to remember about this role…" value="${escapeHtml(existing.notes || "")}" oninput="onScoreChange('${c.key}')">
+        </div>
+      </div>
+    `;
+    section.appendChild(card);
+  });
+}
+function scoreSelect(key, dim, labelText, current) {
+  const opts = SCORE_ANCHORS[dim].map((a, i) =>
+    `<option value="${i+1}" ${current == (i+1) ? "selected" : ""}>${escapeHtml(a)}</option>`
+  ).join("");
+  return `
+    <div>
+      <label>${labelText}</label>
+      <select id="${key}-${dim}" onchange="onScoreChange('${key}')">
+        <option value="">Select score…</option>
+        ${opts}
+      </select>
+    </div>
+  `;
+}
+function onScoreChange(key) {
+  const dims = ["impact", "constraint", "cost", "time"];
+  const rec = { ...(scores[key] || {}) };
+  dims.forEach(d => {
+    const el = document.getElementById(`${key}-${d}`);
+    if (el) rec[d] = el.value ? parseInt(el.value, 10) : null;
+  });
+  const typeEl = document.getElementById(`${key}-type`);
+  if (typeEl) rec.type = typeEl.value || null;
+  const notesEl = document.getElementById(`${key}-notes`);
+  if (notesEl) rec.notes = notesEl.value;
+  scores[key] = rec;
+  buildReadySection();
+  buildFormSection();
+}
+
+// =============================================================================
+// STEP 3 — READINESS
+// =============================================================================
+function getTopThree() {
+  const candidates = getCandidateRoles();
+  const scored = candidates
+    .map(c => {
+      const s = scores[c.key];
+      if (!s || !s.impact || !s.constraint || !s.cost || !s.time) return null;
+      const total = s.impact + s.constraint + s.cost + s.time;
+      return { ...c, ...s, total };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.total - a.total);
+  return scored.slice(0, 3);
+}
+function buildReadySection() {
+  const section = document.getElementById("ready-section");
+  const top = getTopThree();
+  if (top.length === 0) {
+    section.innerHTML = '<div class="empty-state">Score at least one candidate role in Step 2 to see the readiness check.</div>';
+    return;
+  }
+  section.innerHTML = "";
+  top.forEach(t => {
+    const r = ready[t.key] || {};
+    const card = document.createElement("div");
+    card.className = "ready-card";
+    card.innerHTML = `
+      <div class="ready-card-role">${escapeHtml(t.role)}</div>
+      <label class="ready-q"><input type="checkbox" id="${t.key}-c1" ${r.c1 ? "checked" : ""} onchange="onReadyChange('${t.key}')"> <span>The work is real and durable — ongoing, not a two-week spike.</span></label>
+      <label class="ready-q"><input type="checkbox" id="${t.key}-c2" ${r.c2 ? "checked" : ""} onchange="onReadyChange('${t.key}')"> <span>The role pays for itself on a reasonable horizon — generates, protects, or unlocks revenue.</span></label>
+      <label class="ready-q"><input type="checkbox" id="${t.key}-c3" ${r.c3 ? "checked" : ""} onchange="onReadyChange('${t.key}')"> <span>Someone can actually lead this person — a real manager with the bandwidth to onboard and develop them.</span></label>
+    `;
+    section.appendChild(card);
+  });
+}
+function onReadyChange(key) {
+  const r = ready[key] || {};
+  r.c1 = !!document.getElementById(`${key}-c1`)?.checked;
+  r.c2 = !!document.getElementById(`${key}-c2`)?.checked;
+  r.c3 = !!document.getElementById(`${key}-c3`)?.checked;
+  ready[key] = r;
+}
+
+// =============================================================================
+// STEP 4 — FORM
+// =============================================================================
+function buildFormSection() {
+  const section = document.getElementById("form-section");
+  const top = getTopThree();
+  if (top.length === 0) {
+    section.innerHTML = '<div class="empty-state">Score at least one candidate role in Step 2 to set the form.</div>';
+    return;
+  }
+  section.innerHTML = "";
+  top.forEach(t => {
+    const current = forms[t.key] || "";
+    const card = document.createElement("div");
+    card.className = "form-card";
+    card.innerHTML = `
+      <div class="form-card-role">${escapeHtml(t.role)}</div>
+      <select id="${t.key}-form" onchange="onFormChange('${t.key}')">
+        <option value="">Select form…</option>
+        ${FORM_OPTIONS.map(f => `<option value="${f.value}" ${current === f.value ? "selected" : ""}>${f.label}</option>`).join("")}
+      </select>
+    `;
+    section.appendChild(card);
+  });
+}
+function onFormChange(key) {
+  const v = document.getElementById(`${key}-form`)?.value || "";
+  forms[key] = v;
+}
+
+// =============================================================================
+// REFRESH (called whenever Step 1 changes)
+// =============================================================================
+function refresh() {
+  buildScoreSection();
+  buildReadySection();
+  buildFormSection();
+}
+
+// =============================================================================
+// OUTPUT — Templated reasoning
+// =============================================================================
+function generate() {
+  const top = getTopThree();
+  const out = document.getElementById("output-section");
+  if (top.length === 0) {
+    out.innerHTML = '<div class="empty-output">Complete Steps 1–4 above to generate your hire sequence.</div>';
+    out.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  // Apply multiplier-first sequencing rule:
+  // If a multiplier is within 2 points of a higher-ranked doer, promote it.
+  const ranked = top.slice();
+  let promoted = null;
+  for (let i = 0; i < ranked.length - 1; i++) {
+    if (ranked[i].type === "doer") {
+      for (let j = i + 1; j < ranked.length; j++) {
+        if (ranked[j].type === "multiplier" && (ranked[i].total - ranked[j].total) <= 2) {
+          promoted = { from: j, to: i, mult: ranked[j], doer: ranked[i] };
+          const m = ranked.splice(j, 1)[0];
+          ranked.splice(i, 0, m);
+          break;
+        }
+      }
+      if (promoted) break;
+    }
+  }
+
+  // Render hire cards
+  let html = "";
+  ranked.forEach((h, i) => {
+    const rank = i + 1;
+    const r = ready[h.key] || {};
+    const failedConditions = [];
+    if (r.c1 === false || r.c1 === undefined) failedConditions.push("the work being real and durable");
+    if (r.c2 === false || r.c2 === undefined) failedConditions.push("the role paying for itself on a reasonable horizon");
+    if (r.c3 === false || r.c3 === undefined) failedConditions.push("having someone in place to lead the person");
+    const formVal = forms[h.key];
+    const formLabel = FORM_OPTIONS.find(f => f.value === formVal)?.label || null;
+
+    html += `
+      <div class="hire-card rank-${rank}">
+        <div class="hire-rank-row">
+          <div class="hire-rank hire-rank-${rank}">#${rank}</div>
+          <div class="hire-role">${escapeHtml(h.role)}</div>
+        </div>
+        <div class="hire-tags">
+          <span class="tag tag-score">Total: ${h.total} / 20</span>
+          ${h.type ? `<span class="tag tag-${h.type}">${h.type === "multiplier" ? "Multiplier" : "Doer"}</span>` : ""}
+          ${formLabel ? `<span class="tag tag-form">${escapeHtml(formLabel)}</span>` : ""}
+          ${failedConditions.length > 0 ? `<span class="tag tag-flag">Readiness gap</span>` : ""}
+        </div>
+        <p class="hire-reasoning">${buildReasoning(h, rank, ranked.length)}</p>
+        ${failedConditions.length > 0 ? `
+          <div class="hire-readiness-warn">
+            <strong>Pause before hiring:</strong> you did not confirm ${joinList(failedConditions)}. Address the readiness gap before opening this role, or the hire is at risk regardless of how strong the candidate is.
+          </div>
+        ` : ""}
+        ${h.notes ? `<p style="margin-top:10px; font-size:13px; color:var(--muted); font-style:italic;">Your note: ${escapeHtml(h.notes)}</p>` : ""}
+      </div>
+    `;
+  });
+
+  // Sequence note
+  let seqText = "";
+  if (promoted) {
+    seqText = `<strong>Sequencing note.</strong> You scored <em>${escapeHtml(promoted.doer.role)}</em> higher on raw totals, but <em>${escapeHtml(promoted.mult.role)}</em> is a multiplier within 2 points. The lesson's principle — hire in the order that makes each next hire easier — argues for putting the multiplier first. The multiplier creates the system the next hire will be more successful inside. The doer can still come second.`;
+  } else if (ranked[0]?.type === "multiplier") {
+    seqText = `<strong>Sequencing note.</strong> Your top hire is a multiplier. That is exactly the discipline the lesson points to — multipliers first, doers follow them in, because the right multiplier raises the output of everyone who comes after.`;
+  } else if (ranked.every(h => h.type === "doer")) {
+    seqText = `<strong>Sequencing note.</strong> All three of your top hires are doers. That can be right — but worth pausing to ask: is there a multiplier seat one level up that would make each of these hires more effective? Sometimes the loudest pain is the symptom, and the real first hire is the leader above it.`;
+  } else {
+    seqText = `<strong>Sequencing note.</strong> Hire in the order shown above. Multipliers first when they appear in the ranking — they create the system inside which the doers succeed.`;
+  }
+  html += `<div class="sequence-note">${seqText}</div>`;
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function buildReasoning(h, rank, total) {
+  // Identify standout scores
+  const dims = [
+    { key: "impact",     label: "core-promise impact",   high: "would meaningfully change what the business can deliver" },
+    { key: "constraint", label: "constraint relief",     high: "directly breaks the bottleneck most limiting growth" },
+    { key: "cost",       label: "cost of not hiring",    high: "would compound serious damage if left empty another quarter" },
+    { key: "time",       label: "time-to-contribution",  high: "would produce a felt result fast" }
+  ];
+  const highest = dims.filter(d => h[d.key] >= 4).sort((a, b) => h[b.key] - h[a.key]);
+  const lowest  = dims.filter(d => h[d.key] <= 2);
+
+  let parts = [];
+  if (rank === 1) {
+    parts.push(`This is your highest-scored role (${h.total} of 20).`);
+  } else if (rank === 2) {
+    parts.push(`Your second-priority role (${h.total} of 20).`);
+  } else {
+    parts.push(`Your third-priority role (${h.total} of 20).`);
+  }
+
+  // Multiplier vs. doer interpretation
+  if (h.type === "multiplier") {
+    parts.push(`Tagged as a multiplier — meaning the right person here raises the output of everyone around them.`);
+  } else if (h.type === "doer") {
+    parts.push(`Tagged as a doer — adds linear capacity without changing the system around it.`);
+  }
+
+  // Highlight standout high scores
+  if (highest.length === 1) {
+    parts.push(`It scored highest on ${highest[0].label} — the right person here ${highest[0].high}.`);
+  } else if (highest.length >= 2) {
+    parts.push(`It scored highest on ${highest[0].label} and ${highest[1].label} — meaning the right person here ${highest[0].high} and ${highest[1].high}.`);
+  }
+
+  // Flag low scores
+  if (lowest.length === 1) {
+    parts.push(`Worth noting: this role scored low on ${lowest[0].label}, which may temper the urgency.`);
+  } else if (lowest.length >= 2) {
+    parts.push(`Worth noting: this role scored low on multiple criteria (${lowest.map(d => d.label).join(", ")}), suggesting the case for hiring is uneven.`);
+  }
+
+  return parts.join(" ");
+}
+
+function joinList(items) {
+  if (items.length === 0) return "";
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return items.slice(0, -1).join(", ") + ", and " + items[items.length - 1];
+}
+
+// =============================================================================
+// UTILITIES
+// =============================================================================
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function clearAll() {
+  if (!confirm("Clear all entries and start over?")) return;
+  document.querySelectorAll(".zb-row:not(.header)").forEach(r => r.remove());
+  Object.keys(scores).forEach(k => delete scores[k]);
+  Object.keys(ready).forEach(k => delete ready[k]);
+  Object.keys(forms).forEach(k => delete forms[k]);
+  zbCounter = 0;
+  // seed a few empty rows to start
+  addZBRow(); addZBRow(); addZBRow();
+  refresh();
+  document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete Steps 1–4 above to generate your hire sequence.</div>';
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================================================
+// INIT
+// =============================================================================
+// Seed three empty rows so the learner has something to start with
+addZBRow();
+addZBRow();
+addZBRow();
+</script>
+</body>
+</html>

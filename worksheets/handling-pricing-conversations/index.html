@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Price Conversation Worksheet — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10131a;
+    --navy-2:#2c313c;
+    --navy-dk:#10131a;
+    --gold:#2747f5;
+    --gold-dk:#2747f5;
+    --gold-lt:#e9ecf5;
+    --red:#b3261e;
+    --teal:#2747f5;
+    --cream:#e9ecf5;
+    --cream-dk:#d5d9e4;
+    --slate:#9ba3af;
+    --paper:#fbfaf6;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --rule:#d5d9e4;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px; line-height: 1.6;
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+  .frame { max-width: 920px; margin: 0 auto; padding: 56px 40px 120px; }
+
+  .masthead { border-bottom: 1px solid var(--rule); padding-bottom: 36px; margin-bottom: 48px; }
+  .brand-stripe {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .brand-stripe::after { content: ''; flex: 1; height: 1px; background: var(--cream-dk); }
+  h1.title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 56px; line-height: 1.05;letter-spacing:-.03em;
+    color: var(--navy); margin-bottom: 18px;font-style:normal;}
+  h1.title em { font-style: italic; color: var(--gold); font-weight: 500; }
+  .deck { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 19px; color: var(--ink-soft); max-width: 660px; }
+
+  .progress { display: flex; gap: 4px; margin: 40px 0 20px; }
+  .progress-step { flex: 1; height: 3px; background: var(--cream-dk); transition: background 0.4s; }
+  .progress-step.active { background: var(--gold); }
+  .progress-step.done { background: var(--navy); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;color:#59616e; text-transform: uppercase;
+    margin-bottom: 48px; gap: 12px;
+  }
+  .progress-label span.current { color: var(--navy); }
+
+  .panel { display: none; animation: fadeIn 0.4s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel-header { margin-bottom: 36px; }
+  .panel-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; line-height: 1.1; color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .panel-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft); max-width: 660px;
+  }
+
+  .warning-callout {
+    background: var(--navy); color: white;
+    padding: 24px 28px; margin: 24px 0;
+    border-left: 6px solid var(--red);
+  }
+  .warning-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 10px;
+  }
+  .warning-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;font-style:normal;
+    font-size: 20px; color: white; line-height: 1.35;
+  }
+  .warning-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--cream-dk); line-height: 1.55; margin-top: 10px;
+  }
+
+  /* "what not to say" examples - presented as crossed-out anti-patterns */
+  .antipatterns {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 22px 26px;
+    margin: 20px 0;
+  }
+  .antipatterns-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10.5px;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .antipattern {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--cream-dk);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--ink-soft); line-height: 1.5;
+  }
+  .antipattern:last-child { border-bottom: none; }
+  .antipattern .strike {
+    text-decoration: line-through;
+    text-decoration-color: var(--red);
+    text-decoration-thickness: 1px;
+  }
+  .antipattern-tell {
+    display: block; margin-top: 4px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-style: normal;
+    font-size: 12px; color: var(--red);
+    letter-spacing: 0.04em;
+  }
+
+  /* form fields */
+  .field { margin-bottom: 28px; }
+  .field-label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; color: var(--navy); margin-bottom: 6px;
+  }
+  .field-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .field-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;color:#59616e; margin-bottom: 12px;
+    padding-left: 10px; border-left: 2px solid var(--cream-dk);
+    line-height: 1.55;
+  }
+  .field-example.with-copy {
+    display: flex; align-items: flex-start; gap: 12px;
+    justify-content: space-between;
+  }
+  .field-example .ex-text { flex: 1; font-style: italic; color: var(--ink-soft); }
+  .copy-link {
+    flex-shrink: 0; background: transparent;
+    border: 1px solid var(--cream-dk); color: var(--gold-dk);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 5px 10px; cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .copy-link:hover { background: var(--gold-lt); border-color: var(--gold); color: var(--navy); }
+  .copy-link.copied { background: var(--teal);border-color:#ffffff; color: white; }
+
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%; background: white;
+    border: 1px solid var(--cream-dk);
+    border-bottom: 2px solid var(--navy);
+    padding: 13px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 15px;
+    color: var(--navy); border-radius:0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none; border-bottom-color: var(--gold); background: var(--gold-lt);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; gap: 0; } }
+
+  .currency-prefix { position: relative; }
+  .currency-prefix::before {
+    content: '$';
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);color:#59616e; font-weight: 600;
+    pointer-events: none; z-index: 1;
+  }
+  .currency-prefix input { padding-left: 30px; }
+
+  /* sub-cards */
+  .sub-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--gold);
+    padding: 24px 26px;
+    margin-bottom: 22px;
+  }
+  .sub-card-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 2px 8px; margin-bottom: 12px;
+    background: var(--gold);color:#ffffff;
+  }
+  .sub-card-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: var(--navy); margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .sub-card-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--ink-soft); margin-bottom: 18px;
+  }
+
+  /* live preview of the assembled delivery */
+  .live-preview {
+    background: var(--gold-lt);
+    border: 2px dashed var(--gold);
+    padding: 22px 26px;
+    margin-top: 18px;
+  }
+  .live-preview-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10.5px;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .live-preview-text {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--navy); line-height: 1.5;
+  }
+  .live-preview-text .placeholder {
+    background: rgba(179,38,30,0.12);
+    color: var(--red);
+    font-style: normal;
+    padding: 1px 6px;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  .live-preview-pause {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.06em;
+    font-style: normal;
+  }
+
+  /* nav */
+  .nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px 28px; cursor: pointer; border: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dk); }
+  .btn-secondary {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--cream-dk);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  /* output */
+  .output { display: none; }
+  .output.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .output-masthead {
+    border-top: 4px solid var(--navy);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 0 28px;
+    margin-bottom: 40px;
+  }
+  .output-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 44px; line-height: 1.05;
+    color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .output-title em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .output-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .output-meta {
+    display: flex; gap: 32px; margin-top: 20px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; letter-spacing: 0.08em; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .output-meta span strong {
+    color: var(--navy); display: block; font-size: 16px;
+    letter-spacing: 0; text-transform: none; margin-top: 2px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; line-height: 1.15; color: var(--navy); margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+  .section p {
+    margin-bottom: 14px; line-height: 1.65; color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .section p strong { color: var(--navy); font-weight: 600; }
+
+  /* ARTIFACT 1 — the delivery card */
+  .delivery-card {
+    background: var(--gold-lt);
+    border: 2px solid var(--gold);
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .delivery-card h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 26px; color: var(--navy); margin-bottom: 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .delivery-card .delivery-tagline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--ink-soft); margin-bottom: 24px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(39,71,245,0.4);
+  }
+  .delivery-step {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px dashed rgba(39,71,245,0.4);
+  }
+  .delivery-step:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .delivery-step-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .delivery-step-quote {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 22px; color: var(--navy); line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .delivery-step-detail {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--ink-soft); line-height: 1.6;
+  }
+  .delivery-step-pause {
+    background: var(--navy);
+    color: white;
+    padding: 12px 18px;
+    margin: 8px 0;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .delivery-step-pause em {
+    font-style: italic;color:#93abff;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 13px;
+    font-weight: 400;
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* ARTIFACT 2 — pushback flashcards */
+  .pushback-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0; }
+  .pushback-card {
+    background: var(--navy);
+    color: white;
+    padding: 28px 32px;
+  }
+  .pushback-card-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--gold); margin-bottom: 4px;
+  }
+  .pushback-they-say {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .pushback-quote {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;font-style:normal;
+    font-size: 22px; color: white; margin-bottom: 16px; line-height: 1.3;
+  }
+  .pushback-you-say {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase;
+    margin-bottom: 8px; padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .pushback-response {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 19px; color: white; line-height: 1.5;
+    padding-left: 16px; border-left: 3px solid var(--gold);
+    margin-bottom: 14px;
+  }
+  .pushback-coach {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--cream-dk); line-height: 1.55;
+    padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .pushback-coach strong { color: var(--gold); }
+
+  /* ARTIFACT 3 — rehearsal checklist */
+  .rehearsal-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 28px 32px;
+    margin-top: 24px;
+  }
+  .rehearsal-card ol { margin: 16px 0 0 22px; }
+  .rehearsal-card ol li {
+    margin-bottom: 14px;
+    color: var(--ink-soft); font-size: 15px; line-height: 1.6;
+  }
+  .rehearsal-card ol li strong { color: var(--navy); }
+
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+  .signature {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;color:#59616e;
+  }
+  .signature .left { color: var(--gold); font-weight: 700; }
+  .hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--red); margin-top: 6px;
+  }
+
+  /* print */
+  @media print {
+    @page { margin: 0.5in; size: letter; }
+    body { background: white; font-size: 10.5pt; }
+    .frame { padding: 0; max-width: none; }
+    .panel, .progress, .progress-label, .actions, .nav, .masthead { display: none !important; }
+    .output { display: block !important; }
+    .output-title { font-size: 28pt; }
+    .section-title { font-size: 16pt; }
+    .delivery-card, .pushback-card, .rehearsal-card, .warning-callout {
+      page-break-inside: avoid; box-shadow: none;
+    }
+    .pushback-card { background: white !important; color: var(--navy) !important; border: 2px solid var(--navy); }
+    .pushback-card .pushback-quote, .pushback-response { color: var(--navy) !important; }
+    .pushback-card .pushback-coach { color: var(--ink-soft) !important; }
+    .pushback-card .pushback-coach strong, .pushback-they-say, .pushback-you-say, .pushback-card-num { color: var(--gold-dk) !important; }
+    .delivery-step-pause { background: white !important; color: var(--navy) !important; border: 2px solid var(--navy); }
+    .delivery-step-pause em { color: var(--gold-dk) !important; }
+    .section { margin-bottom: 28px; }
+    .signature { page-break-inside: avoid; }
+    #artifact-2, #artifact-3 { page-break-before: always; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#9B9BFF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.warning-callout div.warning-label{color:#93abff}
+div.pushback-card div.pushback-card-num{color:#93abff}
+div.pushback-card div.pushback-they-say{color:#93abff}
+div.pushback-card div.pushback-you-say{color:#93abff}
+div.pushback-card div.pushback-coach > strong{color:#93abff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">04 / Price for Profit</span></div>
+<div class="frame">
+
+<header class="masthead" id="masthead">
+  <div class="brand-stripe">Two Weeks Out  ·  PRICE CONVERSATION WORKSHEET</div>
+  <h1 class="title">Say the Number.<br><em>Then Stop Talking.</em></h1>
+  <p class="deck">Build the exact words you'll use when price comes up — anchor, number, silence — and the responses you'll give to the three pushbacks every owner hears. Then rehearse them out loud until they come out the same way every time.</p>
+</header>
+
+<div id="progress-wrap">
+  <div class="progress">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+  </div>
+  <div class="progress-label">
+    <span class="current">01 — Your Price &amp; Anchor</span>
+    <span>02 — The Delivery</span>
+    <span>03 — The Three Pushbacks</span>
+  </div>
+</div>
+
+<!-- ============ PANEL 1: ANCHOR ============ -->
+<section class="panel active" id="panel-1">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP ONE  ·  YOUR PRICE AND VALUE ANCHOR</div>
+    <h2 class="panel-title">The one sentence that frames what they're evaluating.</h2>
+    <p class="panel-intro">The value anchor matters because without it, the buyer compares your price to whatever else they've seen lately. With it, they're evaluating the price against the actual problem you solve.</p>
+  </div>
+
+  <div class="warning-callout">
+    <div class="warning-label">THE PATTERN THIS WORKSHEET PROTECTS AGAINST</div>
+    <div class="warning-headline">Negotiating against yourself before anyone has objected.</div>
+    <div class="warning-body">It's the most common pricing mistake owners make after the price is built. The number is right. The delivery is wrong. owners discount, apologize, or over-explain before the buyer raises a single concern — and they don't realize they're doing it because to them, it feels like being helpful or transparent. Every qualifier says the same thing: <em>the owner isn't sure the price is right.</em> And if the owner isn't sure, why would the buyer be?</div>
+  </div>
+
+  <div class="antipatterns">
+    <div class="antipatterns-label">THINGS THAT SOUND HELPFUL  ·  THAT ACTUALLY UNDERMINE YOUR PRICE</div>
+    <div class="antipattern">
+      <span class="strike">"The kit is $89 — but we're happy to be flexible."</span>
+      <span class="antipattern-tell">→ Nobody asked. You just told them the price is negotiable.</span>
+    </div>
+    <div class="antipattern">
+      <span class="strike">"It's $89 for now, though that may change as we figure things out."</span>
+      <span class="antipattern-tell">→ You just told them the price is provisional.</span>
+    </div>
+    <div class="antipattern">
+      <span class="strike">"I know that might seem like a lot for skincare."</span>
+      <span class="antipattern-tell">→ They hadn't thought that. Now they have.</span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-name">Business or product name</label>
+    <input type="text" id="biz-name" placeholder="What you&#39;d call it talking to a friend">
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="what-sold">What are you pricing?</label>
+    <p class="field-help">A single offer with a single price point.</p>
+    <p class="field-example">e.g., "Skincare protocol kit" / "Monthly gym membership" / "Coaching retainer" / "Pro plan"</p>
+    <input type="text" id="what-sold" maxlength="80" placeholder="The offer this conversation is about">
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="price">The price</label>
+      <p class="field-help">The exact number you'll say.</p>
+      <div class="currency-prefix">
+        <input type="number" id="price" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="price-context">Optional context after the number</label>
+      <p class="field-help">"per kit" / "per month" / "for founding practices" / "per project". Just a unit, not a qualifier.</p>
+      <input type="text" id="price-context" maxlength="60" placeholder="e.g., for founding practices">
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="anchor">Your one-sentence value anchor</label>
+    <p class="field-help">What specific problem does this solve, in one sentence? Clinical and specific — not marketing language. <em>"Addresses chemo skin toxicity"</em> lands differently than <em>"great for sensitive skin."</em></p>
+    <p class="field-example with-copy">
+      <span class="ex-text">"Formulated specifically for patients managing skin toxicity during active cancer treatment — neuropathy, extreme dryness, sun sensitivity."</span>
+      <button type="button" class="copy-link" data-example="Formulated specifically for patients managing skin toxicity during active cancer treatment — neuropathy, extreme dryness, sun sensitivity." onclick="useExample(this, &#39;anchor&#39;)">Use example</button>
+    </p>
+    <textarea id="anchor" maxlength="240" placeholder="One sentence. Specific. The exact problem you solve. Said before the number."></textarea>
+  </div>
+
+  <!-- live preview of assembled delivery -->
+  <div class="live-preview">
+    <div class="live-preview-label">LIVE PREVIEW  ·  YOUR ASSEMBLED DELIVERY</div>
+    <div class="live-preview-text" id="live-preview">
+      <span class="placeholder">value anchor</span> <span class="placeholder">offer</span> is <span class="placeholder">$X</span>.
+      <span class="live-preview-pause">↳ Then stop talking. Wait.</span>
+    </div>
+  </div>
+
+  <div class="nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(2)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 2: THE DELIVERY ============ -->
+<section class="panel" id="panel-2">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP TWO  ·  THE EXACT DELIVERY SENTENCE</div>
+    <h2 class="panel-title">Write it once. Then say it the same way every time.</h2>
+    <p class="panel-intro">Variation is a tell. When you say the price slightly differently in each conversation — hesitating here, qualifying there — buyers register it. Not consciously, but they sense you don't have a settled relationship with your own price. Settle it now.</p>
+  </div>
+
+  <div class="sub-card">
+    <div class="sub-card-tag">YOUR DELIVERY SENTENCE</div>
+    <div class="sub-card-title">The exact words you will say. Verbatim. Every time.</div>
+    <p class="sub-card-help">Most owners hesitate here because they want flexibility. The flexibility is what's costing you. Lock the sentence.</p>
+
+    <div class="field" style="margin-bottom: 18px;">
+      <label class="field-label" for="delivery-sentence">My exact delivery sentence:</label>
+      <p class="field-help">Use the assembled version below as a starting point — or write your own. Either way, this is the sentence you'll practice until it comes out the same way every time.</p>
+      <p class="field-example with-copy" id="delivery-example-row">
+        <span class="ex-text" id="delivery-example-text">— complete Step 1 first to see your assembled sentence —</span>
+        <button type="button" class="copy-link" id="delivery-copy-btn" data-example="" onclick="useExample(this, &#39;delivery-sentence&#39;)" disabled="" style="opacity:0.4; cursor:not-allowed;">Use assembled</button>
+      </p>
+      <textarea id="delivery-sentence" maxlength="320" placeholder="Your sentence. Anchor → number → context. No qualifiers. No softening. Said the same way every time."></textarea>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label">Then — and this is the discipline — stop talking.</label>
+      <p class="field-help">The pause feels uncomfortable. owners almost always want to fill it. Don't. The pause is doing work. It gives the buyer space to respond, and their response tells you exactly where the conversation needs to go next.</p>
+    </div>
+  </div>
+
+  <!-- self-check -->
+  <div class="sub-card" style="border-left-color: var(--red);">
+    <div class="sub-card-tag" style="background: var(--red); color: white;">SELF-CHECK  ·  READ YOUR SENTENCE OUT LOUD</div>
+    <div class="sub-card-title">Is any of this in there?</div>
+    <p class="sub-card-help">Read your sentence aloud — at speaking pace, the way you'd actually say it to a buyer. If any of these are present, the sentence isn't done yet.</p>
+
+    <div style="font-family: var(--font-body); font-size: 14px; color: var(--ink-soft); line-height: 1.8; padding: 8px 0;">
+      <strong style="color: var(--navy);">⚠ "But"</strong> — as in <em>"$89 but we can be flexible."</em> Cut it.<br>
+      <strong style="color: var(--navy);">⚠ "Just"</strong> — as in <em>"it's just $89."</em> Apologetic. Cut it.<br>
+      <strong style="color: var(--navy);">⚠ "For now"</strong> — as in <em>"$89 for now."</em> Tells them the price is provisional. Cut it.<br>
+      <strong style="color: var(--navy);">⚠ "I know"</strong> — as in <em>"I know that might seem like a lot."</em> Plants the objection they hadn't formed. Cut it.<br>
+      <strong style="color: var(--navy);">⚠ "Sorry"</strong> or <strong style="color: var(--navy);">"unfortunately"</strong> — there is nothing to apologize for. Cut them.
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">←  Back</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 3: THE THREE PUSHBACKS ============ -->
+<section class="panel" id="panel-3">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP THREE  ·  THE THREE PUSHBACKS</div>
+    <h2 class="panel-title">Three responses. Decided in advance.</h2>
+    <p class="panel-intro">When pushback comes — and it will — the worst response is an immediate discount or a defensive explanation. Both signal the same thing: the price wasn't really firm. These are the three pushbacks every owner hears, and the responses that hold the price without breaking the relationship.</p>
+  </div>
+
+  <!-- PUSHBACK 1: MORE THAN EXPECTED -->
+  <div class="sub-card" style="border-left-color: var(--teal);">
+    <div class="sub-card-tag" style="background: var(--teal); color: white;">PUSHBACK 01  ·  "THAT'S MORE THAN WE EXPECTED"</div>
+    <div class="sub-card-title">Contextualize. Don't defend.</div>
+    <p class="sub-card-help">The lesson is direct: don't defend with cost-justification. Use market data instead. Where does your price sit in the comparable range?</p>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="market-range">Where does your price sit in the comparable market range?</label>
+      <p class="field-help">A real range you can defend. "Comparable [category] runs $X to $Y." If you don't know the range, that's the first thing to find out before this conversation.</p>
+      <p class="field-example with-copy">
+        <span class="ex-text">"Comparable clinical-grade skincare in this category runs $95 to $130. We're at the lower end of that range, intentionally — for founding practices."</span>
+        <button type="button" class="copy-link" data-example="Comparable clinical-grade skincare in this category runs $95 to $130. We&#39;re at the lower end of that range, intentionally — for founding practices." onclick="useExample(this, &#39;market-range&#39;)">Use example</button>
+      </p>
+      <textarea id="market-range" maxlength="280" placeholder="Empirical. Where comparable products price. Where you sit in that range and why."></textarea>
+    </div>
+  </div>
+
+  <!-- PUSHBACK 2: NEED A LOWER PRICE -->
+  <div class="sub-card" style="border-left-color: var(--gold);">
+    <div class="sub-card-tag">PUSHBACK 02  ·  "WE'D NEED A LOWER PRICE"</div>
+    <div class="sub-card-title">Don't discount. Diagnose.</div>
+    <p class="sub-card-help">This is where most owners immediately discount. Don't. Ask the question first — it's often not the per-unit price that's the real problem. It's order quantity, payment timing, or uncertainty about demand. You can't solve a problem you haven't identified.</p>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="diagnose-question">Your diagnostic question — before any concession:</label>
+      <p class="field-help">A question that opens the real concern. Standard form: "What's making this difficult at $X?" Adapt to your voice.</p>
+      <p class="field-example with-copy">
+        <span class="ex-text">"What's making this difficult at this price — is it the per-unit cost, the order quantity, or the timing of the payment?"</span>
+        <button type="button" class="copy-link" data-example="What&#39;s making this difficult at this price — is it the per-unit cost, the order quantity, or the timing of the payment?" onclick="useExample(this, &#39;diagnose-question&#39;)">Use example</button>
+      </p>
+      <textarea id="diagnose-question" maxlength="240" placeholder="A question. Not a defense. Opens the conversation about what&#39;s actually in the way."></textarea>
+    </div>
+  </div>
+
+  <!-- PUSHBACK 3: LET US THINK -->
+  <div class="sub-card" style="border-left-color: var(--red);">
+    <div class="sub-card-tag" style="background: var(--red); color: white;">PUSHBACK 03  ·  "LET US THINK ABOUT IT"</div>
+    <div class="sub-card-title">This is not a no. It's "we need more information or more time."</div>
+    <p class="sub-card-help">The wrong response is to push for a yes now. The right response keeps the conversation moving without applying pressure.</p>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="think-response">Your response when they need to think:</label>
+      <p class="field-help">An offer of help, not an ask for closure. What would actually help them decide?</p>
+      <p class="field-example with-copy">
+        <span class="ex-text">"Absolutely. What would be most helpful for me to send over while you're considering it — case studies, the clinical outcomes data, references from current practices?"</span>
+        <button type="button" class="copy-link" data-example="Absolutely. What would be most helpful for me to send over while you&#39;re considering it — case studies, the clinical outcomes data, references from current practices?" onclick="useExample(this, &#39;think-response&#39;)">Use example</button>
+      </p>
+      <textarea id="think-response" maxlength="280" placeholder="Keep the conversation moving. Don&#39;t push. Offer to help them get to a decision."></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">←  Back</button>
+    <button class="btn btn-primary" id="generate-btn" onclick="generateOutput()">Generate My Conversation Card  →</button>
+  </div>
+  <p class="hint" id="generate-hint" hidden="" style="text-align:right;">Please complete each field before generating.</p>
+</section>
+
+<!-- ============ OUTPUT ============ -->
+<section class="output" id="output"></section>
+
+</div>
+
+<script>
+  let currentStep = 1;
+
+  // live preview update
+  function updateLivePreview() {
+    const anchor = document.getElementById('anchor').value.trim();
+    const offer = document.getElementById('what-sold').value.trim();
+    const price = document.getElementById('price').value;
+    const context = document.getElementById('price-context').value.trim();
+    const preview = document.getElementById('live-preview');
+
+    const anchorPart = anchor || '<span class="placeholder">value anchor</span>';
+    const offerPart = offer ? `The ${escape(offer)}` : '<span class="placeholder">offer</span>';
+    const pricePart = price ? `$${fmt(parseFloat(price))}` : '<span class="placeholder">$X</span>';
+    const contextPart = context ? ` ${escape(context)}` : '';
+
+    // build the assembled sentence
+    const anchorOut = anchor ? escape(anchor.replace(/\.$/, '')) + '.' : anchorPart;
+    const sentence = `${anchorOut} ${offerPart} is ${pricePart}${contextPart}.`;
+
+    preview.innerHTML = `
+      ${sentence}
+      <span class="live-preview-pause">↳ Then stop talking. Wait.</span>
+    `;
+
+    // also update the assembled sentence available in step 2
+    if (anchor && offer && price) {
+      const cleanAnchor = anchor.replace(/\.$/, '');
+      const fullContext = context ? ` ${context}` : '';
+      const assembled = `${cleanAnchor}. The ${offer} is $${fmt(parseFloat(price))}${fullContext}.`;
+      const btn = document.getElementById('delivery-copy-btn');
+      const txt = document.getElementById('delivery-example-text');
+      btn.setAttribute('data-example', assembled);
+      btn.disabled = false;
+      btn.style.opacity = '';
+      btn.style.cursor = '';
+      txt.textContent = `"${assembled}"`;
+    }
+  }
+
+  ['anchor', 'what-sold', 'price', 'price-context'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateLivePreview);
+  });
+
+  function goTo(n) {
+    if (n > currentStep && !validate(currentStep)) return;
+    currentStep = n;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    document.querySelectorAll('.progress-step').forEach(s => {
+      const step = parseInt(s.dataset.step);
+      s.classList.remove('active', 'done');
+      if (step < n) s.classList.add('done');
+      else if (step === n) s.classList.add('active');
+    });
+    document.querySelectorAll('.progress-label span').forEach((l, i) => {
+      l.classList.toggle('current', (i + 1) === n);
+    });
+  }
+
+  function validate(step) {
+    if (step === 1) {
+      const required = ['biz-name', 'what-sold', 'price', 'anchor'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (el.value === '' || el.value === null || el.value.toString().trim() === '') {
+          el.focus();
+          return false;
+        }
+      }
+      return true;
+    }
+    if (step === 2) {
+      const ds = document.getElementById('delivery-sentence');
+      if (!ds.value || ds.value.trim() === '') {
+        ds.focus();
+        return false;
+      }
+      return true;
+    }
+    return true;
+  }
+
+  function generateOutput() {
+    const required = ['market-range', 'diagnose-question', 'think-response'];
+    for (const id of required) {
+      const el = document.getElementById(id);
+      if (!el.value || el.value.toString().trim() === '') {
+        document.getElementById('generate-hint').hidden = false;
+        el.focus();
+        return;
+      }
+    }
+    const data = collect();
+    document.getElementById('output').innerHTML = renderOutput(data);
+    document.getElementById('output').classList.add('active');
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function collect() {
+    const num = id => {
+      const v = parseFloat(document.getElementById(id).value);
+      return isNaN(v) ? 0 : v;
+    };
+    const str = id => document.getElementById(id).value.trim();
+    return {
+      bizName: str('biz-name'),
+      whatSold: str('what-sold'),
+      price: num('price'),
+      priceContext: str('price-context'),
+      anchor: str('anchor'),
+      deliverySentence: str('delivery-sentence'),
+      marketRange: str('market-range'),
+      diagnoseQuestion: str('diagnose-question'),
+      thinkResponse: str('think-response')
+    };
+  }
+
+  function renderOutput(d) {
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    return `
+      <header class="output-masthead">
+        <div class="brand-stripe">Two Weeks Out  ·  PRICE CONVERSATION CARD</div>
+        <h1 class="output-title">Conversation Card<br>for <em>${escape(d.bizName)}</em></h1>
+        <p class="output-sub">Print this. Practice it out loud. Carry it into the room.</p>
+        <div class="output-meta">
+          <span>Generated<strong>${today}</strong></span>
+          <span>The price<strong>$${fmt(d.price)}${d.priceContext ? ' ' + escape(d.priceContext) : ''}</strong></span>
+          <span>Status<strong>Rehearse until automatic</strong></span>
+        </div>
+      </header>
+
+      <!-- ARTIFACT 1: THE DELIVERY -->
+      <div class="section" id="artifact-1">
+        <div class="section-eyebrow">ARTIFACT 01  ·  YOUR DELIVERY</div>
+        <h2 class="section-title">Three steps. Same words every time.</h2>
+        <p>This is the structure to internalize — anchor, then number, then silence. The pause is the third step, and it's the hardest to hold. Practice it deliberately.</p>
+
+        <div class="delivery-card">
+          <h3>The Price-Delivery Structure</h3>
+          <p class="delivery-tagline">Said the same way, every conversation. ${escape(d.bizName)} — ${today}.</p>
+
+          <div class="delivery-step">
+            <div class="delivery-step-label">STEP 01  ·  ANCHOR THE VALUE  ·  ONE SENTENCE</div>
+            <div class="delivery-step-quote">"${escape(d.anchor)}"</div>
+            <div class="delivery-step-detail">
+              Said before the number — never after. Without the anchor, the buyer is comparing your price to whatever else they've seen. With the anchor, they're evaluating it against the actual problem you solve.
+            </div>
+          </div>
+
+          <div class="delivery-step">
+            <div class="delivery-step-label">STEP 02  ·  NAME THE PRICE  ·  CLEANLY</div>
+            <div class="delivery-step-quote">"${escape(d.deliverySentence)}"</div>
+            <div class="delivery-step-detail">
+              Verbatim. Every time. Variation is a tell — when you say it slightly differently across conversations, buyers sense you don't have a settled relationship with the price. Saying it the same way is what sounds like you've done this before.
+            </div>
+          </div>
+
+          <div class="delivery-step">
+            <div class="delivery-step-label">STEP 03  ·  STOP TALKING</div>
+            <div class="delivery-step-pause">
+              [ PAUSE ]
+              <em>Don't fill the silence. Let the conversation come to you.</em>
+            </div>
+            <div class="delivery-step-detail">
+              The pause feels uncomfortable. owners almost always want to fill it with a softener, a qualifier, or a "we can be flexible." Don't. The pause is doing work — it gives the buyer space to respond, and their response tells you exactly where the conversation needs to go next.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTIFACT 2: PUSHBACK FLASHCARDS -->
+      <div class="section" id="artifact-2">
+        <div class="section-eyebrow">ARTIFACT 02  ·  THE THREE PUSHBACKS</div>
+        <h2 class="section-title">Three responses. Decided in advance — so you're not deciding under pressure.</h2>
+        <p>Each card has the buyer's line and your response. The coaching note explains why the response holds the price without breaking the relationship. Practice all three out loud — most owners find one easy and two awkward, and the awkward ones are the ones that need the most rehearsal.</p>
+
+        <div class="pushback-grid">
+
+          <div class="pushback-card">
+            <div class="pushback-card-num">Pushback 01</div>
+            <div class="pushback-they-say">When they say:</div>
+            <div class="pushback-quote">"That's more than we expected."</div>
+            <div class="pushback-you-say">You say:</div>
+            <div class="pushback-response">"${escape(d.marketRange)}"</div>
+            <div class="pushback-coach">
+              <strong>Why this works:</strong> Contextualizing with market data isn't defensive — it's empirical. You're not justifying the price by explaining your costs (which signals weakness). You're telling them where this category prices, and where you sit in that range. The data does the work; you don't have to.
+            </div>
+          </div>
+
+          <div class="pushback-card">
+            <div class="pushback-card-num">Pushback 02</div>
+            <div class="pushback-they-say">When they say:</div>
+            <div class="pushback-quote">"We'd need a lower price."</div>
+            <div class="pushback-you-say">You say:</div>
+            <div class="pushback-response">"${escape(d.diagnoseQuestion)}"</div>
+            <div class="pushback-coach">
+              <strong>Why this works:</strong> Most owners discount immediately here. Don't. The question is what gets you to the real concern — which is often <em>not</em> the per-unit price. It's order quantity, payment terms, or uncertainty about demand. You can't solve a problem you haven't identified, and you can't hold a price by giving in to the first version of an objection.
+            </div>
+          </div>
+
+          <div class="pushback-card">
+            <div class="pushback-card-num">Pushback 03</div>
+            <div class="pushback-they-say">When they say:</div>
+            <div class="pushback-quote">"Let us think about it."</div>
+            <div class="pushback-you-say">You say:</div>
+            <div class="pushback-response">"${escape(d.thinkResponse)}"</div>
+            <div class="pushback-coach">
+              <strong>Why this works:</strong> "Let us think about it" is not a no. It's "we need more information or more time." Pushing for a yes now turns it into a no. Offering to help them get to a decision keeps the conversation moving — and signals that you're interested in their decision quality, not just the close.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ARTIFACT 3: REHEARSAL CHECKLIST -->
+      <div class="section" id="artifact-3">
+        <div class="section-eyebrow">ARTIFACT 03  ·  YOUR REHEARSAL PLAN</div>
+        <h2 class="section-title">The discipline that separates ready from "winging it."</h2>
+        <p>Confidence in pricing isn't certainty that the price is right — it's preparation. The work is done. Now the work is making the delivery automatic, so in the actual conversation, your attention is on listening, not on remembering what to say.</p>
+
+        <div class="rehearsal-card">
+          <ol>
+            <li><strong>Say the delivery sentence out loud — ten times today.</strong> Out loud, not in your head. Alone if you have to. Listen for hesitation, for trailing qualifiers, for the urge to soften. By the tenth time, the sentence should come out the same way every time. That's the bar.</li>
+            <li><strong>Practice the pause.</strong> After you say the price, count to four silently before allowing yourself to add anything. Then count to four again. Most owners find four seconds nearly unbearable — which is exactly why this exercise works. The pause that feels long to you is normal to the buyer.</li>
+            <li><strong>Practice each pushback response — out loud, three times each.</strong> Most owners find one or two of them easy and one of them genuinely awkward. The awkward one is the one you most need to rehearse. Get to the point where the response comes out cleanly even when the pushback caught you off guard.</li>
+            <li><strong>Use the next real conversation as your rehearsal.</strong> The first time you say all of this in a real prospect conversation, you'll feel it land differently than it did in your kitchen. That's normal. After three conversations, the delivery becomes natural. After ten, it's automatic. The first one is the hardest — and it's the one this card is designed to get you through.</li>
+            <li><strong>Update this card every time you learn something.</strong> If a buyer pushes back in a way you didn't anticipate, the response you came up with on the spot becomes your new fourth pushback. The card grows with the conversations. By month six, you'll have heard most of what you'll ever hear.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn btn-secondary" onclick="restart()">Start Over</button>
+        <button class="btn btn-primary" onclick="window.print()">Save / Print as PDF</button>
+      </div>
+
+      <div class="signature">
+        <div class="left">Two Weeks Out</div>
+        <div>Price Conversation Worksheet  ·  Generated ${today}</div>
+      </div>
+    `;
+  }
+
+  function restart() {
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('output').classList.remove('active');
+    document.getElementById('progress-wrap').style.display = '';
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
+    document.getElementById('generate-hint').hidden = true;
+    const btn = document.getElementById('delivery-copy-btn');
+    btn.setAttribute('data-example', '');
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
+    document.getElementById('delivery-example-text').textContent = '— complete Step 1 first to see your assembled sentence —';
+    updateLivePreview();
+    goTo(1);
+  }
+
+  function useExample(button, fieldId) {
+    const text = button.getAttribute('data-example') || '';
+    if (!text) return;
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+    el.value = text;
+    el.focus();
+    // trigger input event so live preview updates if applicable
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    const originalText = button.textContent;
+    button.textContent = 'Inserted';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('copied');
+    }, 1400);
+    document.getElementById('generate-hint').hidden = true;
+  }
+
+  function escape(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function fmt(n) {
+    if (!isFinite(n)) return '0';
+    return Math.round(n).toLocaleString('en-US');
+  }
+
+  // initial preview render
+  updateLivePreview();
+</script>
+
+
+
+</body></html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your Compensation Design — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a; --ink-soft:#10131a; --muted:#59616e; --muted-soft:#9ba3af;
+    --border:#e9ecf5; --border-soft:#e9ecf5;
+    --bg:#ffffff; --bg-soft:#fbfaf6;
+    --green:#2747f5; --bright:#2747f5; --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5; --amber:#7d5300;
+    --danger:#b3261e; --danger-soft:#fde9e7;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; color: var(--ink); background: var(--bg-soft); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .sheet { max-width: 880px; margin: 0 auto; padding: 56px 48px 80px; background: var(--bg); }
+  header.brand { border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-bottom: 34px; }
+  .eyebrow { font-size: 11px; letter-spacing: 2.5px; color: var(--green); font-weight: 600; text-transform: uppercase; margin: 0 0 6px; }
+  h1 { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 32px; line-height: 1.2; color: var(--ink); margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; color: var(--ink-soft); font-size: 16px; margin: 0; }
+  .step { margin: 38px 0 0; padding-top: 26px; border-top: 1px solid var(--border); }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .step-num { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 28px;font-weight:800; color: var(--bright); line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px;font-weight:800; color: var(--ink); line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub { color: var(--muted); font-size: 14px; margin: 4px 0 18px; font-style: italic; }
+  label { font-size: 13px; color: var(--ink-soft); font-weight: 500; display: block; margin-bottom: 5px; }
+  input[type="text"], input[type="number"], select, textarea { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px; color: var(--ink); background: white; border: 1px solid var(--border); border-radius:0; padding: 9px 11px; width: 100%; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 2px var(--em-soft); }
+  textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+  .field { margin-bottom: 14px; } .field:last-child { margin-bottom: 0; }
+  .role-card { background: var(--em-soft); border-left: 4px solid var(--green); border-radius:0; padding: 16px 20px; }
+  .role-card label { color: var(--green); font-weight: 600; }
+  .role-card input { background: white; }
+  .input-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .input-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .block-card { border: 1px solid var(--border); border-radius:0; padding: 16px 18px; margin-bottom: 12px; background: white; }
+  .block-name { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .block-prompt { font-size: 13px; color: var(--muted); font-style: italic; margin: 0 0 12px; }
+  .input-prefix { position: relative; }
+  .input-prefix input { padding-left: 24px; }
+  .input-prefix::before { content: "$"; position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
+  .calc-row { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 16px; padding: 10px 14px; background: var(--bg-soft); border-radius:0; margin-bottom: 6px; border-left: 3px solid var(--bright); }
+  .calc-row.primary { border-left-color: var(--green); background: var(--em-soft); }
+  .calc-row.primary .calc-value { color: var(--green); }
+  .calc-label { font-size: 13px; color: var(--ink-soft); font-weight: 500; }
+  .calc-value { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 18px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .helper { font-size: 12px; color: var(--muted); margin-top: 4px; font-style: italic; }
+  .output-section { margin-top: 48px; padding-top: 36px; border-top: 3px solid var(--ink); }
+  .output-header { text-align: center; margin-bottom: 24px; }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 26px;font-weight:800; color: var(--ink); margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p { color: var(--muted); font-size: 14px; margin: 0; font-style: italic; }
+  .output-banner { text-align: center; font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px; color: var(--green); margin-bottom: 28px; padding: 14px 20px; background: var(--em-soft); border-radius:0;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .out-block { margin-bottom: 22px; page-break-inside: avoid; }
+  .out-block-title { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .bands-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .band-card { background: var(--bg-soft); border-left: 3px solid var(--green); border-radius:0; padding: 12px 14px; text-align: center; }
+  .band-card-name { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+  .band-card-value { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px;font-weight:800; color: var(--green); font-variant-numeric: tabular-nums;letter-spacing:-.03em;font-style:normal;}
+  .band-card.midpoint .band-card-value { color: var(--ink); font-size: 24px; }
+  .summary-card { background: var(--bg-soft); border-left: 3px solid var(--bright); border-radius:0; padding: 12px 16px; margin-bottom: 10px; }
+  .summary-card-name { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px; font-weight: 600; color: var(--bright); margin-bottom: 6px; }
+  .summary-card-body { font-size: 14px; color: var(--ink-soft); line-height: 1.5; white-space: pre-wrap; }
+  .empty-inline {color:#59616e; font-style: italic; font-size: 13px; }
+  .observation { margin-top: 24px; padding: 14px 18px; background: var(--em-soft); border-radius:0; font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+  .observation strong { color: var(--green); }
+  .empty-output { padding: 36px; background: var(--bg-soft); border: 1px dashed var(--border); border-radius:0; text-align: center; color: var(--muted); font-style: italic; }
+  .toolbar { display: flex; gap: 10px; justify-content: flex-end; margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--border); }
+  .btn { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius:0; cursor: pointer; border: 1px solid var(--border); background: white; color: var(--ink-soft); }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary { background: var(--green); color: white;border-color:#ffffff; } .btn-primary:hover { background: #1b36c9; }
+  .btn-example { background: var(--cream-soft); color: var(--amber); border-color: var(--cream-soft); font-weight: 600; } .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 32px 28px; }
+    .toolbar { display: none; }
+    .step { page-break-inside: avoid; }
+    .out-block { page-break-inside: avoid; }
+    input, select, textarea { border: none; border-bottom: 1px solid var(--border); border-radius:0; padding: 4px 0; background: transparent; }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#7C97FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">09 / Build and Lead Your Team</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">Two Weeks Out  ·  Team Building and Leadership Development</p>
+  <h1>Your Compensation Design</h1>
+  <p class="lede">Design the four components for one role — base bands, variable comp, equity substitutes, benefits philosophy — at the scale of the business you actually have.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">The role you're designing comp for</span></div>
+  <p class="step-sub">This worksheet designs the full comp picture for one role. Name it so the design is concrete.</p>
+  <div class="role-card">
+    <div class="field"><label for="role-name">Role title</label><input type="text" id="role-name" placeholder="e.g., Account Management Lead"></div>
+    <div class="field" style="margin-bottom: 0;"><label for="role-tier">Tier or level (optional)</label><input type="text" id="role-tier" placeholder="e.g., Senior leadership, individual contributor, junior"></div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">Base bands — floor, midpoint, ceiling</span></div>
+  <p class="step-sub">Three numbers and a rationale. Set the bands honestly from market data and your network — without bands, every salary becomes a negotiation, and the loudest negotiators get paid the most.</p>
+  <div class="block-card">
+    <div class="input-grid-3">
+      <div class="field"><label for="band-floor">Floor</label><div class="input-prefix"><input type="number" id="band-floor" placeholder="90000" step="1000" oninput="recalc()"></div></div>
+      <div class="field"><label for="band-mid">Midpoint</label><div class="input-prefix"><input type="number" id="band-mid" placeholder="110000" step="1000" oninput="recalc()"></div></div>
+      <div class="field"><label for="band-ceil">Ceiling</label><div class="input-prefix"><input type="number" id="band-ceil" placeholder="135000" step="1000" oninput="recalc()"></div></div>
+    </div>
+    <div class="calc-row" id="band-width-row" style="margin-top: 10px;">
+      <span class="calc-label">Band width (ceiling − floor as % of midpoint)</span>
+      <span class="calc-value" id="band-width">—</span>
+    </div>
+    <div class="helper">Typical bands at owner-led scale run 30–50% wide. Narrower than that means real outliers fall outside; wider than that means the bands stop disciplining anything.</div>
+    <div class="field" style="margin-top: 12px; margin-bottom: 0;">
+      <label for="band-rationale">Rationale — where did the numbers come from?</label>
+      <textarea id="band-rationale" placeholder="Market data sources, network checks, comparable internal roles. Defensible if a current team member asks how you set the band."></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">Variable comp — designed to actually move behavior</span></div>
+  <p class="step-sub">Pay on outcomes the person can actually influence. Math simple enough they can calculate it themselves. The smaller-business edge is the proximity between effort and outcome — use it.</p>
+  <div class="block-card">
+    <div class="field"><label for="var-influence">What they actually influence — the outcome being paid on</label><textarea id="var-influence" placeholder="Their specific accounts, their location P&L, a quality measure they own — not company-wide metrics they have no lever over."></textarea></div>
+    <div class="field"><label for="var-math">The math — simple enough they can do it themselves</label><textarea id="var-math" placeholder="e.g., 5% of net new revenue from their accounts above $X baseline. Or: $5K bonus per Net Promoter Score above 60 at quarter-end."></textarea></div>
+    <div class="input-grid-2">
+      <div class="field"><label for="var-target">Target variable (at plan)</label><div class="input-prefix"><input type="number" id="var-target" placeholder="15000" step="1000" oninput="recalc()"></div></div>
+      <div class="field"><label for="var-cap">Cap (or "uncapped")</label><input type="text" id="var-cap" placeholder="e.g., $30,000, or 'uncapped' if you can defend it"></div>
+    </div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">04</span><span class="step-title">Equity substitute — a real stake without giving up the company</span></div>
+  <p class="step-sub">For most acquired small businesses, the simplest first move is the cash profit-share. Sometimes it's the only piece needed. Choose the vehicle, then make it specific enough that the person can describe it to their spouse.</p>
+  <div class="block-card">
+    <div class="field"><label for="eq-vehicle">Vehicle</label><select id="eq-vehicle"><option value="">Select…</option><option>Cash profit-sharing (annual pool)</option><option>Multi-year retention bonus</option><option>Quarterly milestone bonus</option><option>Phantom equity / appreciation rights</option><option>Real equity</option><option>Not designed yet — placeholder for the conversation</option></select></div>
+    <div class="field" style="margin-bottom: 0;"><label for="eq-specifics">Specifics — what does it actually pay out, and when?</label><textarea id="eq-specifics" placeholder="e.g., 10% of profit above $X annual target, distributed in February following the fiscal year. Vests over three years; person must be employed on payout date."></textarea></div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">05</span><span class="step-title">Benefits philosophy — where you choose to compete</span></div>
+  <p class="step-sub">You can't match the comprehensive packages a holding firm offers. Don't try. Spend disproportionately where you genuinely win — and be honest about what you're choosing not to do.</p>
+  <div class="block-card">
+    <div class="field"><label for="ben-not">What you won't try to match</label><textarea id="ben-not" placeholder="e.g., We don't match the 5% 401(k) of a holding agency, won't offer full medical with no employee share, don't have the unlimited PTO program."></textarea></div>
+    <div class="field" style="margin-bottom: 0;"><label for="ben-lean">What you lean into — the differentiators no big firm gives a senior person</label><textarea id="ben-lean" placeholder="e.g., Development budget the person controls. Real schedule and location flexibility. Genuine time off that the owner takes too. Health contribution serious enough to signal seriousness, even if not full."></textarea></div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">06</span><span class="step-title">Annual review cadence — install it before pressure forces it</span></div>
+  <p class="step-sub">Reviews that happen when someone complains or a counter-offer arrives send the wrong signal: pay moves through pressure, not performance. Set the window and tell the team it will happen on that schedule.</p>
+  <div class="block-card">
+    <div class="input-grid-2">
+      <div class="field"><label for="rev-month">Review month</label><select id="rev-month"><option value="">Select…</option><option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option></select></div>
+      <div class="field"><label for="rev-completed">All reviews completed by</label><input type="text" id="rev-completed" placeholder="e.g., End of March each year"></div>
+    </div>
+    <div class="field" style="margin-top: 12px; margin-bottom: 0;">
+      <label for="rev-commitment">The commitment you're making to the team</label>
+      <textarea id="rev-commitment" placeholder="e.g., Every March, every person on the team, performance and compensation reviewed together in one conversation. Not deferred. Not pressure-driven. On the calendar, predictable."></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Comp Design for This Role</h2>
+    <p>Defensible bands, designed variable, real stake, honest benefits philosophy, and the review cadence — as one coherent picture.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Complete the steps above and click Generate to produce your comp design.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+const EXAMPLE = {
+  role: "Account Management Lead", tier: "Senior leadership",
+  bands: { floor: 95000, mid: 115000, ceil: 140000 },
+  bandRationale: "Pulled from three sources: published Denver-market data for senior agency leadership (LinkedIn Salary Insights and Built In), a phone check with two trusted advisors at peer agencies, and benchmarking against what we'd pay an internally-promoted senior IC. Defensible if the existing AMs ask how we set it.",
+  variable: {
+    influence: "Net retention rate across their book of business, plus expansion revenue from existing accounts. Both outcomes they directly influence through their own AM team's work — not company-wide metrics they have no lever over.",
+    math: "10% of net new revenue from expansion above a $200K baseline, plus a quality bonus tied to client NPS. Paid quarterly. Math fits on one page; they can calculate at any point during the quarter what they've earned so far.",
+    target: 18000, cap: "$36,000 — twice target, to maintain the discipline that variable shouldn't dwarf base"
+  },
+  equity: {
+    vehicle: "Cash profit-sharing (annual pool)",
+    specifics: "10% of profit above an $X annual EBITDA target, distributed in February following the fiscal year. Person must be employed on payout date. Pool calculation is published every quarter so they can track progress."
+  },
+  benefits: {
+    not: "We don't match the comprehensive medical packages of a holding agency — employees share roughly 30% of premium. We don't offer the unlimited-PTO programs. No 5% 401(k) match; ours is 3% safe harbor.",
+    lean: "$3,000 annual development budget per senior person, fully discretionary. Real schedule flexibility — most senior people work a 4-day week or work-from-anywhere weeks regularly. PTO is taken seriously — I take mine fully and visibly, and the team is expected to."
+  },
+  review: { month: "February", completed: "End of March each year",
+    commitment: "Every spring, every senior team member's performance and compensation reviewed together in one conversation. On the calendar, predictable, never deferred. Compensation changes effective April 1." }
+};
+
+function useExample() {
+  const hasContent = !!val("role-name") || !!val("band-floor") || !!val("var-influence");
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+  resetAllFields();
+  setEl("role-name", EXAMPLE.role); setEl("role-tier", EXAMPLE.tier);
+  setEl("band-floor", EXAMPLE.bands.floor); setEl("band-mid", EXAMPLE.bands.mid); setEl("band-ceil", EXAMPLE.bands.ceil);
+  setEl("band-rationale", EXAMPLE.bandRationale);
+  setEl("var-influence", EXAMPLE.variable.influence); setEl("var-math", EXAMPLE.variable.math);
+  setEl("var-target", EXAMPLE.variable.target); setEl("var-cap", EXAMPLE.variable.cap);
+  setEl("eq-vehicle", EXAMPLE.equity.vehicle); setEl("eq-specifics", EXAMPLE.equity.specifics);
+  setEl("ben-not", EXAMPLE.benefits.not); setEl("ben-lean", EXAMPLE.benefits.lean);
+  setEl("rev-month", EXAMPLE.review.month); setEl("rev-completed", EXAMPLE.review.completed); setEl("rev-commitment", EXAMPLE.review.commitment);
+  recalc();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function val(id) { return (document.getElementById(id)?.value || "").trim(); }
+function num(id) { const v = val(id); if (!v) return null; const n = parseFloat(v); return isNaN(n) ? null : n; }
+function setEl(id, v) { const e = document.getElementById(id); if (e) e.value = v; }
+function fmtMoney(n) { if (n == null || isNaN(n)) return "—"; return "$" + Math.round(n).toLocaleString(); }
+
+function recalc() {
+  const floor = num("band-floor"); const mid = num("band-mid"); const ceil = num("band-ceil");
+  const widthEl = document.getElementById("band-width");
+  if (floor != null && ceil != null && mid != null && mid > 0) {
+    const width = ((ceil - floor) / mid) * 100;
+    widthEl.textContent = width.toFixed(0) + "%";
+  } else {
+    widthEl.textContent = "—";
+  }
+}
+
+function generate() {
+  const out = document.getElementById("output-section");
+  const role = val("role-name");
+  if (!role) { out.innerHTML = '<div class="empty-output">Name the role in Step 1 to generate your comp design.</div>'; out.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+  const tier = val("role-tier");
+
+  const floor = num("band-floor"); const mid = num("band-mid"); const ceil = num("band-ceil");
+  const bandRationale = val("band-rationale");
+  const varInf = val("var-influence"); const varMath = val("var-math"); const varTarget = num("var-target"); const varCap = val("var-cap");
+  const eqVehicle = val("eq-vehicle"); const eqSpec = val("eq-specifics");
+  const benNot = val("ben-not"); const benLean = val("ben-lean");
+  const revMonth = val("rev-month"); const revCompleted = val("rev-completed"); const revCommit = val("rev-commitment");
+
+  let html = `<div class="output-banner">${escapeHtml(role)}${tier ? `<small style="display:block;font-family:var(--font-body);font-size:12px;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:0.5px;font-style:normal;">${escapeHtml(tier)}</small>` : ""}</div>`;
+
+  // Bands
+  if (floor != null || mid != null || ceil != null) {
+    html += `<div class="out-block"><div class="out-block-title">Base bands</div><div class="bands-bar">`;
+    [["FLOOR", floor], ["MIDPOINT", mid], ["CEILING", ceil]].forEach(([label, value], i) => {
+      html += `<div class="band-card${i === 1 ? " midpoint" : ""}"><div class="band-card-name">${label}</div><div class="band-card-value">${value != null ? fmtMoney(value) : "—"}</div></div>`;
+    });
+    html += `</div>`;
+    if (bandRationale) html += `<div class="summary-card" style="margin-top:10px;"><div class="summary-card-name">Rationale</div><div class="summary-card-body">${escapeHtml(bandRationale)}</div></div>`;
+    html += `</div>`;
+  }
+
+  // Variable
+  if (varInf || varMath || varTarget != null) {
+    html += `<div class="out-block"><div class="out-block-title">Variable comp</div>`;
+    if (varInf) html += `<div class="summary-card"><div class="summary-card-name">What it pays on</div><div class="summary-card-body">${escapeHtml(varInf)}</div></div>`;
+    if (varMath) html += `<div class="summary-card"><div class="summary-card-name">The math</div><div class="summary-card-body">${escapeHtml(varMath)}</div></div>`;
+    if (varTarget != null || varCap) html += `<div class="summary-card"><div class="summary-card-name">Target and cap</div><div class="summary-card-body">${varTarget != null ? `Target: ${fmtMoney(varTarget)}` : ""}${varTarget != null && varCap ? " · " : ""}${varCap ? `Cap: ${escapeHtml(varCap)}` : ""}</div></div>`;
+    html += `</div>`;
+  }
+
+  // Equity substitute
+  if (eqVehicle || eqSpec) {
+    html += `<div class="out-block"><div class="out-block-title">Equity substitute</div>`;
+    if (eqVehicle) html += `<div class="summary-card"><div class="summary-card-name">Vehicle</div><div class="summary-card-body">${escapeHtml(eqVehicle)}</div></div>`;
+    if (eqSpec) html += `<div class="summary-card"><div class="summary-card-name">Specifics</div><div class="summary-card-body">${escapeHtml(eqSpec)}</div></div>`;
+    html += `</div>`;
+  }
+
+  // Benefits
+  if (benNot || benLean) {
+    html += `<div class="out-block"><div class="out-block-title">Benefits philosophy</div>`;
+    if (benNot) html += `<div class="summary-card"><div class="summary-card-name">What you won't try to match</div><div class="summary-card-body">${escapeHtml(benNot)}</div></div>`;
+    if (benLean) html += `<div class="summary-card"><div class="summary-card-name">Where you lean in</div><div class="summary-card-body">${escapeHtml(benLean)}</div></div>`;
+    html += `</div>`;
+  }
+
+  // Review cadence
+  if (revMonth || revCompleted || revCommit) {
+    html += `<div class="out-block"><div class="out-block-title">Annual review cadence</div>`;
+    if (revMonth || revCompleted) html += `<div class="summary-card"><div class="summary-card-name">Window</div><div class="summary-card-body">${escapeHtml([revMonth, revCompleted].filter(Boolean).join(" · "))}</div></div>`;
+    if (revCommit) html += `<div class="summary-card"><div class="summary-card-name">Commitment to the team</div><div class="summary-card-body">${escapeHtml(revCommit)}</div></div>`;
+    html += `</div>`;
+  }
+
+  // Observations
+  const obs = [];
+  // Bands width
+  if (floor != null && mid != null && ceil != null && mid > 0) {
+    const width = ((ceil - floor) / mid) * 100;
+    if (width < 20) obs.push(`<strong>Your band is narrow — ${width.toFixed(0)}% wide.</strong> Bands tighter than ~20% leave no room for outliers or progression within the band. Either widen it or accept that any real performance variation will push people out of the band quickly.`);
+    else if (width > 55) obs.push(`<strong>Your band is wide — ${width.toFixed(0)}% wide.</strong> Bands wider than ~50% stop disciplining anything. Two people at the same role-band could be paid 50%+ apart with no clear reason. Tighten it, or split into two bands.`);
+  }
+  if (mid != null && floor != null && ceil != null && (floor > mid || mid > ceil)) {
+    obs.push(`<strong>Your band numbers aren't in order.</strong> Floor should be lower than midpoint, midpoint lower than ceiling. Double-check the inputs.`);
+  }
+  if (!bandRationale && (floor != null || mid != null)) {
+    obs.push(`<strong>No rationale recorded for the bands.</strong> If you can't defend the numbers to a current team member who asks how you set them, the bands don't yet do the work the discipline is meant to do.`);
+  }
+  if (varTarget != null && mid != null && varTarget > mid * 0.50) {
+    obs.push(`<strong>Variable target is large relative to base — ${Math.round((varTarget / mid) * 100)}% of midpoint.</strong> When variable approaches half of base, the role functionally becomes a sales seat. Worth confirming that's what you intend.`);
+  }
+  if (!eqVehicle) {
+    obs.push(`<strong>No equity substitute chosen.</strong> For a senior seat in an owner-led business, some form of stake — even just a cash profit-share — is usually what separates "another job" from "a stake in something they help build."`);
+  }
+  if (!revCommit) {
+    obs.push(`<strong>No review commitment recorded.</strong> The cadence is the discipline. Reviews that happen when someone complains send exactly the wrong signal: pay moves through pressure, not performance.`);
+  }
+  obs.forEach(o => { html += `<div class="observation">${o}</div>`; });
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function escapeHtml(s) { if (s == null) return ""; return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function resetAllFields() { document.querySelectorAll("input[type='text'], input[type='number'], select, textarea").forEach(el => el.value = ""); recalc(); }
+function clearAll() { if (!confirm("Clear all entries and start over?")) return; resetAllFields(); document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your comp design.</div>'; window.scrollTo({ top: 0, behavior: "smooth" }); }
+recalc();
+</script>
+</body>
+</html>

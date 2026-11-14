@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<!-- saved from url=(0255)file:///C:/Users/georg/OneDrive/Desktop/Two Weeks Out/V6/Course%20-%20Financial%20Planning%20and%20Management%20Excellence/Module%205%20-%20Bootstrap%20Funding%20Sources/Lesson%203%20-%20Leveraging%20Credit%20Lines%20and%20RevenueBased%20Funding/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credit &amp; Funding Strategy Worksheet — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10131a;
+    --navy-2:#2c313c;
+    --navy-dk:#10131a;
+    --gold:#2747f5;
+    --gold-dk:#2747f5;
+    --gold-lt:#e9ecf5;
+    --red:#b3261e;
+    --teal:#2747f5;
+    --cream:#e9ecf5;
+    --cream-dk:#d5d9e4;
+    --slate:#9ba3af;
+    --paper:#fbfaf6;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --rule:#d5d9e4;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .frame { max-width: 920px; margin: 0 auto; padding: 56px 40px 120px; }
+
+  /* masthead */
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 36px;
+    margin-bottom: 48px;
+  }
+  .brand-stripe {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .brand-stripe::after { content: ''; flex: 1; height: 1px; background: var(--cream-dk); }
+  h1.title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 56px;
+    line-height: 1.05;letter-spacing:-.03em;
+    color: var(--navy); margin-bottom: 18px;font-style:normal;}
+  h1.title em { font-style: italic; color: var(--gold); font-weight: 500; }
+  .deck { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 19px; color: var(--ink-soft); max-width: 660px; }
+
+  /* progress */
+  .progress { display: flex; gap: 4px; margin: 40px 0 20px; }
+  .progress-step { flex: 1; height: 3px; background: var(--cream-dk); transition: background 0.4s; }
+  .progress-step.active { background: var(--gold); }
+  .progress-step.done { background: var(--navy); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;color:#59616e; text-transform: uppercase;
+    margin-bottom: 48px; gap: 12px;
+  }
+  .progress-label span.current { color: var(--navy); }
+
+  /* panels */
+  .panel { display: none; animation: fadeIn 0.4s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel-header { margin-bottom: 36px; }
+  .panel-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; line-height: 1.1; color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .panel-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft); max-width: 660px;
+  }
+
+  /* warning callout */
+  .warning-callout {
+    background: var(--navy);
+    color: white;
+    padding: 24px 28px;
+    margin: 24px 0;
+    border-left: 6px solid var(--red);
+  }
+  .warning-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 10px;
+  }
+  .warning-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;font-style:normal;
+    font-size: 20px; color: white; line-height: 1.35;
+  }
+  .warning-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--cream-dk); line-height: 1.55; margin-top: 10px;
+  }
+
+  /* form fields */
+  .field { margin-bottom: 28px; }
+  .field-label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; color: var(--navy); margin-bottom: 6px;
+  }
+  .field-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .field-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;color:#59616e; margin-bottom: 12px;
+    padding-left: 10px; border-left: 2px solid var(--cream-dk);
+    line-height: 1.55;
+  }
+  .field-example.with-copy {
+    display: flex; align-items: flex-start; gap: 12px;
+    justify-content: space-between;
+  }
+  .field-example .ex-text { flex: 1; font-style: italic; color: var(--ink-soft); }
+  .copy-link {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--cream-dk);
+    color: var(--gold-dk);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .copy-link:hover { background: var(--gold-lt); border-color: var(--gold); color: var(--navy); }
+  .copy-link.copied { background: var(--teal);border-color:#ffffff; color: white; }
+
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-bottom: 2px solid var(--navy);
+    padding: 13px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--navy);
+    border-radius:0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-bottom-color: var(--gold);
+    background: var(--gold-lt);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; gap: 0; } }
+
+  .currency-prefix { position: relative; }
+  .currency-prefix::before {
+    content: '$';
+    position: absolute;
+    left: 16px; top: 50%; transform: translateY(-50%);color:#59616e; font-weight: 600;
+    pointer-events: none; z-index: 1;
+  }
+  .currency-prefix input { padding-left: 30px; }
+
+  /* sub-cards (the three red lines) */
+  .sub-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--gold);
+    padding: 24px 26px;
+    margin-bottom: 22px;
+  }
+  .sub-card-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 2px 8px; margin-bottom: 12px;
+    background: var(--gold);color:#ffffff;
+  }
+  .sub-card-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: var(--navy); margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .sub-card-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--ink-soft); margin-bottom: 18px;
+  }
+
+  /* nav */
+  .nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer; border: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dk); }
+  .btn-secondary {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--cream-dk);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  /* output */
+  .output { display: none; }
+  .output.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .output-masthead {
+    border-top: 4px solid var(--navy);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 0 28px;
+    margin-bottom: 40px;
+  }
+  .output-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 44px; line-height: 1.05;
+    color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .output-title em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .output-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .output-meta {
+    display: flex; gap: 32px; margin-top: 20px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; letter-spacing: 0.08em; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .output-meta span strong {
+    color: var(--navy); display: block; font-size: 16px;
+    letter-spacing: 0; text-transform: none; margin-top: 2px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; line-height: 1.15; color: var(--navy); margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+  .section p {
+    margin-bottom: 14px; line-height: 1.65; color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .section p strong { color: var(--navy); font-weight: 600; }
+
+  /* ARTIFACT 1 — interest diagnostic */
+  .diagnostic-box {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 28px 32px;
+    margin: 20px 0;
+  }
+  .diagnostic-stat {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--cream-dk);
+  }
+  .diagnostic-stat:last-of-type { border-bottom: none; }
+  .diagnostic-stat-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px; font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .diagnostic-stat-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 22px; color: var(--navy);letter-spacing:-.03em;font-style:normal;}
+  .diagnostic-stat.flagged .diagnostic-stat-value { color: var(--red); }
+  .diagnostic-stat.healthy .diagnostic-stat-value { color: var(--teal); }
+
+  .verdict {
+    border-left: 6px solid var(--navy);
+    background: white;
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .verdict.green { border-left-color: var(--teal); }
+  .verdict.amber { border-left-color: var(--gold); }
+  .verdict.red { border-left-color: var(--red); }
+  .verdict-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; margin-bottom: 8px;
+  }
+  .verdict.green .verdict-label { color: var(--teal); }
+  .verdict.amber .verdict-label { color: var(--gold-dk); }
+  .verdict.red .verdict-label { color: var(--red); }
+  .verdict-headline {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 22px;
+    color: var(--navy); margin-bottom: 10px; line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .verdict-body {
+    color: var(--ink-soft); font-size: 15px; line-height: 1.6;
+  }
+
+  /* ARTIFACT 2 — three red lines policy */
+  .policy-doc {
+    background: var(--gold-lt);
+    border: 2px solid var(--gold);
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .policy-doc h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 26px; color: var(--navy); margin-bottom: 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .policy-doc .policy-tagline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--ink-soft); margin-bottom: 24px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(39,71,245,0.4);
+  }
+  .policy-line {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px dashed rgba(39,71,245,0.4);
+  }
+  .policy-line:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .policy-line-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .policy-line-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 22px; color: var(--navy); line-height: 1.3;
+    margin-bottom: 6px;letter-spacing:-.03em;font-style:normal;}
+  .policy-line-detail {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--ink-soft); line-height: 1.6;
+  }
+
+  /* ARTIFACT 3 — pre-draw checklist (the navy card) */
+  .checklist-doc {
+    background: var(--navy);
+    color: white;
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .checklist-header {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 6px;
+  }
+  .checklist-doc h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 24px; color: white; margin-bottom: 8px;letter-spacing:-.03em;font-style:normal;}
+  .checklist-doc .checklist-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--cream-dk); margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .checklist-q {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .checklist-q:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .checklist-q-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--gold); margin-bottom: 4px;
+  }
+  .checklist-q-text {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 20px; color: white; line-height: 1.35; margin-bottom: 10px;
+  }
+  .checklist-q-coach {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--cream-dk); line-height: 1.55;
+  }
+  .checklist-q-coach strong { color: var(--gold); font-weight: 700; }
+
+  .checklist-rule {
+    background: rgba(179,38,30,0.18);
+    border-left: 3px solid var(--red);
+    padding: 14px 18px;
+    margin-top: 28px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: rgba(255,255,255,0.92); line-height: 1.6;
+  }
+  .checklist-rule strong { color: white; font-weight: 700; }
+
+  /* ARTIFACT 4 — sequencing summary */
+  .sequence-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  @media (max-width: 700px) { .sequence-grid { grid-template-columns: 1fr; } }
+  .sequence-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-top: 4px solid var(--cream-dk);
+    padding: 22px 24px;
+  }
+  .sequence-card.recommended { border-top-color: var(--teal); }
+  .sequence-card.caution { border-top-color: var(--gold); }
+  .sequence-card.danger { border-top-color: var(--red); }
+  .sequence-card-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--gold-dk);
+  }
+  .sequence-card-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: var(--navy); margin: 4px 0 8px;letter-spacing:-.03em;font-style:normal;}
+  .sequence-card-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 3px 8px; margin-bottom: 12px;
+  }
+  .sequence-card.recommended .sequence-card-tag { background: var(--teal); color: white; }
+  .sequence-card.caution .sequence-card-tag { background: var(--gold);color:#ffffff; }
+  .sequence-card.danger .sequence-card-tag { background: var(--red); color: white; }
+  .sequence-card-body {
+    color: var(--ink-soft); font-size: 13.5px; line-height: 1.55;
+  }
+
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+  .signature {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;color:#59616e;
+  }
+  .signature .left { color: var(--gold); font-weight: 700; }
+  .hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--red); margin-top: 6px;
+  }
+
+  /* print */
+  @media print {
+    @page { margin: 0.5in; size: letter; }
+    body { background: white; font-size: 10.5pt; }
+    .frame { padding: 0; max-width: none; }
+    .panel, .progress, .progress-label, .actions, .nav, .masthead { display: none !important; }
+    .output { display: block !important; }
+    .output-title { font-size: 28pt; }
+    .section-title { font-size: 16pt; }
+    .diagnostic-box, .verdict, .policy-doc, .checklist-doc, .sequence-card, .warning-callout {
+      page-break-inside: avoid; box-shadow: none;
+    }
+    .checklist-doc { background: white !important; color: var(--navy) !important; border: 2px solid var(--navy); }
+    .checklist-doc h3, .checklist-q-text { color: var(--navy) !important; }
+    .checklist-doc .checklist-sub, .checklist-q-coach { color: var(--ink-soft) !important; }
+    .checklist-q-coach strong, .checklist-q-num, .checklist-header { color: var(--gold-dk) !important; }
+    .checklist-rule { color: var(--navy) !important; background: #fbfaf6 !important; }
+    .checklist-rule strong { color: var(--red) !important; }
+    .section { margin-bottom: 28px; }
+    .signature { page-break-inside: avoid; }
+    #artifact-2, #artifact-3, #artifact-4 { page-break-before: always; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#93BEDD;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.warning-callout div.warning-label{color:#93abff}
+div.checklist-doc div.checklist-header{color:#93abff}
+div.checklist-doc div.checklist-q-num{color:#93abff}
+div.checklist-doc div.checklist-q-coach > strong{color:#93abff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">05 / Fund Your Business</span></div>
+<div class="frame">
+
+<!-- masthead -->
+<header class="masthead" id="masthead">
+  <div class="brand-stripe">Two Weeks Out  ·  CREDIT &amp; FUNDING WORKSHEET</div>
+  <h1 class="title">Credit as a <em>Bridge</em><br>Not a Crutch.</h1>
+  <p class="deck">Build the rules that govern your use of lines, cards, and revenue-based financing — written calmly now, before you need them under pressure.</p>
+</header>
+
+<!-- progress -->
+<div id="progress-wrap">
+  <div class="progress">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+  </div>
+  <div class="progress-label">
+    <span class="current">01 — Your Business</span>
+    <span>02 — Your Credit Position</span>
+    <span>03 — Your Three Red Lines</span>
+  </div>
+</div>
+
+<!-- ============ PANEL 1: BUSINESS BASICS ============ -->
+<section class="panel active" id="panel-1">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP ONE  ·  YOUR BUSINESS</div>
+    <h2 class="panel-title">A few details about your business.</h2>
+    <p class="panel-intro">The math and the recommendations adapt to your stage and your scale. Honest numbers, even rough ones, beat polished guesses.</p>
+  </div>
+
+  <div class="warning-callout">
+    <div class="warning-label">THE GOVERNING RULE</div>
+    <div class="warning-headline">Know exactly what the credit is funding and when it gets repaid — before you draw it.</div>
+    <div class="warning-body">If you can answer with a specific revenue event and a specific date, the draw is probably defensible. If the honest answer is "I'll figure out the repayment once business picks up," you are not using credit as a bridge. You are using it as hope. This worksheet is calibrated to keep you on the right side of that line.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-name">Business name</label>
+    <input type="text" id="biz-name" placeholder="Whatever you&#39;d call it talking to a friend">
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-stage">Where is the business right now?</label>
+    <p class="field-help">This drives whether revenue-based financing is on the table for you yet.</p>
+    <select id="biz-stage">
+      <option value="">— Pick one —</option>
+      <option value="pre-breakeven">Pre-breakeven — still working toward covering fixed costs from revenue alone</option>
+      <option value="at-breakeven">At breakeven — fixed costs are covered most months, just barely</option>
+      <option value="post-breakeven">Post-breakeven — consistent monthly profit, growing</option>
+    </select>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="monthly-sga">Monthly SG&amp;A (operating costs)</label>
+      <p class="field-example">Payroll, rent, software, insurance — the must-pay things every month. Be realistic.</p>
+      <div class="currency-prefix">
+        <input type="number" id="monthly-sga" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="monthly-revenue">Average monthly revenue</label>
+      <p class="field-example">Last 3 months averaged. Cash collected, not invoiced.</p>
+      <div class="currency-prefix">
+        <input type="number" id="monthly-revenue" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(2)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 2: CURRENT CREDIT POSITION ============ -->
+<section class="panel" id="panel-2">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP TWO  ·  YOUR CURRENT CREDIT POSITION</div>
+    <h2 class="panel-title">What credit do you already have in play?</h2>
+    <p class="panel-intro">If you have nothing in play, leave the balance fields at zero — the worksheet will still build your red lines for the day you set up your first facility.</p>
+  </div>
+
+  <div class="sub-card">
+    <div class="sub-card-tag" style="background: var(--teal); color: white;">FACILITY 01  ·  LINE OF CREDIT</div>
+    <div class="sub-card-title">Your business or personal line of credit, if any.</div>
+    <p class="sub-card-help">Most flexible, lowest-cost. Best set up <em>before</em> you need it. If you don't have one, leave the balance at 0 — your assignment will include setting one up.</p>
+    <div class="field-row" style="margin-bottom:0;">
+      <div class="field" style="margin-bottom: 0;">
+        <label class="field-label" for="loc-limit">Credit limit (if you have one)</label>
+        <div class="currency-prefix">
+          <input type="number" id="loc-limit" placeholder="0" min="0" step="any">
+        </div>
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label class="field-label" for="loc-balance">Current balance drawn</label>
+        <div class="currency-prefix">
+          <input type="number" id="loc-balance" placeholder="0" min="0" step="any">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-card" style="border-left-color: var(--gold);">
+    <div class="sub-card-tag">FACILITY 02  ·  CREDIT CARDS</div>
+    <div class="sub-card-title">Business and personal cards used for the business.</div>
+    <p class="sub-card-help">Combined balance across all cards used for business expenses. At 18–24% APR, the cost compounds faster than owners notice.</p>
+    <div class="field-row" style="margin-bottom:0;">
+      <div class="field" style="margin-bottom: 0;">
+        <label class="field-label" for="cc-limit">Combined credit limit</label>
+        <div class="currency-prefix">
+          <input type="number" id="cc-limit" placeholder="0" min="0" step="any">
+        </div>
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label class="field-label" for="cc-balance">Current carried balance</label>
+        <p class="field-example">Money owed past the next statement. Not the spend you'll pay off this month.</p>
+        <div class="currency-prefix">
+          <input type="number" id="cc-balance" placeholder="0" min="0" step="any">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-card" style="border-left-color: var(--red);">
+    <div class="sub-card-tag" style="background: var(--red); color: white;">FACILITY 03  ·  REVENUE-BASED FINANCING</div>
+    <div class="sub-card-title">Any RBF, merchant cash advance, or similar.</div>
+    <p class="sub-card-help">Repaid as a percentage of revenue. Powerful post-breakeven. Dangerous before. Leave at 0 if you have none.</p>
+    <div class="field-row" style="margin-bottom:0;">
+      <div class="field" style="margin-bottom: 0;">
+        <label class="field-label" for="rbf-balance">Outstanding balance</label>
+        <div class="currency-prefix">
+          <input type="number" id="rbf-balance" placeholder="0" min="0" step="any">
+        </div>
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label class="field-label" for="rbf-take-rate">Revenue % taken</label>
+        <p class="field-example">e.g., 8 if they take 8% of monthly revenue.</p>
+        <input type="number" id="rbf-take-rate" placeholder="0" min="0" max="100" step="any">
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-card" style="border-left-color: var(--navy);">
+    <div class="sub-card-tag" style="background: var(--navy); color: white;">YOUR INTEREST COST</div>
+    <div class="sub-card-title">The single most important number in this worksheet.</div>
+    <p class="sub-card-help">Pull your statements. Add up every dollar of interest you paid last month across every facility. This is the diagnostic the lesson hinges on.</p>
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="monthly-interest">Total monthly interest paid (last month)</label>
+      <p class="field-example">Add it up across every facility — line, cards, RBF fees. If you have no debt, leave at 0.</p>
+      <div class="currency-prefix">
+        <input type="number" id="monthly-interest" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">←  Back</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 3: THE THREE RED LINES ============ -->
+<section class="panel" id="panel-3">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP THREE  ·  YOUR THREE RED LINES</div>
+    <h2 class="panel-title">Decide now. Not when payroll is due in 48 hours.</h2>
+    <p class="panel-intro">The reason discipline breaks down is that owners set credit rules under pressure. Decide them here, in writing, calmly. The output will be a one-page policy you keep visible.</p>
+  </div>
+
+  <!-- RED LINE 1: MAX EXPOSURE -->
+  <div class="sub-card">
+    <div class="sub-card-tag">RED LINE 01  ·  MAXIMUM TOTAL EXPOSURE</div>
+    <div class="sub-card-title">The most you'll let yourself owe — period.</div>
+    <p class="sub-card-help">Not what you can qualify for. What you're willing to be personally responsible for if the business doesn't recover. Anything above this is not a bridge — it's a bet.</p>
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="max-exposure">Maximum combined exposure</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">A common discipline: no more than 3 months of personal essential expenses (mortgage, utilities, food). If your essentials run $8K/month, your ceiling is $24K. The number that matters is what you can survive losing — not what a lender will offer.</span>
+      </p>
+      <div class="currency-prefix">
+        <input type="number" id="max-exposure" placeholder="0" min="0" step="any">
+      </div>
+    </div>
+  </div>
+
+  <!-- RED LINE 2: SG&A RULE -->
+  <div class="sub-card">
+    <div class="sub-card-tag">RED LINE 02  ·  THE SG&amp;A RULE</div>
+    <div class="sub-card-title">What credit is allowed to cover — and what it's not.</div>
+    <p class="sub-card-help">The lesson is direct: credit does not touch payroll. Credit does not touch rent. Violating this once means giving yourself permission to do it again, and the boundary is gone permanently.</p>
+
+    <div class="field" style="margin-bottom: 18px;">
+      <label class="field-label">Items credit is allowed to fund:</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"Inventory tied to a confirmed customer order. Equipment with a documented productivity ROI. Bridge-funding a receivable already invoiced and confirmed."</span>
+        <button type="button" class="copy-link" data-example="Inventory tied to a confirmed customer order. Equipment with a documented productivity ROI. Bridge-funding a receivable already invoiced and confirmed." onclick="useExample(this, &#39;sga-allowed&#39;)">Use example</button>
+      </p>
+      <textarea id="sga-allowed" maxlength="320" placeholder="What credit can fund. Be specific. Each item should connect to a confirmed revenue event."></textarea>
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label">Items credit will never touch:</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"Payroll. Rent. Software subscriptions. Owner draw. Marketing without a tested conversion model. Anything I can't tie to a confirmed revenue event."</span>
+        <button type="button" class="copy-link" data-example="Payroll. Rent. Software subscriptions. Owner draw. Marketing without a tested conversion model. Anything I can&#39;t tie to a confirmed revenue event." onclick="useExample(this, &#39;sga-forbidden&#39;)">Use example</button>
+      </p>
+      <textarea id="sga-forbidden" maxlength="320" placeholder="What credit will never touch. Use this as a hard line."></textarea>
+    </div>
+  </div>
+
+  <!-- RED LINE 3: REPAYMENT TRIGGER -->
+  <div class="sub-card">
+    <div class="sub-card-tag">RED LINE 03  ·  THE REPAYMENT TRIGGER</div>
+    <div class="sub-card-title">Every draw has a named revenue event that retires it. And a date.</div>
+    <p class="sub-card-help">Define your default rule for how this works. If a future draw doesn't fit this rule, you don't make it.</p>
+
+    <div class="field" style="margin-bottom: 18px;">
+      <label class="field-label" for="repayment-window">Maximum days from draw to full repayment:</label>
+      <p class="field-example">e.g., 60 days, 90 days. The shorter, the safer. If you can't repay within 90 days, you're probably looking at a structural problem, not a bridge.</p>
+      <input type="number" id="repayment-window" placeholder="60" min="1" step="1">
+    </div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label class="field-label" for="repayment-rule">If the named revenue event doesn't materialize…</label>
+      <p class="field-example with-copy">
+        <span class="ex-text">"…the draw is paid from cash reserves or personal savings. It is not rolled forward. It is not refinanced. The next month's expenses must come from operating revenue alone."</span>
+        <button type="button" class="copy-link" data-example="The draw is paid from cash reserves or personal savings. It is not rolled forward. It is not refinanced. The next month&#39;s expenses must come from operating revenue alone." onclick="useExample(this, &#39;repayment-rule&#39;)">Use example</button>
+      </p>
+      <textarea id="repayment-rule" maxlength="280" placeholder="What you&#39;ll do if the revenue event doesn&#39;t show up. This is what keeps a bridge from becoming the floor."></textarea>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">←  Back</button>
+    <button class="btn btn-primary" id="generate-btn" onclick="generateOutput()">Generate My Strategy  →</button>
+  </div>
+  <p class="hint" id="generate-hint" hidden="" style="text-align:right;">Please fill in the required fields before generating.</p>
+</section>
+
+<!-- ============ OUTPUT ============ -->
+<section class="output" id="output"></section>
+
+</div>
+
+<script>
+  let currentStep = 1;
+
+  function goTo(n) {
+    if (n > currentStep && !validate(currentStep)) return;
+    currentStep = n;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    document.querySelectorAll('.progress-step').forEach(s => {
+      const step = parseInt(s.dataset.step);
+      s.classList.remove('active', 'done');
+      if (step < n) s.classList.add('done');
+      else if (step === n) s.classList.add('active');
+    });
+    document.querySelectorAll('.progress-label span').forEach((l, i) => {
+      l.classList.toggle('current', (i + 1) === n);
+    });
+  }
+
+  function validate(step) {
+    if (step === 1) {
+      const required = ['biz-name', 'monthly-sga', 'monthly-revenue'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el.value || el.value.toString().trim() === '') { el.focus(); return false; }
+      }
+      const stage = document.getElementById('biz-stage');
+      if (!stage.value) { stage.focus(); return false; }
+      return true;
+    }
+    if (step === 2) {
+      // monthly-interest is required, others can be 0
+      const mi = document.getElementById('monthly-interest');
+      if (mi.value === '' || mi.value === null) { mi.focus(); return false; }
+      return true;
+    }
+    return true;
+  }
+
+  function generateOutput() {
+    const required = ['max-exposure', 'sga-allowed', 'sga-forbidden', 'repayment-window', 'repayment-rule'];
+    for (const id of required) {
+      const el = document.getElementById(id);
+      if (!el.value || el.value.toString().trim() === '') {
+        document.getElementById('generate-hint').hidden = false;
+        el.focus();
+        return;
+      }
+    }
+    const data = collect();
+    document.getElementById('output').innerHTML = renderOutput(data);
+    document.getElementById('output').classList.add('active');
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function collect() {
+    const num = id => {
+      const el = document.getElementById(id);
+      const v = parseFloat(el.value);
+      return isNaN(v) ? 0 : v;
+    };
+    const str = id => document.getElementById(id).value.trim();
+    const sel = id => document.getElementById(id).value;
+    return {
+      bizName: str('biz-name'),
+      bizStage: sel('biz-stage'),
+      monthlySga: num('monthly-sga'),
+      monthlyRevenue: num('monthly-revenue'),
+      locLimit: num('loc-limit'),
+      locBalance: num('loc-balance'),
+      ccLimit: num('cc-limit'),
+      ccBalance: num('cc-balance'),
+      rbfBalance: num('rbf-balance'),
+      rbfTakeRate: num('rbf-take-rate'),
+      monthlyInterest: num('monthly-interest'),
+      maxExposure: num('max-exposure'),
+      sgaAllowed: str('sga-allowed'),
+      sgaForbidden: str('sga-forbidden'),
+      repaymentWindow: num('repayment-window'),
+      repaymentRule: str('repayment-rule')
+    };
+  }
+
+  function renderOutput(d) {
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const totalDebt = d.locBalance + d.ccBalance + d.rbfBalance;
+    const interestRatio = d.monthlySga > 0 ? (d.monthlyInterest / d.monthlySga) * 100 : 0;
+    const exposureUsed = d.maxExposure > 0 ? (totalDebt / d.maxExposure) * 100 : 0;
+    const exposureHeadroom = Math.max(0, d.maxExposure - totalDebt);
+
+    // verdict for interest ratio
+    let intVerdict, intVerdictClass, intVerdictHead, intVerdictBody;
+    if (d.monthlyInterest === 0) {
+      intVerdictClass = 'green';
+      intVerdict = 'NO INTEREST EXPOSURE';
+      intVerdictHead = 'You have no carried debt right now. This is the strongest possible position.';
+      intVerdictBody = 'The discipline ahead is to keep it that way. The red lines you set in the next section are designed for the day you actually need a bridge — they should remain unused as long as your model is funding itself. Set up the line of credit before you need it; don\'t draw it until the draw meets the rule.';
+    } else if (interestRatio < 5) {
+      intVerdictClass = 'green';
+      intVerdict = 'INTEREST IS A ROUNDING ERROR  ·  HEALTHY';
+      intVerdictHead = `Interest is ${interestRatio.toFixed(1)}% of SG&A. Well within bridge territory.`;
+      intVerdictBody = 'At this level, credit is doing what it should — bridging real timing gaps without becoming a structural cost. Stay disciplined: every draw still needs to pass the two-question test before you make it.';
+    } else if (interestRatio < 15) {
+      intVerdictClass = 'amber';
+      intVerdict = 'INTEREST IS GROWING  ·  ATTENTION REQUIRED';
+      intVerdictHead = `Interest is ${interestRatio.toFixed(1)}% of SG&A. Still a bridge, but on the way to becoming the floor.`;
+      intVerdictBody = 'You are not in crisis, but the trajectory matters. Pull next month\'s number too. If this percentage is rising month-over-month, that is the trend the lesson is warning you about. Identify which facility is generating most of the interest and prioritize retiring it.';
+    } else {
+      intVerdictClass = 'red';
+      intVerdict = 'CREDIT PROBLEM  ·  NOT A CASH PROBLEM';
+      intVerdictHead = `Interest is ${interestRatio.toFixed(1)}% of SG&A — past the 15% threshold.`;
+      intVerdictBody = 'The lesson is direct on this: at this level, credit is no longer a bridge. It is the floor. The interest is the signal that balances are not being retired by revenue. Before any new draw, the priority is structural — retire balances, restructure terms, or address the underlying revenue gap. Drawing more credit at this point compounds a problem that needs a different kind of fix.';
+    }
+
+    // RBF advice for stage
+    let rbfAdvice;
+    if (d.bizStage === 'pre-breakeven' && d.rbfBalance > 0) {
+      rbfAdvice = `<p><strong>⚠ RBF before breakeven.</strong> You have $${fmt(d.rbfBalance)} in revenue-based financing while still pre-breakeven. The lesson is explicit: this accelerates the problem you were trying to solve, because the take-rate (${d.rbfTakeRate || 'X'}%) comes directly out of revenue you need for fixed costs. Your priority before any new draw is retiring this balance or restructuring it. Until then, the line of credit and credit cards should stay untouched as a structural matter.</p>`;
+    } else if (d.bizStage === 'pre-breakeven') {
+      rbfAdvice = `<p><strong>RBF is off the table for now.</strong> You're pre-breakeven. Revenue-based financing pulls a percentage of every dollar of revenue, which is exactly the cash you need to cover fixed costs while you grow into them. RBF becomes a legitimate tool only after your fixed costs are reliably covered by revenue. Skip it until then.</p>`;
+    } else if (d.bizStage === 'at-breakeven') {
+      rbfAdvice = `<p><strong>RBF is borderline.</strong> You're at breakeven, which means you're covering fixed costs but with little margin. RBF can work here, but only for a specific growth investment — not to plug an operating gap. If you take it, the use of funds must be a discrete project (a hire, a campaign, an inventory build) with a measurable revenue lift in 60–90 days, not general operations.</p>`;
+    } else {
+      rbfAdvice = `<p><strong>RBF is on the table for the right investment.</strong> Post-breakeven, with predictable revenue, RBF becomes a legitimate growth tool — non-dilutive, capacity-based, no personal guarantee on most products. Use it for discrete growth investments with a clear revenue connection: an inventory build for a confirmed channel, a sales hire with a payback window, a marketing investment with a tested conversion model. Avoid it for operating expenses; the take-rate compounds against you if the revenue lift doesn't materialize as planned.</p>`;
+    }
+
+    return `
+      <header class="output-masthead">
+        <div class="brand-stripe">Two Weeks Out  ·  CREDIT POLICY</div>
+        <h1 class="output-title">Credit Strategy<br>for <em>${escape(d.bizName)}</em></h1>
+        <p class="output-sub">Your personal credit policy — written calmly, not under pressure.</p>
+        <div class="output-meta">
+          <span>Generated<strong>${today}</strong></span>
+          <span>Stage<strong>${escape(stageLabel(d.bizStage))}</strong></span>
+          <span>Total debt<strong>$${fmt(totalDebt)}</strong></span>
+        </div>
+      </header>
+
+      <!-- =============== ARTIFACT 1: INTEREST DIAGNOSTIC =============== -->
+      <div class="section" id="artifact-1">
+        <div class="section-eyebrow">ARTIFACT 01  ·  INTEREST DIAGNOSTIC</div>
+        <h2 class="section-title">Where you stand today.</h2>
+
+        <div class="diagnostic-box">
+          <div class="diagnostic-stat">
+            <span class="diagnostic-stat-label">Monthly SG&amp;A (operating cost)</span>
+            <span class="diagnostic-stat-value">$${fmt(d.monthlySga)}</span>
+          </div>
+          <div class="diagnostic-stat">
+            <span class="diagnostic-stat-label">Monthly interest paid (all facilities)</span>
+            <span class="diagnostic-stat-value">$${fmt(d.monthlyInterest)}</span>
+          </div>
+          <div class="diagnostic-stat ${interestRatio >= 15 ? 'flagged' : interestRatio < 5 ? 'healthy' : ''}">
+            <span class="diagnostic-stat-label">Interest as % of SG&amp;A</span>
+            <span class="diagnostic-stat-value">${interestRatio.toFixed(1)}%</span>
+          </div>
+          <div class="diagnostic-stat">
+            <span class="diagnostic-stat-label">Total debt across all facilities</span>
+            <span class="diagnostic-stat-value">$${fmt(totalDebt)}</span>
+          </div>
+        </div>
+
+        <div class="verdict ${intVerdictClass}">
+          <div class="verdict-label">${intVerdict}</div>
+          <div class="verdict-headline">${intVerdictHead}</div>
+          <div class="verdict-body">${intVerdictBody}</div>
+        </div>
+
+        ${rbfAdvice}
+      </div>
+
+      <!-- =============== ARTIFACT 2: SEQUENCING (the credit toolkit advice) =============== -->
+      <div class="section" id="artifact-2">
+        <div class="section-eyebrow">ARTIFACT 02  ·  YOUR CREDIT TOOLKIT — IN ORDER</div>
+        <h2 class="section-title">The three tools, sequenced for your stage.</h2>
+        <p>Three tools. The sequence matters because each one has its place — and its trap. Below is the order in which they should be considered for a business at your stage.</p>
+
+        <div class="sequence-grid">
+          <div class="sequence-card recommended">
+            <div class="sequence-card-num">Tool 01</div>
+            <span class="sequence-card-tag">First. Always.</span>
+            <div class="sequence-card-title">Line of credit.</div>
+            <div class="sequence-card-body">
+              ${d.locLimit > 0
+                ? `You have one ($${fmt(d.locLimit)} limit). Keep it untouched until a draw meets the two-question test on the next page. Lines paid down monthly stay available. Lines that become the operating budget become the trap.`
+                : `You don't have one yet. <strong style="color:var(--navy);">Set this up this quarter</strong>, while the business is stable. The lesson is explicit: banks lend to businesses that don't look like they need the money. The moment you actually need a line is often the moment you can't qualify for one.`}
+            </div>
+          </div>
+
+          <div class="sequence-card caution">
+            <div class="sequence-card-num">Tool 02</div>
+            <span class="sequence-card-tag">Second. With caution.</span>
+            <div class="sequence-card-title">Credit cards.</div>
+            <div class="sequence-card-body">
+              ${d.ccBalance > 0
+                ? `You're carrying $${fmt(d.ccBalance)}. At 18-24% APR, that's roughly $${fmt(d.ccBalance * 0.21 / 12)}/month in interest. The one legitimate use is short-cycle purchases where the cash to retire the balance is already in hand. Anything carried for more than one statement is a signal — not a strategy.`
+                : `No carried balance. That's the right position. Cards are fine for short-cycle purchases where you can retire the full balance from cash already in hand. The moment you carry past one statement, the math shifts against you fast.`}
+            </div>
+          </div>
+
+          <div class="sequence-card ${d.bizStage === 'post-breakeven' ? 'recommended' : 'danger'}">
+            <div class="sequence-card-num">Tool 03</div>
+            <span class="sequence-card-tag">${d.bizStage === 'post-breakeven' ? 'Last. After breakeven.' : 'Not yet.'}</span>
+            <div class="sequence-card-title">Revenue-based financing.</div>
+            <div class="sequence-card-body">
+              ${d.bizStage === 'post-breakeven'
+                ? `On the table for discrete growth investments — an inventory build, a sales hire, a tested marketing campaign — with a clear revenue connection and a 60-90 day payback window. Not for operating expenses.`
+                : d.bizStage === 'at-breakeven'
+                ? `Borderline. Possible only for a specific, time-bound growth investment with a measurable revenue lift in 60-90 days. Not for operating expenses.`
+                : `Off the table. Pre-breakeven, the take-rate eats the revenue you need to cover fixed costs. RBF becomes legitimate only after your fixed costs are reliably covered.`}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =============== ARTIFACT 3: THE THREE RED LINES POLICY =============== -->
+      <div class="section" id="artifact-3">
+        <div class="section-eyebrow">ARTIFACT 03  ·  YOUR THREE RED LINES</div>
+        <h2 class="section-title">Your personal credit policy — print this and keep it visible.</h2>
+        <p>Decided calmly, in advance, before the pressure arrives. This is the document that keeps a bridge from becoming the floor.</p>
+
+        <div class="policy-doc">
+          <h3>${escape(d.bizName)} — Credit Policy</h3>
+          <p class="policy-tagline">Adopted ${today}. To be reviewed quarterly.</p>
+
+          <div class="policy-line">
+            <div class="policy-line-label">RED LINE 01  ·  MAXIMUM TOTAL EXPOSURE</div>
+            <div class="policy-line-value">$${fmt(d.maxExposure)}</div>
+            <div class="policy-line-detail">
+              ${totalDebt > 0
+                ? `Currently using <strong style="color:${exposureUsed >= 80 ? 'var(--red)' : exposureUsed >= 50 ? 'var(--gold-dk)' : 'var(--teal)'};">${exposureUsed.toFixed(0)}%</strong> of this ceiling ($${fmt(totalDebt)} of $${fmt(d.maxExposure)}). Headroom: $${fmt(exposureHeadroom)}. ${exposureUsed >= 80 ? 'You are within striking distance of the ceiling. The next conversation is about retiring balances, not drawing more.' : exposureUsed >= 50 ? 'You are at the midpoint. Treat the ceiling as real — anything that would push you above it triggers a structural conversation, not a draw.' : 'Healthy headroom. The discipline now is to preserve it.'}`
+                : `No debt currently. The ceiling exists for the day you need a bridge. Anything above this is not a bridge — it's a bet.`}
+            </div>
+          </div>
+
+          <div class="policy-line">
+            <div class="policy-line-label">RED LINE 02  ·  THE SG&amp;A RULE</div>
+            <div class="policy-line-value">What credit may fund &mdash; and what it must never touch.</div>
+            <div class="policy-line-detail" style="margin-top: 14px;">
+              <strong style="color: var(--navy); display: block; margin-bottom: 6px;">Allowed:</strong>
+              ${escape(d.sgaAllowed)}
+              <br><br>
+              <strong style="color: var(--red); display: block; margin-bottom: 6px;">Never:</strong>
+              ${escape(d.sgaForbidden)}
+              <br><br>
+              <em>Violating this once means giving yourself permission to do it again, and the boundary is gone permanently.</em>
+            </div>
+          </div>
+
+          <div class="policy-line">
+            <div class="policy-line-label">RED LINE 03  ·  THE REPAYMENT TRIGGER</div>
+            <div class="policy-line-value">${d.repaymentWindow} days from draw to full repayment.</div>
+            <div class="policy-line-detail" style="margin-top: 14px;">
+              Every draw must have a named revenue event that retires it within ${d.repaymentWindow} days. No exceptions.
+              <br><br>
+              <strong style="color: var(--navy);">If the named revenue event does not materialize:</strong>
+              <br>
+              ${escape(d.repaymentRule)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =============== ARTIFACT 4: PRE-DRAW CHECKLIST =============== -->
+      <div class="section" id="artifact-4">
+        <div class="section-eyebrow">ARTIFACT 04  ·  PRE-DRAW CHECKLIST</div>
+        <h2 class="section-title">Two questions. Answer both. Every time.</h2>
+        <p>The lesson's governing rule, in card form. Pin this where you'll see it before any draw — line, card, or RBF. Run the questions out loud. If you can't answer both with specifics, the answer is no.</p>
+
+        <div class="checklist-doc">
+          <div class="checklist-header">PRE-DRAW CHECKLIST  ·  RUN BEFORE EVERY DRAW</div>
+          <h3>Before drawing $X from any facility…</h3>
+          <p class="checklist-sub">Two questions. Answer with specifics, in writing if possible.</p>
+
+          <div class="checklist-q">
+            <div class="checklist-q-num">Question 01</div>
+            <div class="checklist-q-text">What exactly is this draw funding?</div>
+            <div class="checklist-q-coach">
+              Specific. <strong>Not</strong> "operations." <strong>Not</strong> "cash flow." A discrete purpose: an inventory order tied to a confirmed customer, equipment with a documented productivity gain, a bridge against a specific receivable already invoiced. If you cannot name the specific use of funds in one sentence, the answer is no.
+            </div>
+          </div>
+
+          <div class="checklist-q">
+            <div class="checklist-q-num">Question 02</div>
+            <div class="checklist-q-text">What specific revenue event retires this draw, and when?</div>
+            <div class="checklist-q-coach">
+              Both halves matter. <strong>What event:</strong> the receivable from Customer X; the cash from the inventory turnover; the revenue from the campaign. <strong>What date:</strong> a real day on the calendar. If the honest answer is "once business picks up" or "when things stabilize," you are using credit as hope, not as a bridge. The answer is no.
+            </div>
+          </div>
+
+          <div class="checklist-rule">
+            <strong>The rule:</strong> If both answers are specific and defensible, the draw is probably defensible. Hesitating on either is your signal to pause and address the underlying problem directly — not to draw the credit anyway.
+          </div>
+        </div>
+      </div>
+
+      <!-- next moves -->
+      <div class="section">
+        <div class="section-eyebrow">YOUR NEXT MOVES</div>
+        <h2 class="section-title">Three things to do this week.</h2>
+
+        <div class="diagnostic-box">
+          <p style="margin-bottom: 14px;"><strong>01.</strong> ${
+            d.locLimit === 0
+              ? 'Set up your line of credit. While the business is stable. Banks lend to businesses that don\'t look like they need the money. Today is the right day; the day you need it is the wrong day.'
+              : interestRatio >= 15
+              ? 'Identify the highest-interest facility and build a 90-day plan to retire it. The interest at this level is no longer a bridge cost — it\'s a structural problem masquerading as a financing one.'
+              : 'Print this policy and put it somewhere visible. The whole point is that the rules exist before the pressure does.'
+          }</p>
+          <p style="margin-bottom: 14px;"><strong>02.</strong> Re-run the interest calculation on the 1st of next month. The trend matters more than the snapshot. If interest as % of SG&amp;A is rising, that's the trajectory the lesson is warning about — even if today's number is healthy.</p>
+          <p style="margin-bottom: 0;"><strong>03.</strong> Set a quarterly calendar reminder to review these red lines. Conditions change — your stage will change, your fixed costs will change, your reserves will change. The policy should be revisited every 90 days, not written once and forgotten.</p>
+        </div>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn btn-secondary" onclick="restart()">Start Over</button>
+        <button class="btn btn-primary" onclick="window.print()">Save / Print as PDF</button>
+      </div>
+
+      <div class="signature">
+        <div class="left">Two Weeks Out</div>
+        <div>Credit &amp; Funding Worksheet  ·  Generated ${today}</div>
+      </div>
+    `;
+  }
+
+  function stageLabel(stage) {
+    return {
+      'pre-breakeven': 'Pre-breakeven',
+      'at-breakeven': 'At breakeven',
+      'post-breakeven': 'Post-breakeven'
+    }[stage] || stage;
+  }
+
+  function restart() {
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('output').classList.remove('active');
+    document.getElementById('progress-wrap').style.display = '';
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
+    document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
+    document.getElementById('generate-hint').hidden = true;
+    goTo(1);
+  }
+
+  function useExample(button, fieldId) {
+    const text = button.getAttribute('data-example') || '';
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+    el.value = text;
+    el.focus();
+    const originalText = button.textContent;
+    button.textContent = 'Inserted';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('copied');
+    }, 1400);
+    const hint = document.getElementById('generate-hint');
+    if (hint) hint.hidden = true;
+  }
+
+  function escape(s) {
+    if (!s) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function fmt(n) {
+    if (!isFinite(n)) return '0';
+    return Math.round(n).toLocaleString('en-US');
+  }
+</script>
+
+
+
+</body></html>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interviewing for the Journey Worksheet · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+
+:root{
+  --ink:#10131a; --paper:#fbfaf6; --white:#ffffff; --cobalt:#2747f5; --cobalt2:#1b36c9; --signal:#ff5a1f;
+  --slate:#59616e; --fog:#9ba3af; --sky:#93abff; --mist:#e9ecf5; --line:#d5d9e4; --inkline:#2c313c; --onink:#c9ced8;
+  --good:#0d6b4c; --good-tint:#e2f5ea; --warn:#7d5300; --warn-tint:#fff3cd; --danger:#b3261e; --danger-tint:#fde9e7;
+  --module:#F986DD;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+  --text:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--module);border-bottom:2px solid var(--ink)}
+.two-wm{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.two-mod{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header.top{padding:52px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.deck{font-size:18px;color:var(--slate);max-width:700px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.btn{border:2px solid var(--ink);background:var(--white);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.btn.primary:hover{background:var(--cobalt2);border-color:var(--cobalt2)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.ink:hover{background:var(--inkline)}
+.btn.quiet{border-color:var(--line);color:var(--slate);font-weight:500}
+.saved{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);margin-left:auto}
+.meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:22px}
+.meta label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date],select,textarea{width:100%;background:var(--white);border:1px solid var(--line);border-bottom:2px solid var(--ink);padding:10px 12px;border-radius:0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--mist)}
+textarea{resize:vertical;min-height:64px;line-height:1.5;overflow:hidden}
+::placeholder{color:#8a919c}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-top:28px}
+.progress .wrap{display:flex;gap:6px;padding:12px 24px;flex-wrap:wrap}
+.step-pill{flex:1 1 180px;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--white);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--slate);text-decoration:none}
+.step-pill b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog)}
+.step-pill.done{border-color:var(--good);color:var(--good);background:var(--good-tint)}
+.step-pill.done b{color:var(--good)}
+
+section.step{padding:52px 0 8px}
+.step-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.step-num{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--cobalt)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);line-height:1.05;letter-spacing:-.035em}
+.intro{color:var(--slate);max-width:720px;margin:10px 0 22px}
+.group-label{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px;display:flex;gap:12px;align-items:center}
+.group-label::after{content:"";flex:1;height:2px;background:var(--ink)}
+.group-note{font-size:14px;color:var(--slate);margin:-4px 0 14px;max-width:720px}
+
+.box{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:12px}
+.box.money{border-left-color:var(--cobalt)}
+.box-top{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-bottom:12px}
+.box-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.box-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.box-q{grid-column:2;font-size:14px;color:var(--slate)}
+.box-q b{color:var(--ink);font-weight:600}
+.len{font-size:12px;color:var(--fog);margin-top:6px;min-height:18px}
+.len.long{color:var(--warn)}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.marks .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark:hover{border-color:var(--ink)}
+.mark[aria-pressed=true][data-m=known]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=assumed]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.mark[aria-pressed=true][data-m=unknown]{background:var(--mist);border-color:var(--ink);color:var(--ink)}
+.evidence{margin-top:12px;display:none}
+.evidence.show{display:block}
+.evidence label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.evidence label span{font-weight:400;color:var(--slate)}
+.flag{font-size:13px;margin-top:8px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.flag.show{display:block}
+
+.callout{background:var(--ink);color:var(--paper);padding:22px 26px;margin:6px 0 18px}
+.callout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.callout p{color:var(--onink);font-size:15px}
+.callout p b{color:#fff}
+
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 14px}
+.tally div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.tally .v{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.tally .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.tally .known .v{color:var(--good)} .tally .assumed .v{color:var(--warn)}
+.read{padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:760px}
+.read.alert{border-left-color:var(--danger);background:var(--danger-tint)}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pick label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.pick label:hover{border-color:var(--ink)}
+.pick input{margin-top:3px;accent-color:var(--cobalt)}
+.pick label.on{border:2px solid var(--signal);padding:11px 13px}
+.pick small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.pick small.known{color:var(--good)} .pick small.assumed{color:var(--warn)} .pick small.unknown{color:var(--slate)}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.field .help{font-size:13px;color:var(--slate);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:grid;gap:8px;margin:6px 0 4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--white);border:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--good)}
+.reopen{display:flex;flex-wrap:wrap;gap:8px}
+.reopen label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:7px 12px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.reopen input{accent-color:var(--cobalt)}
+
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.summary div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.summary h5{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.summary p{font-size:14.5px;white-space:pre-wrap}
+.next{margin:44px 0 70px;padding:24px 26px;border:2px solid var(--ink);background:var(--white)}
+.next .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px}
+.next p{color:var(--slate)}
+.print-only{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;display:none;z-index:50}
+.toast.show{display:block}
+@media print{input[type=date]::-webkit-calendar-picker-indicator{display:none}select{background-image:none}}
+
+.meta{grid-template-columns:2fr 1fr}
+.sit{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 16px}
+.sit label{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.sit label.on{border:2px solid var(--signal);padding:13px 15px}
+.sit input{margin-top:4px;accent-color:var(--signal)}
+.sit b{display:block;font-size:15px}
+.sit small{display:block;font-size:13px;color:var(--slate);margin-top:2px}
+.note{font-size:14px;padding:12px 16px;border-left:4px solid var(--cobalt);background:var(--mist);margin:4px 0 14px;max-width:800px}
+.note.alert{border-left-color:var(--warn);background:var(--warn-tint);color:#5c3d00}
+.note.good{border-left-color:var(--good);background:var(--good-tint);color:#0a4f38}
+.ex-note{display:none;margin:0 0 16px;padding:12px 16px;background:var(--warn-tint);color:var(--warn);font-size:14px;max-width:800px}
+.ex-note.show{display:block}
+.slot{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:14px 16px;margin-bottom:10px}
+.slot.walked{border-left-color:var(--signal)}
+.slot.done{border-left-color:var(--good)}
+.sl-top{display:grid;grid-template-columns:28px 1.3fr 1.3fr 1fr 150px auto;gap:8px;align-items:center}
+.sl-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.sl-top input,.sl-top select{padding:8px 10px;font-size:14px}
+.ibtn{border:1px solid var(--line);background:var(--paper);min-width:34px;height:34px;padding:0 10px;font-size:13px;font-weight:600;cursor:pointer}
+.ibtn:hover{border-color:var(--ink)}
+.weight{margin:8px 0 0 36px;font-size:12.5px;color:var(--signal);font-weight:600}
+details.notes{margin:10px 0 0 36px}
+details.notes summary{cursor:pointer;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cobalt)}
+.nf{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.nf label{display:block;font-size:12.5px;font-weight:600;margin-bottom:4px}
+.nf label span{font-weight:400;color:var(--slate)}
+.nf textarea{min-height:48px;font-size:14px}
+.nf .full{grid-column:1/-1}
+.nf .key label{color:var(--cobalt)}
+.counter{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 4px}
+.counter .count{font-size:14px;color:var(--slate)}
+.ask{background:var(--white);border:2px solid var(--ink);padding:18px 20px;margin-bottom:12px}
+.ask h3{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em;margin-bottom:4px}
+.ask p.sub{font-size:13.5px;color:var(--slate);margin-bottom:10px}
+.ask textarea{min-height:80px;font-size:15px}
+.ask .row{display:flex;gap:8px;margin-top:8px;align-items:center}
+.qs{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--ink);border:2px solid var(--ink)}
+.qs div{background:var(--white);padding:16px}
+.qs b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--cobalt);margin-bottom:6px}
+.qs p{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:-.015em;line-height:1.25}
+.qs small{display:block;margin-top:8px;font-size:12.5px;color:var(--slate);line-height:1.4}
+.qs .star{background:#fff1ea}
+.avoid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.avoid div{border:1px dashed var(--danger);background:var(--danger-tint);padding:12px 14px;font-size:13.5px;color:#7a1a14}
+.avoid b{display:block;font-weight:700;margin-bottom:2px}
+.vs{display:grid;grid-template-columns:150px 1fr 1fr;gap:2px;background:var(--line);border:1px solid var(--line);margin-bottom:16px}
+.vs > div{background:var(--white);padding:12px 14px}
+.vs .h{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);background:var(--mist)}
+.vs .rl{font-weight:700;font-size:14px;background:var(--mist)}
+.vs textarea{min-height:56px;font-size:14px}
+.belief{background:var(--ink);color:#fff;padding:20px 22px;margin:6px 0 14px}
+.belief label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.belief textarea{background:#1b1f28;color:#fff;border-color:var(--inkline);border-bottom-color:var(--signal);font-family:var(--display);font-weight:700;font-size:19px;min-height:52px}
+.heard{margin-top:6px}
+.heard li{list-style:none;padding:8px 12px;background:var(--white);border:1px solid var(--line);margin-bottom:6px;font-size:14px}
+.heard li b{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);margin-right:6px}
+.rowsl .rr{display:grid;grid-template-columns:28px 190px 1fr auto;gap:8px;align-items:center;margin-bottom:8px}
+.rowsl .rr input,.rowsl .rr select{padding:8px 10px;font-size:14px}
+.hidden{display:none!important}
+/* output */
+.otbl{width:100%;border-collapse:collapse;background:var(--white);border:2px solid var(--ink);font-size:13px}
+.otbl th{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:8px 10px;background:var(--mist);border-bottom:2px solid var(--ink)}
+.otbl td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;white-space:pre-wrap}
+.otbl tr.w td{background:#fff1ea}
+.oh{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin:18px 0 8px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cmp div{background:var(--white);border:1px solid var(--line);padding:14px 16px}
+.cmp h5{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.cmp p{font-size:14px;white-space:pre-wrap}
+.obelief{background:var(--ink);color:#fff;padding:16px 18px;margin-top:12px}
+.obelief b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);margin-bottom:4px}
+.obelief p{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em}
+.obelief small{display:block;margin-top:8px;color:var(--onink);font-size:13.5px;white-space:pre-wrap}
+.e{color:var(--fog)}
+@media (max-width:760px){
+  .meta,.grid2,.summary,.sit,.qs,.avoid,.nf,.cmp{grid-template-columns:1fr}
+  .sl-top{grid-template-columns:28px 1fr 40px}
+  .sl-top > *:not(.sl-n){grid-column:2/4}
+  .sl-top input[data-f=name]{grid-column:2}
+  .sl-top .ibtn{grid-column:3;grid-row:1}
+  .weight,details.notes{margin-left:0}
+  .vs{grid-template-columns:1fr}
+  .vs .h.blank{display:none}
+  .rowsl .rr{grid-template-columns:28px 1fr}
+  .rowsl .rr > *:not(.sl-n){grid-column:2}
+  .progress{position:static}
+  .scrollx{overflow-x:auto}
+  .otbl{min-width:620px}
+}
+@media print{
+  @page{size:letter landscape;margin:.4in}
+  body{background:#fff;font-size:10pt}
+  .two-band,.toolbar,.progress,section.step,.next,.toast,.saved,.no-print{display:none!important}
+  header.top{padding:0 0 8px;border-bottom:2px solid #000}
+  h1{font-size:18pt;margin:2px 0}
+  .eyebrow{font-size:8pt}
+  .deck{display:none}
+  .meta{margin-top:6px}
+  .meta label{font-size:7pt;margin-bottom:2px}
+  .meta input{border:none;border-bottom:1px solid #999;padding:2px 0}
+  #out{display:block!important;padding-top:8px}
+  #out h2{font-size:13pt;margin-bottom:4px}
+  .otbl{font-size:8.5pt}.otbl th,.otbl td{padding:4px 7px}
+  .cmp div{padding:8px 12px}.cmp p{font-size:9pt}
+  .obelief{padding:10px 14px}.obelief p{font-size:13pt}
+  .qs div{padding:8px 10px}.qs p{font-size:10.5pt}.qs small{font-size:8pt}
+  .avoid div{padding:6px 10px;font-size:8.5pt}
+  .otbl,.otbl th,.otbl tr.w td,.obelief,.qs,.qs div,.avoid div{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-only{display:block!important}
+  .guide{page-break-before:always}
+  .otbl tr,.cmp,.obelief{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">06 / Build What Customers Want</span></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Worksheet · Interviewing for the Journey</div>
+  <h1>You don’t draw the rows. <em>You collect them.</em></h1>
+  <p class="deck">Line up the right conversations, walk each one backward from the purchase, and work the gaps. Then rebuild your map from what you heard and name the belief that’s holding people up.</p>
+  <div class="toolbar">
+    <button class="btn primary" id="useExample" type="button">Use the lesson’s example</button>
+    <button class="btn ink" id="printBtn" type="button">Print / Save as PDF</button>
+    <button class="btn" id="xlsxBtn" type="button">Download to Excel</button>
+    <button class="btn quiet" id="clearBtn" type="button">Clear all</button>
+    <span class="saved" id="saved">Saves automatically in this browser</span>
+  </div>
+  <div class="meta">
+    <div><label for="bizName">Business</label><input type="text" id="bizName" data-k="bizName" placeholder="Your business, or the one you’re planning"></div>
+    <div><label for="iDate">Date</label><input type="date" id="iDate" data-k="iDate"></div>
+  </div>
+</header>
+</div>
+
+<nav class="progress" aria-label="Progress">
+  <div class="wrap">
+    <a class="step-pill" id="p1" href="#s1"><b>01</b><span>Line up conversations <span id="p1n">0/0</span></span></a>
+    <a class="step-pill" id="p2" href="#s2"><b>02</b><span>Hold them <span id="p2n">0/0</span></span></a>
+    <a class="step-pill" id="p3" href="#s3"><b>03</b><span>Rebuild the map</span></a>
+    <a class="step-pill" id="p4" href="#s3"><b>04</b><span>Name the belief</span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section class="step" id="s1">
+  <div class="step-head"><span class="step-num">STEP 01</span></div>
+  <h2>Line up your conversations.</h2>
+  <p class="intro">Who you call depends on where you are. Pick yours and the worksheet sets up the right mix.</p>
+  <div class="sit" id="sitPick">
+    <label id="sit-book"><input type="radio" name="sit" value="book"><span><b>I have a book of customers</b><small>Six conversations, weighted.</small></span></label>
+    <label id="sit-hand"><input type="radio" name="sit" value="hand"><span><b>I have a handful of clients</b><small>Two or three of them, plus people who bought elsewhere.</small></span></label>
+    <label id="sit-none"><input type="radio" name="sit" value="none"><span><b>I have nobody yet</b><small>Four people solving this problem without you.</small></span></label>
+  </div>
+  <div class="note" id="sitNote">Choose your situation above.</div>
+  <div class="ex-note" id="exNote">From the lessons: the four physicians called six members plus two people who took a consultation and never signed. The lessons don’t say which kind of member each of the six was, or what each one said, so those notes are blank. The two who never signed both gave the same answer.</div>
+  <div id="slots"></div>
+  <div class="counter"><button class="btn" type="button" id="addSlot">+ Add a conversation</button><span class="count" id="slotCount"></span></div>
+
+  <div class="group-label" style="margin-top:34px">The ask · fifteen minutes, one question, a named day</div>
+  <p class="group-note">Say what it’s for and say you won’t sell them anything. People say no to “do you have half an hour for some feedback,” because it sounds like work. Don’t send a survey: a survey gets you ratings, and you need the story.</p>
+  <div class="ask">
+    <h3>The standard ask</h3>
+    <p class="sub">Edit the day. Keep it short.</p>
+    <textarea id="askStd" data-k="askStd"></textarea>
+    <div class="row"><button class="btn quiet" type="button" data-copy="askStd" style="padding:6px 12px;font-size:13px">Copy</button></div>
+  </div>
+  <div class="ask">
+    <h3>The ask for the one who walked away</h3>
+    <p class="sub">The hardest ask and the most valuable answer. Take the pressure off, plainly. A few won’t take the call, and that’s fine.</p>
+    <textarea id="askWalk" data-k="askWalk"></textarea>
+    <div class="row"><button class="btn quiet" type="button" data-copy="askWalk" style="padding:6px 12px;font-size:13px">Copy</button></div>
+  </div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head"><span class="step-num">STEP 02</span></div>
+  <h2>Walk backward from the purchase. Work the gaps.</h2>
+  <p class="intro">You can’t ask anybody what question they were holding, because nobody knows. Ask directly and you get a tidy reason invented after the fact. People can’t report their past state of mind, but they remember what they did and roughly when. Start at the purchase and ask what they did just before that, and before that, until you reach the week something changed.</p>
+  <div class="qs">
+    <div><b>Q1 · THE TRIGGER</b><p>What was happening in the week you started looking?</p><small>Gets you the trigger, and a date you can be present for next time.</small></div>
+    <div><b>Q2 · THE GAP</b><p>What did you do next, and why then rather than a month earlier?</p><small>Something moved in that gap. Whatever moved is the question that row was holding.</small></div>
+    <div><b>Q3 · THE ROOM</b><p>Who else was involved in the decision?</p><small>Almost every stall involves somebody who was never in the room with you.</small></div>
+    <div class="star"><b>Q4 · THE BELIEF</b><p>What would have had to be true for you to sign that week?</p><small>“What made you wait” gets a reason. This gets a belief, and a belief is something you can build for.</small></div>
+  </div>
+  <div class="avoid">
+    <div><b>Avoid: “Why did you choose us?”</b>Gets you a compliment.</div>
+    <div><b>Avoid: “What could we improve?”</b>Gets you a feature request.</div>
+    <div><b>Avoid: “Were you worried about…?”</b>Tells them what to say.</div>
+  </div>
+  <p class="note" style="margin-top:16px">Notes go in each conversation’s card in step one: open <b>Notes from this conversation</b>. Listen during the call. Write the rows in their words afterward, not during.</p>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head"><span class="step-num">STEP 03</span></div>
+  <h2>Rebuild the map from what you heard.</h2>
+  <p class="intro">If you drew a draft from memory first, put the two side by side. The gap between your guess and their answer is usually the most useful thing on the page.</p>
+  <div class="vs">
+    <div class="h blank"></div><div class="h">My draft said</div><div class="h">What they described</div>
+    <div class="rl">The trigger</div>
+    <div><textarea data-k="trigDraft" aria-label="Trigger, my draft" placeholder="The trigger you guessed"></textarea></div>
+    <div><textarea data-k="trigHeard" aria-label="Trigger, what they described" placeholder="The week something changed, in their words"></textarea></div>
+    <div class="rl">The longest stall</div>
+    <div><textarea data-k="stallDraft" aria-label="Stall, my draft" placeholder="Where you thought people stalled, and for how long"></textarea></div>
+    <div><textarea data-k="stallHeard" aria-label="Stall, what they described" placeholder="Where they actually sat, and for how long"></textarea></div>
+  </div>
+
+  <div class="group-label">What they said would have had to be true</div>
+  <p class="group-note">Pulled from your conversation notes. Look for the answer that repeats.</p>
+  <ul class="heard" id="heardList"></ul>
+
+  <div class="belief"><label for="belief">The belief that hasn’t been resolved at the longest stall · one sentence</label><textarea id="belief" data-k="belief" placeholder="e.g., We can keep paying for this."></textarea></div>
+  <div class="grid2">
+    <div class="field"><label for="resolve">What would resolve it</label><textarea id="resolve" data-k="resolve" placeholder="What you’d build, change or hand them"></textarea></div>
+    <div class="field"><label for="whoRoom">Who has to be in the room</label><textarea id="whoRoom" data-k="whoRoom" placeholder="Often somebody who was never in the room with you"></textarea></div>
+  </div>
+
+  <div class="group-label" style="margin-top:30px">The rows, in their words</div>
+  <p class="group-note" id="rowsNote">Name each row by the question they were holding. If you have customers, carry it past the sale through month two, month six and month fourteen.</p>
+  <div class="rowsl" id="rowsList"></div>
+  <div class="counter"><button class="btn" type="button" id="addRow">+ Add a row</button><span class="count" id="rowCount"></span></div>
+
+  <div class="group-label" style="margin-top:30px">One pays, another uses</div>
+  <div class="checks"><label><input type="checkbox" data-k="split"> In my business, the person who pays isn’t always the person who uses it.</label></div>
+  <div id="splitBox" class="hidden" style="margin-top:12px">
+    <p class="group-note">Two people, two triggers, two sets of beliefs, and only one of them on the contract. Map it twice and interview both.</p>
+    <div class="grid2">
+      <div class="field"><label for="buyer">The buyer, and their trigger</label><textarea id="buyer" data-k="buyer" placeholder="Who signs, and what was going on the week they started looking"></textarea></div>
+      <div class="field"><label for="user">The user, and their trigger</label><textarea id="user" data-k="user" placeholder="Who uses it, and whether they have a trigger at all"></textarea></div>
+    </div>
+    <div class="field"><label for="splitRisk">Where the risk shows up</label><textarea id="splitRisk" data-k="splitRisk" placeholder="It often isn’t the sale"></textarea></div>
+  </div>
+
+  <div class="group-label" style="margin-top:30px">The trap · the map that never left the room</div>
+  <p class="group-note">A map drawn from memory at a desk produces the process you built, not the path they took. Check yours.</p>
+  <div class="checks">
+    <label><input type="checkbox" data-k="tr1"> Somebody drops off somewhere on it.</label>
+    <label><input type="checkbox" data-k="tr2"> At least one transition has a gap in it, with a length of time.</label>
+    <label><input type="checkbox" data-k="tr3"> The feelings came from conversations, not from my imagination of the customer.</label>
+    <label><input type="checkbox" data-k="tr4"> Every row is named in words a customer used, not words from my operations.</label>
+  </div>
+  <div class="note alert hidden" id="trapNote" style="margin-top:12px"></div>
+</section>
+
+<section id="out" class="step">
+  <div class="step-head"><span class="step-num">YOUR INTERVIEWS</span></div>
+  <h2 id="outTitle">What you heard</h2>
+  <div class="oh">The conversations</div>
+  <div class="scrollx"><table class="otbl" id="oSlots"></table></div>
+  <div class="oh">Draft against what they described</div>
+  <div class="cmp">
+    <div><h5>Trigger · draft</h5><p id="oTd"></p></div><div><h5>Trigger · what they described</h5><p id="oTh"></p></div>
+    <div><h5>Longest stall · draft</h5><p id="oSd"></p></div><div><h5>Longest stall · what they described</h5><p id="oSh"></p></div>
+  </div>
+  <div class="obelief"><b>The belief that hasn’t been resolved</b><p id="oBelief">Not written yet.</p><small id="oResolve"></small></div>
+  <div id="oRowsWrap"><div class="oh">The rows, in their words</div><div class="scrollx"><table class="otbl" id="oRows"></table></div></div>
+  <div id="oSplitWrap"><div class="oh">One pays, another uses</div><div class="cmp"><div><h5>Buyer</h5><p id="oBuyer"></p></div><div><h5>User</h5><p id="oUser"></p></div></div><p id="oRisk" style="font-size:13.5px;margin-top:8px"></p></div>
+  <div class="guide print-only">
+    <div class="oh">Interview guide · take this into the call</div>
+    <div class="qs">
+      <div><b>Q1 · THE TRIGGER</b><p>What was happening in the week you started looking?</p></div>
+      <div><b>Q2 · THE GAP</b><p>What did you do next, and why then rather than a month earlier?</p></div>
+      <div><b>Q3 · THE ROOM</b><p>Who else was involved in the decision?</p></div>
+      <div class="star"><b>Q4 · THE BELIEF</b><p>What would have had to be true for you to sign that week?</p></div>
+    </div>
+    <div class="avoid"><div><b>Avoid: “Why did you choose us?”</b>Gets you a compliment.</div><div><b>Avoid: “What could we improve?”</b>Gets you a feature request.</div><div><b>Avoid: “Were you worried about…?”</b>Tells them what to say.</div></div>
+    <p style="font-size:9pt;margin-top:8px">Start at the purchase and walk backward until you reach the week something changed. Wherever there’s a stretch of time between two actions, ask why then and not a month earlier. Write the rows in their words afterward, not during.</p>
+  </div>
+</section>
+
+<div class="next no-print">
+  <div class="k">Next session</div>
+  <p><b style="color:var(--ink)">Minimum Viable Product Scoping.</b> Bring your rebuilt map. You’ll take the concept you’re weighing and cut it down to the smallest version that would actually tell you something.</p>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY='two_int_v1';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  var savedEl=document.getElementById('saved'),t0,tt;
+  function flash(s){savedEl.textContent=s;clearTimeout(t0);t0=setTimeout(function(){savedEl.textContent='Saves automatically in this browser'},1200)}
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));flash('Saved')}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function plusDays(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+  function nice(s){if(!s)return '';var p=s.split('-');if(p.length!==3)return s;var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1];return m+' '+(+p[2])+', '+p[0]}
+  function toast(s){var el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2800)}
+  function t(v){return String(v==null?'':v).trim()}
+  function bindStatic(){
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var k=el.dataset.k,v=state[k];
+      if(el.type==='checkbox') el.checked=!!v;
+      else if(el.type==='radio') el.checked=(v===el.value);
+      else el.value=v!=null?v:'';
+    });
+  }
+  function onField(e){
+    var el=e.target,k=el.dataset&&el.dataset.k;
+    if(!k)return false;
+    if(el.type==='radio'){if(!el.checked)return true;state[k]=el.value}
+    else state[k]=el.type==='checkbox'?el.checked:el.value;
+    persist();render();return true;
+  }
+  function fileName(base,suffix){return ((t(state.bizName)||base).replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||base)+(suffix||'')+'.xlsx'}
+  function sheet(rows,cols){var ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=cols.map(function(w){return{wch:w}});return ws}
+  function grow(el){if(el.offsetParent===null)return;el.style.height='auto';el.style.height=(el.scrollHeight+3)+'px'}
+  function growAll(){document.querySelectorAll('textarea').forEach(grow)}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target)});
+  var rzT;window.addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(growAll,120)});
+  setTimeout(growAll,0);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(growAll);
+  function wire(opts){
+    document.getElementById('useExample').addEventListener('click',function(){
+      if(opts.hasData()&&!confirm('Replace what you’ve entered with the lesson’s example? Your current answers will be cleared.'))return;
+      state=opts.example();opts.rebuild();persist();render();growAll();toast('The lesson’s example is loaded. Edit anything to make it yours.');
+    });
+    document.getElementById('clearBtn').addEventListener('click',function(){
+      if(!confirm('Clear every answer on this worksheet? This can’t be undone.'))return;
+      try{localStorage.removeItem(KEY)}catch(e){}
+      state=opts.fresh();opts.rebuild();persist();render();growAll();
+    });
+    document.getElementById('printBtn').addEventListener('click',function(){render();window.print()});
+    document.getElementById('xlsxBtn').addEventListener('click',function(){
+      if(typeof XLSX==='undefined'){toast('The Excel export couldn’t load. Check your connection and try again.');return}
+      opts.xlsx();
+    });
+  }
+
+  var TYPES={easy:'Bought easily',long:'Took a long time to decide',almost:'Almost didn’t buy',walked:'Walked away',client:'One of my clients',elsewhere:'Bought this from somebody else',competitor:'Using a competitor',inhouse:'Doing it in-house',living:'Living with the problem',customer:'Customer'};
+  var MIX={book:['easy','easy','long','long','almost','walked'],hand:['client','client','client','elsewhere','elsewhere','elsewhere'],none:['competitor','inhouse','living','competitor']};
+  var NOTE={
+    book:'Six conversations is usually enough. Two who bought easily, two who took a long time to decide, one who almost didn’t buy, and one who walked away. That last one is worth the other five put together, because everyone who signed has already rewritten the story into a decision that made sense.',
+    hand:'You can’t get six, and calling all of them at once makes it look like something’s wrong. Take two or three. Fill the rest from people who bought this kind of service from somebody else. They’ll tell you more than you expect, because they have no relationship with you to protect.',
+    none:'You’re not stuck. The people you intend to serve are solving this today: using a competitor, doing it in-house badly, or living with it. Aim for four. Don’t ask them to imagine your service. Ask what they did last time. You’re not selling anything, so people talk. You only get that once.'};
+  var STAT=[['','Not asked'],['asked','Asked'],['booked','Booked'],['done','Done'],['declined','Declined']];
+  var PH=[['before','Before they knew you'],['looking','Looking and choosing'],['sale','At the decision'],['m2','Month two'],['m6','Month six'],['m14','Month fourteen'],['settled','Where they settled']];
+  var STD='Could I have fifteen minutes on [day]? One question. I’m mapping how people actually end up here, and I’d rather know than guess. I won’t sell you anything.';
+  var WALK='You looked at us and went elsewhere. That was probably the right call. I’m trying to understand why, and there’s nothing to sell you. Could I have fifteen minutes on [day]?';
+  function slot(type){return{name:'',type:type,status:'',date:'',trig:'',back:'',gap:'',who:'',true_:''}}
+  function fresh(){return{iDate:iso(new Date()),sit:'',slots:[],rows:[],askStd:STD,askWalk:WALK}}
+  var EXAMPLE=function(){
+    var s=[];for(var i=1;i<=6;i++){var x=slot('customer');x.name='Member '+i;x.status='done';s.push(x)}
+    ['A','B'].forEach(function(l){var x=slot('walked');x.name='Consultation, never signed ('+l+')';x.status='done';x.true_='We needed to know we could keep paying for it.';s.push(x)});
+    return{bizName:'Upstream Medicine (the lesson’s example)',iDate:iso(new Date()),sit:'book',ex:true,askStd:STD,askWalk:WALK,slots:s,
+      trigDraft:'',trigHeard:'Something is wrong and nobody has fixed it.',
+      stallDraft:'Consultation, then signature, no gap between. The physicians had assumed days.',
+      stallHeard:'Six to eleven weeks between consultation and signature. The medical decision is made in the room. This one is made later, at a kitchen table, with a spouse.',
+      belief:'We can keep paying for this.',
+      resolve:'Nothing in the practice was built for the moment the decision gets made, and no document went home. Bring the spouse into the consultation, so it gets resolved in the room. (Upstream tests this in Learning While You Run It.)',
+      whoRoom:'The spouse. The person who has to hold that belief was never in the room with the physician.',
+      rows:[{ph:'before',q:'Something is wrong and nobody has fixed it.'},{ph:'looking',q:'Who do people I trust rate?'},{ph:'looking',q:'Is this the kind of thing I want?'},{ph:'looking',q:'Are these people serious?'},{ph:'looking',q:'What am I walking into?'},{ph:'looking',q:'Can they help with my thing?'},{ph:'sale',q:'Can we carry this indefinitely?'},{ph:'m2',q:'Was this worth the money?'},{ph:'m14',q:'What doesn’t the practice do yet?'}],
+      split:true,buyer:'A chief people officer at a company buying blocks of access for its executive team. Trigger: a retention problem.',
+      user:'An executive who got an email. No trigger at all.',
+      splitRisk:'Not the sale. A signed contract with executives who never enroll is revenue for one year and no renewal.',
+      tr1:true,tr2:true,tr3:false,tr4:true}};
+  if(!state.slots){var f=fresh();Object.keys(f).forEach(function(k){if(state[k]==null)state[k]=f[k]})}
+  if(state.askStd==null)state.askStd=STD;if(state.askWalk==null)state.askWalk=WALK;
+
+  var slotsEl=document.getElementById('slots'),rowsEl=document.getElementById('rowsList');
+  function slotHTML(s,i){
+    var types=Object.keys(TYPES).map(function(k){return '<option value="'+k+'"'+(s.type===k?' selected':'')+'>'+TYPES[k]+'</option>'}).join('');
+    var st=STAT.map(function(x){return '<option value="'+x[0]+'"'+(s.status===x[0]?' selected':'')+'>'+x[1]+'</option>'}).join('');
+    function nf(f,l,sub,ph,cls){return '<div class="'+(cls||'')+'"><label>'+l+(sub?' <span>· '+sub+'</span>':'')+'</label><textarea data-s="'+i+'" data-f="'+f+'" placeholder="'+esc(ph)+'">'+esc(s[f])+'</textarea></div>'}
+    return '<div class="slot'+(s.type==='walked'?' walked':'')+(s.status==='done'?' done':'')+'" id="sl'+i+'"><div class="sl-top"><span class="sl-n">'+String(i+1).padStart(2,'0')+'</span>'+
+      '<input type="text" data-s="'+i+'" data-f="name" value="'+esc(s.name)+'" placeholder="Name" aria-label="Name">'+
+      '<select data-s="'+i+'" data-f="type" aria-label="Kind of conversation">'+types+'</select>'+
+      '<select data-s="'+i+'" data-f="status" aria-label="Status">'+st+'</select>'+
+      '<input type="date" data-s="'+i+'" data-f="date" value="'+esc(s.date)+'" aria-label="Day">'+
+      '<button type="button" class="ibtn" data-del="'+i+'" aria-label="Remove">✕</button></div>'+
+      (s.type==='walked'?'<div class="weight">Worth the other five put together. Use the walk-away ask.</div>':'')+
+      '<details class="notes"'+((t(s.trig)||t(s.back)||t(s.gap)||t(s.who)||t(s.true_))?' open':'')+'><summary>Notes from this conversation</summary><div class="nf">'+
+        nf('trig','The week they started looking','Q1','What was happening, and roughly when')+
+        nf('back','Walking backward from the purchase','one step per line','The purchase\nJust before that…\nAnd before that…')+
+        nf('gap','The gap, and why then','Q2','Between which two steps, and what moved')+
+        nf('who','Who else was involved','Q3','Somebody who was never in the room with you?')+
+        nf('true_','What would have had to be true to sign that week','Q4','In their words','full key')+
+      '</div></details></div>';
+  }
+  function rowHTML(r,i){
+    var o=PH.map(function(p){return '<option value="'+p[0]+'"'+(r.ph===p[0]?' selected':'')+'>'+p[1]+'</option>'}).join('');
+    return '<div class="rr"><span class="sl-n">'+String(i+1).padStart(2,'0')+'</span><select data-r="'+i+'" data-f="ph" aria-label="Where">'+o+'</select><input type="text" data-r="'+i+'" data-f="q" value="'+esc(r.q)+'" placeholder="The question they were holding, in their words" aria-label="Question"><button type="button" class="ibtn" data-rdel="'+i+'" aria-label="Remove">✕</button></div>';
+  }
+  function build(){slotsEl.innerHTML=state.slots.map(slotHTML).join('');rowsEl.innerHTML=state.rows.map(rowHTML).join('');growAll()}
+  function rebuild(){bindStatic();document.querySelectorAll('input[name=sit]').forEach(function(r){r.checked=state.sit===r.value});build()}
+
+  document.getElementById('sitPick').addEventListener('change',function(e){
+    if(e.target.name!=='sit')return;var v=e.target.value;
+    var named=state.slots.some(function(s){return t(s.name)||t(s.true_)||t(s.back)});
+    if(named&&!confirm('Replace your conversation list with the mix for this situation? Names and notes in the current list will be cleared.')){document.querySelectorAll('input[name=sit]').forEach(function(r){r.checked=state.sit===r.value});return}
+    state.sit=v;state.slots=MIX[v].map(slot);build();persist();render();
+  });
+  slotsEl.addEventListener('input',function(e){var el=e.target;if(el.dataset.s==null)return;var s=state.slots[+el.dataset.s];s[el.dataset.f]=el.value;persist();render();
+    if(el.dataset.f==='type'||el.dataset.f==='status'){var c=document.getElementById('sl'+el.dataset.s);c.classList.toggle('walked',s.type==='walked');c.classList.toggle('done',s.status==='done');if(el.dataset.f==='type'){build()}}});
+  slotsEl.addEventListener('click',function(e){var b=e.target.closest('[data-del]');if(!b)return;var i=+b.dataset.del,s=state.slots[i];if((t(s.name)||t(s.true_))&&!confirm('Remove this conversation?'))return;state.slots.splice(i,1);build();persist();render()});
+  document.getElementById('addSlot').addEventListener('click',function(){state.slots.push(slot(state.sit==='none'?'competitor':state.sit==='hand'?'elsewhere':'customer'));build();persist();render()});
+  rowsEl.addEventListener('input',function(e){var el=e.target;if(el.dataset.r==null)return;state.rows[+el.dataset.r][el.dataset.f]=el.value;persist();render()});
+  rowsEl.addEventListener('click',function(e){var b=e.target.closest('[data-rdel]');if(!b)return;state.rows.splice(+b.dataset.rdel,1);build();persist();render()});
+  document.getElementById('addRow').addEventListener('click',function(){var l=state.rows[state.rows.length-1];state.rows.push({ph:l?l.ph:'before',q:''});build();persist();render();var ins=rowsEl.querySelectorAll('input[type=text]');if(ins.length)ins[ins.length-1].focus()});
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-copy]');if(!b)return;var v=document.getElementById(b.dataset.copy).value;
+    try{navigator.clipboard.writeText(v).then(function(){toast('Copied.')},function(){toast('Select the text and copy it.')})}catch(err){toast('Select the text and copy it.')}});
+  document.addEventListener('input',function(e){if(e.target.closest('#slots')||e.target.closest('#rowsList')||e.target.name==='sit')return;if(e.target.type==='checkbox')return;onField(e)});
+  document.addEventListener('change',function(e){if(e.target.type==='checkbox'&&e.target.dataset.k)onField(e)});
+
+  function phName(id){var p=PH.filter(function(x){return x[0]===id})[0];return p?p[1]:''}
+  function render(){
+    var S=state.slots,n=S.length,lined=S.filter(function(s){return s.status==='booked'||s.status==='done'}).length,done=S.filter(function(s){return s.status==='done'}).length;
+    var target=state.sit==='none'?4:6;
+    ['book','hand','none'].forEach(function(k){document.getElementById('sit-'+k).classList.toggle('on',state.sit===k)});
+    document.getElementById('sitNote').textContent=state.sit?NOTE[state.sit]:'Choose your situation above.';
+    document.getElementById('exNote').classList.toggle('show',!!state.ex);
+    var walked=S.filter(function(s){return s.type==='walked'}).length;
+    document.getElementById('slotCount').textContent=n?(lined+' of '+n+' booked or done'+(state.sit==='book'&&!walked?' · no one who walked away yet. That’s the one worth the other five.':'')):'';
+    var heard=S.filter(function(s){return t(s.true_)});
+    document.getElementById('heardList').innerHTML=heard.length?heard.map(function(s){return '<li><b>'+esc(t(s.name)||TYPES[s.type])+'</b>'+esc(s.true_)+'</li>'}).join(''):'<li style="color:var(--fog)">Nothing yet. Fill in Q4 in each conversation’s notes.</li>';
+    document.getElementById('rowsNote').textContent=state.sit==='none'?'Name each row by the question they were holding. You’re pre-launch, so carry it to the point where they settled on whatever they use today.':'Name each row by the question they were holding. If you have customers, carry it past the sale through month two, month six and month fourteen.';
+    document.getElementById('rowCount').textContent=state.rows.length?state.rows.length+' row'+(state.rows.length>1?'s':''):'';
+    document.getElementById('splitBox').classList.toggle('hidden',!state.split);
+    var miss=['tr1','tr2','tr3','tr4'].filter(function(k){return !state[k]}).length,tn=document.getElementById('trapNote');
+    if(miss&&(state.tr1||state.tr2||state.tr3||state.tr4||state.rows.length)){tn.textContent=miss+' of the four checks '+(miss>1?'aren’t':'isn’t')+' ticked. Where a box stays empty, your map is still describing the process you built. Go back to the conversations for that part.';tn.classList.remove('hidden')}else tn.classList.add('hidden');
+    [['p1',n>0&&lined>=Math.min(target,n)&&n>=target],['p2',n>0&&done>=target],['p3',!!(t(state.trigHeard)&&state.rows.length)],['p4',!!(t(state.belief)&&t(state.resolve)&&t(state.whoRoom))]].forEach(function(p){document.getElementById(p[0]).classList.toggle('done',p[1])});
+    document.getElementById('p1n').textContent=lined+'/'+target;document.getElementById('p2n').textContent=done+'/'+target;
+    // output
+    var biz=t(state.bizName);document.getElementById('outTitle').textContent=biz?biz+': what we heard':'What you heard';
+    var h='<thead><tr><th>#</th><th>Who</th><th>Kind</th><th>Status</th><th>Day</th><th>Trigger</th><th>Would have had to be true</th></tr></thead><tbody>';
+    S.forEach(function(s,i){h+='<tr class="'+(s.type==='walked'?'w':'')+'"><td>'+(i+1)+'</td><td>'+esc(t(s.name)||'—')+'</td><td>'+esc(TYPES[s.type]||'')+'</td><td>'+esc((STAT.filter(function(x){return x[0]===s.status})[0]||['',''])[1])+'</td><td>'+esc(s.date?nice(s.date):'')+'</td><td>'+esc(t(s.trig))+'</td><td>'+esc(t(s.true_))+'</td></tr>'});
+    document.getElementById('oSlots').innerHTML=S.length?h+'</tbody>':'<tbody><tr><td class="e">No conversations lined up yet.</td></tr></tbody>';
+    function put(id,v){var el=document.getElementById(id);el.textContent=v||'—';el.className=v?'':'e'}
+    put('oTd',t(state.trigDraft));put('oTh',t(state.trigHeard));put('oSd',t(state.stallDraft));put('oSh',t(state.stallHeard));
+    document.getElementById('oBelief').textContent=t(state.belief)||'Not written yet.';
+    document.getElementById('oResolve').textContent=(t(state.resolve)?'What would resolve it: '+t(state.resolve):'')+(t(state.whoRoom)?'\nWho has to be in the room: '+t(state.whoRoom):'');
+    var R=state.rows.filter(function(r){return t(r.q)});
+    document.getElementById('oRowsWrap').style.display=R.length?'':'none';
+    document.getElementById('oRows').innerHTML='<thead><tr><th>#</th><th>Where</th><th>The question they were holding</th></tr></thead><tbody>'+R.map(function(r,i){return '<tr><td>'+(i+1)+'</td><td>'+esc(phName(r.ph))+'</td><td>'+esc(r.q)+'</td></tr>'}).join('')+'</tbody>';
+    document.getElementById('oSplitWrap').style.display=state.split?'':'none';
+    put('oBuyer',t(state.buyer));put('oUser',t(state.user));document.getElementById('oRisk').textContent=t(state.splitRisk)?'Risk: '+t(state.splitRisk):'';
+  }
+  function hasData(){return !!(t(state.bizName)||state.sit||state.slots.length||t(state.belief)||state.rows.length)}
+  function xlsx(){
+    var wb=XLSX.utils.book_new();
+    var a=[['Two Weeks Out · Interviewing for the Journey'],['Business',state.bizName||''],['Date',state.iDate||''],['Situation',({book:'A book of customers',hand:'A handful of clients',none:'Nobody yet'})[state.sit]||''],[],
+      ['#','Who','Kind','Status','Day','The week they started looking (Q1)','Walking backward','The gap, and why then (Q2)','Who else was involved (Q3)','Would have had to be true (Q4)']];
+    state.slots.forEach(function(s,i){a.push([i+1,s.name||'',TYPES[s.type]||'',(STAT.filter(function(x){return x[0]===s.status})[0]||['',''])[1],s.date||'',s.trig||'',s.back||'',s.gap||'',s.who||'',s.true_||''])});
+    XLSX.utils.book_append_sheet(wb,sheet(a,[4,22,24,11,12,34,36,34,30,40]),'Conversations');
+    var b=[['','My draft said','What they described'],['The trigger',state.trigDraft||'',state.trigHeard||''],['The longest stall',state.stallDraft||'',state.stallHeard||''],[],
+      ['The belief that hasn’t been resolved',state.belief||''],['What would resolve it',state.resolve||''],['Who has to be in the room',state.whoRoom||''],[],['Rows, in their words']];
+    state.rows.forEach(function(r,i){b.push([(i+1)+'. '+phName(r.ph),r.q||''])});
+    if(state.split)b.push([],['Buyer and trigger',state.buyer||''],['User and trigger',state.user||''],['Where the risk shows up',state.splitRisk||'']);
+    b.push([],['Somebody drops off somewhere',state.tr1?'Yes':'No'],['A transition has a gap, with a length of time',state.tr2?'Yes':'No'],['Feelings came from conversations',state.tr3?'Yes':'No'],['Rows named in customers’ words',state.tr4?'Yes':'No']);
+    XLSX.utils.book_append_sheet(wb,sheet(b,[38,60,60]),'Rebuilt map');
+    var g=[['Interview guide'],['Q1 · The trigger','What was happening in the week you started looking?'],['Q2 · The gap','What did you do next, and why then rather than a month earlier?'],['Q3 · The room','Who else was involved in the decision?'],['Q4 · The belief','What would have had to be true for you to sign that week?'],[],['Avoid','Why did you choose us? (gets a compliment)'],['Avoid','What could we improve? (gets a feature request)'],['Avoid','Were you worried about…? (tells them what to say)'],[],['The standard ask',state.askStd||''],['The walk-away ask',state.askWalk||'']];
+    XLSX.utils.book_append_sheet(wb,sheet(g,[22,100]),'Interview guide');
+    XLSX.writeFile(wb,fileName('Journey_Interviews','_Interviews'));
+  }
+  wire({hasData:hasData,example:EXAMPLE,fresh:fresh,rebuild:rebuild,xlsx:xlsx});
+  rebuild();render();
+})();
+</script>
+</body>
+</html>

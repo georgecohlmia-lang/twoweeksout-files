@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Two Weeks Out — Redefining Financial Success in Year 1–2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf6;
+    --card:#ffffff;
+    --ink:#10131a;
+    --ink-soft:#59616e;
+    --ink-muted:#59616e;
+    --accent:#2747f5;
+    --accent-soft:#e9ecf5;
+    --line:#e9ecf5;
+    --good:#0d6b4c;
+    --good-bg:#e2f5ea;
+    --warn:#7d5300;
+    --warn-bg:#fff3cd;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  /* HEADER */
+  header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: clamp(28px, 5vw, 40px); line-height: 1.15;
+    color: var(--ink); margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+  .deck { font-size: 17px; color: var(--ink-soft); line-height: 1.6; max-width: 620px; }
+  .howto {
+    background: var(--accent-soft); border-left: 3px solid var(--accent);
+    padding: 16px 20px; margin-top: 32px; border-radius:0;
+    font-size: 14px; color: var(--ink-soft);
+  }
+  .howto strong { color: var(--ink); }
+
+  /* SECTION */
+  .section { margin-top: 56px; }
+  .section-tag {
+    display: inline-block; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
+    background: var(--accent-soft); padding: 4px 10px; border-radius:0;
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 26px;
+    line-height: 1.25; color: var(--ink); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .section-intro {
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 28px;
+    line-height: 1.65; max-width: 640px;
+  }
+
+  /* PROMPT CARD */
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius:0; padding: 24px 26px; margin-bottom: 16px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .card-question {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 17px;
+    color: var(--ink); margin-bottom: 8px; line-height: 1.4;
+  }
+  .card-helper {
+    font-size: 13.5px; color: var(--ink-muted);
+    margin-bottom: 16px; line-height: 1.55;
+  }
+
+  textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--line);
+    border-radius:0; padding: 12px 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 15px;
+    line-height: 1.6; color: var(--ink); resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  textarea:focus { outline: none; border-color: var(--accent); background: #ffffff; }
+  textarea::placeholder { color: #9ba3af; }
+
+  /* USE EXAMPLE LINK */
+  .use-example {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: none; border: none; color: var(--accent);
+    font-family: inherit; font-size: 12.5px; font-weight: 500;
+    cursor: pointer; padding: 8px 0 0;
+    transition: color 0.15s ease;
+  }
+  .use-example:hover { color: #1b36c9; text-decoration: underline; }
+  .use-example::before { content: "↵"; font-size: 14px; line-height: 1; }
+  .use-example.filled { color: var(--good); }
+  .use-example.filled::before { content: "✓"; }
+  .assignment .use-example {color:#ffd23f; }
+  .assignment .use-example:hover { color: #ffd23f; }
+  .assignment .use-example.filled { color: #6fdca3; }
+
+  /* CORPORATE METRIC CHECKLIST (Part 1) */
+  .metric-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
+  .metric-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px; align-items: center;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius:0; padding: 14px 18px;
+  }
+  .metric-text { font-size: 15px; color: var(--ink); }
+  .metric-text small {
+    display: block; font-size: 12.5px; color: var(--ink-muted);
+    margin-top: 2px; font-style: italic;
+  }
+  .metric-btn {
+    background: transparent; border: 1px solid var(--line);
+    border-radius:0; padding: 6px 12px;
+    font-size: 12.5px; font-weight: 500; font-family: inherit;
+    cursor: pointer; transition: all 0.15s ease; white-space: nowrap;
+  }
+  .metric-btn.anchored:hover { border-color: var(--warn); color: var(--warn); }
+  .metric-btn.anchored.selected { background: var(--warn-bg); border-color: var(--warn); color: var(--warn); }
+  .metric-btn.released:hover { border-color: var(--good); color: var(--good); }
+  .metric-btn.released.selected { background: var(--good-bg); border-color: var(--good); color: var(--good); }
+
+  /* FRIDAY QUESTION CARDS — visually distinct, the centerpiece */
+  .friday-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius:0;
+    padding: 24px 26px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .friday-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--accent);
+    border-radius:0;
+  }
+  .friday-head {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 6px;
+  }
+  .friday-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-style:normal;font-weight:800;
+    font-size: 32px; color: var(--accent); line-height: 1;letter-spacing:-.03em;}
+  .friday-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: var(--ink);letter-spacing:-.03em;font-style:normal;}
+  .friday-quote {
+    font-style: italic; font-size: 14px;
+    color: var(--ink-muted); margin-bottom: 14px;
+    padding-left: 44px; line-height: 1.55;
+  }
+  .friday-prompt-label {
+    font-size: 12px; font-weight: 600;
+    color: var(--ink-muted); letter-spacing: 0.05em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .friday-radio-group {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 14px;
+  }
+  .friday-radio {
+    background: var(--bg); border: 1px solid var(--line);
+    border-radius:0; padding: 6px 14px;
+    font-size: 13px; font-family: inherit;
+    color: var(--ink-soft); cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .friday-radio:hover { border-color: var(--accent); color: var(--ink); }
+  .friday-radio.selected[data-tone="good"] {
+    background: var(--good-bg); border-color: var(--good); color: var(--good); font-weight: 600;
+  }
+  .friday-radio.selected[data-tone="warn"] {
+    background: var(--warn-bg); border-color: var(--warn); color: var(--warn); font-weight: 600;
+  }
+  .friday-radio.selected[data-tone="neutral"] {
+    background: var(--accent);border-color:#ffffff; color: #ffffff; font-weight: 600;
+  }
+
+  /* TRACTION SIGNAL LIST (Part 3) */
+  .traction-list {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius:0; padding: 22px 26px; margin-bottom: 16px;
+  }
+  .traction-list-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 16px; color: var(--ink); margin-bottom: 12px;
+  }
+  .traction-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0; border-bottom: 1px dashed var(--line);
+  }
+  .traction-row:last-child { border-bottom: none; }
+  .traction-num {
+    flex: 0 0 28px; height: 28px;
+    background: var(--accent-soft); color: var(--accent);
+    border-radius:0; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  .traction-input {
+    flex: 1; background: transparent; border: none;
+    border-bottom: 1px solid transparent;
+    padding: 6px 4px; font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14.5px; color: var(--ink);
+    transition: border-color 0.15s ease;
+  }
+  .traction-input::placeholder { color: #9ba3af; font-style: italic; }
+  .traction-input:focus {
+    outline: none; border-bottom-color: var(--accent); background: #e9ecf5;
+  }
+
+  /* COMMITMENT BOX (Optionality / Schedule) */
+  .commitment {
+    background: #fff3cd;
+    border: 1px solid #ffd23f;
+    border-radius:0;
+    padding: 22px 26px; margin-bottom: 16px;
+  }
+  .commitment-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #7d5300; margin-bottom: 8px;
+  }
+  .commitment-question {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 17px; color: var(--ink);
+    margin-bottom: 10px; line-height: 1.4;
+  }
+  .commitment-helper {
+    font-size: 13.5px; color: var(--ink-soft);
+    margin-bottom: 14px; line-height: 1.55;
+  }
+
+  /* SCHEDULE PICKER */
+  .schedule-picker {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-top: 12px;
+  }
+  .schedule-field label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: var(--ink-muted); letter-spacing: 0.05em;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .schedule-field select,
+  .schedule-field input[type="time"] {
+    width: 100%; background: var(--bg); border: 1px solid var(--line);
+    border-radius:0; padding: 10px 12px;
+    font-family: inherit; font-size: 15px; color: var(--ink);
+    transition: border-color 0.15s ease;
+  }
+  .schedule-field select:focus,
+  .schedule-field input[type="time"]:focus {
+    outline: none; border-color: var(--accent); background: #ffffff;
+  }
+
+  /* ASSIGNMENT */
+  .assignment {
+    background: var(--ink); color: #fbfaf6;
+    border-radius:0; padding: 36px 32px;
+    margin-top: 56px;
+  }
+  .assignment .eyebrow {color:#ffd23f; }
+  .assignment h2 { color: #fbfaf6; margin-bottom: 16px; }
+  .assignment p { color: #d5d9e4; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+  .assignment textarea {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.15); color: #ffffff;
+  }
+  .assignment textarea:focus {
+    border-color: #7d5300; background: rgba(255,255,255,0.08);
+  }
+  .assignment textarea::placeholder { color: #9ba3af; }
+  .assignment-step { margin-bottom: 22px; }
+  .assignment-step:last-child { margin-bottom: 0; }
+  .step-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 16px; color: #7d5300; margin-bottom: 6px;
+  }
+  .step-desc {
+    font-size: 14px; color: #d5d9e4;
+    margin-bottom: 12px; line-height: 1.55;
+  }
+
+  /* SCORECARD */
+  .scorecard {
+    margin-top: 64px;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius:0; overflow: hidden;
+    box-shadow:none;
+  }
+  .sc-header {
+    background: var(--ink); color: #ffffff;
+    padding: 28px 32px;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 20px;
+  }
+  .sc-title-block .sc-eyebrow {
+    font-size: 11.5px; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: #7d5300; margin-bottom: 6px;
+  }
+  .sc-title-block h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; color: #ffffff;
+    font-size: 22px; margin: 0;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .sc-score-block { display: flex; align-items: baseline; gap: 6px; }
+  .sc-score {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 56px;
+    line-height: 1; color: #ffffff;letter-spacing:-.03em;font-style:normal;}
+  .sc-total { font-size: 16px;color:#59616e; }
+  .sc-tier {
+    padding: 16px 32px; background: #fbfaf6;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .sc-tier-pill {
+    display: inline-block; padding: 4px 12px;
+    border-radius:0; font-size: 12px;
+    font-weight: 600; letter-spacing: 0.04em;
+  }
+  .sc-tier-pill.t1 { background: #fbfaf6; color: #b3261e; }
+  .sc-tier-pill.t2 { background: #fff3cd; color: #7d5300; }
+  .sc-tier-pill.t3 { background: #e2f5ea; color: #0d6b4c; }
+  .sc-tier-pill.t4 { background: #fbfaf6; color: #2747f5; }
+  .sc-tier-text { font-size: 14px; color: var(--ink-soft); line-height: 1.5; flex: 1; }
+  .sc-scale { padding: 24px 32px 8px; border-bottom: 1px solid var(--line); }
+  .sc-scale-track {
+    position: relative; height: 8px; background: var(--line);
+    border-radius:0; margin: 24px 0 12px;
+  }
+  .sc-scale-fill {
+    position: absolute; top: 0; left: 0; height: 100%;
+    background: #b3261e;
+    border-radius:0; transition: width 0.5s ease;
+  }
+  .sc-scale-marker {
+    position: absolute; top: -4px; width: 4px; height: 16px;
+    background: var(--ink); border-radius:0;
+    transition: left 0.5s ease; transform: translateX(-2px);
+  }
+  .sc-scale-labels {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--ink-muted); font-weight: 500;
+  }
+  .sc-dimensions {
+    padding: 24px 32px 28px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
+  }
+  .sc-dim {
+    border-left: 3px solid var(--line);
+    padding-left: 14px; transition: border-color 0.3s ease;
+  }
+  .sc-dim.d-low { border-left-color: #b3261e; }
+  .sc-dim.d-mid { border-left-color: #7d5300; }
+  .sc-dim.d-high { border-left-color: #0d6b4c; }
+  .sc-dim.d-top { border-left-color: var(--accent); }
+  .sc-dim-head {
+    display: flex; justify-content: space-between;
+    align-items: baseline; margin-bottom: 6px; gap: 8px;
+  }
+  .sc-dim-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .sc-dim-score {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 16px; color: var(--ink); white-space: nowrap;
+  }
+  .sc-dim-score .sc-dim-max {
+    color: var(--ink-muted); font-weight: 400; font-size: 13px;
+  }
+  .sc-dim-feedback { font-size: 13px; color: var(--ink-soft); line-height: 1.55; }
+  .sc-bic {
+    padding: 18px 32px 24px; background: #fbfaf6;
+    border-top: 1px solid var(--line);
+    font-size: 13px; color: var(--ink-muted); line-height: 1.55;
+  }
+  .sc-bic strong { color: var(--ink); font-weight: 600; }
+
+  /* ACTIONS */
+  .actions {
+    margin-top: 40px; display: flex; gap: 12px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .btn {
+    background: var(--accent); color: #ffffff; border: none;
+    border-radius:0; padding: 12px 22px;
+    font-family: inherit; font-size: 14.5px;
+    font-weight: 500; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn:hover { background: #1b36c9; transform: translateY(-1px); }
+  .btn.secondary {
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .btn.secondary:hover { background: var(--card); border-color: var(--accent); color: var(--accent); }
+  .saved-indicator {
+    display: none; text-align: center; margin-top: 16px;
+    font-size: 13px; color: var(--good);
+  }
+  .saved-indicator.show { display: block; }
+
+  /* RESPONSIVE */
+  @media (max-width: 540px) {
+    .container { padding: 32px 16px 64px; }
+    .metric-row { grid-template-columns: 1fr; gap: 10px; }
+    .metric-row > * { justify-self: start; }
+    .schedule-picker { grid-template-columns: 1fr; }
+    .friday-quote { padding-left: 0; }
+    .sc-header { padding: 22px 20px; }
+    .sc-tier, .sc-scale, .sc-dimensions, .sc-bic { padding-left: 20px; padding-right: 20px; }
+    .sc-dimensions { grid-template-columns: 1fr; }
+    .sc-score { font-size: 44px; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#FFD23F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sc-scale-fill{background:#2747f5}
+h1{text-wrap:balance}
+/* contrast on dark and tinted blocks */
+div.sc-header div.sc-eyebrow{color:#ffd23f}
+div.sc-header div.sc-total{color:#c9ced8}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">01 / Thinking Like an Owner</span></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow">Two Weeks Out · Worksheet</div>
+    <h1>Redefining Financial Success in Year 1–2</h1>
+    <p class="deck">In corporate, success had a number on it before the year started. In year one of your own thing, nobody hands you that slide. This worksheet builds the scorecard that actually matters — the one you'll answer every Friday for ten minutes, while you're figuring out what your business really is.</p>
+    <div class="howto"><strong>How to use this worksheet:</strong> The centerpiece is the Friday Scorecard in Part 2. Fill it in honestly, then keep it open every week. Your answers save automatically.</div>
+  </header>
+
+  <!-- SECTION 1: THE WRONG SCOREBOARD -->
+  <section class="section">
+    <div class="section-tag">Part 1</div>
+    <h2>The Wrong Scoreboard</h2>
+    <p class="section-intro">Your corporate metrics measured whether a mature engine was running efficiently. In year one, you don't have an engine yet — you have a hypothesis. Start by naming which metrics you're still anchored to, even though they tell you almost nothing useful right now.</p>
+
+    <div class="metric-grid">
+      <div class="metric-row">
+        <div class="metric-text">Revenue growth rate
+          <small>Year-over-year revenue % — designed to compare a mature business to itself</small>
+        </div>
+        <button class="metric-btn anchored" data-metric="0" data-choice="anchored">Still anchored</button>
+        <button class="metric-btn released" data-metric="0" data-choice="released">Released</button>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-text">Gross margin %
+          <small>Useful when you have repeatable delivery — not when you're still figuring it out</small>
+        </div>
+        <button class="metric-btn anchored" data-metric="1" data-choice="anchored">Still anchored</button>
+        <button class="metric-btn released" data-metric="1" data-choice="released">Released</button>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-text">Operating margin / EBITDA
+          <small>Grades the engine. You're sketching, not driving.</small>
+        </div>
+        <button class="metric-btn anchored" data-metric="2" data-choice="anchored">Still anchored</button>
+        <button class="metric-btn released" data-metric="2" data-choice="released">Released</button>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-text">Customer Acquisition Cost (CAC)
+          <small>Requires a stable acquisition channel. You don't have one yet.</small>
+        </div>
+        <button class="metric-btn anchored" data-metric="3" data-choice="anchored">Still anchored</button>
+        <button class="metric-btn released" data-metric="3" data-choice="released">Released</button>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-text">Payback period
+        <small>Calculated against assumptions you'll change three times this year</small>
+        </div>
+        <button class="metric-btn anchored" data-metric="4" data-choice="anchored">Still anchored</button>
+        <button class="metric-btn released" data-metric="4" data-choice="released">Released</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: THE FRIDAY SCORECARD -->
+  <section class="section">
+    <div class="section-tag">Part 2</div>
+    <h2>The Friday Scorecard — Four Questions That Actually Matter</h2>
+    <p class="section-intro">Four questions, every Friday, ten minutes. None of them are revenue questions. All of them are progress questions. Fill in your answers for this past week to start the practice now.</p>
+
+    <!-- Q1: Team intact -->
+    <div class="friday-card">
+      <div class="friday-head">
+        <span class="friday-num">1</span>
+        <span class="friday-title">Is the team intact?</span>
+      </div>
+      <div class="friday-quote">The team is the one thing on a startup balance sheet you cannot rebuild quickly when it leaves.</div>
+
+      <div class="friday-prompt-label">This week:</div>
+      <div class="friday-radio-group" data-q="q1">
+        <button class="friday-radio" data-tone="good" data-val="intact">Fully intact</button>
+        <button class="friday-radio" data-tone="warn" data-val="strained">Strained but here</button>
+        <button class="friday-radio" data-tone="warn" data-val="lost">Lost someone</button>
+        <button class="friday-radio" data-tone="neutral" data-val="solo">I'm still solo</button>
+      </div>
+
+      <div class="card-question" style="font-size: 14.5px;">If someone left or is wavering — why, and is it a signal?</div>
+      <div class="card-helper">If everyone's here and engaged, write what kept them there this week.</div>
+      <textarea data-key="q1n" placeholder="e.g., No one left. My lead developer mentioned feeling overwhelmed twice this week — that's a signal I should respond to before it becomes a signal I have to react to..."></textarea>
+    </div>
+
+    <!-- Q2: Made it / next quarter -->
+    <div class="friday-card">
+      <div class="friday-head">
+        <span class="friday-num">2</span>
+        <span class="friday-title">Closer to making it through the next quarter — or further away?</span>
+      </div>
+      <div class="friday-quote">Be specific. Cash position, not feeling. Survival is the strategy that makes every other strategy possible.</div>
+
+      <div class="friday-prompt-label">This week:</div>
+      <div class="friday-radio-group" data-q="q2">
+        <button class="friday-radio" data-tone="good" data-val="closer">Closer</button>
+        <button class="friday-radio" data-tone="neutral" data-val="held">Held steady</button>
+        <button class="friday-radio" data-tone="warn" data-val="further">Further away</button>
+      </div>
+
+      <div class="card-question" style="font-size: 14.5px;">Cash position now and runway in months — be specific.</div>
+      <div class="card-helper">Numbers, not vibes. If you can't say it precisely, that's the first thing to fix this weekend.</div>
+      <textarea data-key="q2n" placeholder="e.g., $94,200 in operating account, $12,000 in receivables expected within 30 days. Burn is roughly $18k/month right now, so 5.2 months of runway. Held steady — collected one invoice, paid one larger expense..."></textarea>
+    </div>
+
+    <!-- Q3: Optionality -->
+    <div class="friday-card">
+      <div class="friday-head">
+        <span class="friday-num">3</span>
+        <span class="friday-title">Did I take any actions this week that reduced my optionality?</span>
+      </div>
+      <div class="friday-quote">Optionality is the founder's most valuable currency. Also the easiest to spend without noticing.</div>
+
+      <div class="friday-prompt-label">This week:</div>
+      <div class="friday-radio-group" data-q="q3">
+        <button class="friday-radio" data-tone="good" data-val="none">No new locks</button>
+        <button class="friday-radio" data-tone="warn" data-val="small">Small commitment</button>
+        <button class="friday-radio" data-tone="warn" data-val="big">Big commitment</button>
+      </div>
+
+      <div class="card-question" style="font-size: 14.5px;">If yes — what was it, and was it worth it?</div>
+      <div class="card-helper">A long contract. A premature hire. An exclusive partnership. A funding term. Be honest about whether the trade was conscious.</div>
+      <textarea data-key="q3n" placeholder="e.g., Signed a 24-month software contract because the discount was good. Saved $3,600/year, but I now can't switch tools for two years even if I outgrow it. Probably worth it — the tool is foundational — but I should have signed for 12 months..."></textarea>
+    </div>
+
+    <!-- Q4: Playbook traction -->
+    <div class="friday-card">
+      <div class="friday-head">
+        <span class="friday-num">4</span>
+        <span class="friday-title">Did anything happen this week that felt like the playbook getting traction?</span>
+      </div>
+      <div class="friday-quote">A repeat customer. A pitch that landed. A process that finally worked. Even one is enough to write down.</div>
+
+      <div class="friday-prompt-label">This week:</div>
+      <div class="friday-radio-group" data-q="q4">
+        <button class="friday-radio" data-tone="good" data-val="yes">Yes — something repeated</button>
+        <button class="friday-radio" data-tone="neutral" data-val="maybe">Maybe — too early to tell</button>
+        <button class="friday-radio" data-tone="warn" data-val="no">No — nothing landed</button>
+      </div>
+
+      <div class="card-question" style="font-size: 14.5px;">What was it? Be specific.</div>
+      <div class="card-helper">If nothing — what's one experiment you could run next week to <em>create</em> the chance for traction?</div>
+      <textarea data-key="q4n" placeholder="e.g., Third client paid the second invoice without flinching, on the same day as the previous two. The 'pay-per-engagement' pricing structure is starting to feel routine on both sides. That's a small piece of the playbook starting to click..."></textarea>
+    </div>
+  </section>
+
+  <!-- SECTION 3: WHAT WOULD TRACTION LOOK LIKE -->
+  <section class="section">
+    <div class="section-tag">Part 3</div>
+    <h2>What Does "Playbook Traction" Look Like for You?</h2>
+    <p class="section-intro">Everyone's traction signals are different. The ones that matter for a consulting firm aren't the ones that matter for a SaaS product. List five specific, observable signals that — if they happened — would tell you the playbook is starting to work.</p>
+
+    <div class="traction-list">
+      <div class="traction-list-title">Three traction signals — specific, observable, repeatable</div>
+
+      <div class="traction-row">
+        <div class="traction-num">1</div>
+        <input type="text" class="traction-input" data-key="ts1" placeholder="e.g., A second client refers a third without being asked">
+      </div>
+      <div class="traction-row">
+        <div class="traction-num">2</div>
+        <input type="text" class="traction-input" data-key="ts2" placeholder="e.g., Three discovery calls in a row hit the same objection — and I have a working answer">
+      </div>
+      <div class="traction-row">
+        <div class="traction-num">3</div>
+        <input type="text" class="traction-input" data-key="ts3" placeholder="e.g., A delivery process completes without a fire — twice in the same month">
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSER -->
+  <section class="assignment">
+    <div class="eyebrow">What Comes Next</div>
+    <h2>This is your first Friday entry.</h2>
+    <p>The four questions you just answered are this week's scorecard. There's no separate "assignment" — the practice <em>is</em> the assignment.</p>
+    <p>Bookmark this page. Come back next Friday. Do the four questions again. That's the whole thing. Ten minutes a week, every week, for as long as you're figuring out what your business actually is.</p>
+    <p>The corporate part of you will want this to be more elaborate than it is. Resist that. The reason this works is because it's small enough to actually do.</p>
+  </section>
+
+  <!-- SCORECARD -->
+  <section class="scorecard" id="scorecard">
+    <div class="sc-header">
+      <div class="sc-title-block">
+        <div class="sc-eyebrow">Year-One Scorecard Readiness</div>
+        <h2>How well you're measuring what matters</h2>
+      </div>
+      <div class="sc-score-block">
+        <div class="sc-score" id="sc-score">0</div>
+        <div class="sc-total">/ 100</div>
+      </div>
+    </div>
+
+    <div class="sc-tier">
+      <span class="sc-tier-pill t1" id="sc-tier-pill">Not yet started</span>
+      <div class="sc-tier-text" id="sc-tier-text">Complete the worksheet to see how well your scorecard reflects what actually matters in year one.</div>
+    </div>
+
+    <div class="sc-scale">
+      <div class="sc-scale-track">
+        <div class="sc-scale-fill" id="sc-scale-fill" style="width: 0%;"></div>
+        <div class="sc-scale-marker" id="sc-scale-marker" style="left: 0%;"></div>
+      </div>
+      <div class="sc-scale-labels">
+        <span>Wrong Board<br><span style="opacity:0.6;">0–40</span></span>
+        <span>Reframing<br><span style="opacity:0.6;">41–65</span></span>
+        <span>Right Board<br><span style="opacity:0.6;">66–85</span></span>
+        <span>Best-in-Class<br><span style="opacity:0.6;">86–100</span></span>
+      </div>
+    </div>
+
+    <div class="sc-dimensions">
+      <div class="sc-dim" id="dim-metrics">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Right Metrics</div>
+          <div class="sc-dim-score"><span id="s-metrics">0</span><span class="sc-dim-max"> / 30</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-metrics">Release the corporate metrics that don't apply yet, and own which ones you've moved past.</div>
+      </div>
+
+      <div class="sc-dim" id="dim-friday">
+        <div class="sc-dim-head">
+          <div class="sc-dim-name">Friday Scorecard</div>
+          <div class="sc-dim-score"><span id="s-friday">0</span><span class="sc-dim-max"> / 70</span></div>
+        </div>
+        <div class="sc-dim-feedback" id="f-friday">Answer the four Friday questions specifically — and define three signals that would tell you the playbook is working.</div>
+      </div>
+    </div>
+
+    <div class="sc-bic">
+      <strong>What best-in-class looks like:</strong> A founder who has released the corporate metrics that don't fit, can quote their cash position from memory, has named three specific signals that would tell them the playbook is working, and has a recurring Friday ritual on their calendar — already in use.
+    </div>
+  </section>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+    <button class="btn secondary" onclick="resetWorksheet()">Reset Worksheet</button>
+  </div>
+  <div class="saved-indicator" id="saved">✓ Your progress is saved automatically</div>
+
+</div>
+
+<script>
+  // ========== STATE ==========
+  let state = {};
+  try {
+    state = JSON.parse(localStorage.getItem("ws13") || "{}");
+  } catch (e) { state = {}; }
+
+  function save() {
+    try {
+      localStorage.setItem("ws13", JSON.stringify(state));
+      const saved = document.getElementById("saved");
+      saved.classList.add("show");
+      clearTimeout(saved._t);
+      saved._t = setTimeout(() => saved.classList.remove("show"), 1500);
+    } catch (e) {}
+    if (typeof renderScorecard === "function") renderScorecard();
+  }
+
+  // ========== TEXTAREAS + USE EXAMPLE ==========
+  document.querySelectorAll("textarea[data-key]").forEach(t => {
+    const k = t.dataset.key;
+    if (state[k]) t.value = state[k];
+    t.addEventListener("input", () => {
+      state[k] = t.value;
+      save();
+    });
+
+    const placeholder = t.getAttribute("placeholder") || "";
+    const exampleMatch = placeholder.match(/^e\.g\.,?\s*(.+?)(\.\.\.)?$/i);
+    if (exampleMatch) {
+      const exampleText = exampleMatch[1].trim();
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "use-example";
+      btn.textContent = "Use this example";
+      btn.title = "Paste this example into the field — then edit it to make it yours";
+
+      btn.addEventListener("click", () => {
+        if (t.value.trim() === exampleText) {
+          t.value = "";
+        } else {
+          t.value = exampleText;
+        }
+        state[k] = t.value;
+        save();
+        t.focus();
+        t.setSelectionRange(t.value.length, t.value.length);
+        updateExampleBtn(t, btn, exampleText);
+      });
+
+      t.insertAdjacentElement("afterend", btn);
+      updateExampleBtn(t, btn, exampleText);
+      t.addEventListener("input", () => updateExampleBtn(t, btn, exampleText));
+    }
+  });
+
+  function updateExampleBtn(textarea, btn, exampleText) {
+    if (textarea.value.trim() === exampleText) {
+      btn.classList.add("filled");
+      btn.textContent = "Example pasted — click to clear";
+    } else {
+      btn.classList.remove("filled");
+      btn.textContent = "Use this example";
+    }
+  }
+
+  // ========== TRACTION INPUTS (text inputs, not textareas) ==========
+  document.querySelectorAll(".traction-input").forEach(inp => {
+    const k = inp.dataset.key;
+    if (state[k]) inp.value = state[k];
+    inp.addEventListener("input", () => {
+      state[k] = inp.value;
+      save();
+    });
+  });
+
+  // ========== METRIC BUTTONS (anchored / released) ==========
+  document.querySelectorAll(".metric-btn").forEach(btn => {
+    const i = btn.dataset.metric;
+    const choice = btn.dataset.choice;
+    const k = "m" + i;
+    if (state[k] === choice) btn.classList.add("selected");
+    btn.addEventListener("click", () => {
+      const row = btn.parentElement;
+      row.querySelectorAll(".metric-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      state[k] = choice;
+      save();
+    });
+  });
+
+  // ========== FRIDAY RADIO BUTTONS ==========
+  document.querySelectorAll(".friday-radio-group").forEach(group => {
+    const qKey = group.dataset.q;
+    if (state[qKey]) {
+      const btn = group.querySelector(`[data-val="${state[qKey]}"]`);
+      if (btn) btn.classList.add("selected");
+    }
+    group.querySelectorAll(".friday-radio").forEach(btn => {
+      btn.addEventListener("click", () => {
+        group.querySelectorAll(".friday-radio").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        state[qKey] = btn.dataset.val;
+        save();
+      });
+    });
+  });
+
+  // ========== RESET ==========
+  function resetWorksheet() {
+    if (!confirm("Clear all your answers? This can't be undone.")) return;
+    state = {};
+    localStorage.removeItem("ws13");
+    document.querySelectorAll("textarea[data-key], .traction-input").forEach(t => t.value = "");
+    document.querySelectorAll(".metric-btn.selected, .friday-radio.selected").forEach(b => b.classList.remove("selected"));
+    document.querySelectorAll(".use-example").forEach(b => {
+      b.classList.remove("filled");
+      b.textContent = "Use this example";
+    });
+    renderScorecard();
+  }
+
+  // ========== SCORING ==========
+  function qualityOf(text) {
+    if (!text) return 0;
+    const t = text.trim();
+    if (t.length < 15) return 0.15;
+    if (t.length < 50) return 0.5;
+    if (t.length < 120) return 0.85;
+    return 1.0;
+  }
+
+  function isStillExample(key, value) {
+    const el = document.querySelector(`textarea[data-key="${key}"]`);
+    if (!el) return false;
+    const placeholder = el.getAttribute("placeholder") || "";
+    const m = placeholder.match(/^e\.g\.,?\s*(.+?)(\.\.\.)?$/i);
+    if (!m) return false;
+    return value && value.trim() === m[1].trim();
+  }
+
+  function realQuality(key) {
+    const v = state[key] || "";
+    const q = qualityOf(v);
+    return isStillExample(key, v) ? q * 0.4 : q;
+  }
+
+  function shortQuality(text) {
+    if (!text) return 0;
+    const t = text.trim();
+    if (t.length < 8) return 0;
+    if (t.length < 20) return 0.5;
+    return 1.0;
+  }
+
+  function calculateScore() {
+    // ---- Right Metrics (30 pts) ----
+    // 5 metrics × up to 5 pts each for "released" = 25
+    // Up to 5 bonus pts for engaging at all (3+ answered)
+    let metricsScore = 0;
+    let answered = 0;
+    for (let i = 0; i < 5; i++) {
+      if (state["m" + i] === "released") { metricsScore += 5; answered++; }
+      else if (state["m" + i] === "anchored") { metricsScore += 2.5; answered++; }
+    }
+    if (answered >= 3) metricsScore += 5;
+    const metrics = Math.min(metricsScore, 30);
+
+    // ---- Friday Scorecard Quality (70 pts) ----
+    // Four questions × up to 12 pts each (selection + note) = 48
+    //   Q2 has a 4-pt numbers bonus (cash position requires digits)
+    // Three traction signals × up to 7 pts each = 21
+    // Add a small "completeness" bonus when all four questions are filled (1)
+    let friday = 0;
+
+    // Q1: Team intact
+    if (state["q1"]) friday += 4;
+    friday += realQuality("q1n") * 8;
+
+    // Q2: Closer to next quarter — survival keystone
+    if (state["q2"]) friday += 4;
+    let q2Score = realQuality("q2n") * 8;
+    const q2text = state["q2n"] || "";
+    if (/\$|\d{3,}|\d+\s*(month|months|week|weeks)/i.test(q2text)
+        && qualityOf(q2text) > 0.4
+        && !isStillExample("q2n", q2text)) {
+      q2Score += 4;
+    }
+    friday += q2Score;
+
+    // Q3: Optionality
+    if (state["q3"]) friday += 4;
+    friday += realQuality("q3n") * 8;
+
+    // Q4: Playbook traction
+    if (state["q4"]) friday += 4;
+    friday += realQuality("q4n") * 8;
+
+    // Three traction signals
+    for (let i = 1; i <= 3; i++) {
+      friday += shortQuality(state["ts" + i] || "") * 7;
+    }
+
+    // Completeness bonus
+    if (state["q1"] && state["q2"] && state["q3"] && state["q4"]) friday += 1;
+
+    const fridayCapped = Math.min(friday, 70);
+
+    return {
+      metrics: Math.round(metrics),
+      friday: Math.round(fridayCapped),
+      total: Math.round(metrics + fridayCapped),
+    };
+  }
+
+  function tierFor(score) {
+    if (score === 0) return { name: "Not yet started", className: "t1",
+      message: "Complete the worksheet to see how well your scorecard reflects what actually matters in year one." };
+    if (score <= 40) return { name: "Wrong Board", className: "t1",
+      message: "You're still measuring yourself by the corporate scoreboard. Keep going — releasing those metrics is half the work." };
+    if (score <= 65) return { name: "Reframing", className: "t2",
+      message: "You're shifting from the wrong scoreboard to the right one. Make your traction signals and ritual more concrete." };
+    if (score <= 85) return { name: "Right Board", className: "t3",
+      message: "You're measuring what matters: team, runway, optionality, traction. The scorecard is real and ready to use." };
+    return { name: "Best-in-Class", className: "t4",
+      message: "You've replaced the corporate scoreboard with a working year-one scorecard — specific, ritualized, and pointed at what actually moves the business." };
+  }
+
+  function dimClass(score, max) {
+    const pct = max ? (score / max) : 0;
+    if (pct < 0.32) return "d-low";
+    if (pct < 0.64) return "d-mid";
+    if (pct < 0.88) return "d-high";
+    return "d-top";
+  }
+
+  function feedbackFor(dim, score, max) {
+    const fb = {
+      metrics: {
+        low: "Release the corporate metrics that don't apply yet.",
+        mid: "You're starting to release the wrong metrics. Keep going — name what you're moving past.",
+        high: "You see the wrong scoreboard for what it is. That clarity protects you from feeling like a failure for the wrong reasons.",
+        top: "Best-in-class. You've fully released the corporate scoreboard."
+      },
+      friday: {
+        low: "Answer the four Friday questions honestly. Each one has a real answer this week.",
+        mid: "You're starting the practice. Push for specifics — cash position in dollars, runway in months, named traction signals.",
+        high: "Real answers, real numbers, real signals. This is a working scorecard.",
+        top: "You can quote runway from memory and you've named exactly what traction looks like. This is a scorecard you can actually run a business from."
+      }
+    };
+    const pct = max ? (score / max) : 0;
+    let band;
+    if (pct < 0.32) band = "low";
+    else if (pct < 0.64) band = "mid";
+    else if (pct < 0.88) band = "high";
+    else band = "top";
+    return fb[dim][band];
+  }
+
+  function renderScorecard() {
+    const s = calculateScore();
+    document.getElementById("sc-score").textContent = s.total;
+    document.getElementById("s-metrics").textContent = s.metrics;
+    document.getElementById("s-friday").textContent = s.friday;
+
+    const tier = tierFor(s.total);
+    const pill = document.getElementById("sc-tier-pill");
+    pill.textContent = tier.name;
+    pill.className = "sc-tier-pill " + tier.className;
+    document.getElementById("sc-tier-text").textContent = tier.message;
+
+    document.getElementById("sc-scale-fill").style.width = s.total + "%";
+    document.getElementById("sc-scale-marker").style.left = s.total + "%";
+
+    const dims = [
+      ["metrics", s.metrics, 30],
+      ["friday", s.friday, 70],
+    ];
+    dims.forEach(([key, score, max]) => {
+      document.getElementById("dim-" + key).className = "sc-dim " + dimClass(score, max);
+      document.getElementById("f-" + key).textContent = feedbackFor(key, score, max);
+    });
+  }
+
+  renderScorecard();
+</script>
+</body>
+</html>

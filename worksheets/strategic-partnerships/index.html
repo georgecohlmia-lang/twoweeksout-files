@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Partnerships Playbook · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --accent:#2747f5;
+    --accent-light:#2747f5;
+    --accent-soft:#e9ecf5;
+    --accent-faint:#fbfaf6;
+    --emerald:#0d6b4c;
+    --emerald-bright:#0d6b4c;
+    --emerald-soft:#e2f5ea;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --muted:#59616e;
+    --muted-soft:#9ba3af;
+    --border:#e9ecf5;
+    --border-soft:#fbfaf6;
+    --bg:#fbfaf6;
+    --warn:#7d5300;
+    --warn-soft:#fff3cd;
+    --warn-border:#ffd23f;
+    --danger:#b3261e;
+    --danger-soft:#fde9e7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* === HEADER === */
+  .header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 36px;font-weight:800;
+    color: var(--ink);
+    margin: 0 0 8px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .subtitle { font-size: 16px; color: var(--muted); font-style: italic; }
+
+  /* === LIVE PANEL === */
+  .live-panel {
+    position: sticky;
+    top: 0;
+    padding: 14px 24px;
+    margin: -40px -24px 36px;
+    z-index: 100;
+    display: none;
+    color: white;
+    background: var(--accent);
+  }
+  .live-panel.active { display: block; }
+  .live-panel.verdict-go { background: var(--emerald); }
+  .live-panel.verdict-wait { background: var(--warn); }
+  .live-panel-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .live-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .live-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .live-detail { font-size: 13px; opacity: 0.9; text-align: right; }
+
+  /* === SECTIONS === */
+  .section {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--accent-faint);
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    flex-shrink: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    margin: 0;letter-spacing:-.03em;font-style:normal;}
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .section-body { padding: 28px; }
+
+  /* === FORM ELEMENTS === */
+  .field { margin-bottom: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .label-hint {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 2px;
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  textarea { resize: vertical; min-height: 60px; }
+
+  /* === USE EXAMPLE BUTTON === */
+  .use-example-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .use-example-btn:hover { background: var(--accent-soft); }
+  .use-example-btn:active { transform: translateY(1px); }
+  .commit-card .use-example-btn {
+    border-color: rgba(255,255,255,0.85);
+    color: white;
+  }
+  .commit-card .use-example-btn:hover { background: rgba(255,255,255,0.18); }
+  .label-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    gap: 12px;
+  }
+  .label-row label { margin-bottom: 0; }
+  .example-btn-wrap { margin-left: auto; }
+
+  /* === INFO STRIP === */
+  .info-strip {
+    background: var(--accent-soft);
+    border-radius:0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .info-strip strong { color: var(--accent); }
+
+  /* === MOVE TYPE TOGGLE === */
+  .move-switch { margin-bottom: 4px; }
+  .move-switch-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .move-switch-btn {
+    border: 1.5px solid var(--border);
+    background: white;
+    border-radius:0;
+    padding: 16px 18px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .move-switch-btn:hover { border-color: var(--accent-light); }
+  .move-switch-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .move-switch-btn-name {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .move-switch-btn.active .move-switch-btn-name { color: var(--accent); }
+  .move-switch-btn-desc {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .move-switch-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 10px;
+  }
+
+  /* === MODEL-AWARE BLOCKS === */
+  .move-block { display: none; }
+  .move-block.active { display: block; }
+  .move-prompt {
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 14px;
+    background: var(--accent-faint);
+    border: 1px dashed var(--border);
+    border-radius:0;
+  }
+  .move-prompt.hidden { display: none; }
+
+  /* === CHECK CARD (partnership failure-mode tests) === */
+  .check-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    background: white;
+  }
+  .check-card:last-child { margin-bottom: 0; }
+  .check-card-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .check-card-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .check-card-warn {
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: var(--warn-soft);
+    border-left: 3px solid var(--warn);
+    padding: 8px 12px;
+    border-radius:0;
+    margin-bottom: 14px;
+  }
+
+  /* === PRECONDITION GATE === */
+  .precondition {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    background: white;
+    transition: border-color 0.2s;
+  }
+  .precondition.answered-yes { border-color: var(--emerald); border-left: 4px solid var(--emerald); }
+  .precondition.answered-almost { border-color: var(--warn-border); border-left: 4px solid var(--warn); }
+  .precondition.answered-no { border-color: var(--danger); border-left: 4px solid var(--danger); }
+  .precondition-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .precondition-num {
+    background: var(--accent);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .precondition-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .precondition-test {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .precondition-q {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .answer-toggle { display: flex; gap: 8px; flex-wrap: wrap; }
+  .answer-btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 9px 14px;
+    border: 1.5px solid var(--border);
+    background: white;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--ink-soft);
+  }
+  .answer-btn:hover { border-color: var(--muted); }
+  .answer-btn.sel-yes { border-color: var(--emerald); background: var(--emerald-soft); color: var(--emerald); }
+  .answer-btn.sel-almost { border-color: var(--warn); background: var(--warn-soft); color: var(--warn); }
+  .answer-btn.sel-no { border-color: var(--danger); background: var(--danger-soft); color: var(--danger); }
+  .precondition-evidence { margin-top: 14px; }
+
+  /* === VERDICT BANNER === */
+  .verdict-banner {
+    margin-top: 8px;
+    padding: 20px 24px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .verdict-banner.go { background: var(--emerald-soft); border: 1px solid var(--emerald); }
+  .verdict-banner.wait { background: var(--warn-soft); border: 1px solid var(--warn-border); }
+  .verdict-banner.incomplete { background: var(--accent-faint); border: 1px dashed var(--border); }
+  .verdict-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .verdict-banner.go .verdict-icon { background: var(--emerald); color: white; }
+  .verdict-banner.wait .verdict-icon { background: var(--warn); color: white; }
+  .verdict-banner.incomplete .verdict-icon { background: var(--muted-soft); color: white; }
+  .verdict-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .verdict-banner.go .verdict-title { color: var(--emerald); }
+  .verdict-banner.wait .verdict-title { color: var(--warn); }
+  .verdict-banner.incomplete .verdict-title { color: var(--muted); }
+  .verdict-text { font-size: 14px; color: var(--ink-soft); }
+
+  /* === PLANNING WARNING === */
+  .planning-warning {
+    background: var(--warn-soft);
+    border: 1px solid var(--warn-border);
+    border-left: 4px solid var(--warn);
+    border-radius:0;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    display: none;
+  }
+  .planning-warning.active { display: block; }
+  .planning-warning strong { color: var(--warn); }
+
+  /* === INTEGRATION CARDS === */
+  .integration-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .integration-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 18px 20px;
+    background: white;
+  }
+  .integration-card-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .integration-card .field:last-child { margin-bottom: 0; }
+
+  /* === COMMIT CARD === */
+  .commit-card {
+    background: var(--accent);
+    color: white;
+    padding: 28px;
+    border-radius:0;
+    margin-top: 16px;
+  }
+  .commit-card label { color: rgba(255,255,255,0.85); }
+  .commit-card input, .commit-card textarea, .commit-card select {
+    background: rgba(255,255,255,0.95);
+    border-color: transparent;
+  }
+  .commit-card .label-hint { color: rgba(255,255,255,0.7); }
+
+  /* === MODULE CLOSER === */
+  .closer-card {
+    background: var(--ink);
+    color: white;
+    padding: 28px;
+    border-radius:0;
+    margin-top: 16px;
+  }
+  .closer-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--emerald-bright);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .closer-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 21px;font-weight:800;
+    margin-bottom: 8px;letter-spacing:-.03em;font-style:normal;}
+  .closer-text {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+  .closer-arc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .closer-arc-item {
+    font-size: 11px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius:0;
+    padding: 5px 9px;
+    color: rgba(255,255,255,0.85);
+  }
+  .closer-card label { color: rgba(255,255,255,0.8); }
+  .closer-card textarea {
+    background: rgba(255,255,255,0.95);
+    border-color: transparent;
+  }
+  .closer-card .label-hint { color: rgba(255,255,255,0.55); }
+
+  /* === DOWNLOAD BAR === */
+  .download-bar {
+    margin-top: 32px;
+    padding: 28px;
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius:0;
+    text-align: center;
+  }
+  .download-bar h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;
+    margin: 0 0 8px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .download-bar p { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .download-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 12px 24px;
+    border-radius:0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-secondary {
+    background: white;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-secondary:hover { background: var(--accent-soft); }
+  .btn-icon { font-size: 18px; }
+
+  /* === CLEAR ALL === */
+  .clear-all-wrap { margin-top: 16px; text-align: center; }
+  .btn-clear {
+    background: transparent;
+    border: none;color:#59616e;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius:0;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .btn-clear:hover { color: var(--danger); background: var(--danger-soft); }
+
+  /* === SAVE INDICATOR === */
+  .save-indicator {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: white;
+    padding: 10px 16px;
+    border-radius:0;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .save-indicator.show { opacity: 0.85; transform: translateY(0); }
+
+  /* === PDF DOCUMENT === */
+  .pdf-document {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 8.5in;
+    background: white;
+    padding: 0.7in 0.8in;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+  }
+  .pdf-document .pdf-header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .pdf-document .pdf-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pdf-document h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--ink);font-weight:800;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .pdf-document .pdf-subtitle { font-size: 13px; color: var(--muted); font-style: italic; }
+  .pdf-document .pdf-meta { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+  .pdf-document .pdf-verdict {
+    padding: 14px 18px;
+    border-radius:0;
+    margin-bottom: 20px;
+  }
+  .pdf-document .pdf-verdict.go { background: var(--emerald-soft); border: 1px solid var(--emerald); }
+  .pdf-document .pdf-verdict.wait { background: var(--warn-soft); border: 1px solid var(--warn-border); }
+  .pdf-document .pdf-verdict-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .pdf-document .pdf-verdict.go .pdf-verdict-title { color: var(--emerald); }
+  .pdf-document .pdf-verdict.wait .pdf-verdict-title { color: var(--warn); }
+  .pdf-document .pdf-verdict-text { font-size: 11px; color: var(--ink-soft); }
+  .pdf-document .pdf-section-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pdf-document .pdf-move-banner {
+    background: var(--accent);
+    color: white;
+    padding: 14px 18px;
+    border-radius:0;
+    margin: 8px 0;
+  }
+  .pdf-document .pdf-move-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pdf-document .pdf-move-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .pdf-document table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin: 6px 0;
+  }
+  .pdf-document table th {
+    background: var(--accent);
+    color: white;
+    padding: 6px 7px;
+    text-align: left;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .pdf-document table td {
+    border: 1px solid var(--border);
+    padding: 6px 7px;
+    vertical-align: top;
+  }
+  .pdf-document table td.v-yes { color: var(--emerald); font-weight: 700; }
+  .pdf-document table td.v-almost { color: var(--warn); font-weight: 700; }
+  .pdf-document table td.v-no { color: var(--danger); font-weight: 700; }
+  .pdf-document .pdf-principle {
+    margin-top: 24px;
+    padding: 14px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+  .pdf-document .pdf-footer {
+    margin-top: 26px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;color:#59616e;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 24px 16px 60px; }
+    h1 { font-size: 28px; }
+    .field-row, .field-row-3 { grid-template-columns: 1fr; }
+    .move-switch-controls { grid-template-columns: 1fr; }
+    .integration-grid { grid-template-columns: 1fr; }
+    .download-buttons { flex-direction: column; }
+    .section-body { padding: 20px; }
+    .answer-btn { min-width: 0; }
+  }
+
+  /* === PRINT — render only the playbook document === */
+  @page {
+    size: letter;
+    margin: 0.7in 0.8in;
+  }
+  @media print {
+    .live-panel,
+    .container,
+    .save-indicator { display: none !important; }
+    .pdf-document {
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      visibility: visible !important;
+      padding: 0 !important;
+      z-index: auto !important;
+    }
+    html, body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .pdf-document table { page-break-inside: auto; }
+    .pdf-document tr { page-break-inside: avoid; }
+    .pdf-document .pdf-section-title { page-break-after: avoid; }
+    .pdf-document .pdf-principle { page-break-inside: avoid; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#BFE34F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.live-panel{margin:0 0 36px}
+/* contrast on dark and tinted blocks */
+div.commit-card div.label-hint{color:#e6eaff}
+div.closer-card div.closer-eyebrow{color:#6fdca3}
+div.closer-card button.use-example-btn{color:#93abff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">10 / Grow Without Losing Control</span></div>
+
+<div class="live-panel" id="livePanel">
+  <div class="live-panel-inner">
+    <div>
+      <div class="live-label">Growth-move assessment</div>
+      <div class="live-headline" id="liveHeadline">—</div>
+    </div>
+    <div class="live-detail" id="liveDetail">—</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">Worksheet · Strategic Partnerships</div>
+    <h1>Build Your Strategic Partnership Playbook</h1>
+    <div class="subtitle">A partnership multiplies what you have. An acquisition absorbs what someone else built. Choose deliberately.</div>
+  </div>
+
+  <!-- SECTION 1 — BUSINESS CONTEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <h2 class="section-title">Your business — at a glance</h2>
+        <div class="section-sub">The growth move only makes sense against where you are now.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <div class="field">
+          <label for="businessName">Business name</label>
+          <input type="text" id="businessName" placeholder="e.g. Acme Advisory">
+        </div>
+        <div class="field">
+          <label for="ownerName">Your name</label>
+          <input type="text" id="ownerName" placeholder="e.g. David Chen">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="currentRevenue">Current annual revenue</label>
+          <input type="text" id="currentRevenue" placeholder="e.g. $2.4M">
+        </div>
+        <div class="field">
+          <label for="coreStrength">What is the core strength a move must protect?</label>
+          <div class="label-hint">The thing that makes you you — no partnership or acquisition should dilute it.</div>
+          <input type="text" id="coreStrength" placeholder="e.g. Senior-led delivery and a distinctive client culture">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — THE GROWTH-MOVE DECISION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <h2 class="section-title">Name the move</h2>
+        <div class="section-sub">Is the move in front of you a partnership, or an acquisition? They are evaluated differently.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="info-strip">
+        A <strong>partnership</strong> multiplies what you already have — reach, capability, credibility — without ownership changing hands. An <strong>acquisition</strong> absorbs what someone else built, and with it their people and their culture. Pick the one that describes the move you're actually weighing.
+      </div>
+      <div class="move-switch">
+        <div class="move-switch-controls">
+          <button class="move-switch-btn" data-move="partnership" type="button">
+            <span class="move-switch-btn-name">A partnership</span>
+            <span class="move-switch-btn-desc">A channel, referral, or co-delivery relationship — no ownership changes</span>
+          </button>
+          <button class="move-switch-btn" data-move="acquisition" type="button">
+            <span class="move-switch-btn-name">An acquisition</span>
+            <span class="move-switch-btn-desc">Buying another business — its clients, its people, its culture</span>
+          </button>
+        </div>
+        <div class="move-switch-note">Your choice sets which evaluation runs in Section 3.</div>
+      </div>
+
+      <div class="field" style="margin-top:22px; margin-bottom:0;">
+        <div class="label-row">
+          <label for="moveDescribe">Describe the specific move you're weighing</label>
+          <div class="example-btn-wrap">
+            <button class="use-example-btn" data-example="moveDescribe" type="button">Use example</button>
+          </div>
+        </div>
+        <div class="label-hint">Name the other party and what the move would do for you.</div>
+        <textarea id="moveDescribe" placeholder="e.g. Acquiring a smaller advisory firm in Salt Lake City — roughly 30 clients and four senior associates — to establish a foothold in a new metro."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — EVALUATE THE MOVE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <h2 class="section-title">Evaluate the move</h2>
+        <div class="section-sub">A partnership has two failure modes to check. An acquisition has two preconditions to clear.</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="move-prompt" id="evalPrompt">
+        Choose partnership or acquisition in Section 2 above to run the right evaluation.
+      </div>
+
+      <!-- PARTNERSHIP PATH -->
+      <div class="move-block" id="evalPartnership">
+        <div class="info-strip">
+          Most partnerships fail in one of two ways. Work through both honestly before you commit — a partnership that fails these isn't a smaller opportunity, it's a distraction.
+        </div>
+
+        <div class="check-card">
+          <div class="check-card-label">Failure mode 1 · The infrastructure lesson</div>
+          <div class="check-card-title">Can you actually carry the partnership's volume?</div>
+          <div class="check-card-warn">Channel and referral partnerships fail when the partner sends business you can't deliver on. The partnership exposes every weakness in your delivery infrastructure — at scale, and in public.</div>
+          <div class="field">
+            <div class="label-row">
+              <label for="partnerInfra">Honestly — can your delivery hold the new volume?</label>
+              <div class="example-btn-wrap">
+                <button class="use-example-btn" data-example="partnerInfra" type="button">Use example</button>
+              </div>
+            </div>
+            <textarea id="partnerInfra" placeholder="e.g. A referral partner could send 15-20 leads a month. Our delivery currently has slack for about 8 new engagements a quarter. We would need a senior hire in place before the partnership goes live, or it will damage our reputation, not build it."></textarea>
+          </div>
+        </div>
+
+        <div class="check-card">
+          <div class="check-card-label">Failure mode 2 · The differentiation lesson</div>
+          <div class="check-card-title">Does the partnership keep you distinct — or blur you?</div>
+          <div class="check-card-warn">Co-delivery partnerships fail when the partner's brand and yours merge into something generic. The client can no longer tell what they're buying, or why it's you.</div>
+          <div class="field">
+            <div class="label-row">
+              <label for="partnerDiff">Does the client still clearly see your distinct value?</label>
+              <div class="example-btn-wrap">
+                <button class="use-example-btn" data-example="partnerDiff" type="button">Use example</button>
+              </div>
+            </div>
+            <textarea id="partnerDiff" placeholder="e.g. In a co-delivery model the client must still see our senior-led judgement as the reason they're in the room. We will keep the client relationship and the advisory voice; the partner provides capacity behind the scenes, not a competing brand at the table."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACQUISITION PATH -->
+      <div class="move-block" id="evalAcquisition">
+        <div class="info-strip">
+          An acquisition is only worth pursuing once <strong>both</strong> preconditions are met. Be honest — treat "Almost" as a no. This gate exists to stop an expensive mistake before it's signed.
+        </div>
+
+        <div id="preconditionList"></div>
+
+        <div class="verdict-banner incomplete" id="verdictBanner">
+          <div class="verdict-icon" id="verdictIcon">—</div>
+          <div>
+            <div class="verdict-title" id="verdictTitle">Answer both preconditions</div>
+            <div class="verdict-text" id="verdictText">Your acquisition-readiness verdict appears here once both are answered.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 4 — THE INTEGRATION PLAN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <h2 class="section-title" id="section4Title">The plan that makes it work</h2>
+        <div class="section-sub" id="section4Sub">An acquisition is won in the integration. A partnership is won in how it's run.</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="move-prompt" id="planPrompt">
+        Choose partnership or acquisition in Section 2 above to build the right plan.
+      </div>
+
+      <!-- ACQUISITION — INTEGRATION PLAN -->
+      <div class="move-block" id="planAcquisition">
+        <div class="planning-warning" id="planningWarning4">
+          <strong>Your acquisition preconditions aren't fully met.</strong> You can still plan the integration — but treat it as planning, not a decision. Until both preconditions are a clear yes, the acquisition waits.
+        </div>
+
+        <div class="info-strip">
+          The deal closes on paper; the move succeeds or fails in the <strong>integration</strong>. The most common thing that breaks a deal after signing is people — the talent and culture you bought walking out the door. Plan that first.
+        </div>
+
+        <div class="integration-grid">
+          <div class="integration-card">
+            <div class="integration-card-label">Keep</div>
+            <div class="field">
+              <div class="label-row">
+                <label for="integKeep">What must you deliberately preserve?</label>
+                <div class="example-btn-wrap">
+                  <button class="use-example-btn" data-example="integKeep" type="button">Use example</button>
+                </div>
+              </div>
+              <textarea id="integKeep" placeholder="e.g. The acquired firm's senior client relationships and the local team's autonomy in how they run engagements."></textarea>
+            </div>
+          </div>
+          <div class="integration-card">
+            <div class="integration-card-label">Change</div>
+            <div class="field">
+              <div class="label-row">
+                <label for="integChange">What must change to make it one business?</label>
+                <div class="example-btn-wrap">
+                  <button class="use-example-btn" data-example="integChange" type="button">Use example</button>
+                </div>
+              </div>
+              <textarea id="integChange" placeholder="e.g. Shared financial systems, one delivery standard, and a single brand, phased in over the first year."></textarea>
+            </div>
+          </div>
+          <div class="integration-card">
+            <div class="integration-card-label">Hold the people</div>
+            <div class="field">
+              <div class="label-row">
+                <label for="integRetention">How will you retain the talent you're buying?</label>
+                <div class="example-btn-wrap">
+                  <button class="use-example-btn" data-example="integRetention" type="button">Use example</button>
+                </div>
+              </div>
+              <textarea id="integRetention" placeholder="e.g. Rolled equity and earnout for the senior team, tied to a multi-year horizon; a clear role for each from day one."></textarea>
+            </div>
+          </div>
+          <div class="integration-card">
+            <div class="integration-card-label">The culture risk</div>
+            <div class="field">
+              <div class="label-row">
+                <label for="integCulture">What's the biggest culture risk — and your plan for it?</label>
+                <div class="example-btn-wrap">
+                  <button class="use-example-btn" data-example="integCulture" type="button">Use example</button>
+                </div>
+              </div>
+              <textarea id="integCulture" placeholder="e.g. The acquired team may read integration as a takeover. Plan: regular owner presence on-site early on; no forced process change in the first few months."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARTNERSHIP — OPERATING PLAN -->
+      <div class="move-block" id="planPartnership">
+        <div class="info-strip">
+          A partnership isn't integrated — it's <strong>run</strong>. It succeeds or fails over its whole life, in how the relationship is governed and how well you protect the two things that make partnerships fail: your delivery capacity, and your distinct value. Plan the operating discipline now.
+        </div>
+
+        <div class="integration-grid">
+          <div class="integration-card">
+            <div class="integration-card-label">Govern</div>
+            <div class="field">
+              <div class="label-row">
+                <label for="opsGovern">Who owns the relationship, and how is it run?</label>
+                <div class="example-btn-wrap">
+                  <button class="use-example-btn" data-example="opsGovern" type="button">Use example</button>
+                </div>
+              </div>
+              <textarea id="opsGovern" placeholder="e.g. A named owner on each side, a standing monthly review of volume and quality, and a clear escalation path when something slips."></textarea>
+            </div>
+          </div>
+          <div class="integration-card">
+            <div class="integration-card-label">Terms &amp; exit</div>
+            <div class="field">
+              <div class="label-row">
+                <label for="opsTerms">What are the terms — and how does either side exit cleanly?</label>
+                <div class="example-btn-wrap">
+                  <button class="use-example-btn" data-example="opsTerms" type="button">Use example</button>
+                </div>
+              </div>
+              <textarea id="opsTerms" placeholder="e.g. Economics, who owns the client relationship, and a defined wind-down so the partnership can end without stranding clients or damaging either brand."></textarea>
+            </div>
+          </div>
+          <div class="integration-card">
+            <div class="integration-card-label">Protect capacity</div>
+            <div class="field">
+              <div class="label-row">
+                <label for="opsCapacity">How will you keep delivery ahead of the volume — over time?</label>
+                <div class="example-btn-wrap">
+                  <button class="use-example-btn" data-example="opsCapacity" type="button">Use example</button>
+                </div>
+              </div>
+              <textarea id="opsCapacity" placeholder="e.g. A volume cap in the agreement, a hiring trigger tied to the partner's pipeline, and the right to pace intake so delivery never falls behind."></textarea>
+            </div>
+          </div>
+          <div class="integration-card">
+            <div class="integration-card-label">Protect differentiation</div>
+            <div class="field">
+              <div class="label-row">
+                <label for="opsDiff">How will you stay distinct as the partnership runs?</label>
+                <div class="example-btn-wrap">
+                  <button class="use-example-btn" data-example="opsDiff" type="button">Use example</button>
+                </div>
+              </div>
+              <textarea id="opsDiff" placeholder="e.g. We keep the client relationship and the advisory voice; the partner stays behind the scenes. Reviewed at every monthly check so the brands never blur."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 5 — COMMITMENT + MODULE CLOSER -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <h2 class="section-title">Commit — and close the module</h2>
+        <div class="section-sub">First moves on the calendar. Then a final reflection across the whole module.</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="commit-card">
+        <div class="field-row">
+          <div class="field">
+            <label for="commitOwner">Who owns this move?</label>
+            <input type="text" id="commitOwner" placeholder="e.g. Owner, with the senior team on integration">
+          </div>
+          <div class="field">
+            <label for="commitStart">When does it start?</label>
+            <input type="date" id="commitStart">
+          </div>
+        </div>
+        <div class="field">
+          <div class="label-row">
+            <label for="commitActions">The first three concrete actions</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="commitActions" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">Specific, schedulable actions — not goals.</div>
+          <textarea id="commitActions" placeholder="e.g. 1) Letter of intent and diligence scope agreed by week 3. 2) Retention conversations with all four senior associates before close. 3) A 90-day integration plan drafted and shared with the acquired team's lead."></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <div class="label-row">
+            <label for="commitSuccess">What does success look like at 12 months?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="commitSuccess" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">A specific outcome — including the people you kept.</div>
+          <textarea id="commitSuccess" placeholder="e.g. The move is integrated, all four senior associates retained, the new metro contributing material revenue, and the core culture intact rather than diluted."></textarea>
+        </div>
+      </div>
+
+      <div class="closer-card">
+        <div class="closer-eyebrow">The closing reflection</div>
+        <div class="closer-title">Your one growth move</div>
+        <div class="closer-text">
+          Across this module you've worked through every major path a bootstrapped business can grow by. Each path is real — but a focused owner runs one at a time.
+        </div>
+        <div class="closer-arc">
+          <span class="closer-arc-item">Growth frameworks</span>
+          <span class="closer-arc-item">Capital-efficient scaling</span>
+          <span class="closer-arc-item">Market expansion</span>
+          <span class="closer-arc-item">Product line extension</span>
+          <span class="closer-arc-item">Scalable systems</span>
+          <span class="closer-arc-item">Performance measurement</span>
+          <span class="closer-arc-item">Strategic partnerships</span>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <div class="label-row">
+            <label for="closerReflection">Of everything in this module — what is the ONE growth move you'll commit to next?</label>
+            <div class="example-btn-wrap">
+              <button class="use-example-btn" data-example="closerReflection" type="button">Use example</button>
+            </div>
+          </div>
+          <div class="label-hint">One move, named plainly. The discipline of the whole module is the refusal to chase every path at once.</div>
+          <textarea id="closerReflection" placeholder="e.g. The next move is the Salt Lake City acquisition — it advances market expansion and partnerships at once. Everything else in this module waits until that move is integrated and the core is proven intact."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD BAR -->
+  <div class="download-bar">
+    <h2>Save or print your playbook</h2>
+    <p>Open the playbook to save as PDF or print it. The Excel file holds the evaluation so you can revisit it as the move develops.</p>
+    <div class="download-buttons">
+      <button class="btn btn-primary" id="downloadPdfBtn">
+        <span class="btn-icon">🖨️</span> Save / Print Playbook
+      </button>
+      <button class="btn btn-secondary" id="downloadXlsxBtn">
+        <span class="btn-icon">📊</span> Download Evaluation (Excel)
+      </button>
+    </div>
+  </div>
+
+  <div class="clear-all-wrap">
+    <button class="btn-clear" id="clearAllBtn" type="button">Clear all and start over</button>
+  </div>
+
+</div>
+
+<div class="save-indicator" id="saveIndicator">Saved</div>
+<div class="pdf-document" id="pdfDocument"></div>
+
+<script>
+'use strict';
+
+const STORAGE_KEY = 'Two Weeks Out_strategicPartnerships_v1';
+
+// === ACQUISITION PRECONDITIONS ===
+const PRECONDITIONS = [
+  {
+    key: 'economics',
+    title: 'The economics genuinely work',
+    test: 'The deal pays for itself on conservative assumptions — not optimistic ones.',
+    question: 'Strip out every synergy you are hoping for. On the acquired business\'s standalone numbers alone, does the deal still make sense?',
+    evidenceHint: 'What do the conservative numbers actually show?',
+    evidenceExample: 'On the target\'s standalone numbers — roughly 30 clients at current margins, no assumed synergies — the deal pays back within three years on the cash portion. The earnout and rolled equity align the upside rather than financing the base case.',
+  },
+  {
+    key: 'absorb',
+    title: 'You can absorb it without breaking the core',
+    test: 'Your existing business stays healthy while you integrate.',
+    question: 'Can you integrate this without the owner disappearing into it for a year, and without your current business quietly deteriorating while your attention is elsewhere?',
+    evidenceHint: 'What capacity and attention does integration realistically require?',
+    evidenceExample: 'Integration needs roughly one owner-week a month for two quarters, which the senior team can cover for. The existing business runs on documented systems and would not deteriorate. If integration required full owner attention, the answer here would be no.',
+  },
+];
+
+// === EXAMPLE TEXT ===
+const EXAMPLES = {
+  moveDescribe: 'Acquiring a smaller advisory firm in Salt Lake City — roughly 30 clients and four senior associates — to establish a foothold in a new metro. Structure would be cash plus an earnout plus rolled equity for the senior team.',
+  partnerInfra: 'A referral partner could realistically send 15-20 qualified leads a month. Our delivery currently has slack for about 8 new engagements a quarter. We would need a senior hire in place and onboarded before the partnership goes live — otherwise it exposes our delivery limits at scale and damages the reputation it was meant to build.',
+  partnerDiff: 'In a co-delivery model the client must still see our senior-led judgement as the reason they are in the room. We keep the client relationship and the advisory voice; the partner provides delivery capacity behind the scenes. If the client cannot tell whose work they are buying, the partnership has blurred us and we walk away.',
+  econEvidence: 'On the target\'s standalone numbers — roughly 30 clients at current margins, with no assumed synergies — the deal pays back within three years on the cash portion alone. The earnout and rolled equity align the upside; they do not finance the base case.',
+  absorbEvidence: 'Integration realistically needs about one owner-week per month for two quarters. The senior team can cover the owner\'s normal load for that period, and the existing business runs on documented systems that will not quietly deteriorate. If integration demanded full owner attention for a year, this would be a no.',
+  integKeep: 'The acquired firm\'s senior client relationships, and the local team\'s autonomy over how they run individual engagements. Those relationships and that judgement are most of what we are paying for.',
+  integChange: 'Shared financial and reporting systems, one common delivery standard, and a single unified brand — phased in over twelve months, not imposed on day one.',
+  integRetention: 'Rolled equity and an earnout for the four senior associates, tied to a two-year horizon so their incentives run with ours. Each has a clearly defined, senior role from day one — no ambiguity about where they stand.',
+  integCulture: 'The biggest risk is the acquired team reading integration as a takeover and the best people leaving. The plan: the owner spends one week a month on-site for the first two quarters, no forced process change in the first 90 days, and the local lead keeps real authority.',
+  opsGovern: 'A single named owner on each side — not a committee. A standing monthly review of volume, delivery quality, and any friction, with a clear escalation path when something slips. The relationship is actively run, not left to drift.',
+  opsTerms: 'The economics are written down, along with who owns the client relationship and what each side contributes. A defined wind-down clause lets either side exit cleanly — clients are reassigned in an orderly way and neither brand is damaged on the way out.',
+  opsCapacity: 'A volume cap written into the agreement so the partner cannot flood us. A hiring trigger tied to their pipeline, so capacity is added before it is needed. And the right to pace intake — delivery quality never falls behind the inflow.',
+  opsDiff: 'We keep the client relationship and the advisory voice; the partner stays behind the scenes providing capacity, not a competing brand at the table. This is reviewed at every monthly check — the moment a client cannot tell whose work they are buying, we correct it.',
+  commitActions: '1) Letter of intent and diligence scope agreed by end of week 3. 2) Retention conversations held with all four senior associates before close, not after. 3) A 90-day integration plan drafted with — not for — the acquired team\'s lead.',
+  commitSuccess: 'Twelve months on: the move is fully integrated, all four senior associates retained, the new metro contributing material revenue, and the core culture demonstrably intact rather than diluted by the deal.',
+  closerReflection: 'The next move is the Salt Lake City acquisition — it advances market expansion and strategic partnerships in a single, focused step. Everything else in this module waits until that move is integrated and the core business is proven intact. One move, run properly, before the next.',
+};
+
+// === STATE ===
+function makePrecond() { return { answer: '', evidence: '' }; }
+let state = {
+  business: { name: '', owner: '', revenue: '', coreStrength: '' },
+  move: '',
+  moveDescribe: '',
+  partnership: { infra: '', diff: '' },
+  preconditions: { economics: makePrecond(), absorb: makePrecond() },
+  integration: { keep: '', change: '', retention: '', culture: '' },
+  operations: { govern: '', terms: '', capacity: '', diff: '' },
+  commit: { owner: '', start: '', actions: '', success: '' },
+  closerReflection: '',
+};
+
+// === PERSISTENCE ===
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    flashSaved();
+  } catch (e) { console.warn('Save failed:', e); }
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const p = JSON.parse(raw);
+    if (p.business) state.business = { ...state.business, ...p.business };
+    if (p.move === 'partnership' || p.move === 'acquisition') state.move = p.move;
+    if (typeof p.moveDescribe === 'string') state.moveDescribe = p.moveDescribe;
+    if (p.partnership) state.partnership = { ...state.partnership, ...p.partnership };
+    if (p.preconditions) {
+      Object.keys(state.preconditions).forEach(k => {
+        if (p.preconditions[k]) state.preconditions[k] = { ...state.preconditions[k], ...p.preconditions[k] };
+      });
+    }
+    if (p.integration) state.integration = { ...state.integration, ...p.integration };
+    if (p.operations) state.operations = { ...state.operations, ...p.operations };
+    if (p.commit) state.commit = { ...state.commit, ...p.commit };
+    if (typeof p.closerReflection === 'string') state.closerReflection = p.closerReflection;
+  } catch (e) { console.warn('Load failed:', e); }
+}
+function flashSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// === VERDICT LOGIC (acquisition gate) ===
+function computeVerdict() {
+  const answers = PRECONDITIONS.map(p => state.preconditions[p.key].answer);
+  const answered = answers.filter(a => a !== '').length;
+  if (answered < PRECONDITIONS.length) return { status: 'incomplete', answered };
+  const yesCount = answers.filter(a => a === 'yes').length;
+  if (yesCount === PRECONDITIONS.length) return { status: 'go', answered };
+  return { status: 'wait', answered, yesCount };
+}
+
+// === RENDER ===
+function render() {
+  renderBusiness();
+  renderMoveSwitch();
+  renderMoveDescribe();
+  renderPartnership();
+  renderPreconditions();
+  renderVerdict();
+  renderMoveVisibility();
+  renderIntegration();
+  renderPlanningWarning();
+  renderCommit();
+  renderCloser();
+  updateLivePanel();
+}
+
+function renderBusiness() {
+  document.getElementById('businessName').value = state.business.name || '';
+  document.getElementById('ownerName').value = state.business.owner || '';
+  document.getElementById('currentRevenue').value = state.business.revenue || '';
+  document.getElementById('coreStrength').value = state.business.coreStrength || '';
+}
+
+function renderMoveSwitch() {
+  document.querySelectorAll('.move-switch-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.move === state.move);
+  });
+}
+
+function renderMoveDescribe() {
+  document.getElementById('moveDescribe').value = state.moveDescribe || '';
+}
+
+// Show the partnership checks or the acquisition gate based on the Section 2 choice
+function renderMoveVisibility() {
+  const isPartner = state.move === 'partnership';
+  const isAcq = state.move === 'acquisition';
+
+  // Section 3 — the evaluation
+  document.getElementById('evalPartnership').classList.toggle('active', isPartner);
+  document.getElementById('evalAcquisition').classList.toggle('active', isAcq);
+  document.getElementById('evalPrompt').classList.toggle('hidden', !!state.move);
+
+  // Section 4 — the plan
+  document.getElementById('planPartnership').classList.toggle('active', isPartner);
+  document.getElementById('planAcquisition').classList.toggle('active', isAcq);
+  document.getElementById('planPrompt').classList.toggle('hidden', !!state.move);
+
+  // Section 4 header adapts to the chosen move
+  const title = document.getElementById('section4Title');
+  const sub = document.getElementById('section4Sub');
+  if (isAcq) {
+    title.textContent = 'The integration plan';
+    sub.textContent = 'Where the move is won or lost. Culture and people — not the deal terms — decide the outcome.';
+  } else if (isPartner) {
+    title.textContent = 'The operating plan';
+    sub.textContent = 'A partnership isn\'t integrated — it\'s run. Govern it well and protect what makes it work.';
+  } else {
+    title.textContent = 'The plan that makes it work';
+    sub.textContent = 'An acquisition is won in the integration. A partnership is won in how it\'s run.';
+  }
+}
+
+function renderPartnership() {
+  document.getElementById('partnerInfra').value = state.partnership.infra || '';
+  document.getElementById('partnerDiff').value = state.partnership.diff || '';
+}
+
+function renderPreconditions() {
+  const list = document.getElementById('preconditionList');
+  list.innerHTML = '';
+  PRECONDITIONS.forEach((p, i) => {
+    const data = state.preconditions[p.key];
+    const answerClass = data.answer ? `answered-${data.answer}` : '';
+    const div = document.createElement('div');
+    div.className = `precondition ${answerClass}`;
+    div.innerHTML = `
+      <div class="precondition-head">
+        <div class="precondition-num">${i + 1}</div>
+        <div>
+          <div class="precondition-title">${escapeHtml(p.title)}</div>
+          <div class="precondition-test">${escapeHtml(p.test)}</div>
+        </div>
+      </div>
+      <div class="precondition-q">${escapeHtml(p.question)}</div>
+      <div class="answer-toggle">
+        <button class="answer-btn ${data.answer === 'yes' ? 'sel-yes' : ''}" data-precond="${p.key}" data-answer="yes" type="button">Yes</button>
+        <button class="answer-btn ${data.answer === 'almost' ? 'sel-almost' : ''}" data-precond="${p.key}" data-answer="almost" type="button">Almost</button>
+        <button class="answer-btn ${data.answer === 'no' ? 'sel-no' : ''}" data-precond="${p.key}" data-answer="no" type="button">No</button>
+      </div>
+      <div class="precondition-evidence">
+        <div class="label-row">
+          <label>Evidence</label>
+          <div class="example-btn-wrap">
+            <button class="use-example-btn" data-precond-example="${p.key}" type="button">Use example</button>
+          </div>
+        </div>
+        <div class="label-hint">${escapeHtml(p.evidenceHint)}</div>
+        <textarea data-precond-evidence="${p.key}" placeholder="${escapeHtml(p.evidenceExample)}">${escapeHtml(data.evidence)}</textarea>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+
+  list.querySelectorAll('[data-answer]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.precond;
+      const ans = e.target.dataset.answer;
+      state.preconditions[key].answer = state.preconditions[key].answer === ans ? '' : ans;
+      save();
+      renderPreconditions();
+      renderVerdict();
+      renderPlanningWarning();
+      updateLivePanel();
+    });
+  });
+  list.querySelectorAll('[data-precond-evidence]').forEach(ta => {
+    ta.addEventListener('input', e => {
+      state.preconditions[e.target.dataset.precondEvidence].evidence = e.target.value;
+      save();
+    });
+  });
+  list.querySelectorAll('[data-precond-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.precondExample;
+      const p = PRECONDITIONS.find(x => x.key === key);
+      const data = state.preconditions[key];
+      if (data.evidence && data.evidence.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+      data.evidence = p.evidenceExample;
+      save();
+      renderPreconditions();
+    });
+  });
+}
+
+function renderVerdict() {
+  const v = computeVerdict();
+  const banner = document.getElementById('verdictBanner');
+  const icon = document.getElementById('verdictIcon');
+  const title = document.getElementById('verdictTitle');
+  const text = document.getElementById('verdictText');
+
+  banner.classList.remove('go', 'wait', 'incomplete');
+
+  if (v.status === 'incomplete') {
+    banner.classList.add('incomplete');
+    icon.textContent = '•';
+    title.textContent = `Answer both preconditions (${v.answered}/2 answered)`;
+    text.textContent = 'Your acquisition-readiness verdict appears here once both are answered honestly.';
+  } else if (v.status === 'go') {
+    banner.classList.add('go');
+    icon.textContent = '✓';
+    title.textContent = 'Green light — the acquisition is worth pursuing';
+    text.textContent = 'Both preconditions are a clear yes. The deal is sound — now everything depends on the integration plan in Section 4.';
+  } else {
+    banner.classList.add('wait');
+    icon.textContent = '!';
+    title.textContent = 'Not yet — the acquisition waits';
+    const gaps = PRECONDITIONS
+      .filter(p => state.preconditions[p.key].answer !== 'yes')
+      .map(p => p.title.toLowerCase());
+    text.textContent = `Both preconditions must be a clear yes. Close this gap first: ${gaps.join('; ')}. You can still plan below — but treat it as planning, not a decision.`;
+  }
+}
+
+function renderIntegration() {
+  // Acquisition — integration plan
+  document.getElementById('integKeep').value = state.integration.keep || '';
+  document.getElementById('integChange').value = state.integration.change || '';
+  document.getElementById('integRetention').value = state.integration.retention || '';
+  document.getElementById('integCulture').value = state.integration.culture || '';
+  // Partnership — operating plan
+  document.getElementById('opsGovern').value = state.operations.govern || '';
+  document.getElementById('opsTerms').value = state.operations.terms || '';
+  document.getElementById('opsCapacity').value = state.operations.capacity || '';
+  document.getElementById('opsDiff').value = state.operations.diff || '';
+}
+
+function renderPlanningWarning() {
+  // The warning only applies to the acquisition path, and only when the gate isn't a clean go
+  const v = computeVerdict();
+  const showWarning = state.move === 'acquisition' && v.status !== 'go';
+  document.getElementById('planningWarning4').classList.toggle('active', showWarning);
+}
+
+function renderCommit() {
+  document.getElementById('commitOwner').value = state.commit.owner || '';
+  document.getElementById('commitStart').value = state.commit.start || '';
+  document.getElementById('commitActions').value = state.commit.actions || '';
+  document.getElementById('commitSuccess').value = state.commit.success || '';
+}
+
+function renderCloser() {
+  document.getElementById('closerReflection').value = state.closerReflection || '';
+}
+
+function updateLivePanel() {
+  const panel = document.getElementById('livePanel');
+  const headline = document.getElementById('liveHeadline');
+  const detail = document.getElementById('liveDetail');
+
+  const anyContent = state.move || state.business.name || state.moveDescribe;
+  if (!anyContent) {
+    panel.classList.remove('active');
+    return;
+  }
+  panel.classList.add('active');
+  panel.classList.remove('verdict-go', 'verdict-wait');
+
+  if (!state.move) {
+    headline.textContent = 'Name the move in Section 2';
+    detail.textContent = 'Partnership or acquisition?';
+    return;
+  }
+
+  if (state.move === 'partnership') {
+    headline.textContent = 'Evaluating — partnership';
+    const checks = [state.partnership.infra, state.partnership.diff].filter(x => x && x.trim()).length;
+    detail.textContent = `${checks}/2 failure-mode checks worked through`;
+    return;
+  }
+
+  // acquisition
+  const v = computeVerdict();
+  if (v.status === 'incomplete') {
+    headline.textContent = 'Evaluating — acquisition';
+    detail.textContent = `${v.answered}/2 preconditions answered`;
+  } else if (v.status === 'go') {
+    panel.classList.add('verdict-go');
+    headline.textContent = 'Acquisition — green light';
+    detail.textContent = 'Both preconditions met · integration is everything now';
+  } else {
+    panel.classList.add('verdict-wait');
+    headline.textContent = 'Acquisition — not yet';
+    detail.textContent = `${v.yesCount}/2 preconditions met · planning mode`;
+  }
+}
+
+// === FIELD WIRING ===
+function wireBusinessFields() {
+  const map = { businessName: 'name', ownerName: 'owner', currentRevenue: 'revenue', coreStrength: 'coreStrength' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.business[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireMoveSwitch() {
+  document.querySelectorAll('.move-switch-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const m = e.currentTarget.dataset.move;
+      if (m !== 'partnership' && m !== 'acquisition') return;
+      // Toggle off if re-clicking the active one
+      state.move = state.move === m ? '' : m;
+      save();
+      renderMoveSwitch();
+      renderMoveVisibility();
+      renderPlanningWarning();
+      updateLivePanel();
+    });
+  });
+}
+
+function wireMoveDescribe() {
+  document.getElementById('moveDescribe').addEventListener('input', e => {
+    state.moveDescribe = e.target.value;
+    save();
+  });
+}
+
+function wirePartnershipFields() {
+  document.getElementById('partnerInfra').addEventListener('input', e => {
+    state.partnership.infra = e.target.value;
+    save();
+    updateLivePanel();
+  });
+  document.getElementById('partnerDiff').addEventListener('input', e => {
+    state.partnership.diff = e.target.value;
+    save();
+    updateLivePanel();
+  });
+}
+
+function wireIntegrationFields() {
+  const map = { integKeep: 'keep', integChange: 'change', integRetention: 'retention', integCulture: 'culture' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.integration[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireOperationsFields() {
+  const map = { opsGovern: 'govern', opsTerms: 'terms', opsCapacity: 'capacity', opsDiff: 'diff' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.operations[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireCommitFields() {
+  const map = { commitOwner: 'owner', commitStart: 'start', commitActions: 'actions', commitSuccess: 'success' };
+  Object.entries(map).forEach(([id, key]) => {
+    document.getElementById(id).addEventListener('input', e => {
+      state.commit[key] = e.target.value;
+      save();
+    });
+  });
+}
+
+function wireCloser() {
+  document.getElementById('closerReflection').addEventListener('input', e => {
+    state.closerReflection = e.target.value;
+    save();
+  });
+}
+
+// === USE EXAMPLE BUTTONS (static fields) ===
+function wireExampleButtons() {
+  document.querySelectorAll('[data-example]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const key = e.target.dataset.example;
+      const exampleText = EXAMPLES[key];
+      if (exampleText === undefined) return;
+
+      const targets = {
+        moveDescribe: { el: 'moveDescribe', get: () => state.moveDescribe, set: v => state.moveDescribe = v },
+        partnerInfra: { el: 'partnerInfra', get: () => state.partnership.infra, set: v => state.partnership.infra = v },
+        partnerDiff: { el: 'partnerDiff', get: () => state.partnership.diff, set: v => state.partnership.diff = v },
+        integKeep: { el: 'integKeep', get: () => state.integration.keep, set: v => state.integration.keep = v },
+        integChange: { el: 'integChange', get: () => state.integration.change, set: v => state.integration.change = v },
+        integRetention: { el: 'integRetention', get: () => state.integration.retention, set: v => state.integration.retention = v },
+        integCulture: { el: 'integCulture', get: () => state.integration.culture, set: v => state.integration.culture = v },
+        opsGovern: { el: 'opsGovern', get: () => state.operations.govern, set: v => state.operations.govern = v },
+        opsTerms: { el: 'opsTerms', get: () => state.operations.terms, set: v => state.operations.terms = v },
+        opsCapacity: { el: 'opsCapacity', get: () => state.operations.capacity, set: v => state.operations.capacity = v },
+        opsDiff: { el: 'opsDiff', get: () => state.operations.diff, set: v => state.operations.diff = v },
+        commitActions: { el: 'commitActions', get: () => state.commit.actions, set: v => state.commit.actions = v },
+        commitSuccess: { el: 'commitSuccess', get: () => state.commit.success, set: v => state.commit.success = v },
+        closerReflection: { el: 'closerReflection', get: () => state.closerReflection, set: v => state.closerReflection = v },
+      };
+      const t = targets[key];
+      if (!t) return;
+      const existing = t.get();
+      if (existing && existing.trim() && !confirm('Replace what you\'ve already written with the example?')) return;
+      t.set(exampleText);
+      const el = document.getElementById(t.el);
+      el.value = exampleText;
+      el.focus();
+      el.setSelectionRange(exampleText.length, exampleText.length);
+      save();
+      updateLivePanel();
+    });
+  });
+}
+
+// === FORMAT DATE ===
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch { return iso; }
+}
+
+function answerLabel(a) {
+  if (!a) return '—';
+  return a.charAt(0).toUpperCase() + a.slice(1);
+}
+
+// === PDF / PRINT ===
+document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+  buildPdfDocument();
+  setTimeout(() => { window.print(); }, 60);
+});
+
+function buildPdfDocument() {
+  const el = document.getElementById('pdfDocument');
+  const b = state.business;
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const businessLine = [b.name, b.revenue].filter(Boolean).join(' · ');
+
+  let html = `
+    <div class="pdf-header">
+      <div class="pdf-eyebrow">Two Weeks Out · Strategic Partnerships Playbook</div>
+      <h1>${escapeHtml(b.name || 'Your Strategic Partnership Playbook')}</h1>
+      <div class="pdf-subtitle">${escapeHtml(businessLine || 'Strategic partnership playbook')}</div>
+    </div>
+    <div class="pdf-meta">${b.owner ? `Prepared by ${escapeHtml(b.owner)} · ` : ''}${today}</div>
+  `;
+
+  // The move
+  const moveName = state.move === 'partnership' ? 'A Partnership' : (state.move === 'acquisition' ? 'An Acquisition' : 'Not yet chosen');
+  html += `<div class="pdf-section-title">The Growth Move</div>
+    <div class="pdf-move-banner">
+      <div class="pdf-move-label">The move under evaluation</div>
+      <div class="pdf-move-name">${escapeHtml(moveName)}</div>
+    </div>`;
+  if (state.moveDescribe) {
+    html += `<div style="font-size:11px; color:#10131a; margin-top:8px;">${escapeHtml(state.moveDescribe)}</div>`;
+  }
+
+  // Partnership evaluation
+  if (state.move === 'partnership') {
+    html += `<div class="pdf-section-title">Partnership Evaluation — Two Failure Modes</div>
+      <table>
+        <thead><tr><th style="width:32%;">Failure mode</th><th style="width:68%;">Your assessment</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Infrastructure</strong><br><span style="color:#59616e;">Can you carry the volume?</span></td><td>${escapeHtml(state.partnership.infra || '—')}</td></tr>
+          <tr><td><strong>Differentiation</strong><br><span style="color:#59616e;">Do you stay distinct?</span></td><td>${escapeHtml(state.partnership.diff || '—')}</td></tr>
+        </tbody>
+      </table>`;
+  }
+
+  // Acquisition gate
+  if (state.move === 'acquisition') {
+    const v = computeVerdict();
+    if (v.status === 'go') {
+      html += `<div class="pdf-verdict go">
+        <div class="pdf-verdict-title">Acquisition Readiness: GREEN LIGHT</div>
+        <div class="pdf-verdict-text">Both preconditions met. The deal is sound — the outcome now depends on integration.</div>
+      </div>`;
+    } else if (v.status === 'wait') {
+      html += `<div class="pdf-verdict wait">
+        <div class="pdf-verdict-title">Acquisition Readiness: NOT YET — ${v.yesCount}/2 preconditions met</div>
+        <div class="pdf-verdict-text">This is a planning document, not a go decision. The acquisition waits until both preconditions are met.</div>
+      </div>`;
+    } else {
+      html += `<div class="pdf-verdict wait">
+        <div class="pdf-verdict-title">Acquisition Readiness: INCOMPLETE — ${v.answered}/2 answered</div>
+        <div class="pdf-verdict-text">The precondition gate has not been fully assessed.</div>
+      </div>`;
+    }
+    html += `<div class="pdf-section-title">The Acquisition Preconditions</div>
+      <table>
+        <thead><tr><th style="width:30%;">Precondition</th><th style="width:14%;">Answer</th><th style="width:56%;">Evidence</th></tr></thead>
+        <tbody>`;
+    PRECONDITIONS.forEach(p => {
+      const d = state.preconditions[p.key];
+      html += `<tr>
+        <td><strong>${escapeHtml(p.title)}</strong></td>
+        <td class="v-${d.answer || 'none'}">${escapeHtml(answerLabel(d.answer))}</td>
+        <td>${escapeHtml(d.evidence || '—')}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // Section 4 — integration plan (acquisition) or operating plan (partnership)
+  if (state.move === 'acquisition') {
+    const ig = state.integration;
+    if (ig.keep || ig.change || ig.retention || ig.culture) {
+      html += `<div class="pdf-section-title">The Integration Plan</div>
+        <table>
+          <tbody>
+            <tr><td style="width:24%;"><strong>Keep</strong></td><td>${escapeHtml(ig.keep || '—')}</td></tr>
+            <tr><td><strong>Change</strong></td><td>${escapeHtml(ig.change || '—')}</td></tr>
+            <tr><td><strong>Hold the people</strong></td><td>${escapeHtml(ig.retention || '—')}</td></tr>
+            <tr><td><strong>Culture risk &amp; plan</strong></td><td>${escapeHtml(ig.culture || '—')}</td></tr>
+          </tbody>
+        </table>`;
+    }
+  } else if (state.move === 'partnership') {
+    const op = state.operations;
+    if (op.govern || op.terms || op.capacity || op.diff) {
+      html += `<div class="pdf-section-title">The Operating Plan</div>
+        <table>
+          <tbody>
+            <tr><td style="width:24%;"><strong>Govern</strong></td><td>${escapeHtml(op.govern || '—')}</td></tr>
+            <tr><td><strong>Terms &amp; exit</strong></td><td>${escapeHtml(op.terms || '—')}</td></tr>
+            <tr><td><strong>Protect capacity</strong></td><td>${escapeHtml(op.capacity || '—')}</td></tr>
+            <tr><td><strong>Protect differentiation</strong></td><td>${escapeHtml(op.diff || '—')}</td></tr>
+          </tbody>
+        </table>`;
+    }
+  }
+
+  // Commitment
+  const c = state.commit;
+  const commitFilled = c.owner || c.start || c.actions || c.success;
+  if (commitFilled) {
+    html += `<div class="pdf-section-title">The Commitment</div>
+      <table>
+        <tbody>
+          <tr><td style="width:24%;"><strong>Owner</strong></td><td>${escapeHtml(c.owner || '—')}</td></tr>
+          <tr><td><strong>Start date</strong></td><td>${escapeHtml(c.start ? formatDate(c.start) : '—')}</td></tr>
+          <tr><td><strong>First three actions</strong></td><td>${escapeHtml(c.actions || '—')}</td></tr>
+          <tr><td><strong>12-month success</strong></td><td>${escapeHtml(c.success || '—')}</td></tr>
+        </tbody>
+      </table>`;
+  }
+
+  // Module closer
+  if (state.closerReflection) {
+    html += `<div class="pdf-section-title">The One Growth Move</div>
+      <div style="font-size:11px; color:#10131a;">${escapeHtml(state.closerReflection)}</div>`;
+  }
+
+  html += `<div class="pdf-principle">A partnership multiplies what you have. An acquisition absorbs what someone else built. Either way, the integration is the work.</div>`;
+  html += `<div class="pdf-footer">Two Weeks Out · From Corporate Operator to Confident Owner</div>`;
+
+  el.innerHTML = html;
+}
+
+// === EXCEL DOWNLOAD ===
+document.getElementById('downloadXlsxBtn').addEventListener('click', () => {
+  try {
+    const wb = XLSX.utils.book_new();
+    const b = state.business;
+    const slug = (b.name || 'business').replace(/[^a-z0-9]+/gi, '_').toLowerCase();
+    const v = computeVerdict();
+
+    // === Sheet 1: The Evaluation ===
+    const evalRows = [
+      ['Field', 'Value'],
+      ['Business', b.name || ''],
+      ['Owner', b.owner || ''],
+      ['Current revenue', b.revenue || ''],
+      ['Core strength to protect', b.coreStrength || ''],
+      [''],
+      ['Move type', state.move || ''],
+      ['Move description', state.moveDescribe || ''],
+    ];
+    if (state.move === 'partnership') {
+      evalRows.push(['']);
+      evalRows.push(['PARTNERSHIP — FAILURE MODE CHECKS', '']);
+      evalRows.push(['Infrastructure — can you carry the volume?', state.partnership.infra || '']);
+      evalRows.push(['Differentiation — do you stay distinct?', state.partnership.diff || '']);
+    } else if (state.move === 'acquisition') {
+      const verdictText = v.status === 'go'
+        ? 'GREEN LIGHT — both preconditions met'
+        : v.status === 'wait'
+          ? `NOT YET — ${v.yesCount}/2 preconditions met`
+          : `INCOMPLETE — ${v.answered}/2 answered`;
+      evalRows.push(['']);
+      evalRows.push(['ACQUISITION READINESS', verdictText]);
+      PRECONDITIONS.forEach(p => {
+        const d = state.preconditions[p.key];
+        evalRows.push([p.title, answerLabel(d.answer)]);
+        evalRows.push([`  Evidence — ${p.title}`, d.evidence || '']);
+      });
+    }
+    const evalWs = XLSX.utils.aoa_to_sheet(evalRows);
+    evalWs['!cols'] = [{ wch: 36 }, { wch: 72 }];
+    XLSX.utils.book_append_sheet(wb, evalWs, 'The Evaluation');
+
+    // === Sheet 2: The Plan & Commitment ===
+    const planRows = [['Field', 'Value']];
+    if (state.move === 'partnership') {
+      planRows.push(['THE OPERATING PLAN', '']);
+      planRows.push(['Govern', state.operations.govern || '']);
+      planRows.push(['Terms & exit', state.operations.terms || '']);
+      planRows.push(['Protect capacity', state.operations.capacity || '']);
+      planRows.push(['Protect differentiation', state.operations.diff || '']);
+    } else {
+      planRows.push(['THE INTEGRATION PLAN', '']);
+      planRows.push(['Keep', state.integration.keep || '']);
+      planRows.push(['Change', state.integration.change || '']);
+      planRows.push(['Hold the people', state.integration.retention || '']);
+      planRows.push(['Culture risk & plan', state.integration.culture || '']);
+    }
+    planRows.push(['']);
+    planRows.push(['THE COMMITMENT', '']);
+    planRows.push(['Owner', state.commit.owner || '']);
+    planRows.push(['Start date', state.commit.start || '']);
+    planRows.push(['First three actions', state.commit.actions || '']);
+    planRows.push(['12-month success', state.commit.success || '']);
+    planRows.push(['']);
+    planRows.push(['THE ONE GROWTH MOVE', '']);
+    planRows.push(['Closing reflection', state.closerReflection || '']);
+    const planWs = XLSX.utils.aoa_to_sheet(planRows);
+    planWs['!cols'] = [{ wch: 30 }, { wch: 76 }];
+    XLSX.utils.book_append_sheet(wb, planWs, 'The Plan & Commitment');
+
+    XLSX.writeFile(wb, `partnership_evaluation_${slug}.xlsx`);
+  } catch (e) {
+    alert('Excel generation failed. Please try again.');
+    console.error(e);
+  }
+});
+
+// === CLEAR ALL ===
+function wireClearAll() {
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    const ok = confirm(
+      'Clear everything and start over?\n\n' +
+      'This permanently erases all your entries in this worksheet and cannot be undone.'
+    );
+    if (!ok) return;
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+      console.warn('Could not clear storage:', e);
+    }
+    location.reload();
+  });
+}
+
+// === INIT ===
+load();
+render();
+wireBusinessFields();
+wireMoveSwitch();
+wireMoveDescribe();
+wirePartnershipFields();
+wireIntegrationFields();
+wireOperationsFields();
+wireCommitFields();
+wireCloser();
+wireExampleButtons();
+wireClearAll();
+
+</script>
+</body>
+</html>

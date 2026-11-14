@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Great Product Manager Worksheet · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+
+:root{
+  --ink:#10131a; --paper:#fbfaf6; --white:#ffffff; --cobalt:#2747f5; --cobalt2:#1b36c9; --signal:#ff5a1f;
+  --slate:#59616e; --fog:#9ba3af; --sky:#93abff; --mist:#e9ecf5; --line:#d5d9e4; --inkline:#2c313c; --onink:#c9ced8;
+  --good:#0d6b4c; --good-tint:#e2f5ea; --warn:#7d5300; --warn-tint:#fff3cd; --danger:#b3261e; --danger-tint:#fde9e7;
+  --module:#F986DD;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+  --text:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--module);border-bottom:2px solid var(--ink)}
+.two-wm{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.two-mod{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header.top{padding:52px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.deck{font-size:18px;color:var(--slate);max-width:700px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.btn{border:2px solid var(--ink);background:var(--white);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.btn.primary:hover{background:var(--cobalt2);border-color:var(--cobalt2)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.ink:hover{background:var(--inkline)}
+.btn.quiet{border-color:var(--line);color:var(--slate);font-weight:500}
+.saved{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);margin-left:auto}
+.meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:22px}
+.meta label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date],select,textarea{width:100%;background:var(--white);border:1px solid var(--line);border-bottom:2px solid var(--ink);padding:10px 12px;border-radius:0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--mist)}
+textarea{resize:vertical;min-height:64px;line-height:1.5;overflow:hidden}
+::placeholder{color:#8a919c}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-top:28px}
+.progress .wrap{display:flex;gap:6px;padding:12px 24px;flex-wrap:wrap}
+.step-pill{flex:1 1 180px;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--white);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--slate);text-decoration:none}
+.step-pill b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog)}
+.step-pill.done{border-color:var(--good);color:var(--good);background:var(--good-tint)}
+.step-pill.done b{color:var(--good)}
+
+section.step{padding:52px 0 8px}
+.step-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.step-num{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--cobalt)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);line-height:1.05;letter-spacing:-.035em}
+.intro{color:var(--slate);max-width:720px;margin:10px 0 22px}
+.group-label{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px;display:flex;gap:12px;align-items:center}
+.group-label::after{content:"";flex:1;height:2px;background:var(--ink)}
+.group-note{font-size:14px;color:var(--slate);margin:-4px 0 14px;max-width:720px}
+
+.box{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:12px}
+.box.money{border-left-color:var(--cobalt)}
+.box-top{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-bottom:12px}
+.box-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.box-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.box-q{grid-column:2;font-size:14px;color:var(--slate)}
+.box-q b{color:var(--ink);font-weight:600}
+.len{font-size:12px;color:var(--fog);margin-top:6px;min-height:18px}
+.len.long{color:var(--warn)}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.marks .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark:hover{border-color:var(--ink)}
+.mark[aria-pressed=true][data-m=known]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=assumed]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.mark[aria-pressed=true][data-m=unknown]{background:var(--mist);border-color:var(--ink);color:var(--ink)}
+.evidence{margin-top:12px;display:none}
+.evidence.show{display:block}
+.evidence label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.evidence label span{font-weight:400;color:var(--slate)}
+.flag{font-size:13px;margin-top:8px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.flag.show{display:block}
+
+.callout{background:var(--ink);color:var(--paper);padding:22px 26px;margin:6px 0 18px}
+.callout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.callout p{color:var(--onink);font-size:15px}
+.callout p b{color:#fff}
+
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 14px}
+.tally div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.tally .v{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.tally .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.tally .known .v{color:var(--good)} .tally .assumed .v{color:var(--warn)}
+.read{padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:760px}
+.read.alert{border-left-color:var(--danger);background:var(--danger-tint)}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pick label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.pick label:hover{border-color:var(--ink)}
+.pick input{margin-top:3px;accent-color:var(--cobalt)}
+.pick label.on{border:2px solid var(--signal);padding:11px 13px}
+.pick small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.pick small.known{color:var(--good)} .pick small.assumed{color:var(--warn)} .pick small.unknown{color:var(--slate)}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.field .help{font-size:13px;color:var(--slate);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:grid;gap:8px;margin:6px 0 4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--white);border:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--good)}
+.reopen{display:flex;flex-wrap:wrap;gap:8px}
+.reopen label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:7px 12px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.reopen input{accent-color:var(--cobalt)}
+
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.summary div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.summary h5{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.summary p{font-size:14.5px;white-space:pre-wrap}
+.next{margin:44px 0 70px;padding:24px 26px;border:2px solid var(--ink);background:var(--white)}
+.next .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px}
+.next p{color:var(--slate)}
+.print-only{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;display:none;z-index:50}
+.toast.show{display:block}
+@media print{input[type=date]::-webkit-calendar-picker-indicator{display:none}select{background-image:none}}
+
+.meta{grid-template-columns:2fr 1fr}
+.hidden{display:none!important}
+.note{font-size:14px;padding:12px 16px;border-left:4px solid var(--cobalt);background:var(--mist);margin:4px 0 14px;max-width:800px}
+.note.alert{border-left-color:var(--warn);background:var(--warn-tint);color:#5c3d00}
+.note.danger{border-left-color:var(--danger);background:var(--danger-tint);color:#7a1a14}
+.note.good{border-left-color:var(--good);background:var(--good-tint);color:#0a4f38}
+.ex-note{display:none;margin:0 0 16px;padding:12px 16px;background:var(--warn-tint);color:var(--warn);font-size:14px;max-width:800px}
+.ex-note.show{display:block}
+.part{display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:start;background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:16px 18px;margin-bottom:10px}
+.part.strong{border-left-color:var(--good)}.part.weak{border-left-color:var(--warn)}
+.part .pn{font-family:var(--display);font-weight:800;font-size:26px;color:var(--fog);line-height:1}
+.part b{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em;display:block;line-height:1.15}
+.part small{display:block;font-size:13px;color:var(--slate);margin-top:3px}
+.part .keep{display:inline-block;margin-top:6px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--signal);color:var(--ink);padding:2px 7px}
+.part textarea{margin-top:10px;min-height:40px;font-size:14px}
+.marks{display:flex;gap:6px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark[aria-pressed=true][data-m=strong]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=weak]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.ask80{background:var(--ink);color:#fff;padding:20px 22px;margin:4px 0 16px;font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.02em;line-height:1.25}
+.ask80 small{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);margin-bottom:6px}
+.cal-head,.cal{display:grid;grid-template-columns:28px 1.7fr 80px 150px 1.3fr 90px 34px;gap:8px;align-items:center}
+.cal-head{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);padding:0 12px 6px}
+.cal{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:10px 12px;margin-bottom:8px}
+.cal.go{border-left-color:var(--good)}.cal.stay{border-left-color:var(--cobalt)}.cal.top{outline:3px solid var(--signal);outline-offset:-1px}
+.cal span.n{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--fog)}
+.cal input,.cal select{padding:7px 9px;font-size:14px}
+.cal label.tp{display:flex;gap:6px;align-items:center;font-size:12px;font-weight:600;color:var(--slate);cursor:pointer}
+.cal label.tp input{width:auto;accent-color:var(--signal)}
+.ibtn{border:1px solid var(--line);background:var(--paper);min-width:34px;height:34px;padding:0 8px;font-size:13px;font-weight:600;cursor:pointer}
+.ibtn:hover{border-color:var(--ink)}
+.counter{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 4px}
+.split{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.split>div{background:var(--white);border:1px solid var(--line);padding:14px 16px;min-width:0}
+.split .v{font-family:var(--display);font-weight:800;font-size:32px;letter-spacing:-.03em;line-height:1}
+.split .l{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.split .go .v{color:var(--good)} .split .stay .v{color:var(--cobalt)}
+.doc{background:var(--white);border:2px solid var(--ink);padding:20px 22px}
+.doc h3{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.02em;margin-bottom:4px}
+.doc textarea{min-height:160px;font-size:14.5px}
+.status{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.status label{display:flex;gap:8px;align-items:center;padding:8px 13px;background:var(--paper);border:1px solid var(--line);font-size:13.5px;font-weight:600;cursor:pointer}
+.status label.on{border:2px solid var(--signal);padding:7px 12px;background:var(--white)}
+.status input{accent-color:var(--cobalt)}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.signs .read{margin-top:12px;padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:800px}
+.signs .read.alert{border-left-color:var(--warn);background:var(--warn-tint);color:#5c3d00}
+.signs .read.good{border-left-color:var(--good);background:var(--good-tint);color:#0a4f38}
+/* output */
+.ocard{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--ink);border:2px solid var(--ink)}
+.ocard > div{background:var(--white);padding:12px 14px}
+.ocard .s2{grid-column:span 2}.ocard .s3{grid-column:span 3}.ocard .s5{grid-column:span 5}
+.ocard h5{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:5px}
+.ocard p{font-size:13px;white-space:pre-wrap}
+.ocard .mk{font-family:var(--display);font-weight:800;font-size:18px}
+.ocard .mk.strong{color:var(--good)}.ocard .mk.weak{color:var(--warn)}
+.ocard .dark{background:var(--ink);color:#fff}.ocard .dark h5{color:var(--sky)}
+.e{color:var(--fog)}
+@media (max-width:760px){
+  .meta,.grid2,.summary,.split,.g3{grid-template-columns:1fr}
+  .part{grid-template-columns:30px 1fr}.part .marks{grid-column:2}
+  .cal-head{display:none}
+  .cal{grid-template-columns:28px 1fr 1fr}
+  .cal > input[data-f=item]{grid-column:2/4}
+  .cal > select,.cal > input[data-f=why]{grid-column:2/4}
+  .cal > input[data-f=hrs]{grid-column:2}
+  .cal .ibtn{grid-column:3;justify-self:end}
+  .cal label.tp{grid-column:2/4}
+  .ocard{grid-template-columns:1fr}.ocard .s2,.ocard .s3,.ocard .s5{grid-column:auto}
+  .progress{position:static}
+}
+@media print{
+  @page{size:letter landscape;margin:.4in}
+  body{background:#fff;font-size:10pt}
+  .two-band,.toolbar,.progress,section.step,.next,.toast,.saved,.no-print{display:none!important}
+  header.top{padding:0 0 8px;border-bottom:2px solid #000}
+  h1{font-size:18pt;margin:2px 0}
+  .eyebrow{font-size:8pt}
+  .deck{display:none}
+  .meta{margin-top:6px}
+  .meta label{font-size:7pt;margin-bottom:2px}
+  .meta input{border:none;border-bottom:1px solid #999;padding:2px 0}
+  #out{display:block!important;padding-top:8px}
+  #out h2{font-size:13pt;margin-bottom:4px}
+  .ocard > div{padding:7px 10px}.ocard p{font-size:8.5pt}.ocard .mk{font-size:12pt}
+  .ocard,.ocard > div,.ocard .dark{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ocard{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">06 / Build What Customers Want</span></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Worksheet · What It Takes to Be a Great Product Manager</div>
+  <h1>The job you’ve <em>been doing.</em></h1>
+  <p class="deck">In a bigger company it’s called product manager. In yours, it’s you, whether you meant it or not. Mark the five parts, hand off what somebody else could do at eighty percent, and keep the one part that stays yours.</p>
+  <div class="toolbar">
+    <button class="btn primary" id="useExample" type="button">Use the lesson’s example</button>
+    <button class="btn ink" id="printBtn" type="button">Print / Save as PDF</button>
+    <button class="btn" id="xlsxBtn" type="button">Download to Excel</button>
+    <button class="btn quiet" id="clearBtn" type="button">Clear all</button>
+    <span class="saved" id="saved">Saves automatically in this browser</span>
+  </div>
+  <div class="meta">
+    <div><label for="bizName">Business</label><input type="text" id="bizName" data-k="bizName" placeholder="Your business, or the one you’re planning"></div>
+    <div><label for="pmDate">Date</label><input type="date" id="pmDate" data-k="pmDate"></div>
+  </div>
+</header>
+</div>
+
+<nav class="progress" aria-label="Progress">
+  <div class="wrap">
+    <a class="step-pill" id="p1" href="#s1"><b>01</b><span>Mark the five <span id="p1n">0/5</span></span></a>
+    <a class="step-pill" id="p2" href="#s2"><b>02</b><span>The 80% question <span id="p2n">0/0</span></span></a>
+    <a class="step-pill" id="p3" href="#s2"><b>03</b><span>Write the costliest one down</span></a>
+    <a class="step-pill" id="p4" href="#s3"><b>04</b><span>Customer time, every week</span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section class="step" id="s1">
+  <div class="step-head"><span class="step-num">STEP 01</span></div>
+  <h2>Mark the five parts of the job: strong or weak.</h2>
+  <p class="intro">You’ve done all five in this module. Most owners are strong on one or two and quietly skip the rest. That’s normal. The weak ones are what you hand off, or eventually hire for. Except one.</p>
+  <div class="ex-note" id="exNote">From the lesson: Aaron’s calendar audit, what stayed his, and the two weeks he spent writing down how he read results. The lesson doesn’t say how Aaron marked the five parts, how many hours each item took, or when he books customer time, so those are left for you.</div>
+  <div id="parts"></div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head"><span class="step-num">STEP 02</span></div>
+  <h2>Take one real week of your calendar. Ask one question about every item.</h2>
+  <div class="ask80"><small>The question</small>Could somebody else do this at eighty percent, if what’s in my head were written down?</div>
+  <div class="field" style="max-width:340px"><label for="week">The week</label><input type="text" id="week" data-k="week" placeholder="e.g., Week of Oct 19"></div>
+  <div class="cal-head"><span></span><span>Item</span><span>Hours</span><span>At 80%?</span><span>If no: the judgment that stays</span><span>Costs most</span><span></span></div>
+  <div id="cal"></div>
+  <div class="counter"><button class="btn" type="button" id="addCal">+ Add an item</button></div>
+  <div class="split">
+    <div class="go"><div class="v" id="hGo">0</div><div class="l">Items that could go · <span id="hrGo">0</span> h</div></div>
+    <div class="stay"><div class="v" id="hStay">0</div><div class="l">Items that stay · <span id="hrStay">0</span> h</div></div>
+    <div><div class="v" id="hNone">0</div><div class="l">Not asked yet</div></div>
+  </div>
+  <div class="note hidden" id="calRead"></div>
+
+  <div class="group-label" style="margin-top:28px">Write down what’s in your head · the one that costs you the most</div>
+  <p class="group-note">Writing it down feels like a detour from the real work. It isn’t. It’s the work.</p>
+  <div class="doc">
+    <h3 id="docTitle">Mark the item that costs you the most, above.</h3>
+    <div class="grid2" style="margin-top:10px">
+      <div class="field"><label for="docTo">Handing it to</label><input type="text" id="docTo" data-k="docTo" placeholder="Who takes it over"></div>
+      <div class="field"><label for="docWhen">Written down by</label><input type="date" id="docWhen" data-k="docWhen"></div>
+    </div>
+    <div class="field"><label for="doc">How I do it</label><p class="help">The steps, what I look for, the calls I make and why, the mistakes to avoid. Enough for eighty percent.</p><textarea id="doc" data-k="doc"></textarea></div>
+    <div class="status" id="stPick">
+      <label id="st-start"><input type="radio" name="docSt" data-k="docSt" value="start"> Started</label>
+      <label id="st-written"><input type="radio" name="docSt" data-k="docSt" value="written"> Written down</label>
+      <label id="st-handed"><input type="radio" name="docSt" data-k="docSt" value="handed"> Handed over</label>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head"><span class="step-num">STEP 03</span></div>
+  <h2>Book time with customers every week, starting this week.</h2>
+  <p class="intro">Listening stays yours, whatever your marks say. You’re the only person who hears everything: the sales calls, the complaints, the reason somebody left. If it isn’t on the calendar, it stops.</p>
+  <div class="checks" style="margin-bottom:14px"><label><input type="checkbox" data-k="pre"> I’m pre-launch: I’ll book it with my test group.</label></div>
+  <div class="g3">
+    <div class="field"><label for="ctDay">Day</label><select id="ctDay" data-k="ctDay"><option value="">Choose a day</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></div>
+    <div class="field"><label for="ctLen">How long</label><input type="text" id="ctLen" data-k="ctLen" placeholder="e.g., 60 minutes"></div>
+    <div class="field"><label for="ctFirst">First one</label><input type="date" id="ctFirst" data-k="ctFirst"></div>
+  </div>
+  <div class="field"><label for="ctWho">With whom</label><input type="text" id="ctWho" data-k="ctWho" placeholder="e.g., Two customers, rotating through the list"></div>
+  <div class="checks"><label><input type="checkbox" data-k="ctCal"> It’s on the calendar, recurring.</label></div>
+
+  <div class="group-label signs" style="margin-top:34px">Is it time to hire a product manager?</div>
+  <div class="signs">
+    <div class="checks">
+      <label><input type="checkbox" data-k="sg1"> I’ve handed things off, and decisions still pile up waiting for me.</label>
+      <label><input type="checkbox" data-k="sg2"> I run more than one offering, and each one needs its own decisions.</label>
+      <label><input type="checkbox" data-k="sg3"> Customers or staff are waiting days for answers from me.</label>
+    </div>
+    <div class="checks" style="margin-top:12px"><label><input type="checkbox" data-k="written"> What’s in my head is written down.</label></div>
+    <div class="read" id="hireRead"></div>
+  </div>
+</section>
+
+<section id="out" class="step">
+  <div class="step-head"><span class="step-num">YOUR JOB</span></div>
+  <h2 id="outTitle">The product manager’s job, and who does it</h2>
+  <div class="ocard" id="oParts"></div>
+</section>
+
+<div class="next no-print">
+  <div class="k">That’s the module</div>
+  <p>Everything in it depends on someone carrying the customer’s voice into the room. <b style="color:var(--ink)">That’s you.</b></p>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY='two_pm_v1';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  var savedEl=document.getElementById('saved'),t0,tt;
+  function flash(s){savedEl.textContent=s;clearTimeout(t0);t0=setTimeout(function(){savedEl.textContent='Saves automatically in this browser'},1200)}
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));flash('Saved')}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function plusDays(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+  function nice(s){if(!s)return '';var p=s.split('-');if(p.length!==3)return s;var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1];return m+' '+(+p[2])+', '+p[0]}
+  function toast(s){var el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2800)}
+  function t(v){return String(v==null?'':v).trim()}
+  function bindStatic(){
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var k=el.dataset.k,v=state[k];
+      if(el.type==='checkbox') el.checked=!!v;
+      else if(el.type==='radio') el.checked=(v===el.value);
+      else el.value=v!=null?v:'';
+    });
+  }
+  function onField(e){
+    var el=e.target,k=el.dataset&&el.dataset.k;
+    if(!k)return false;
+    if(el.type==='radio'){if(!el.checked)return true;state[k]=el.value}
+    else state[k]=el.type==='checkbox'?el.checked:el.value;
+    persist();render();return true;
+  }
+  function fileName(base,suffix){return ((t(state.bizName)||base).replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||base)+(suffix||'')+'.xlsx'}
+  function sheet(rows,cols){var ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=cols.map(function(w){return{wch:w}});return ws}
+  function grow(el){if(el.offsetParent===null)return;el.style.height='auto';el.style.height=(el.scrollHeight+3)+'px'}
+  function growAll(){document.querySelectorAll('textarea').forEach(grow)}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target)});
+  var rzT;window.addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(growAll,120)});
+  setTimeout(growAll,0);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(growAll);
+  function wire(opts){
+    document.getElementById('useExample').addEventListener('click',function(){
+      if(opts.hasData()&&!confirm('Replace what you’ve entered with the lesson’s example? Your current answers will be cleared.'))return;
+      state=opts.example();opts.rebuild();persist();render();growAll();toast('The lesson’s example is loaded. Edit anything to make it yours.');
+    });
+    document.getElementById('clearBtn').addEventListener('click',function(){
+      if(!confirm('Clear every answer on this worksheet? This can’t be undone.'))return;
+      try{localStorage.removeItem(KEY)}catch(e){}
+      state=opts.fresh();opts.rebuild();persist();render();growAll();
+    });
+    document.getElementById('printBtn').addEventListener('click',function(){render();window.print()});
+    document.getElementById('xlsxBtn').addEventListener('click',function(){
+      if(typeof XLSX==='undefined'){toast('The Excel export couldn’t load. Check your connection and try again.');return}
+      opts.xlsx();
+    });
+  }
+
+  var PARTS=[['listen','Listen to customers','Interviewing for the Journey · Learning While You Run It',true],['test','Test ideas small','MVP Scoping · Rapid Prototyping'],['order','Put ideas in order','Roadmapping the Lean Way'],['fit','Check which customers it’s working for','Product-Market Fit Assessment'],['reach','Pick how to reach more','Go-to-Market']];
+  function num(v){var n=parseFloat(String(v==null?'':v).replace(/[^0-9.]/g,''));return isNaN(n)?null:n}
+  function item(){return{item:'',hrs:'',q:'',why:''}}
+  function fresh(){return{pmDate:iso(new Date()),cal:[item(),item(),item(),item(),item()],top:''}}
+  var EXAMPLE=function(){var a={item:'Interpreting every member’s results',hrs:'',q:'yes',why:''};return{bizName:'Upstream Medicine (the lesson’s example)',pmDate:iso(new Date()),ex:true,week:'One real week of Aaron’s calendar',
+    cal:[a,{item:'The referring physicians',hrs:'',q:'no',why:''},{item:'The call on complex cases',hrs:'',q:'no',why:''},{item:'The members who are leaving',hrs:'',q:'no',why:''},{item:'Everything else on the calendar',hrs:'',q:'yes',why:''}],
+    top:'0',docTo:'The other three partners',doc:'How I read a member’s results.\n\nIt took two weeks to write down: the least productive two weeks of the year. It’s also why any of the four partners can now run the review.',docSt:'handed',written:true}};
+  if(!state.cal){var f=fresh();Object.keys(f).forEach(function(k){if(state[k]==null)state[k]=f[k]})}
+  var pEl=document.getElementById('parts'),cEl=document.getElementById('cal');
+  function buildParts(){pEl.innerHTML=PARTS.map(function(p,i){var m=state['m_'+p[0]]||'';return '<div class="part '+m+'" id="pt-'+p[0]+'"><span class="pn">'+(i+1)+'</span><div><b>'+p[1]+'</b><small>In this module: '+p[2]+'</small>'+(p[3]?'<span class="keep">Stays yours, whatever the mark</span>':'')+
+    '<textarea data-k="n_'+p[0]+'" placeholder="What makes you say so? Something you did, or skipped.">'+esc(state['n_'+p[0]]||'')+'</textarea></div>'+
+    '<div class="marks">'+['strong','weak'].map(function(x){return '<button type="button" class="mark" data-p="'+p[0]+'" data-m="'+x+'" aria-pressed="'+(m===x)+'">'+x.charAt(0).toUpperCase()+x.slice(1)+'</button>'}).join('')+'</div></div>'}).join('')}
+  function calHTML(c,i){return '<div class="cal'+(c.q==='yes'?' go':c.q==='no'?' stay':'')+(String(state.top)===String(i)?' top':'')+'" id="cl'+i+'"><span class="n">'+String(i+1).padStart(2,'0')+'</span>'+
+    '<input type="text" data-c="'+i+'" data-f="item" value="'+esc(c.item)+'" placeholder="e.g., Weekly schedule" aria-label="Item">'+
+    '<input type="text" inputmode="decimal" data-c="'+i+'" data-f="hrs" value="'+esc(c.hrs)+'" placeholder="Hours" aria-label="Hours">'+
+    '<select data-c="'+i+'" data-f="q" aria-label="Eighty percent"><option value="">Not asked</option><option value="yes"'+(c.q==='yes'?' selected':'')+'>Yes: it can go</option><option value="no"'+(c.q==='no'?' selected':'')+'>No: it stays</option></select>'+
+    '<input type="text" data-c="'+i+'" data-f="why" value="'+esc(c.why)+'" placeholder="'+(c.q==='no'?'The judgment that stays':'—')+'" aria-label="Why it stays">'+
+    '<label class="tp"><input type="radio" name="top" value="'+i+'"'+(String(state.top)===String(i)?' checked':'')+'> Costs most</label>'+
+    '<button type="button" class="ibtn" data-cdel="'+i+'" aria-label="Remove">✕</button></div>'}
+  function buildCal(){cEl.innerHTML=state.cal.map(calHTML).join('')}
+  function rebuild(){bindStatic();buildParts();buildCal()}
+  pEl.addEventListener('click',function(e){var b=e.target.closest('.mark');if(!b)return;var k='m_'+b.dataset.p;state[k]=state[k]===b.dataset.m?'':b.dataset.m;
+    document.querySelectorAll('.mark[data-p="'+b.dataset.p+'"]').forEach(function(x){x.setAttribute('aria-pressed',state[k]===x.dataset.m)});document.getElementById('pt-'+b.dataset.p).className='part '+state[k];persist();render()});
+  cEl.addEventListener('input',function(e){var el=e.target;if(el.dataset.c==null)return;var c=state.cal[+el.dataset.c];c[el.dataset.f]=el.value;if(el.dataset.f==='q'){var r=document.getElementById('cl'+el.dataset.c);r.classList.toggle('go',el.value==='yes');r.classList.toggle('stay',el.value==='no')}persist();render()});
+  cEl.addEventListener('change',function(e){if(e.target.name==='top'){state.top=e.target.value;buildCal();persist();render()}});
+  cEl.addEventListener('click',function(e){var b=e.target.closest('[data-cdel]');if(!b)return;var i=+b.dataset.cdel;state.cal.splice(i,1);var tp=state.top===''||state.top==null?-1:+state.top;if(tp===i)state.top='';else if(tp>i)state.top=String(tp-1);buildCal();persist();render()});
+  document.getElementById('addCal').addEventListener('click',function(){state.cal.push(item());buildCal();persist();render()});
+  document.addEventListener('input',function(e){if(e.target.closest('#cal'))return;if(e.target.type==='checkbox'||e.target.type==='radio'||e.target.tagName==='SELECT')return;onField(e)});
+  document.addEventListener('change',function(e){if(e.target.closest('#cal'))return;if(e.target.type==='checkbox'||e.target.type==='radio'||e.target.tagName==='SELECT')onField(e)});
+
+  function render(){
+    var marked=PARTS.filter(function(p){return state['m_'+p[0]]}).length;
+    document.getElementById('exNote').classList.toggle('show',!!state.ex);
+    var C=state.cal.filter(function(c){return t(c.item)}),go=C.filter(function(c){return c.q==='yes'}),st=C.filter(function(c){return c.q==='no'}),none=C.length-go.length-st.length;
+    function hs(a){return a.reduce(function(s,c){return s+(num(c.hrs)||0)},0)}
+    document.getElementById('hGo').textContent=go.length;document.getElementById('hStay').textContent=st.length;document.getElementById('hNone').textContent=none;
+    document.getElementById('hrGo').textContent=Math.round(hs(go)*10)/10;document.getElementById('hrStay').textContent=Math.round(hs(st)*10)/10;
+    var cr=document.getElementById('calRead');
+    if(C.length&&!none){var tot=hs(C);cr.textContent=(tot?Math.round(hs(go)/tot*100)+'% of the hours you logged could go, if what’s in your head were written down. ':'')+(st.length>4?'That’s a lot of items that stay. Be specific: the judgment stays, and everything around it is where the calendar actually goes.':'Now mark the one that costs you the most and write it down.');cr.className='note';}else cr.className='note hidden';
+    var tp=state.top!==''&&state.top!=null?state.cal[+state.top]:null;
+    document.getElementById('docTitle').textContent=tp&&t(tp.item)?t(tp.item):'Mark the item that costs you the most, above.';
+    ['start','written','handed'].forEach(function(k){document.getElementById('st-'+k).classList.toggle('on',state.docSt===k)});
+    // hire
+    var signs=['sg1','sg2','sg3'].filter(function(k){return state[k]}).length,hr=document.getElementById('hireRead'),msg,cls;
+    if(signs>=2&&!state.written){msg='The signs say yes, but nothing’s written down yet. Write it down first. Hire second. Otherwise your new product manager spends their days asking what you think, and you’ve added a salary to the line outside your door.';cls='alert'}
+    else if(signs>=2){msg='Time to consider it. Hand over the testing, the ordering and the saying no. Keep listening. A good product manager will listen too. Now there are two of you.';cls='good'}
+    else if(signs===1){msg='One sign isn’t enough yet. Keep handing things off and writing them down.';cls=''}
+    else{msg='No signs ticked. Keep handing things off and writing them down.';cls=''}
+    hr.textContent=msg;hr.className='read '+cls;
+    [['p1',marked===5],['p2',C.length>0&&!none],['p3',!!(tp&&t(state.doc))],['p4',!!(state.ctDay&&state.ctCal)]].forEach(function(p){document.getElementById(p[0]).classList.toggle('done',p[1])});
+    document.getElementById('p1n').textContent=marked+'/5';document.getElementById('p2n').textContent=(C.length-none)+'/'+C.length;
+    // output
+    var biz=t(state.bizName);document.getElementById('outTitle').textContent=(biz?biz+': ':'')+'the product manager’s job, and who does it';
+    var h=PARTS.map(function(p){var m=state['m_'+p[0]]||'';return '<div><h5>'+p[1]+'</h5><p class="mk '+m+'">'+(m?m.charAt(0).toUpperCase()+m.slice(1):'<span class="e">Not marked</span>')+'</p><p style="margin-top:4px">'+(p[3]?'Stays mine.':m==='weak'?'Hand off, or hire for later.':m==='strong'?'Mine for now.':'')+'</p></div>'}).join('');
+    h+='<div class="s2"><h5>Could go at 80% · '+go.length+'</h5><p>'+(go.length?esc(go.map(function(c){return '· '+t(c.item)}).join('\n')):'<span class="e">None marked.</span>')+'</p></div>';
+    h+='<div class="s3"><h5>Stays mine · '+st.length+'</h5><p>'+(st.length?esc(st.map(function(c){return '· '+t(c.item)+(t(c.why)?' ('+t(c.why)+')':'')}).join('\n')):'<span class="e">None marked.</span>')+'</p></div>';
+    h+='<div class="s3 dark"><h5>Written down · the one that costs most</h5><p style="color:#fff;font-weight:600">'+(tp&&t(tp.item)?esc(t(tp.item)):'<span class="e">Not chosen.</span>')+'</p><p style="color:var(--onink);margin-top:4px">'+esc([t(state.docTo)?'To: '+t(state.docTo):'',state.docSt?({start:'Started',written:'Written down',handed:'Handed over'})[state.docSt]:'',state.docWhen?'By '+nice(state.docWhen):''].filter(Boolean).join(' · '))+'</p></div>';
+    h+='<div class="s2"><h5>Customer time, every week</h5><p>'+(state.ctDay?esc(state.ctDay+'s'+(t(state.ctLen)?', '+t(state.ctLen):'')+(t(state.ctWho)?'\n'+t(state.ctWho):'')+(state.ctFirst?'\nFirst: '+nice(state.ctFirst):'')+(state.ctCal?'\nOn the calendar.':'\nNot on the calendar yet.')):'<span class="e">Not booked yet.</span>')+'</p></div>';
+    h+='<div class="s5"><h5>Hiring a product manager · '+signs+' of 3 signs</h5><p>'+esc(msg)+'</p></div>';
+    document.getElementById('oParts').innerHTML=h;
+  }
+  function hasData(){return !!(t(state.bizName)||PARTS.some(function(p){return state['m_'+p[0]]})||state.cal.some(function(c){return t(c.item)})||t(state.doc))}
+  function xlsx(){
+    var wb=XLSX.utils.book_new();
+    var a=[['Two Weeks Out · What It Takes to Be a Great Product Manager'],['Business',state.bizName||''],['Date',state.pmDate||''],[],['Part of the job','Mark','Why','In this module']];
+    PARTS.forEach(function(p){a.push([p[1],state['m_'+p[0]]||'',state['n_'+p[0]]||'',p[2]])});
+    a.push([],['Listening stays yours, whatever the mark.']);
+    XLSX.utils.book_append_sheet(wb,sheet(a,[40,10,60,50]),'Five parts');
+    var b=[['The week',state.week||''],[],['Item','Hours','Somebody else at 80%?','The judgment that stays','Costs most']];
+    state.cal.forEach(function(c,i){b.push([c.item||'',num(c.hrs)==null?'':num(c.hrs),c.q==='yes'?'Yes: it can go':c.q==='no'?'No: it stays':'',c.why||'',String(state.top)===String(i)?'Yes':''])});
+    var tp=state.top!==''&&state.top!=null?state.cal[+state.top]:null;
+    b.push([],['Written down',tp?tp.item:''],['Handing it to',state.docTo||''],['Written down by',state.docWhen||''],['Status',({start:'Started',written:'Written down',handed:'Handed over'})[state.docSt]||''],['How I do it',state.doc||'']);
+    XLSX.utils.book_append_sheet(wb,sheet(b,[44,8,22,40,10]),'Calendar audit');
+    var c=[['Customer time: day',state.ctDay||''],['How long',state.ctLen||''],['First one',state.ctFirst||''],['With whom',state.ctWho||''],['On the calendar',state.ctCal?'Yes':'No'],['Pre-launch: with test group',state.pre?'Yes':'No'],[],
+      ['Decisions still pile up after handing off',state.sg1?'Yes':'No'],['More than one offering, each needing decisions',state.sg2?'Yes':'No'],['People waiting days for answers',state.sg3?'Yes':'No'],['What’s in my head is written down',state.written?'Yes':'No']];
+    XLSX.utils.book_append_sheet(wb,sheet(c,[46,60]),'Customer time and hiring');
+    XLSX.writeFile(wb,fileName('Product_Manager','_PM'));
+  }
+  wire({hasData:hasData,example:EXAMPLE,fresh:fresh,rebuild:rebuild,xlsx:xlsx});
+  rebuild();render();
+})();
+</script>
+</body>
+</html>

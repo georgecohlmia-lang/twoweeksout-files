@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing Model Worksheet — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10131a;
+    --navy-2:#2c313c;
+    --navy-dk:#10131a;
+    --gold:#2747f5;
+    --gold-dk:#2747f5;
+    --gold-lt:#e9ecf5;
+    --red:#b3261e;
+    --teal:#2747f5;
+    --cream:#e9ecf5;
+    --cream-dk:#d5d9e4;
+    --slate:#9ba3af;
+    --paper:#fbfaf6;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --rule:#d5d9e4;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px; line-height: 1.6;
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+  .frame { max-width: 920px; margin: 0 auto; padding: 56px 40px 120px; }
+
+  .masthead { border-bottom: 1px solid var(--rule); padding-bottom: 36px; margin-bottom: 48px; }
+  .brand-stripe {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .brand-stripe::after { content: ''; flex: 1; height: 1px; background: var(--cream-dk); }
+  h1.title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 56px; line-height: 1.05;letter-spacing:-.03em;
+    color: var(--navy); margin-bottom: 18px;font-style:normal;}
+  h1.title em { font-style: italic; color: var(--gold); font-weight: 500; }
+  .deck { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 19px; color: var(--ink-soft); max-width: 660px; }
+
+  .progress { display: flex; gap: 4px; margin: 40px 0 20px; }
+  .progress-step { flex: 1; height: 3px; background: var(--cream-dk); transition: background 0.4s; }
+  .progress-step.active { background: var(--gold); }
+  .progress-step.done { background: var(--navy); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;color:#59616e; text-transform: uppercase;
+    margin-bottom: 48px; gap: 12px;
+  }
+  .progress-label span.current { color: var(--navy); }
+
+  .panel { display: none; animation: fadeIn 0.4s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel-header { margin-bottom: 36px; }
+  .panel-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; line-height: 1.1; color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .panel-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft); max-width: 660px;
+  }
+
+  .warning-callout {
+    background: var(--navy); color: white;
+    padding: 24px 28px; margin: 24px 0;
+    border-left: 6px solid var(--red);
+  }
+  .warning-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 10px;
+  }
+  .warning-headline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;font-style:normal;
+    font-size: 20px; color: white; line-height: 1.35;
+  }
+  .warning-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px;
+    color: var(--cream-dk); line-height: 1.55; margin-top: 10px;
+  }
+
+  /* form fields */
+  .field { margin-bottom: 28px; }
+  .field-label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; color: var(--navy); margin-bottom: 6px;
+  }
+  .field-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .field-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;color:#59616e; margin-bottom: 12px;
+    padding-left: 10px; border-left: 2px solid var(--cream-dk);
+    line-height: 1.55;
+  }
+
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%; background: white;
+    border: 1px solid var(--cream-dk);
+    border-bottom: 2px solid var(--navy);
+    padding: 13px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 15px;
+    color: var(--navy); border-radius:0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none; border-bottom-color: var(--gold); background: var(--gold-lt);
+  }
+  textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+
+  /* radio cards */
+  .radio-cards { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 6px; }
+  .radio-card {
+    background: white;
+    border: 2px solid var(--cream-dk);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: block;
+  }
+  .radio-card:hover { border-color: var(--gold); }
+  .radio-card input { display: none; }
+  .radio-card:has(input:checked) {
+    border-color: var(--navy); background: var(--gold-lt);
+  }
+  .radio-card-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 18px; color: var(--navy); margin-bottom: 4px;
+  }
+  .radio-card-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--ink-soft); line-height: 1.5;
+  }
+
+  /* checkbox cards (for capacity question) */
+  .check-cards { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 6px; }
+  .check-card {
+    background: var(--paper);
+    border: 1px solid var(--cream-dk);
+    padding: 13px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13.5px;
+    color: var(--ink-soft); line-height: 1.5;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .check-card:hover { border-color: var(--gold); }
+  .check-card input { margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+  .check-card:has(input:checked) {
+    background: var(--gold-lt); border-color: var(--gold); color: var(--navy);
+  }
+  .check-card strong { color: var(--navy); font-weight: 600; }
+
+  /* nav */
+  .nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px 28px; cursor: pointer; border: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dk); }
+  .btn-secondary {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--cream-dk);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  /* output */
+  .output { display: none; }
+  .output.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .output-masthead {
+    border-top: 4px solid var(--navy);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 0 28px;
+    margin-bottom: 40px;
+  }
+  .output-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 44px; line-height: 1.05;
+    color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .output-title em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .output-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .output-meta {
+    display: flex; gap: 32px; margin-top: 20px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; letter-spacing: 0.08em; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .output-meta span strong {
+    color: var(--navy); display: block; font-size: 16px;
+    letter-spacing: 0; text-transform: none; margin-top: 2px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; line-height: 1.15; color: var(--navy); margin-bottom: 16px;letter-spacing:-.03em;font-style:normal;}
+  .section p {
+    margin-bottom: 14px; line-height: 1.65; color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .section p strong { color: var(--navy); font-weight: 600; }
+
+  /* ARTIFACT 1 — recommendation card */
+  .recommend-card {
+    background: var(--gold-lt);
+    border: 2px solid var(--gold);
+    padding: 36px 40px;
+    margin: 20px 0;
+  }
+  .recommend-card .rec-tag {
+    display: inline-block;
+    background: var(--gold);color:#ffffff;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 4px 12px; margin-bottom: 16px;
+  }
+  .recommend-card h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; color: var(--navy); margin-bottom: 8px;
+    line-height: 1.1;letter-spacing:-.03em;font-style:normal;}
+  .recommend-card .rec-tagline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 17px; color: var(--ink-soft); margin-bottom: 24px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(39,71,245,0.4);
+  }
+  .rec-component {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px dashed rgba(39,71,245,0.4);
+  }
+  .rec-component:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .rec-component-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--red); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .rec-component-value {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px;
+    color: var(--navy); line-height: 1.5;
+  }
+  .rec-component-value strong { font-weight: 700; }
+
+  /* ARTIFACT 2 — comparison grid */
+  .model-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .model-row {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--cream-dk);
+    padding: 18px 22px;
+    transition: all 0.2s;
+  }
+  .model-row.primary {
+    border-left-color: var(--gold);
+    background: var(--gold-lt);
+  }
+  .model-row.viable {
+    border-left-color: var(--teal);
+  }
+  .model-row.eliminated {
+    opacity: 0.55;
+    border-left-color: var(--cream-dk);
+  }
+  .model-row-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .model-name {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 20px; color: var(--navy);letter-spacing:-.03em;font-style:normal;}
+  .model-status {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 3px 8px;
+  }
+  .model-status.primary { background: var(--gold);color:#ffffff; }
+  .model-status.viable { background: var(--teal); color: white; }
+  .model-status.eliminated { background: var(--cream-dk); color: var(--ink-soft); }
+  .model-reason {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13.5px;
+    color: var(--ink-soft); line-height: 1.55;
+  }
+  .model-reason strong { color: var(--navy); }
+
+  /* ARTIFACT 3 — next-moves card */
+  .moves-card {
+    background: var(--navy); color: white;
+    padding: 36px 40px; margin: 20px 0;
+  }
+  .moves-card .moves-header {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em;color:#93abff; margin-bottom: 6px;
+  }
+  .moves-card h3 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 24px; color: white; margin-bottom: 8px;letter-spacing:-.03em;font-style:normal;}
+  .moves-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 16px; color: var(--cream-dk); margin-bottom: 22px;
+    padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .move {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .move:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .move-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 14px; color: var(--gold); margin-bottom: 4px;
+  }
+  .move-text {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 18px; color: white; line-height: 1.4; margin-bottom: 8px;
+  }
+  .move-coach {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: var(--cream-dk); line-height: 1.55;
+  }
+  .moves-rule {
+    background: rgba(179,38,30,0.18);
+    border-left: 3px solid var(--red);
+    padding: 14px 18px;
+    margin-top: 28px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;
+    color: rgba(255,255,255,0.92); line-height: 1.6;
+  }
+  .moves-rule strong { color: white; font-weight: 700; }
+
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+  .signature {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;color:#59616e;
+  }
+  .signature .left { color: var(--gold); font-weight: 700; }
+  .hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--red); margin-top: 6px;
+  }
+
+  /* print */
+  @media print {
+    @page { margin: 0.5in; size: letter; }
+    body { background: white; font-size: 10.5pt; }
+    .frame { padding: 0; max-width: none; }
+    .panel, .progress, .progress-label, .actions, .nav, .masthead { display: none !important; }
+    .output { display: block !important; }
+    .output-title { font-size: 28pt; }
+    .section-title { font-size: 16pt; }
+    .recommend-card, .model-row, .moves-card, .warning-callout {
+      page-break-inside: avoid; box-shadow: none;
+    }
+    .moves-card { background: white !important; color: var(--navy) !important; border: 2px solid var(--navy); }
+    .moves-card h3, .move-text { color: var(--navy) !important; }
+    .moves-card .moves-sub, .move-coach { color: var(--ink-soft) !important; }
+    .move-num, .moves-header { color: var(--gold-dk) !important; }
+    .moves-rule { color: var(--navy) !important; background: #fbfaf6 !important; }
+    .moves-rule strong { color: var(--red) !important; }
+    .section { margin-bottom: 28px; }
+    .signature { page-break-inside: avoid; }
+    #artifact-2, #artifact-3 { page-break-before: always; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#9B9BFF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.warning-callout div.warning-label{color:#93abff}
+div.moves-card p.moves-sub{color:#fbfaf6}
+div.moves-card div.move-num{color:#93abff}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">04 / Price for Profit</span></div>
+<div class="frame">
+
+<header class="masthead" id="masthead">
+  <div class="brand-stripe">Two Weeks Out  ·  PRICING MODEL WORKSHEET</div>
+  <h1 class="title">Find the Right<br><em>Pricing Model</em></h1>
+  <p class="deck">Three honest answers about your customer's behavior and your current capacity. The worksheet matches them against the four models and recommends the one that actually fits — before you spend weeks on the wrong number inside the wrong structure.</p>
+</header>
+
+<div id="progress-wrap">
+  <div class="progress">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+  </div>
+  <div class="progress-label">
+    <span class="current">01 — Your Business</span>
+    <span>02 — Three Questions</span>
+    <span>03 — Your Capacity</span>
+  </div>
+</div>
+
+<!-- ============ PANEL 1 ============ -->
+<section class="panel active" id="panel-1">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP ONE  ·  YOUR BUSINESS</div>
+    <h2 class="panel-title">A few details about what you're pricing.</h2>
+    <p class="panel-intro">The worksheet works for any offer with a single dominant customer pathway. If you have two genuinely distinct pathways (e.g., direct buyers and intermediary partners), you'll want to run the worksheet twice — once for each.</p>
+  </div>
+
+  <div class="warning-callout">
+    <div class="warning-label">THE PRINCIPLE THAT GOVERNS THIS WORKSHEET</div>
+    <div class="warning-headline">Structure first. Number after.</div>
+    <div class="warning-body">Most owners do this backwards: weeks on what to charge, zero time on how to charge. The price is built on top of the model. Get the model wrong and no number fixes the structural problem underneath. This worksheet is calibrated to keep you working on the model first.</div>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="biz-name">Business or product name</label>
+    <input type="text" id="biz-name" placeholder="What you&#39;d call it talking to a friend">
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="what-sold">In one sentence — what are you selling, and to whom?</label>
+    <p class="field-help">Customer first, product second. The customer's behavior drives the model.</p>
+    <p class="field-example">e.g., "Skincare products for cancer patients in active treatment." / "Bookkeeping services for service-based startups under $5M revenue." / "A productivity tool for product managers at mid-size SaaS companies."</p>
+    <textarea id="what-sold" maxlength="240" placeholder="One sentence. Customer + offer."></textarea>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="hoped-model">Before this worksheet — what model did you assume you'd use?</label>
+    <p class="field-help">Honest answer. The worksheet checks your assumption against your customer's actual behavior. If they match, that's a confirmation. If they don't, the diagnosis wins.</p>
+    <select id="hoped-model">
+      <option value="">— Pick one —</option>
+      <option value="transactional">Transactional — one-time purchases, sell on a website</option>
+      <option value="subscription">Subscription — recurring revenue from ongoing customers</option>
+      <option value="wholesale">Referral channel — a trusted practice or partner refers; the customer buys and pays directly</option>
+      <option value="hybrid">Hybrid — multiple models running in parallel</option>
+      <option value="unsure">I'm not sure yet — this worksheet is the deciding factor</option>
+    </select>
+  </div>
+
+  <div class="nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(2)">Continue  →</button>
+  </div>
+</section>
+
+<!-- ============ PANEL 2 ============ -->
+<section class="panel" id="panel-2">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP TWO  ·  THE THREE DIAGNOSTIC QUESTIONS</div>
+    <h2 class="panel-title">The three questions that decide the model.</h2>
+    <p class="panel-intro">The order matters. The first question determines whether subscription is even on the table. The second determines whether you're selling directly or through an intermediary. The third is the reality check.</p>
+  </div>
+
+  <!-- QUESTION 1: CADENCE -->
+  <div class="field" style="margin-bottom: 40px;">
+    <label class="field-label">Question 1  ·  What is the natural purchase cadence?</label>
+    <p class="field-help">How often does your customer actually need this? Fight the urge to force recurring revenue onto a fundamentally one-time purchase. Customers feel that.</p>
+
+    <div class="radio-cards">
+      <label class="radio-card">
+        <input type="radio" name="cadence" value="recurring">
+        <div class="radio-card-label">Recurring &amp; ongoing</div>
+        <div class="radio-card-help">The customer needs the product or service on a predictable cadence — monthly, weekly, every protocol cycle. Stopping the relationship is a deliberate decision, not a default.</div>
+      </label>
+
+      <label class="radio-card">
+        <input type="radio" name="cadence" value="repeat">
+        <div class="radio-card-label">Repeat but episodic</div>
+        <div class="radio-card-help">The customer does come back, but on their schedule, not yours. Each purchase is a fresh decision. Examples: bookkeeping engagements, project work, replacement-cycle products.</div>
+      </label>
+
+      <label class="radio-card">
+        <input type="radio" name="cadence" value="onetime">
+        <div class="radio-card-label">Genuinely one-time</div>
+        <div class="radio-card-help">The customer buys once and doesn't naturally come back. Examples: a wedding, a major life event purchase, a software license that doesn't expire.</div>
+      </label>
+    </div>
+  </div>
+
+  <!-- QUESTION 2: DECISION-MAKER ACCESS -->
+  <div class="field" style="margin-bottom: 40px;">
+    <label class="field-label">Question 2  ·  Who actually makes the purchase decision, and do you have direct access to them?</label>
+    <p class="field-help">The user and the buyer aren't always the same person. The trusted influencer between you and the buyer changes the model entirely.</p>
+
+    <div class="radio-cards">
+      <label class="radio-card">
+        <input type="radio" name="access" value="direct">
+        <div class="radio-card-label">Direct access to the decision-maker</div>
+        <div class="radio-card-help">You can reach the buyer through your own channels — website, email, content, direct outreach. No gatekeeper between you and the purchase decision.</div>
+      </label>
+
+      <label class="radio-card">
+        <input type="radio" name="access" value="intermediary">
+        <div class="radio-card-label">A trusted intermediary stands between you and the buyer</div>
+        <div class="radio-card-help">A professional, a retailer, a clinic, a partner — someone the customer trusts who could recommend or stock your product. Reaching the buyer cold is hard. Reaching them through this intermediary is natural.</div>
+      </label>
+
+      <label class="radio-card">
+        <input type="radio" name="access" value="both">
+        <div class="radio-card-label">Both pathways exist for genuinely different customer segments</div>
+        <div class="radio-card-help">Some customers find you directly; others come through trusted intermediaries. These aren't the same people pretending to be different — they're distinct segments with different journeys.</div>
+      </label>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">←  Back</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Continue  →</button>
+  </div>
+  <p class="hint" id="q-hint" hidden="" style="text-align:right;">Please answer both questions before continuing.</p>
+</section>
+
+<!-- ============ PANEL 3 ============ -->
+<section class="panel" id="panel-3">
+  <div class="panel-header">
+    <div class="panel-eyebrow">STEP THREE  ·  YOUR ACTUAL CAPACITY</div>
+    <h2 class="panel-title">Question 3 — what can you sustain right now?</h2>
+    <p class="panel-intro">Match the model to your real capacity today, not what you'll have in twelve months. Models that need infrastructure you don't yet have will collapse before they generate revenue.</p>
+  </div>
+
+  <div class="field" style="margin-bottom: 32px;">
+    <label class="field-label">Check every capability you can sustain in the next 90 days:</label>
+    <p class="field-help">Honest assessment. \"We could build it\" doesn't count. \"It's running today\" or \"it's set up and ready to run within 30 days\" counts.</p>
+
+    <div class="check-cards">
+      <label class="check-card">
+        <input type="checkbox" name="cap" value="fulfillment">
+        <span><strong>Recurring fulfillment.</strong> Inventory, shipping, or service delivery on a predictable schedule. Customer-data systems to track who's enrolled, who's paused, who's churned.</span>
+      </label>
+
+      <label class="check-card">
+        <input type="checkbox" name="cap" value="acquisition">
+        <span><strong>Continuous customer acquisition.</strong> Direct marketing, content, partnerships, or paid acquisition that brings new buyers in steadily. Not a one-time launch; an ongoing engine.</span>
+      </label>
+
+      <label class="check-card">
+        <input type="checkbox" name="cap" value="receivables">
+        <span><strong>Referral-channel support.</strong> The systems to support referring practices or partners — keeping them equipped to recommend, and keeping product moving where the customer buys it at the point of sale. Active relationship work, not a one-time setup.</span>
+      </label>
+
+      <label class="check-card">
+        <input type="checkbox" name="cap" value="enrollment">
+        <span><strong>Enrollment-trigger infrastructure.</strong> A specific moment in the customer's journey — the first purchase, the consultation, the referral — where you can capture commitment to recurring service.</span>
+      </label>
+
+      <label class="check-card">
+        <input type="checkbox" name="cap" value="dual">
+        <span><strong>Two parallel sales motions.</strong> The bandwidth, systems, and team to run direct sales AND intermediary partnerships at the same time, without the channels cannibalizing or conflicting with each other.</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">←  Back</button>
+    <button class="btn btn-primary" id="generate-btn" onclick="generateOutput()">Generate My Pricing Model  →</button>
+  </div>
+  <p class="hint" id="generate-hint" hidden="" style="text-align:right;">Please complete the previous steps before generating.</p>
+</section>
+
+<!-- ============ OUTPUT ============ -->
+<section class="output" id="output"></section>
+
+</div>
+
+<script>
+  let currentStep = 1;
+
+  function goTo(n) {
+    if (n > currentStep && !validate(currentStep)) return;
+    currentStep = n;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + n).classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    document.querySelectorAll('.progress-step').forEach(s => {
+      const step = parseInt(s.dataset.step);
+      s.classList.remove('active', 'done');
+      if (step < n) s.classList.add('done');
+      else if (step === n) s.classList.add('active');
+    });
+    document.querySelectorAll('.progress-label span').forEach((l, i) => {
+      l.classList.toggle('current', (i + 1) === n);
+    });
+  }
+
+  function validate(step) {
+    if (step === 1) {
+      const required = ['biz-name', 'what-sold'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el.value || el.value.toString().trim() === '') { el.focus(); return false; }
+      }
+      const hoped = document.getElementById('hoped-model');
+      if (!hoped.value) { hoped.focus(); return false; }
+      return true;
+    }
+    if (step === 2) {
+      const cadence = document.querySelector('input[name="cadence"]:checked');
+      const access = document.querySelector('input[name="access"]:checked');
+      if (!cadence || !access) {
+        document.getElementById('q-hint').hidden = false;
+        return false;
+      }
+      return true;
+    }
+    return true;
+  }
+
+  function generateOutput() {
+    const data = collect();
+    document.getElementById('output').innerHTML = renderOutput(data);
+    document.getElementById('output').classList.add('active');
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function collect() {
+    const str = id => document.getElementById(id).value.trim();
+    const sel = id => document.getElementById(id).value;
+    const radio = name => {
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : '';
+    };
+    const checks = name => Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(c => c.value);
+    return {
+      bizName: str('biz-name'),
+      whatSold: str('what-sold'),
+      hoped: sel('hoped-model'),
+      cadence: radio('cadence'),
+      access: radio('access'),
+      capabilities: checks('cap')
+    };
+  }
+
+  // ----- the recommendation engine -----
+  function recommend(d) {
+    // model definitions
+    const models = {
+      transactional: { name: 'Transactional', tag: 'TRANSACTIONAL' },
+      subscription: { name: 'Subscription', tag: 'SUBSCRIPTION' },
+      wholesale: { name: 'Referral Channel', tag: 'REFERRAL CHANNEL' },
+      hybrid: { name: 'Hybrid', tag: 'HYBRID (subscription + referral channel)' }
+    };
+
+    // start with all four models on the table
+    const status = {
+      transactional: { eliminated: false, viable: true, reasons: [] },
+      subscription: { eliminated: false, viable: true, reasons: [] },
+      wholesale: { eliminated: false, viable: true, reasons: [] },
+      hybrid: { eliminated: false, viable: true, reasons: [] }
+    };
+
+    // QUESTION 1: cadence
+    if (d.cadence === 'onetime') {
+      status.subscription.eliminated = true;
+      status.subscription.reasons.push('Your purchase cadence is one-time. Forcing a subscription onto a one-time purchase is the most common mistake the lesson warns against.');
+      status.hybrid.eliminated = true;
+      status.hybrid.reasons.push('Hybrid requires subscription as one of its two motions, which is eliminated by your one-time cadence.');
+    } else if (d.cadence === 'repeat') {
+      // episodic — subscription is risky but possible if there's a clear trigger
+      status.subscription.reasons.push('Your cadence is episodic, not strictly recurring. Subscription is workable only if you have a clear enrollment-trigger moment in the customer\'s journey.');
+    }
+
+    // QUESTION 2: access
+    if (d.access === 'direct') {
+      status.wholesale.eliminated = true;
+      status.wholesale.reasons.push('You don\'t have an intermediary in the path. A referral channel requires a practice or partner already standing between you and the customer.');
+      status.hybrid.eliminated = true;
+      status.hybrid.reasons.push('Hybrid requires the referral-channel motion, which needs an intermediary you don\'t currently have.');
+    } else if (d.access === 'intermediary') {
+      status.transactional.reasons.push('Direct transactional remains viable, but you\'re ignoring a structural advantage — the trusted intermediary already has your customer\'s attention.');
+      // subscription reachability is harder without direct access
+      if (d.cadence !== 'onetime') {
+        status.subscription.reasons.push('Subscription is workable, but the enrollment trigger has to come through your intermediary — not a standalone website signup.');
+      }
+    }
+
+    // QUESTION 3: capacity
+    const caps = d.capabilities;
+    if (!caps.includes('fulfillment')) {
+      if (!status.subscription.eliminated) {
+        status.subscription.eliminated = true;
+        status.subscription.reasons.push('You don\'t have recurring fulfillment infrastructure today. Subscription will collapse before it generates revenue.');
+      }
+      if (!status.hybrid.eliminated) {
+        status.hybrid.eliminated = true;
+        status.hybrid.reasons.push('Hybrid requires the subscription motion, which requires recurring fulfillment you don\'t yet have.');
+      }
+    }
+    if (!caps.includes('receivables')) {
+      if (!status.wholesale.eliminated) {
+        status.wholesale.eliminated = true;
+        status.wholesale.reasons.push('A referral channel needs systems to support referring practices and keep product moving at the point of sale. Without that capability in place, the channel stalls before it generates volume.');
+      }
+      if (!status.hybrid.eliminated) {
+        status.hybrid.eliminated = true;
+        status.hybrid.reasons.push('Hybrid requires the referral-channel motion, which requires the practice-support capability you don\'t yet have.');
+      }
+    }
+    if (!caps.includes('acquisition')) {
+      if (!status.transactional.eliminated) {
+        status.transactional.reasons.push('Pure transactional requires continuous customer acquisition — a treadmill. Without an acquisition engine running today, transactional alone is the wrong primary model.');
+        // not eliminated, but heavily flagged
+      }
+    }
+    if (!caps.includes('dual') && !status.hybrid.eliminated) {
+      status.hybrid.eliminated = true;
+      status.hybrid.reasons.push('Hybrid requires two parallel sales motions running simultaneously. Without that bandwidth, picking one model and doing it well beats running two badly.');
+    }
+
+    // mark eliminated as not viable
+    Object.keys(status).forEach(k => {
+      if (status[k].eliminated) status[k].viable = false;
+    });
+
+    // pick the primary recommendation
+    // priority logic:
+    // 1. If hybrid is viable AND access is "both" AND cadence is recurring → hybrid
+    // 2. If referral channel is viable AND access is intermediary → referral channel (lesson's principle: start where channels are strongest, lowest CAC)
+    // 3. If subscription is viable AND cadence is recurring → subscription
+    // 4. Otherwise → transactional if viable, else "no clear fit"
+    let primary;
+    if (status.hybrid.viable && d.access === 'both' && d.cadence === 'recurring') {
+      primary = 'hybrid';
+    } else if (status.wholesale.viable && (d.access === 'intermediary' || d.access === 'both')) {
+      primary = 'wholesale';
+    } else if (status.subscription.viable && d.cadence === 'recurring') {
+      primary = 'subscription';
+    } else if (status.transactional.viable) {
+      primary = 'transactional';
+    } else {
+      primary = null;
+    }
+
+    // tag each model with its final status
+    Object.keys(status).forEach(k => {
+      if (k === primary) status[k].tier = 'primary';
+      else if (status[k].viable) status[k].tier = 'viable';
+      else status[k].tier = 'eliminated';
+    });
+
+    return { primary, status, models };
+  }
+
+  function renderOutput(d) {
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const rec = recommend(d);
+
+    // assumption check
+    const hopedMatchesPrimary = d.hoped === rec.primary;
+    const hopedExists = d.hoped && d.hoped !== 'unsure';
+    let assumptionNote = '';
+    if (hopedExists && rec.primary && !hopedMatchesPrimary) {
+      const hopedLabel = rec.models[d.hoped]?.name || d.hoped;
+      const primaryLabel = rec.models[rec.primary].name;
+      assumptionNote = `<p style="margin-top: 14px;"><strong>A note on your starting assumption.</strong> You came in expecting ${escape(hopedLabel)}. The diagnostic recommends ${escape(primaryLabel)}. ${rec.status[d.hoped].eliminated ? 'The model you assumed has been eliminated by your honest answers — see the comparison below for why.' : `${escape(hopedLabel)} is still viable but isn't the primary fit given your customer's behavior and your current capacity.`} The lesson is direct on this: \u201CFounders fight this constantly. They want recurring revenue so badly they force a subscription onto a fundamentally one-time purchase.\u201D Trust the diagnostic over the assumption.</p>`;
+    } else if (hopedMatchesPrimary) {
+      assumptionNote = `<p style="margin-top: 14px;"><strong>Your assumption matches the diagnostic.</strong> You came in expecting ${escape(rec.models[d.hoped].name)}, and the answers you gave confirm it. That's a useful signal — it means you're seeing your customer's behavior and your capacity clearly.</p>`;
+    }
+
+    // build primary model recommendation copy
+    const primaryDescriptions = {
+      transactional: {
+        what: 'Sell directly to the customer through your own channels — typically a website, direct sales conversation, or in-person purchase. Each transaction is a complete unit of revenue.',
+        why: 'The fit comes from one or more of these: episodic or one-time purchase cadence, direct access to the buyer, and the capacity to run continuous acquisition. Transactional is the cleanest model when it actually fits.',
+        risk: 'You acquire every customer fresh. Growth depends on continuous new-customer acquisition \u2014 a treadmill. If acquisition slows, revenue slows immediately.',
+        next: 'In the next lesson, *Setting a First Price When You Have No Track Record*, you\'ll set the price for this model. Transactional pricing leans on margin per unit because volume isn\'t guaranteed.'
+      },
+      subscription: {
+        what: 'Recurring charge for ongoing access to your product or service. Customers commit at a moment of decision (often the first purchase or a specific trigger event) and receive product or service on a predictable cadence after.',
+        why: 'Your customer has a recurring need that genuinely fits a subscription cadence, you have or can build the enrollment-trigger moment, and you have recurring fulfillment capacity. The appeal is predictable revenue once you have customers.',
+        risk: 'Subscription requires enrollment infrastructure and customer commitment that you have to earn, not assume. The trigger moment matters more than the website. If patients (or whoever your customer is) only find subscription later on a website, conversion craters.',
+        next: 'In the next lesson on price-setting, you\'ll set the per-period price. Subscription pricing leans on lifetime value, not per-transaction margin \u2014 the math is different.'
+      },
+      wholesale: {
+        what: 'A trusted intermediary \u2014 a clinic, a practice, a professional \u2014 recommends your product, and the customer buys and pays at the point of sale. The intermediary refers; it does not resell or carry receivables. You borrow the trust they have already built, which dramatically lowers customer acquisition cost.',
+        why: 'A trusted intermediary already stands between you and your customer, and you have the capability to support those referring partners and keep product moving where the customer buys it. The lesson is direct: this is the model most owners undervalue.',
+        risk: 'You are dependent on the referral relationship, and you\'re dependent on the intermediary\u2019s willingness to keep recommending or stocking. The relationship needs active maintenance.',
+        next: 'In the next lesson on price-setting, you\'ll set the price for this channel. Margin per unit holds because the customer pays full price at the point of sale \u2014 the intermediary is not taking a cut.'
+      },
+      hybrid: {
+        what: 'Two pricing models running in parallel \u2014 typically subscription for direct customers and a referral channel for intermediary partners. The same product, but two distinct customer journeys with two distinct price structures.',
+        why: 'You have two genuinely distinct customer pathways, both motions are individually viable, and you have the capacity to run them simultaneously without channel conflict. The lesson is direct: hybrid is achievable, but lots of infrastructure is needed.',
+        risk: 'Two models means two of every operational concern \u2014 two pricing structures, two billing systems, two channel-maintenance demands. The risk isn\'t conceptual, it\'s execution capacity.',
+        next: 'In the next lesson on price-setting, you\'ll price both motions. Hybrid pricing requires that the two prices not conflict (e.g., the referral-channel price plus the intermediary\'s margin shouldn\'t undercut your direct subscription price).'
+      }
+    };
+
+    const primaryData = rec.primary ? primaryDescriptions[rec.primary] : null;
+
+    // model rows in display order
+    const modelOrder = ['subscription', 'wholesale', 'transactional', 'hybrid'];
+
+    return `
+      <header class="output-masthead">
+        <div class="brand-stripe">Two Weeks Out  ·  PRICING MODEL DECISION</div>
+        <h1 class="output-title">Pricing Model<br>for <em>${escape(d.bizName)}</em></h1>
+        <p class="output-sub">${escape(d.whatSold)}</p>
+        <div class="output-meta">
+          <span>Generated<strong>${today}</strong></span>
+          <span>Cadence<strong>${cadenceLabel(d.cadence)}</strong></span>
+          <span>Access<strong>${accessLabel(d.access)}</strong></span>
+          <span>Capacity (${d.capabilities.length}/5)<strong>${d.capabilities.length >= 4 ? 'High' : d.capabilities.length >= 2 ? 'Moderate' : 'Limited'}</strong></span>
+        </div>
+      </header>
+
+      <!-- ARTIFACT 1: PRIMARY RECOMMENDATION -->
+      <div class="section" id="artifact-1">
+        <div class="section-eyebrow">ARTIFACT 01  ·  YOUR PRIMARY PRICING MODEL</div>
+        <h2 class="section-title">The model that fits your business.</h2>
+        <p>This is the structure you'll price inside. The lesson's whole argument: get this right, and the price you'll set in the next lesson becomes a cleaner decision. Get this wrong, and no number fixes the structural problem underneath.</p>
+
+        ${rec.primary ? `
+          <div class="recommend-card">
+            <div class="rec-tag">RECOMMENDED MODEL  ·  ${escape(rec.models[rec.primary].tag)}</div>
+            <h3>${escape(rec.models[rec.primary].name)}</h3>
+            <p class="rec-tagline">For ${escape(d.bizName)}, based on your customer's behavior and your current capacity.</p>
+
+            <div class="rec-component">
+              <div class="rec-component-label">01  ·  WHAT IT IS</div>
+              <div class="rec-component-value">${primaryData.what}</div>
+            </div>
+
+            <div class="rec-component">
+              <div class="rec-component-label">02  ·  WHY IT FITS YOU</div>
+              <div class="rec-component-value">${primaryData.why}</div>
+            </div>
+
+            <div class="rec-component">
+              <div class="rec-component-label">03  ·  WHAT TO WATCH</div>
+              <div class="rec-component-value">${primaryData.risk}</div>
+            </div>
+
+            <div class="rec-component">
+              <div class="rec-component-label">04  ·  WHAT COMES NEXT</div>
+              <div class="rec-component-value">${primaryData.next}</div>
+            </div>
+          </div>
+        ` : `
+          <div class="recommend-card" style="background: #fbfaf6; border-color: var(--red);">
+            <div class="rec-tag" style="background: var(--red); color: white;">NO CLEAR PRIMARY MODEL</div>
+            <h3>None of the four models cleanly fits your current setup.</h3>
+            <p class="rec-tagline">All four standard pricing models have been eliminated by your answers \u2014 see the comparison below.</p>
+            <div class="rec-component" style="border-bottom: none;">
+              <div class="rec-component-value">This usually means one of two things. Either your business is at an earlier stage than the worksheet assumed (the offer or customer isn't fully defined yet \u2014 work through Module 2's pre-work first), or your honest capacity assessment in Step 3 surfaced gaps that need to be closed before any pricing model becomes sustainable. Re-run the worksheet after closing one or two of the capability gaps and a viable model usually emerges.</div>
+            </div>
+          </div>
+        `}
+
+        ${assumptionNote}
+      </div>
+
+      <!-- ARTIFACT 2: MODEL COMPARISON -->
+      <div class="section" id="artifact-2">
+        <div class="section-eyebrow">ARTIFACT 02  ·  ALL FOUR MODELS  ·  WHY EACH ONE STAYS OR GOES</div>
+        <h2 class="section-title">The full picture.</h2>
+        <p>Each of the four models is shown below with its status and the specific reasons your answers led there. This is the document you re-read if your business changes \u2014 if you build a new capability, if your customer's behavior shifts, the recommendation can shift with it.</p>
+
+        <div class="model-grid">
+          ${modelOrder.map(k => {
+            const s = rec.status[k];
+            const m = rec.models[k];
+            const tierLabel = s.tier === 'primary' ? '★ PRIMARY' : s.tier === 'viable' ? '✓ VIABLE' : '○ ELIMINATED';
+            return `
+              <div class="model-row ${s.tier}">
+                <div class="model-row-head">
+                  <div class="model-name">${escape(m.name)}</div>
+                  <span class="model-status ${s.tier}">${tierLabel}</span>
+                </div>
+                <div class="model-reason">
+                  ${s.reasons.length > 0 ? s.reasons.map(r => `<div style="margin-bottom: 6px;">→ ${r}</div>`).join('') : '<em>No issues surfaced \u2014 this model is structurally compatible with your answers.</em>'}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- ARTIFACT 3: NEXT MOVES -->
+      <div class="section" id="artifact-3">
+        <div class="section-eyebrow">ARTIFACT 03  ·  YOUR NEXT MOVES</div>
+        <h2 class="section-title">Three things to do this week.</h2>
+        <p>The model decision is the foundation. These moves prepare you to walk into the next lesson \u2014 <em>Setting a First Price When You Have No Track Record</em> \u2014 with the structural choice already made.</p>
+
+        <div class="moves-card">
+          <div class="moves-header">BEFORE THE PRICE-SETTING LESSON  ·  YOUR PREP MOVES</div>
+          <h3>Three moves before you set the number.</h3>
+          <p class="moves-sub">Each move tightens the model decision so the price you'll set next has a stable structure to sit on.</p>
+
+          <div class="move">
+            <div class="move-num">Move 01</div>
+            <div class="move-text">Walk a real prospect through the diagnostic out loud.</div>
+            <div class="move-coach">Take the three questions from Step 2 and ask them about a specific real prospect (or current customer). Does their cadence match what you assumed? Is there an intermediary you didn't see? The diagnostic is most reliable when answered against a real human, not an imagined customer profile.</div>
+          </div>
+
+          <div class="move">
+            <div class="move-num">Move 02</div>
+            <div class="move-text">${rec.primary ? `Confirm one specific operational detail of your ${escape(rec.models[rec.primary].name.toLowerCase())} model.` : 'Identify the one capability gap most worth closing.'}</div>
+            <div class="move-coach">${
+              rec.primary === 'transactional' ? 'Confirm your acquisition channel: where does the next ten customers come from? If you don\'t have a concrete answer, the model is theoretical.' :
+              rec.primary === 'subscription' ? 'Confirm your enrollment trigger: at exactly what moment in the customer\'s journey do they sign up for the recurring relationship? If the answer is \u201Csomewhere on our website,\u201D the trigger isn\'t real yet.' :
+              rec.primary === 'wholesale' ? 'Confirm your first intermediary partner candidate by name. Not \u201Cpractices in our region\u201D \u2014 the actual practice, the actual buyer, and what would make them say yes to referring your product.' :
+              rec.primary === 'hybrid' ? 'Confirm that the two motions don\'t conflict on price. The referral-channel price plus the intermediary\'s economics shouldn\'t undercut your direct price \u2014 or you\'ll cannibalize one channel with the other.' :
+              'Look at the eliminated models. Pick the one closest to viable and identify the single capability whose absence is driving the elimination. Closing one capability often unlocks a model.'
+            }</div>
+          </div>
+
+          <div class="move">
+            <div class="move-num">Move 03</div>
+            <div class="move-text">Write the one-sentence model statement.</div>
+            <div class="move-coach">${rec.primary ? `\u201CWe sell ${escape(d.whatSold.toLowerCase().replace(/\.$/, ''))} via ${escape(rec.models[rec.primary].name.toLowerCase())}.\u201D Read it out loud. If the sentence makes you wince, the model isn\'t settled yet \u2014 go back to Step 2 and re-check your honest answers, especially on cadence.` : 'Without a primary model, focus on closing one capability gap before re-running the worksheet. Write down the specific gap and the date you\'ll have it closed.'}</div>
+          </div>
+
+          <div class="moves-rule">
+            <strong>The principle that protects this work:</strong> Structure first. Number after. The price you'll set next is built on top of this model. If the model is wrong, no number fixes the structural problem underneath. Walk into the next lesson knowing which structure you're pricing inside.
+          </div>
+        </div>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn btn-secondary" onclick="restart()">Start Over</button>
+        <button class="btn btn-primary" onclick="window.print()">Save / Print as PDF</button>
+      </div>
+
+      <div class="signature">
+        <div class="left">Two Weeks Out</div>
+        <div>Pricing Model Worksheet  ·  Choosing a Pricing Model That Fits Your First Offers  ·  Generated ${today}</div>
+      </div>
+    `;
+  }
+
+  function cadenceLabel(c) {
+    return { recurring: 'Recurring', repeat: 'Episodic', onetime: 'One-time' }[c] || '—';
+  }
+  function accessLabel(a) {
+    return { direct: 'Direct', intermediary: 'Through partner', both: 'Both pathways' }[a] || '—';
+  }
+
+  function restart() {
+    document.getElementById('output').innerHTML = '';
+    document.getElementById('output').classList.remove('active');
+    document.getElementById('progress-wrap').style.display = '';
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(i => i.value = '');
+    document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(i => i.checked = false);
+    document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
+    document.getElementById('q-hint').hidden = true;
+    document.getElementById('generate-hint').hidden = true;
+    goTo(1);
+  }
+
+  function escape(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // hide hints on input
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('q-hint').hidden = true;
+    });
+  });
+</script>
+
+
+
+</body></html>

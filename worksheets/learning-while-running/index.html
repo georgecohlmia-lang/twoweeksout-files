@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning While You Run It Worksheet · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+
+:root{
+  --ink:#10131a; --paper:#fbfaf6; --white:#ffffff; --cobalt:#2747f5; --cobalt2:#1b36c9; --signal:#ff5a1f;
+  --slate:#59616e; --fog:#9ba3af; --sky:#93abff; --mist:#e9ecf5; --line:#d5d9e4; --inkline:#2c313c; --onink:#c9ced8;
+  --good:#0d6b4c; --good-tint:#e2f5ea; --warn:#7d5300; --warn-tint:#fff3cd; --danger:#b3261e; --danger-tint:#fde9e7;
+  --module:#F986DD;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+  --text:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--module);border-bottom:2px solid var(--ink)}
+.two-wm{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.two-mod{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header.top{padding:52px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.deck{font-size:18px;color:var(--slate);max-width:700px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.btn{border:2px solid var(--ink);background:var(--white);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.btn.primary:hover{background:var(--cobalt2);border-color:var(--cobalt2)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.ink:hover{background:var(--inkline)}
+.btn.quiet{border-color:var(--line);color:var(--slate);font-weight:500}
+.saved{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);margin-left:auto}
+.meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:22px}
+.meta label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date],select,textarea{width:100%;background:var(--white);border:1px solid var(--line);border-bottom:2px solid var(--ink);padding:10px 12px;border-radius:0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--mist)}
+textarea{resize:vertical;min-height:64px;line-height:1.5;overflow:hidden}
+::placeholder{color:#8a919c}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-top:28px}
+.progress .wrap{display:flex;gap:6px;padding:12px 24px;flex-wrap:wrap}
+.step-pill{flex:1 1 180px;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--white);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--slate);text-decoration:none}
+.step-pill b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog)}
+.step-pill.done{border-color:var(--good);color:var(--good);background:var(--good-tint)}
+.step-pill.done b{color:var(--good)}
+
+section.step{padding:52px 0 8px}
+.step-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.step-num{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--cobalt)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);line-height:1.05;letter-spacing:-.035em}
+.intro{color:var(--slate);max-width:720px;margin:10px 0 22px}
+.group-label{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px;display:flex;gap:12px;align-items:center}
+.group-label::after{content:"";flex:1;height:2px;background:var(--ink)}
+.group-note{font-size:14px;color:var(--slate);margin:-4px 0 14px;max-width:720px}
+
+.box{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:12px}
+.box.money{border-left-color:var(--cobalt)}
+.box-top{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-bottom:12px}
+.box-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.box-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.box-q{grid-column:2;font-size:14px;color:var(--slate)}
+.box-q b{color:var(--ink);font-weight:600}
+.len{font-size:12px;color:var(--fog);margin-top:6px;min-height:18px}
+.len.long{color:var(--warn)}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.marks .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark:hover{border-color:var(--ink)}
+.mark[aria-pressed=true][data-m=known]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=assumed]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.mark[aria-pressed=true][data-m=unknown]{background:var(--mist);border-color:var(--ink);color:var(--ink)}
+.evidence{margin-top:12px;display:none}
+.evidence.show{display:block}
+.evidence label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.evidence label span{font-weight:400;color:var(--slate)}
+.flag{font-size:13px;margin-top:8px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.flag.show{display:block}
+
+.callout{background:var(--ink);color:var(--paper);padding:22px 26px;margin:6px 0 18px}
+.callout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.callout p{color:var(--onink);font-size:15px}
+.callout p b{color:#fff}
+
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 14px}
+.tally div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.tally .v{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.tally .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.tally .known .v{color:var(--good)} .tally .assumed .v{color:var(--warn)}
+.read{padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:760px}
+.read.alert{border-left-color:var(--danger);background:var(--danger-tint)}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pick label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.pick label:hover{border-color:var(--ink)}
+.pick input{margin-top:3px;accent-color:var(--cobalt)}
+.pick label.on{border:2px solid var(--signal);padding:11px 13px}
+.pick small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.pick small.known{color:var(--good)} .pick small.assumed{color:var(--warn)} .pick small.unknown{color:var(--slate)}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.field .help{font-size:13px;color:var(--slate);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:grid;gap:8px;margin:6px 0 4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--white);border:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--good)}
+.reopen{display:flex;flex-wrap:wrap;gap:8px}
+.reopen label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:7px 12px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.reopen input{accent-color:var(--cobalt)}
+
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.summary div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.summary h5{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.summary p{font-size:14.5px;white-space:pre-wrap}
+.next{margin:44px 0 70px;padding:24px 26px;border:2px solid var(--ink);background:var(--white)}
+.next .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px}
+.next p{color:var(--slate)}
+.print-only{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;display:none;z-index:50}
+.toast.show{display:block}
+@media print{input[type=date]::-webkit-calendar-picker-indicator{display:none}select{background-image:none}}
+
+.meta{grid-template-columns:2fr 1fr}
+.hidden{display:none!important}
+.note{font-size:14px;padding:12px 16px;border-left:4px solid var(--cobalt);background:var(--mist);margin:4px 0 14px;max-width:800px}
+.note.alert{border-left-color:var(--warn);background:var(--warn-tint);color:#5c3d00}
+.note.danger{border-left-color:var(--danger);background:var(--danger-tint);color:#7a1a14}
+.note.good{border-left-color:var(--good);background:var(--good-tint);color:#0a4f38}
+.ex-note{display:none;margin:0 0 16px;padding:12px 16px;background:var(--warn-tint);color:var(--warn);font-size:14px;max-width:800px}
+.ex-note.show{display:block}
+.qbox{background:var(--white);border:2px solid var(--ink);padding:20px 22px;margin-bottom:14px}
+.qbox .lbl{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.qbox textarea{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em;line-height:1.3;min-height:60px}
+.hints{display:grid;gap:6px;margin-top:10px}
+.hint{font-size:13px;padding:8px 12px;background:var(--warn-tint);color:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{border:1px solid var(--line);background:var(--paper);padding:6px 11px;font-size:13px;font-weight:600;cursor:pointer}
+.chip:hover{border-color:var(--ink)}
+.pre{display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600;margin:0 0 16px}
+.pre input{accent-color:var(--cobalt)}
+.read3{display:grid;grid-template-columns:1fr 120px 1fr;gap:14px}
+.closing{margin-top:4px;background:var(--ink);color:#fff;padding:16px 20px;font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.02em}
+.closing small{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);margin-bottom:4px}
+.theme{display:grid;grid-template-columns:1fr 150px auto;gap:10px;align-items:start;background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:14px 16px;margin-bottom:10px}
+.theme.ready{border-left-color:var(--signal)}
+.theme textarea{min-height:40px;font-size:14.5px}
+.theme .tx textarea:first-child{font-weight:600}
+.theme .tx textarea + textarea{margin-top:8px;font-size:13.5px}
+.tally{display:flex;align-items:center;gap:6px}
+.tally button{width:34px;height:34px;border:1px solid var(--line);background:var(--paper);font-size:18px;font-weight:700;cursor:pointer}
+.tally button:hover{border-color:var(--ink)}
+.tally .v{font-family:var(--display);font-weight:800;font-size:30px;min-width:44px;text-align:center;line-height:1}
+.tcol{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.badge{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;background:var(--mist);color:var(--slate);white-space:nowrap}
+.badge.ready{background:var(--signal);color:var(--ink)}
+.ibtn{border:1px solid var(--line);background:var(--paper);min-width:34px;height:32px;padding:0 10px;font-size:12.5px;font-weight:600;cursor:pointer}
+.ibtn:hover{border-color:var(--ink)}
+.ibtn.go{background:var(--cobalt);color:#fff;border-color:var(--cobalt)}
+.counter{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 4px}
+.test{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--cobalt);padding:18px 20px;margin-bottom:14px}
+.test.decided{border-left-color:var(--good)}
+.t-top{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin-bottom:10px}
+.t-n{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.08em;color:var(--fog)}
+.t-theme{font-size:13px;color:var(--slate)}
+.t-top .ibtn{margin-left:auto}
+.tg{display:grid;grid-template-columns:2fr 1.4fr;gap:12px}
+.tg2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px}
+.test label{display:block;font-size:12.5px;font-weight:600;margin-bottom:4px}
+.test label span{font-weight:400;color:var(--slate)}
+.test textarea{min-height:44px;font-size:14px}
+.test input{font-size:14px;padding:8px 10px}
+.dec{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.dec .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.dec button{border:1px solid var(--line);background:var(--paper);padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.dec button[aria-pressed=true][data-d=keep]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.dec button[aria-pressed=true][data-d=kill]{background:var(--danger-tint);border-color:var(--danger);color:var(--danger)}
+.dec button[aria-pressed=true][data-d=fix]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.twarn{margin-top:10px;display:grid;gap:6px}
+/* output */
+.ocard{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--ink);border:2px solid var(--ink)}
+.ocard > div{background:var(--white);padding:14px 16px}
+.ocard h5,.oh{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.oh{margin:18px 0 8px;color:var(--ink)}
+.ocard .oq{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em;line-height:1.25}
+.ocard p{font-size:13.5px;white-space:pre-wrap}
+.otbl{width:100%;border-collapse:collapse;background:var(--white);border:2px solid var(--ink);font-size:13px}
+.otbl th{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:8px 10px;background:var(--mist);border-bottom:2px solid var(--ink)}
+.otbl td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;white-space:pre-wrap}
+.otbl .dk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px}
+.dk.keep{background:var(--good-tint);color:var(--good)}.dk.kill{background:var(--danger-tint);color:var(--danger)}.dk.fix{background:var(--warn-tint);color:var(--warn)}.dk.run{background:var(--mist);color:var(--slate)}
+.e{color:var(--fog)}
+@media (max-width:760px){
+  .meta,.grid2,.summary,.read3,.tg,.tg2,.ocard{grid-template-columns:1fr}
+  .theme{grid-template-columns:1fr}
+  .tcol{align-items:flex-start;flex-direction:row;flex-wrap:wrap}
+  .progress{position:static}
+  .scrollx{overflow-x:auto}
+  .otbl{min-width:640px}
+}
+@media print{
+  @page{size:letter landscape;margin:.4in}
+  body{background:#fff;font-size:10pt}
+  .two-band,.toolbar,.progress,section.step,.next,.toast,.saved,.no-print{display:none!important}
+  header.top{padding:0 0 8px;border-bottom:2px solid #000}
+  h1{font-size:18pt;margin:2px 0}
+  .eyebrow{font-size:8pt}
+  .deck{display:none}
+  .meta{margin-top:6px}
+  .meta label{font-size:7pt;margin-bottom:2px}
+  .meta input{border:none;border-bottom:1px solid #999;padding:2px 0}
+  #out{display:block!important;padding-top:8px}
+  #out h2{font-size:13pt;margin-bottom:4px}
+  .ocard > div{padding:8px 12px}.ocard .oq{font-size:12pt}.ocard p{font-size:9pt}
+  .oh{margin:10px 0 5px}
+  .otbl{font-size:8.5pt}.otbl th,.otbl td{padding:4px 7px}
+  .ocard,.ocard > div,.otbl th,.dk{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .otbl tr,.ocard{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">06 / Build What Customers Want</span></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Worksheet · Learning While You Run It</div>
+  <h1>Ask while you’re <em>still there.</em></h1>
+  <p class="deck">Two habits. Ask one question at the moment you deliver, in the same words every time. When the same answer shows up three times, change one thing, pick the number that tells you if it worked, and decide on a date six weeks out.</p>
+  <div class="toolbar">
+    <button class="btn primary" id="useExample" type="button">Use the lesson’s example</button>
+    <button class="btn ink" id="printBtn" type="button">Print / Save as PDF</button>
+    <button class="btn" id="xlsxBtn" type="button">Download to Excel</button>
+    <button class="btn quiet" id="clearBtn" type="button">Clear all</button>
+    <span class="saved" id="saved">Saves automatically in this browser</span>
+  </div>
+  <div class="meta">
+    <div><label for="bizName">Business</label><input type="text" id="bizName" data-k="bizName" placeholder="Your business, or the one you’re planning"></div>
+    <div><label for="lDate">Date</label><input type="date" id="lDate" data-k="lDate"></div>
+  </div>
+</header>
+</div>
+
+<nav class="progress" aria-label="Progress">
+  <div class="wrap">
+    <a class="step-pill" id="p1" href="#s1"><b>01</b><span>Moment, question, number</span></a>
+    <a class="step-pill" id="p2" href="#s2"><b>02</b><span>Weekly read on the calendar</span></a>
+    <a class="step-pill" id="p3" href="#s2"><b>03</b><span>An answer three times <span id="p3n"></span></span></a>
+    <a class="step-pill" id="p4" href="#s3"><b>04</b><span>One change, one date</span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section class="step" id="s1">
+  <div class="step-head"><span class="step-num">STEP 01 · HABIT ONE</span></div>
+  <h2>Name your delivery moment, write the question, add the number.</h2>
+  <p class="intro">Pick the moment you hand over what you built: the end of a session, the results conversation, the walkthrough of a finished job. Ask there, before you leave. <b>Ask two weeks later and you get a verdict. Ask at delivery and you get a reason.</b></p>
+  <label class="pre"><input type="checkbox" data-k="pre"> I’m pre-launch</label>
+  <div class="note hidden" id="preNote">Your delivery moment is the end of a prototype session.</div>
+  <div class="grid2">
+    <div class="field"><label for="moment">My delivery moment</label><input type="text" id="moment" data-k="moment" placeholder="e.g., The end of the results conversation"></div>
+    <div class="field"><label for="when">When and how I ask</label><input type="text" id="when" data-k="when" placeholder="e.g., Last two minutes, before I leave the room"></div>
+  </div>
+  <div class="qbox">
+    <span class="lbl">The question · same words every time</span>
+    <textarea id="question" data-k="question" placeholder="e.g., What did you expect from this that you haven’t gotten yet?"></textarea>
+    <div class="hints" id="qHints"></div>
+  </div>
+  <div class="field"><label for="where">Where the answers get written</label><p class="help">One place, filled in before you leave. Not your memory.</p><input type="text" id="where" data-k="where" placeholder="e.g., One field in the client record"></div>
+  <div class="field">
+    <label for="number">The number I’ll watch beside it</label>
+    <p class="help">People who like you will tell you it was great. Watch what they do: did they come back?</p>
+    <input type="text" id="number" data-k="number" placeholder="e.g., Did they book the next session?">
+    <div class="chips" id="numChips"><button type="button" class="chip">Did they book the next session?</button><button type="button" class="chip">Did they renew?</button><button type="button" class="chip">Did they ask to try it again?</button></div>
+  </div>
+  <div class="field">
+    <label for="fineGap">Says it’s fine, hasn’t come back</label>
+    <p class="help">Everything’s fine, and they haven’t booked in five months. That gap is where you learn something. Who’s in it?</p>
+    <textarea id="fineGap" data-k="fineGap" placeholder="Names, and how long since they came back"></textarea>
+  </div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head"><span class="step-num">STEP 02 · THE WEEKLY READ</span></div>
+  <h2>Twenty minutes, same day every week. Read the answers.</h2>
+  <div class="read3">
+    <div class="field"><label for="day">Day</label><select id="day" data-k="day"><option value="">Choose a day</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></div>
+    <div class="field"><label for="mins">Minutes</label><input type="text" inputmode="numeric" id="mins" data-k="mins" placeholder="20"></div>
+    <div class="field"><label for="readers">Who reads them</label><input type="text" id="readers" data-k="readers" placeholder="e.g., Me and my office manager, aloud"></div>
+  </div>
+  <div class="checks"><label><input type="checkbox" data-k="onCal"> It’s on the calendar, recurring.</label></div>
+  <div class="closing"><small>End every read with</small>What are we changing because of this?</div>
+
+  <div class="group-label" style="margin-top:34px">The answers that repeat</div>
+  <p class="group-note">Tally each answer you hear more than once, in the customer’s words. When the same answer comes from three different customers, it’s earned a test.</p>
+  <div class="ex-note" id="exNote">From the lesson: the same answer from eleven members by month four, and the two changes Upstream tested, six weeks each, eighteen weeks in all. The lesson doesn’t give calendar dates, so the dates here are set back from today. It also doesn’t name the number watched for the second and third tests, so those are left blank.</div>
+  <div id="themes"></div>
+  <div class="counter"><button class="btn" type="button" id="addTheme">+ Add an answer</button></div>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head"><span class="step-num">STEP 03 · HABIT TWO</span></div>
+  <h2>One change. One number. One date.</h2>
+  <p class="intro">Change three things at once and it’s like fixing a flat sauce with salt, lemon and chili together: it tastes better, and you have no idea which one did it. Put a decision date six weeks out, then leave it alone. On the date, decide out loud.</p>
+  <div id="tests"></div>
+  <div class="counter"><button class="btn" type="button" id="addTest">+ Start a test</button></div>
+  <div class="callout" style="margin-top:20px">
+    <div class="k">The trap · the date that slides</div>
+    <p>The date arrives, the result is unclear, someone says give it a few more weeks, and by the third time the test has become a project nobody will ever decide. <b>Unclear is a result. Write it down, sharpen the question, and start again. Protect the date.</b></p>
+  </div>
+</section>
+
+<section id="out" class="step">
+  <div class="step-head"><span class="step-num">YOUR LEARNING LOOP</span></div>
+  <h2 id="outTitle">Your learning loop</h2>
+  <div class="ocard">
+    <div><h5>The question · at <span id="oMoment">—</span></h5><p class="oq" id="oQ">Not written yet.</p><p id="oWhen" style="margin-top:6px;color:var(--slate)"></p></div>
+    <div><h5>The number beside it</h5><p id="oNum"></p><h5 style="margin-top:12px">The weekly read</h5><p id="oRead"></p></div>
+  </div>
+  <div class="oh">Answers that repeat</div>
+  <div class="scrollx"><table class="otbl" id="oThemes"></table></div>
+  <div class="oh">Tests · one change at a time</div>
+  <div class="scrollx"><table class="otbl" id="oTests"></table></div>
+</section>
+
+<div class="next no-print">
+  <div class="k">Next session</div>
+  <p><b style="color:var(--ink)">Roadmapping the Lean Way.</b> Your tests will hand you a list of changes. Roadmapping is where you put them in order.</p>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY='two_lrn_v1';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  var savedEl=document.getElementById('saved'),t0,tt;
+  function flash(s){savedEl.textContent=s;clearTimeout(t0);t0=setTimeout(function(){savedEl.textContent='Saves automatically in this browser'},1200)}
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));flash('Saved')}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function plusDays(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+  function nice(s){if(!s)return '';var p=s.split('-');if(p.length!==3)return s;var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1];return m+' '+(+p[2])+', '+p[0]}
+  function toast(s){var el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2800)}
+  function t(v){return String(v==null?'':v).trim()}
+  function bindStatic(){
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var k=el.dataset.k,v=state[k];
+      if(el.type==='checkbox') el.checked=!!v;
+      else if(el.type==='radio') el.checked=(v===el.value);
+      else el.value=v!=null?v:'';
+    });
+  }
+  function onField(e){
+    var el=e.target,k=el.dataset&&el.dataset.k;
+    if(!k)return false;
+    if(el.type==='radio'){if(!el.checked)return true;state[k]=el.value}
+    else state[k]=el.type==='checkbox'?el.checked:el.value;
+    persist();render();return true;
+  }
+  function fileName(base,suffix){return ((t(state.bizName)||base).replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||base)+(suffix||'')+'.xlsx'}
+  function sheet(rows,cols){var ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=cols.map(function(w){return{wch:w}});return ws}
+  function grow(el){if(el.offsetParent===null)return;el.style.height='auto';el.style.height=(el.scrollHeight+3)+'px'}
+  function growAll(){document.querySelectorAll('textarea').forEach(grow)}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target)});
+  var rzT;window.addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(growAll,120)});
+  setTimeout(growAll,0);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(growAll);
+  function wire(opts){
+    document.getElementById('useExample').addEventListener('click',function(){
+      if(opts.hasData()&&!confirm('Replace what you’ve entered with the lesson’s example? Your current answers will be cleared.'))return;
+      state=opts.example();opts.rebuild();persist();render();growAll();toast('The lesson’s example is loaded. Edit anything to make it yours.');
+    });
+    document.getElementById('clearBtn').addEventListener('click',function(){
+      if(!confirm('Clear every answer on this worksheet? This can’t be undone.'))return;
+      try{localStorage.removeItem(KEY)}catch(e){}
+      state=opts.fresh();opts.rebuild();persist();render();growAll();
+    });
+    document.getElementById('printBtn').addEventListener('click',function(){render();window.print()});
+    document.getElementById('xlsxBtn').addEventListener('click',function(){
+      if(typeof XLSX==='undefined'){toast('The Excel export couldn’t load. Check your connection and try again.');return}
+      opts.xlsx();
+    });
+  }
+
+  var uid=function(){return 'x'+Math.random().toString(36).slice(2,9)};
+  function addDays(s,n){if(!s)return '';var p=s.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);d.setDate(d.getDate()+n);return iso(d)}
+  var DEC={keep:'Keep it',kill:'Kill it',fix:'Fix one thing and run it again'};
+  function fresh(){return{lDate:iso(new Date()),mins:'20',themes:[],tests:[]}}
+  var EXAMPLE=function(){
+    var th=uid(),s1=plusDays(-126),s2=addDays(s1,42),s3=addDays(s2,42);
+    return{bizName:'Upstream Medicine (the lesson’s example)',lDate:iso(new Date()),ex:true,
+      moment:'The member review, the check-in with people who’ve already joined',when:'The last two minutes of every review, before the physician leaves the room',
+      question:'What did you expect from this that you haven’t gotten yet?',where:'Typed into one field',number:'',fineGap:'',
+      day:'Friday',mins:'',readers:'All four partners, aloud',onCal:true,
+      themes:[{id:th,text:'They want their spouse in the review.',n:11,note:'By month four. It matched something we already knew: the decision to join is made at home, at a kitchen table, by someone who’s never met the doctor. If members want their spouse in the room after joining, prospects probably need them in the room before. A step missing from our customer journey map.'}],
+      tests:[
+        {id:uid(),theme:th,change:'The consultation invitation asks prospects to bring their spouse.',number:'How long prospects take to sign',start:s1,decide:addDays(s1,42),decide0:addDays(s1,42),dec:'keep',result:'With the spouse there, prospects signed in two to three weeks. Without, six to eleven.',notes:'Three weeks in, a partner wanted to add a written summary too. Not in this test: one change at a time.'},
+        {id:uid(),theme:'',change:'Another partner runs the member review, not just Aaron.',number:'',start:s2,decide:addDays(s2,42),decide0:addDays(s2,42),dec:'fix',result:'Failed. The partner walked in without the member’s history.',notes:''},
+        {id:uid(),theme:'',change:'Send the member’s history ahead, then another partner runs the review.',number:'',start:s3,decide:addDays(s3,42),decide0:addDays(s3,42),dec:'keep',result:'It worked. Any of the four partners can run the review. A ceiling of one became a ceiling of four.',notes:''}
+      ]}};
+  if(!state.themes){var f=fresh();Object.keys(f).forEach(function(k){if(state[k]==null)state[k]=f[k]})}
+  function theme(id){return state.themes.filter(function(x){return x.id===id})[0]}
+
+  var thEl=document.getElementById('themes'),teEl=document.getElementById('tests');
+  function themeHTML(x,i){
+    var ready=(+x.n||0)>=3,has=state.tests.some(function(t_){return t_.theme===x.id});
+    return '<div class="theme'+(ready?' ready':'')+'"><div class="tx"><textarea data-t="'+i+'" data-f="text" placeholder="The answer, in their words">'+esc(x.text)+'</textarea><textarea data-t="'+i+'" data-f="note" placeholder="Does it match something you already know?">'+esc(x.note)+'</textarea></div>'+
+      '<div class="tally"><button type="button" data-tn="'+i+'" data-d="-1" aria-label="One fewer">−</button><span class="v">'+(+x.n||0)+'</span><button type="button" data-tn="'+i+'" data-d="1" aria-label="One more">+</button></div>'+
+      '<div class="tcol"><span class="badge'+(ready?' ready':'')+'">'+(ready?'Earned a test':(3-(+x.n||0))+' more to earn a test')+'</span>'+
+      (ready&&!has?'<button type="button" class="ibtn go" data-tt="'+i+'">Run one change</button>':has?'<span class="badge">Test started</span>':'')+
+      '<button type="button" class="ibtn" data-tdel="'+i+'" aria-label="Remove">✕</button></div></div>';
+  }
+  function testHTML(x,i){
+    var opts='<option value="">Not from a tallied answer</option>'+state.themes.map(function(h){return '<option value="'+h.id+'"'+(x.theme===h.id?' selected':'')+'>'+esc(t(h.text).slice(0,70)||'(untitled)')+'</option>'}).join('');
+    return '<div class="test'+(x.dec?' decided':'')+'" id="ts'+i+'"><div class="t-top"><span class="t-n">TEST '+(i+1)+'</span><button type="button" class="ibtn" data-xdel="'+i+'" aria-label="Remove">✕</button></div>'+
+      '<div class="tg"><div><label>The one change</label><textarea data-x="'+i+'" data-f="change" placeholder="One change, written so someone else could make it">'+esc(x.change)+'</textarea></div>'+
+      '<div><label>The number that tells you if it worked</label><textarea data-x="'+i+'" data-f="number" placeholder="e.g., Days from first call to signature">'+esc(x.number)+'</textarea></div></div>'+
+      '<div class="tg2"><div><label>Starts</label><input type="date" data-x="'+i+'" data-f="start" value="'+esc(x.start)+'"></div>'+
+      '<div><label>Decision date <span>· six weeks out</span></label><input type="date" data-x="'+i+'" data-f="decide" value="'+esc(x.decide)+'"></div>'+
+      '<div><label>From the answer</label><select data-x="'+i+'" data-f="theme">'+opts+'</select></div></div>'+
+      '<div class="dec"><span class="lbl">On the date</span>'+Object.keys(DEC).map(function(k){return '<button type="button" data-xd="'+i+'" data-d="'+k+'" aria-pressed="'+(x.dec===k)+'">'+DEC[k]+'</button>'}).join('')+'</div>'+
+      '<div class="tg" style="margin-top:12px"><div><label>What came back</label><textarea data-x="'+i+'" data-f="result" placeholder="The number, and what you saw. Unclear is a result too.">'+esc(x.result)+'</textarea></div>'+
+      '<div><label>Requests to add or push, and what you said</label><textarea data-x="'+i+'" data-f="notes" placeholder="e.g., Week three: asked to add a second change. No.">'+esc(x.notes)+'</textarea></div></div>'+
+      (x.dec==='fix'?'<div style="margin-top:10px"><button type="button" class="btn" data-again="'+i+'" style="padding:8px 14px;font-size:13px">Run it again with the one fix</button></div>':'')+
+      '<div class="twarn" id="tw'+i+'"></div></div>';
+  }
+  function build(){thEl.innerHTML=state.themes.map(themeHTML).join('');teEl.innerHTML=state.tests.map(testHTML).join('');growAll()}
+  function rebuild(){bindStatic();build()}
+  function newTest(themeId,change){var s=iso(new Date());state.tests.push({id:uid(),theme:themeId||'',change:change||'',number:'',start:s,decide:addDays(s,42),decide0:addDays(s,42),dec:'',result:'',notes:''})}
+
+  thEl.addEventListener('input',function(e){var el=e.target;if(el.dataset.t==null)return;state.themes[+el.dataset.t][el.dataset.f]=el.value;persist();render()});
+  thEl.addEventListener('change',function(e){if(e.target.dataset.f==='text'){build();render()}});
+  thEl.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    if(b.dataset.tn!=null){var x=state.themes[+b.dataset.tn];x.n=Math.max(0,(+x.n||0)+(+b.dataset.d))}
+    else if(b.dataset.tt!=null){var h=state.themes[+b.dataset.tt];newTest(h.id,'');toast('Test started. Write the one change.')}
+    else if(b.dataset.tdel!=null){var y=state.themes[+b.dataset.tdel];if(t(y.text)&&!confirm('Remove this answer?'))return;state.themes.splice(+b.dataset.tdel,1);state.tests.forEach(function(q){if(q.theme===y.id)q.theme=''})}
+    else return;
+    build();persist();render();
+  });
+  document.getElementById('addTheme').addEventListener('click',function(){state.themes.push({id:uid(),text:'',n:1,note:''});build();persist();render();var a=thEl.querySelectorAll('.tx textarea');if(a.length)a[a.length-2].focus()});
+  teEl.addEventListener('input',function(e){var el=e.target;if(el.dataset.x==null)return;var x=state.tests[+el.dataset.x];x[el.dataset.f]=el.value;
+    if(el.dataset.f==='start'&&el.value){x.decide=addDays(el.value,42);x.decide0=x.decide;var d=document.querySelector('[data-x="'+el.dataset.x+'"][data-f=decide]');if(d)d.value=x.decide}
+    persist();render()});
+  teEl.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    if(b.dataset.xd!=null){var x=state.tests[+b.dataset.xd];x.dec=x.dec===b.dataset.d?'':b.dataset.d}
+    else if(b.dataset.again!=null){var o=state.tests[+b.dataset.again];newTest(o.theme,o.change);toast('New test started. Rewrite the change with the one fix.')}
+    else if(b.dataset.xdel!=null){var y=state.tests[+b.dataset.xdel];if(t(y.change)&&!confirm('Remove this test?'))return;state.tests.splice(+b.dataset.xdel,1)}
+    else return;
+    build();persist();render();
+  });
+  document.getElementById('addTest').addEventListener('click',function(){newTest('','');build();persist();render()});
+  document.getElementById('numChips').addEventListener('click',function(e){var c=e.target.closest('.chip');if(!c)return;state.number=c.textContent;document.getElementById('number').value=state.number;persist();render()});
+  document.addEventListener('input',function(e){if(e.target.closest('#themes')||e.target.closest('#tests'))return;if(e.target.type==='checkbox'||e.target.tagName==='SELECT')return;onField(e)});
+  document.addEventListener('change',function(e){if(e.target.closest('#themes')||e.target.closest('#tests'))return;if(e.target.type==='checkbox'||e.target.tagName==='SELECT')onField(e)});
+
+  function warnHTML(cls,s){return '<div class="note '+cls+'" style="margin:0">'+esc(s)+'</div>'}
+  function render(){
+    var q=t(state.question),h=[];
+    if(q){
+      if((q.match(/\?/g)||[]).length>1)h.push('That’s more than one question. Pick one.');
+      if(/\b(rate|rating|scale|1-10|1 to 10|out of (5|10)|how satisfied|stars?)\b/i.test(q))h.push('That gets you a rating. Ask for a reason.');
+      if(/^\s*(was|were|did|do|is|are|have|has|would)\b/i.test(q))h.push('That can be answered yes or no. Ask it so they have to tell you something.');
+    }
+    document.getElementById('qHints').innerHTML=h.map(function(s){return '<div class="hint">'+esc(s)+'</div>'}).join('');
+    document.getElementById('preNote').classList.toggle('hidden',!state.pre);
+    document.getElementById('moment').placeholder=state.pre?'The end of a prototype session':'e.g., The end of the results conversation';
+    document.getElementById('exNote').classList.toggle('show',!!state.ex);
+    var today=iso(new Date()),running=state.tests.filter(function(x){return !x.dec&&x.start&&x.start<=today});
+    state.tests.forEach(function(x,i){
+      var w=[],el=document.getElementById('tw'+i);if(!el)return;
+      if(/\b(and|plus|also)\b|;|\+/i.test(t(x.change)))w.push(['alert','That might be two changes. If it is, split it into two tests and run them one after the other.']);
+      if(!t(x.number)&&t(x.change))w.push(['alert','No number yet. Without one, you won’t know on the date whether it worked.']);
+      if(x.decide0&&x.decide&&x.decide>x.decide0)w.push(['danger','The decision date moved later. That’s the trap. Unclear is a result: write it down, sharpen the question, and start again.']);
+      if(!x.dec&&x.decide&&x.decide<=today)w.push(['danger','The date is here. Decide out loud: keep it, kill it, or fix one thing and run it again.']);
+      if(!x.dec&&running.length>1&&running.indexOf(x)>-1)w.push(['alert','More than one test is running. One change at a time, or you won’t know which one did it.']);
+      el.innerHTML=w.map(function(p){return warnHTML(p[0],p[1])}).join('');
+      var card=document.getElementById('ts'+i);if(card)card.classList.toggle('decided',!!x.dec);
+    });
+    var ready=state.themes.filter(function(x){return (+x.n||0)>=3}).length;
+    [['p1',!!(t(state.moment)&&q&&t(state.number))],['p2',!!(state.day&&state.onCal)],['p3',ready>0],['p4',state.tests.some(function(x){return t(x.change)&&x.decide})]].forEach(function(p){document.getElementById(p[0]).classList.toggle('done',p[1])});
+    document.getElementById('p3n').textContent=ready?'· '+ready:'';
+    // output
+    var biz=t(state.bizName);document.getElementById('outTitle').textContent=biz?biz+': learning loop':'Your learning loop';
+    document.getElementById('oMoment').textContent=t(state.moment)||(state.pre?'the end of a prototype session':'—');
+    document.getElementById('oQ').textContent=q||'Not written yet.';
+    document.getElementById('oWhen').textContent=[t(state.when),t(state.where)?'Written: '+t(state.where):''].filter(Boolean).join('\n');
+    var on=document.getElementById('oNum');on.textContent=t(state.number)||'Not chosen yet.';on.className=t(state.number)?'':'e';
+    document.getElementById('oRead').textContent=state.day?(state.day+'s'+(t(state.mins)?', '+t(state.mins)+' minutes':'')+(t(state.readers)?', '+t(state.readers).charAt(0).toLowerCase()+t(state.readers).slice(1):'')+(state.onCal?'. On the calendar.':'. Not on the calendar yet.')+'\nEnds with: what are we changing because of this?'):'Not set yet.';
+    var T=state.themes.filter(function(x){return t(x.text)});
+    document.getElementById('oThemes').innerHTML=T.length?'<thead><tr><th>The answer</th><th>Times</th><th>Matches what we know</th></tr></thead><tbody>'+T.map(function(x){return '<tr><td>'+esc(x.text)+'</td><td>'+(+x.n||0)+((+x.n||0)>=3?' · earned a test':'')+'</td><td>'+esc(t(x.note))+'</td></tr>'}).join('')+'</tbody>':'<tbody><tr><td class="e">No repeated answers tallied yet.</td></tr></tbody>';
+    var X=state.tests.filter(function(x){return t(x.change)});
+    document.getElementById('oTests').innerHTML=X.length?'<thead><tr><th>#</th><th>The one change</th><th>Number</th><th>Dates</th><th>Decision</th><th>What came back</th></tr></thead><tbody>'+X.map(function(x,i){return '<tr><td>'+(i+1)+'</td><td>'+esc(x.change)+'</td><td>'+esc(t(x.number)||'—')+'</td><td>'+esc((x.start?nice(x.start):'')+(x.decide?' → '+nice(x.decide):''))+'</td><td><span class="dk '+(x.dec||'run')+'">'+(x.dec?DEC[x.dec]:'Running')+'</span></td><td>'+esc(t(x.result))+'</td></tr>'}).join('')+'</tbody>':'<tbody><tr><td class="e">No tests yet.</td></tr></tbody>';
+  }
+  function hasData(){return !!(t(state.bizName)||t(state.moment)||t(state.question)||state.themes.length||state.tests.length)}
+  function xlsx(){
+    var wb=XLSX.utils.book_new();
+    var a=[['Two Weeks Out · Learning While You Run It'],['Business',state.bizName||''],['Date',state.lDate||''],['Pre-launch',state.pre?'Yes':'No'],[],
+      ['Delivery moment',state.moment||''],['When and how I ask',state.when||''],['The question',state.question||''],['Where answers get written',state.where||''],['Number I watch beside it',state.number||''],['Says it’s fine, hasn’t come back',state.fineGap||''],[],
+      ['Weekly read: day',state.day||''],['Minutes',state.mins||''],['Who reads them',state.readers||''],['On the calendar',state.onCal?'Yes':'No'],['Ends with','What are we changing because of this?'],[],['Answers that repeat','Times','Matches what we know']];
+    state.themes.forEach(function(x){a.push([x.text||'',+x.n||0,x.note||''])});
+    XLSX.utils.book_append_sheet(wb,sheet(a,[36,60,60]),'Question and weekly read');
+    var b=[['#','The one change','Number that tells if it worked','From the answer','Starts','Decision date','Original decision date','Decision','What came back','Requests to add or push']];
+    state.tests.forEach(function(x,i){var h=theme(x.theme);b.push([i+1,x.change||'',x.number||'',h?h.text:'',x.start||'',x.decide||'',x.decide0||'',x.dec?DEC[x.dec]:'Running',x.result||'',x.notes||''])});
+    XLSX.utils.book_append_sheet(wb,sheet(b,[4,44,30,30,12,13,13,24,44,40]),'Tests');
+    XLSX.writeFile(wb,fileName('Learning_Loop','_Learning_Loop'));
+  }
+  wire({hasData:hasData,example:EXAMPLE,fresh:fresh,rebuild:rebuild,xlsx:xlsx});
+  rebuild();render();
+})();
+</script>
+</body>
+</html>

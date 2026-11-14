@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your Distributed-Work Playbook — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a; --ink-soft:#10131a; --muted:#59616e; --muted-soft:#9ba3af;
+    --border:#e9ecf5; --border-soft:#e9ecf5;
+    --bg:#ffffff; --bg-soft:#fbfaf6;
+    --green:#2747f5; --bright:#2747f5; --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5; --amber:#7d5300;
+    --danger:#b3261e; --danger-soft:#fde9e7;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; color: var(--ink); background: var(--bg-soft); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .sheet { max-width: 880px; margin: 0 auto; padding: 56px 48px 80px; background: var(--bg); }
+  header.brand { border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-bottom: 34px; }
+  .eyebrow { font-size: 11px; letter-spacing: 2.5px; color: var(--green); font-weight: 600; text-transform: uppercase; margin: 0 0 6px; }
+  h1 { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 32px; line-height: 1.2; color: var(--ink); margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; color: var(--ink-soft); font-size: 16px; margin: 0; }
+  .step { margin: 38px 0 0; padding-top: 26px; border-top: 1px solid var(--border); }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .step-num { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 28px;font-weight:800; color: var(--bright); line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px;font-weight:800; color: var(--ink); line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub { color: var(--muted); font-size: 14px; margin: 4px 0 18px; font-style: italic; }
+  label { font-size: 13px; color: var(--ink-soft); font-weight: 500; display: block; margin-bottom: 5px; }
+  input[type="text"], select, textarea { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px; color: var(--ink); background: white; border: 1px solid var(--border); border-radius:0; padding: 9px 11px; width: 100%; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 2px var(--em-soft); }
+  textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+  .field { margin-bottom: 14px; } .field:last-child { margin-bottom: 0; }
+  .role-card { background: var(--em-soft); border-left: 4px solid var(--green); border-radius:0; padding: 16px 20px; }
+  .role-card label { color: var(--green); font-weight: 600; }
+  .role-card input, .role-card select { background: white; }
+  .input-grid-2 { display: grid; grid-template-columns: 1fr 1.6fr; gap: 14px; }
+  .block-card { border: 1px solid var(--border); border-radius:0; padding: 16px 18px; margin-bottom: 12px; background: white; }
+  .block-name { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .block-prompt { font-size: 13px; color: var(--muted); font-style: italic; margin: 0 0 12px; }
+  .toggle-card { background: var(--bg-soft); border: 1px dashed var(--border); border-radius:0; padding: 12px 16px; margin-bottom: 14px; }
+  .toggle-card label { display: flex; align-items: center; gap: 10px; cursor: pointer; margin: 0; font-weight: 500; color: var(--ink-soft); }
+  .toggle-card input[type="checkbox"] { width: auto; accent-color: var(--green); }
+  .ml-hidden { display: none; }
+  .module-card { background: var(--cream-soft); border-left: 4px solid var(--amber); border-radius:0; padding: 16px 20px; }
+  .module-card label { color: var(--amber); font-weight: 600; }
+  .output-section { margin-top: 48px; padding-top: 36px; border-top: 3px solid var(--ink); }
+  .output-header { text-align: center; margin-bottom: 24px; }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 { font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 26px;font-weight:800; color: var(--ink); margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p { color: var(--muted); font-size: 14px; margin: 0; font-style: italic; }
+  .output-banner { text-align: center; font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif; font-size: 22px; color: var(--green); margin-bottom: 28px; padding: 14px 20px; background: var(--em-soft); border-radius:0;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .out-block { margin-bottom: 22px; page-break-inside: avoid; }
+  .out-block-title { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .summary-card { background: var(--bg-soft); border-left: 3px solid var(--bright); border-radius:0; padding: 12px 16px; margin-bottom: 10px; }
+  .summary-card-name { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 14px; font-weight: 600; color: var(--bright); margin-bottom: 6px; }
+  .summary-card-body { font-size: 14px; color: var(--ink-soft); line-height: 1.5; white-space: pre-wrap; }
+  .empty-inline {color:#59616e; font-style: italic; font-size: 13px; }
+  .module-out-card { background: var(--cream-soft); border-left: 4px solid var(--amber); border-radius:0; padding: 16px 20px; }
+  .module-out-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.8px; color: var(--amber); font-weight: 700; margin-bottom: 8px; }
+  .module-out-body { font-size: 14px; color: var(--ink); line-height: 1.55; }
+  .observation { margin-top: 24px; padding: 14px 18px; background: var(--em-soft); border-radius:0; font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+  .observation strong { color: var(--green); }
+  .empty-output { padding: 36px; background: var(--bg-soft); border: 1px dashed var(--border); border-radius:0; text-align: center; color: var(--muted); font-style: italic; }
+  .toolbar { display: flex; gap: 10px; justify-content: flex-end; margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--border); }
+  .btn { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius:0; cursor: pointer; border: 1px solid var(--border); background: white; color: var(--ink-soft); }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary { background: var(--green); color: white;border-color:#ffffff; } .btn-primary:hover { background: #1b36c9; }
+  .btn-example { background: var(--cream-soft); color: var(--amber); border-color: var(--cream-soft); font-weight: 600; } .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 32px 28px; }
+    .toolbar { display: none; }
+    .step { page-break-inside: avoid; }
+    .out-block { page-break-inside: avoid; }
+    input, select, textarea { border: none; border-bottom: 1px solid var(--border); border-radius:0; padding: 4px 0; background: transparent; }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#7C97FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">09 / Build and Lead Your Team</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">Two Weeks Out  ·  Team Building and Leadership Development</p>
+  <h1>Your Distributed-Work Playbook</h1>
+  <p class="lede">The final exam — where every discipline from the prior seven lessons gets tested under harder conditions. Design it deliberately, or it will be bolted on later when it isn't working.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">Your configuration</span></div>
+  <p class="step-sub">Name where you are. The playbook's emphasis shifts with the configuration.</p>
+  <div class="role-card">
+    <div class="input-grid-2">
+      <div class="field"><label for="config">Configuration</label><select id="config" onchange="toggleMultiLocation()"><option value="">Select…</option><option value="single-remote">Single-location, fully remote team</option><option value="multi-location">Multi-location with offices</option><option value="hybrid">Hybrid — some in office, some remote within a single location</option><option value="multi-hybrid">Multi-location AND hybrid within each</option></select></div>
+      <div class="field"><label for="config-context">One-line context (optional)</label><input type="text" id="config-context" placeholder="e.g., Denver HQ with 4 fully-remote senior people; planning Phoenix office in 18 months"></div>
+    </div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">Three foundations of distributed work</span></div>
+  <p class="step-sub">Distributed teams perform like a compromise when treated as one. Treated as deliberate design, they can outperform a single-location team. The foundations.</p>
+  <div class="block-card">
+    <div class="block-name">Written by default</div>
+    <p class="block-prompt">Decisions, context, and status in writing. Verbal is supplement, not channel. Where will writing live? What tooling? What rhythm?</p>
+    <textarea id="found-written" placeholder="e.g., Linear for decisions and roadmap. Notion for context docs and meeting notes. Slack for ephemeral. Every meeting produces a written decision summary within 24 hours."></textarea>
+  </div>
+  <div class="block-card">
+    <div class="block-name">When synchronous earns its place</div>
+    <p class="block-prompt">No status updates that could be written. Meetings exist for decisions and human signal — name the criteria.</p>
+    <textarea id="found-sync" placeholder="e.g., Real-time meetings only when: a decision needs to be made together, a difficult conversation needs face time, or relationships need investment. Standing meetings are reviewed quarterly and killed if they've drifted to status."></textarea>
+  </div>
+  <div class="block-card">
+    <div class="block-name">Decision ownership across distance</div>
+    <p class="block-prompt">Named ownership of every decision. Distributed teams break down when slow drift toward consensus becomes months of paralysis. Who owns what?</p>
+    <textarea id="found-decisions" placeholder="e.g., Every meaningful decision has a named DRI. Decision log is shared and searchable. Disagreement is voiced in writing within 48 hours of a decision, or the decision stands."></textarea>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">Cadence translation — the three layers across distance</span></div>
+  <p class="step-sub">The cadence does not change because the team is distributed. If anything, it has to be enforced more strictly. How do the three layers from the management lesson translate to your configuration?</p>
+  <div class="block-card">
+    <div class="block-name">Weekly 1:1</div>
+    <p class="block-prompt">Over video can be just as good — if the agenda is real, the camera is on, and you give it full attention.</p>
+    <textarea id="cad-oo" placeholder="e.g., Video, camera on, no second-screen. 30 minutes, same time each week. Notes captured live in a shared doc per person."></textarea>
+  </div>
+  <div class="block-card">
+    <div class="block-name">All-hands across locations</div>
+    <p class="block-prompt">Works on video with a deliberate ritual that travels — consistent opening, location spotlights, remote voices first in Q&A.</p>
+    <textarea id="cad-team" placeholder="e.g., Monthly all-hands, all locations together via video. Phoenix and Denver voices spotlight alternately. Remote voices invited into Q&A first by name — silence is investigated, not interpreted as agreement."></textarea>
+  </div>
+  <div class="block-card">
+    <div class="block-name">Monthly review</div>
+    <p class="block-prompt">Benefits most from being in person. Quarterly in-person rhythm with monthly video reviews between, with each direct report.</p>
+    <textarea id="cad-rev" placeholder="e.g., Monthly review over video — 90 minutes, structured agenda. Quarterly in-person review on the location-presence visit; longer, less structured, more development-focused."></textarea>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">04</span><span class="step-title">Location practices (if multi-location)</span></div>
+  <p class="step-sub">For multi-location configurations only. The local leader is the culture; rituals travel where posters don't; owner presence has a cadence.</p>
+  <div id="ml-section" class="ml-hidden">
+    <div class="block-card">
+      <div class="block-name">Owner presence cadence per location</div>
+      <p class="block-prompt">Predictable physical presence. Not constant — predictable.</p>
+      <textarea id="ml-presence" placeholder="e.g., One full week per quarter in Phoenix, minimum, calendared 12 months in advance and never deferred. Plus monthly video all-hands."></textarea>
+    </div>
+    <div class="block-card">
+      <div class="block-name">The rituals that travel</div>
+      <p class="block-prompt">Practices you'll run consistently across cities — the same on Monday in Denver and Phoenix.</p>
+      <textarea id="ml-rituals" placeholder="e.g., Friday wins review (each office takes turns hosting). Monthly client-problem postmortem on video, cross-office. Quarterly team day rotating between cities."></textarea>
+    </div>
+    <div class="block-card">
+      <div class="block-name">The local leader for each new location</div>
+      <p class="block-prompt">The hire is the culture decision — not delegable. Who is it, or who will it be?</p>
+      <textarea id="ml-leader" placeholder="e.g., Phoenix location lead — recruiting now, target hire by Q3. Profile: senior agency operator with prior Phoenix-market experience, willing to relocate for the first 90 days."></textarea>
+    </div>
+  </div>
+  <div id="ml-empty-state" class="block-card" style="text-align: center; color: var(--muted); font-style: italic;">Choose a multi-location configuration in Step 1 to see these fields.</div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">05</span><span class="step-title">Geography and compensation bands</span></div>
+  <p class="step-sub">A deliberate design choice, not an undocumented set of one-off arrangements. Which approach, and why?</p>
+  <div class="block-card">
+    <div class="field"><label for="geo-approach">Approach</label><select id="geo-approach"><option value="">Select…</option><option>Location-adjusted bands — each role has bands that vary by location, tied to local market data</option><option>National bands with cost-of-living adjustment — single reference point with modest adjustment</option><option>National bands flat — same numbers regardless of location</option><option>Not yet decided — placeholder for the upcoming decision</option></select></div>
+    <div class="field" style="margin-bottom: 0;"><label for="geo-rationale">Rationale</label><textarea id="geo-rationale" placeholder="Why this approach for your business? Defensible if a senior person asks how their Phoenix offer compares to Denver."></textarea></div>
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head"><span class="step-num">06</span><span class="step-title">The module-closer assignment</span></div>
+  <p class="step-sub">The final assignment from the lesson — print the one-page summary of everything from the module, share with one trusted advisor, then run it.</p>
+  <div class="module-card">
+    <div class="field" style="margin-bottom: 0;">
+      <label for="module-commit">Your one trusted advisor</label>
+      <input type="text" id="module-commit" placeholder="e.g., J.M., former Director of Account Services at our last agency — meeting Friday 4 PM to walk through the artifact">
+    </div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Distributed-Work Playbook</h2>
+    <p>The configuration, foundations, cadence, location practices, and geography approach — as one printable playbook.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Complete the steps above and click Generate to produce your playbook.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+const EXAMPLE = {
+  config: "multi-hybrid",
+  context: "Denver HQ with two fully-remote seniors, planning Phoenix office in 18 months",
+  written: "Linear for decisions and roadmap. Notion for context docs and meeting notes — every meaningful decision documented within 24 hours. Slack for ephemeral. Loom for asynchronous explanations that would otherwise require a meeting. New norm: 'if it's not written, it didn't happen.'",
+  sync: "Synchronous meetings only when a decision needs to be made together, a difficult conversation needs face time, or relationships need investment. All standing meetings reviewed quarterly. Killed three this year that had drifted to status. Default is async; sync is justified explicitly.",
+  decisions: "Every meaningful decision has a named DRI. The decision log lives in Notion and is searchable. Disagreement is voiced in writing within 48 hours, or the decision stands. The slow drift toward consensus was a real problem six months in — fixed by naming the DRI and the disagree-window explicitly.",
+  cadOO: "Weekly 1:1 over video — camera on, no second-screen. 30 minutes, same day and time each week. Notes captured in a shared doc per person, owned by them. Phoenix hires get the same cadence as Denver from day one.",
+  cadTeam: "Monthly all-hands, both offices together via video. Denver and Phoenix voices spotlight alternately. Remote-first norm: questions go to the queue first, in-person voices wait. Remote folks asked by name in Q&A — silence is investigated, not interpreted as agreement.",
+  cadRev: "Monthly review over video — 90 minutes, structured agenda. Quarterly in-person review on my location-presence visit; longer, less structured, more development-focused. The quarterly in-person rhythm produces the conversations the monthlies can't.",
+  mlPresence: "One full week per quarter in Phoenix, minimum, calendared 12 months in advance and never deferred. The team will know I'm there for a full week, not parachuting in for a half-day. Plus the monthly video all-hands.",
+  mlRituals: "Friday wins review — each office takes turns hosting. Monthly client-problem postmortem on video, cross-office. Quarterly team day rotating between Denver and Phoenix. Same Slack channels, same Linear board, same Notion workspace — no Phoenix-only forums.",
+  mlLeader: "Phoenix location lead — recruiting now via the four levers from the recruiting lesson, target hire by Q3. Profile: senior agency operator with prior Phoenix-market experience, willing to relocate for the first 90 days minimum to build the team in-person before transitioning to hybrid.",
+  geoApproach: "Location-adjusted bands — each role has bands that vary by location, tied to local market data",
+  geoRationale: "Denver-to-Phoenix spread is meaningful enough that flat national bands would either overpay Phoenix or underpay Denver. Each role has bands set against local market data, refreshed annually. Defensible to a senior person who asks; the math is transparent.",
+  moduleCommit: "J.M., my former Director of Account Services from the last agency — meeting Friday 4 PM at her office to walk through the artifact. Bringing the worksheets from all 8 lessons. Asking specifically: what's missing, what's aspirational, where do I sound like I'm describing the company I want versus the one I have."
+};
+
+function useExample() {
+  const hasContent = !!val("config") || !!val("found-written") || !!val("cad-oo");
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+  resetAllFields();
+  setEl("config", EXAMPLE.config); setEl("config-context", EXAMPLE.context);
+  toggleMultiLocation();
+  setEl("found-written", EXAMPLE.written); setEl("found-sync", EXAMPLE.sync); setEl("found-decisions", EXAMPLE.decisions);
+  setEl("cad-oo", EXAMPLE.cadOO); setEl("cad-team", EXAMPLE.cadTeam); setEl("cad-rev", EXAMPLE.cadRev);
+  setEl("ml-presence", EXAMPLE.mlPresence); setEl("ml-rituals", EXAMPLE.mlRituals); setEl("ml-leader", EXAMPLE.mlLeader);
+  setEl("geo-approach", EXAMPLE.geoApproach); setEl("geo-rationale", EXAMPLE.geoRationale);
+  setEl("module-commit", EXAMPLE.moduleCommit);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function toggleMultiLocation() {
+  const cfg = val("config");
+  const multi = cfg === "multi-location" || cfg === "multi-hybrid";
+  document.getElementById("ml-section").classList.toggle("ml-hidden", !multi);
+  document.getElementById("ml-empty-state").style.display = multi ? "none" : "";
+}
+
+function val(id) { return (document.getElementById(id)?.value || "").trim(); }
+function setEl(id, v) { const e = document.getElementById(id); if (e) e.value = v; }
+
+function generate() {
+  const out = document.getElementById("output-section");
+  const config = val("config");
+  if (!config) { out.innerHTML = '<div class="empty-output">Select a configuration in Step 1 to generate your playbook.</div>'; out.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+
+  const configLabel = {
+    "single-remote": "Single-location, fully remote team",
+    "multi-location": "Multi-location with offices",
+    "hybrid": "Hybrid — some in office, some remote within a single location",
+    "multi-hybrid": "Multi-location AND hybrid within each"
+  }[config];
+  const context = val("config-context");
+  const isMulti = config === "multi-location" || config === "multi-hybrid";
+
+  const foundations = {
+    "Written by default": val("found-written"),
+    "When synchronous earns its place": val("found-sync"),
+    "Decision ownership across distance": val("found-decisions")
+  };
+  const cadence = {
+    "Weekly 1:1": val("cad-oo"),
+    "All-hands across locations": val("cad-team"),
+    "Monthly review": val("cad-rev")
+  };
+  const ml = {
+    "Owner presence cadence per location": val("ml-presence"),
+    "The rituals that travel": val("ml-rituals"),
+    "The local leader for each new location": val("ml-leader")
+  };
+  const geoApproach = val("geo-approach"); const geoRationale = val("geo-rationale");
+  const moduleCommit = val("module-commit");
+
+  let html = `<div class="output-banner">${escapeHtml(configLabel)}${context ? `<small style="display:block;font-family:var(--font-body);font-size:12px;font-weight:500;color:var(--ink-soft);margin-top:6px;letter-spacing:0.5px;font-style:normal;">${escapeHtml(context)}</small>` : ""}</div>`;
+
+  // Foundations
+  html += `<div class="out-block"><div class="out-block-title">Three foundations</div>`;
+  Object.entries(foundations).forEach(([k, v]) => {
+    html += `<div class="summary-card"><div class="summary-card-name">${k}</div>${v ? `<div class="summary-card-body">${escapeHtml(v)}</div>` : `<div class="empty-inline">Not yet defined.</div>`}</div>`;
+  });
+  html += `</div>`;
+
+  // Cadence
+  html += `<div class="out-block"><div class="out-block-title">Cadence across distance</div>`;
+  Object.entries(cadence).forEach(([k, v]) => {
+    html += `<div class="summary-card"><div class="summary-card-name">${k}</div>${v ? `<div class="summary-card-body">${escapeHtml(v)}</div>` : `<div class="empty-inline">Not yet translated.</div>`}</div>`;
+  });
+  html += `</div>`;
+
+  // Multi-location
+  if (isMulti && (ml["Owner presence cadence per location"] || ml["The rituals that travel"] || ml["The local leader for each new location"])) {
+    html += `<div class="out-block"><div class="out-block-title">Multi-location practices</div>`;
+    Object.entries(ml).forEach(([k, v]) => {
+      if (v) html += `<div class="summary-card"><div class="summary-card-name">${k}</div><div class="summary-card-body">${escapeHtml(v)}</div></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Geography and bands
+  if (geoApproach || geoRationale) {
+    html += `<div class="out-block"><div class="out-block-title">Geography and compensation bands</div>`;
+    if (geoApproach) html += `<div class="summary-card"><div class="summary-card-name">Approach</div><div class="summary-card-body">${escapeHtml(geoApproach)}</div></div>`;
+    if (geoRationale) html += `<div class="summary-card"><div class="summary-card-name">Rationale</div><div class="summary-card-body">${escapeHtml(geoRationale)}</div></div>`;
+    html += `</div>`;
+  }
+
+  // Module closer
+  if (moduleCommit) {
+    html += `<div class="out-block"><div class="module-out-card"><div class="module-out-label">MODULE-CLOSER COMMITMENT</div><div class="module-out-body">${escapeHtml(moduleCommit)}</div></div></div>`;
+  }
+
+  // Observations
+  const obs = [];
+  const foundationsMissing = Object.values(foundations).filter(v => !v).length;
+  const cadenceMissing = Object.values(cadence).filter(v => !v).length;
+  if (foundationsMissing === 3) obs.push(`<strong>None of the three foundations are defined yet.</strong> Without them, distributed work runs like a compromise of in-person work. The foundations are what turn it into deliberate design.`);
+  else if (foundationsMissing > 0) obs.push(`<strong>${foundationsMissing} of 3 foundations not yet defined.</strong> The three work together — written-by-default fails without decision ownership, and decision ownership fails without synchronous reserved for what justifies it.`);
+  if (cadenceMissing === 3) obs.push(`<strong>The cadence hasn't been translated.</strong> The three layers from the management lesson don't go away because the team is distributed — they require more discipline, not less.`);
+  else if (cadenceMissing > 0) obs.push(`<strong>${cadenceMissing} of 3 cadence layers not yet translated.</strong> Distributed teams notice the layers the owner skips first.`);
+  if (isMulti && !ml["Owner presence cadence per location"]) obs.push(`<strong>Multi-location configuration but no owner presence cadence named.</strong> The team in the non-headquarters office reads the absence of a cadence as the answer — and the strong people leave first.`);
+  if (isMulti && !ml["The local leader for each new location"]) obs.push(`<strong>Multi-location configuration but no local leader identified.</strong> The lesson's central principle: the local leader is the culture, and the hire isn't delegable.`);
+  if (!geoApproach && isMulti) obs.push(`<strong>No geography-and-bands approach chosen.</strong> The choice isn't whether to have one — by accident or design, you will end up with one. Naming it now beats discovering it later through inconsistent one-off arrangements.`);
+  if (!moduleCommit) obs.push(`<strong>No trusted advisor named for the module closer.</strong> The single biggest predictor of whether the eight-lesson module produces durable change is the conversation with one trusted advisor about the printed artifact. Name them, then schedule the meeting.`);
+
+  obs.forEach(o => { html += `<div class="observation">${o}</div>`; });
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function escapeHtml(s) { if (s == null) return ""; return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function resetAllFields() { document.querySelectorAll("input[type='text'], select, textarea").forEach(el => el.value = ""); toggleMultiLocation(); }
+function clearAll() { if (!confirm("Clear all entries and start over?")) return; resetAllFields(); document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your playbook.</div>'; window.scrollTo({ top: 0, behavior: "smooth" }); }
+toggleMultiLocation();
+</script>
+</body>
+</html>

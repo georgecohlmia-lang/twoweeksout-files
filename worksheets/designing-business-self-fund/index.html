@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Funding Strategy Worksheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- design tokens ---------- */
+  :root{
+    --navy:#10131a;
+    --navy-2:#2c313c;
+    --navy-dk:#10131a;
+    --gold:#2747f5;
+    --gold-dk:#2747f5;
+    --gold-lt:#e9ecf5;
+    --red:#b3261e;
+    --teal:#2747f5;
+    --cream:#e9ecf5;
+    --cream-dk:#d5d9e4;
+    --slate:#9ba3af;
+    --paper:#fbfaf6;
+    --ink:#10131a;
+    --ink-soft:#10131a;
+    --rule:#d5d9e4;
+
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .frame {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 56px 40px 120px;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 36px;
+    margin-bottom: 48px;
+  }
+  .brand-stripe {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    font-weight: 700; letter-spacing: 0.22em;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .brand-stripe::after {
+    content: ''; flex: 1; height: 1px; background: var(--cream-dk);
+  }
+  h1.title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 56px;
+    line-height: 1.05;letter-spacing:-.03em;
+    color: var(--navy);
+    margin-bottom: 18px;font-style:normal;}
+  h1.title em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .deck { font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal; font-size: 19px; color: var(--ink-soft); max-width: 640px; }
+
+  /* ---------- progress ---------- */
+  .progress { display: flex; gap: 4px; margin: 40px 0 20px; }
+  .progress-step { flex: 1; height: 3px; background: var(--cream-dk); transition: background 0.4s; }
+  .progress-step.active { background: var(--gold); }
+  .progress-step.done { background: var(--navy); }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em;color:#59616e; text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+  .progress-label span.current { color: var(--navy); }
+
+  /* ---------- form panels ---------- */
+  .panel { display: none; animation: fadeIn 0.4s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-header { margin-bottom: 36px; }
+  .panel-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 36px; line-height: 1.1; color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .panel-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft); max-width: 640px;
+  }
+
+  /* ---------- model picker (step 1 first question) ---------- */
+  .model-picker {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 700px) { .model-picker { grid-template-columns: 1fr; } }
+  .model-option {
+    background: white;
+    border: 2px solid var(--cream-dk);
+    padding: 18px 18px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .model-option:hover { border-color: var(--gold); }
+  .model-option input { display: none; }
+  .model-option:has(input:checked) {
+    border-color: var(--navy); background: var(--gold-lt);
+  }
+  .model-option-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 18px; color: var(--navy); margin-bottom: 4px;
+  }
+  .model-option-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12.5px;
+    color: var(--ink-soft); line-height: 1.45;
+  }
+
+  /* ---------- form fields ---------- */
+  .field { margin-bottom: 32px; }
+  .field-label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.04em; color: var(--navy); margin-bottom: 6px;
+  }
+  .field-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 10px;
+  }
+  .field-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px;color:#59616e; margin-bottom: 12px;
+    padding-left: 10px; border-left: 2px solid var(--cream-dk);
+  }
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-bottom: 2px solid var(--navy);
+    padding: 14px 16px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    color: var(--navy);
+    border-radius:0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-bottom-color: var(--gold);
+    background: var(--gold-lt);
+  }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; gap: 0; } }
+
+  .currency-prefix { position: relative; }
+  .currency-prefix::before {
+    content: '$';
+    position: absolute;
+    left: 16px; top: 50%; transform: translateY(-50%);color:#59616e; font-weight: 600;
+    pointer-events: none; z-index: 1;
+  }
+  .currency-prefix input { padding-left: 30px; }
+
+  /* ---------- sub-cards inside steps (e.g. "tell me about your subscription") ---------- */
+  .sub-card {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--teal);
+    padding: 24px 26px;
+    margin-bottom: 20px;
+  }
+  .sub-card.optional { border-left-color: var(--slate); }
+  .sub-card-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 19px; color: var(--navy); margin-bottom: 4px;letter-spacing:-.03em;font-style:normal;}
+  .sub-card-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 2px 8px; margin-bottom: 14px;
+    background: var(--teal); color: white;
+  }
+  .sub-card.optional .sub-card-tag { background: var(--slate); }
+  .sub-card-help {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft); margin-bottom: 18px;
+  }
+
+  /* ---------- diagnostic radios ---------- */
+  .diag-question {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    border-left: 4px solid var(--gold);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+  }
+  .diag-q-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--gold-dk); margin-bottom: 4px;
+  }
+  .diag-q-text {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600;
+    font-size: 18px; color: var(--navy); margin-bottom: 8px; line-height: 1.35;
+  }
+  .diag-q-example {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12.5px;color:#59616e; margin-bottom: 16px; line-height: 1.5;
+  }
+  .diag-options { display: flex; gap: 12px; }
+  .diag-options label {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--cream-dk);
+    padding: 12px 16px;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 13px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: all 0.15s;
+  }
+  .diag-options input { display: none; }
+  .diag-options label:hover { border-color: var(--gold); color: var(--navy); }
+  .diag-options label:has(input:checked) {
+    background: var(--navy);border-color:#fbfaf6; color: white;
+  }
+
+  /* ---------- nav buttons ---------- */
+  .nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dk); }
+  .btn-primary:disabled { background: var(--slate); cursor: not-allowed; opacity: 0.5; }
+  .btn-secondary {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--cream-dk);
+  }
+  .btn-secondary:hover { background: var(--cream); color: var(--navy); }
+
+  /* ---------- strategy output ---------- */
+  .strategy { display: none; }
+  .strategy.active { display: block; animation: fadeIn 0.5s ease; }
+
+  .strategy-masthead {
+    border-top: 4px solid var(--navy);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 0 28px;
+    margin-bottom: 40px;
+  }
+  .strategy-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 44px; line-height: 1.05;
+    color: var(--navy); margin-bottom: 12px;letter-spacing:-.03em;font-style:normal;}
+  .strategy-title em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .strategy-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .strategy-meta {
+    display: flex; gap: 32px; margin-top: 20px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 12px;color:#59616e; letter-spacing: 0.08em; text-transform: uppercase;
+    flex-wrap: wrap;
+  }
+  .strategy-meta span strong { color: var(--navy); display: block; font-size: 16px; letter-spacing: 0; text-transform: none; margin-top: 2px; }
+
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px; line-height: 1.15; color: var(--navy); margin-bottom: 20px;letter-spacing:-.03em;font-style:normal;}
+  .section p {
+    margin-bottom: 14px; line-height: 1.65; color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .section p strong { color: var(--navy); font-weight: 600; }
+
+  .formula-box {
+    background: var(--gold-lt);
+    border: 2px solid var(--gold);
+    padding: 28px 32px;
+    margin: 24px 0;
+  }
+  .formula-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--red); margin-bottom: 12px;
+  }
+  .formula-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 22px; font-weight: 600; line-height: 1.4;
+    color: var(--navy);
+  }
+  .formula-result {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 36px;font-weight:800;
+    color: var(--gold-dk); margin-top: 12px; line-height: 1.2;letter-spacing:-.03em;font-style:normal;}
+  .formula-result em { font-style: italic; color: var(--ink-soft); font-size: 16px; font-weight: 500; display: block; margin-top: 6px; }
+
+  /* dual formula treatment for mixed-model */
+  .formula-dual {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  @media (max-width: 600px) { .formula-dual { grid-template-columns: 1fr; } }
+  .formula-dual .formula-box { margin: 0; }
+  .formula-dual .formula-result { font-size: 28px; }
+
+  /* mini-stat row */
+  .stats-row {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px; margin: 20px 0;
+  }
+  .stat {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 16px 18px;
+  }
+  .stat-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.18em;color:#59616e;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .stat-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 26px; color: var(--navy); line-height: 1.1;letter-spacing:-.03em;font-style:normal;}
+  .stat-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--ink-soft); margin-top: 2px;
+  }
+
+  /* timeline visualization for cash cycle */
+  .cycle-viz {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 28px;
+    margin: 20px 0;
+  }
+  .cycle-viz-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .cycle-viz-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 16px;
+    color: var(--navy);
+  }
+  .cycle-viz-total {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px; color: var(--ink-soft);
+  }
+  .cycle-viz-total strong { color: var(--red); font-style: normal; font-weight: 700; font-size: 17px; }
+
+  .cycle-bar {
+    position: relative;
+    height: 50px;
+    background: var(--cream);
+    margin-bottom: 12px;
+    border-radius:0;
+  }
+  .cycle-event {
+    position: absolute;
+    top: -2px; bottom: -2px;
+    width: 3px;
+    background: var(--navy);
+  }
+  .cycle-event.spend { background: var(--red); }
+  .cycle-event.collect { background: var(--teal); }
+  .cycle-event-label {
+    position: absolute;
+    top: -22px;
+    transform: translateX(-50%);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--navy); white-space: nowrap;
+    text-transform: uppercase;
+  }
+  .cycle-event.spend .cycle-event-label {color:#f29b93; }
+  .cycle-event.collect .cycle-event-label { color: var(--teal); }
+  .cycle-gap {
+    position: absolute; top: 8px; bottom: 8px;
+    background: rgba(179,38,30,0.12);
+    border-left: 1px solid rgba(179,38,30,0.3);
+    border-right: 1px solid rgba(179,38,30,0.3);
+  }
+  .cycle-axis {
+    display: flex; justify-content: space-between;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;color:#59616e; margin-top: 4px;
+  }
+
+  /* recurring-only "advantage" callout when there's no real cycle */
+  .advantage-callout {
+    background: var(--teal);
+    color: white;
+    padding: 28px 32px;
+    margin: 20px 0;
+  }
+  .advantage-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold-lt); margin-bottom: 10px;
+  }
+  .advantage-headline {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 24px;
+    line-height: 1.25; color: white; margin-bottom: 8px;letter-spacing:-.03em;font-style:normal;}
+  .advantage-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 15px; line-height: 1.55;
+    color: rgba(255,255,255,0.92);
+  }
+
+  /* diagnostic verdict */
+  .verdict {
+    border-left: 6px solid var(--navy);
+    background: white;
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .verdict.green { border-left-color: var(--teal); }
+  .verdict.amber { border-left-color: var(--gold); }
+  .verdict.red { border-left-color: var(--red); }
+  .verdict-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; margin-bottom: 8px;
+  }
+  .verdict.green .verdict-label { color: var(--teal); }
+  .verdict.amber .verdict-label { color: var(--gold-dk); }
+  .verdict.red .verdict-label { color: var(--red); }
+  .verdict-headline {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 22px;
+    color: var(--navy); margin-bottom: 10px; line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .verdict-body {
+    color: var(--ink-soft); font-size: 15px; line-height: 1.6;
+  }
+
+  /* lever cards */
+  .levers { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 20px 0; }
+  .lever {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 22px 26px;
+    border-left: 4px solid var(--cream-dk);
+  }
+  .lever.recommended { border-left-color: var(--gold); }
+  .lever.optional { border-left-color: var(--slate); opacity: 0.85; }
+  .lever-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 600; font-size: 14px;
+    color: var(--gold-dk);font-style:normal;
+  }
+  .lever-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800; font-size: 20px;
+    color: var(--navy); margin: 4px 0 10px;letter-spacing:-.03em;font-style:normal;}
+  .lever-tag {
+    display: inline-block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 3px 8px; margin-bottom: 12px;
+  }
+  .lever.recommended .lever-tag { background: var(--gold);color:#ffffff; }
+  .lever.optional .lever-tag { background: var(--cream); color: var(--ink-soft); }
+  .lever-body { color: var(--ink-soft); font-size: 14.5px; line-height: 1.6; }
+
+  /* personalized scripts (multiple possible) */
+  .script-box {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 28px 32px;
+    margin: 24px 0;
+  }
+  .script-box-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight: 700; font-size: 11px;
+    letter-spacing: 0.22em; color: var(--gold); margin-bottom: 14px;
+  }
+  .script-quote {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 21px; line-height: 1.45; color: white;
+  }
+  .script-breakdown {
+    margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.15);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 13px; color: var(--cream-dk); line-height: 1.55;
+  }
+  .script-breakdown strong { color: var(--gold); }
+
+  /* assignment / next steps */
+  .assignment {
+    background: white;
+    border: 1px solid var(--cream-dk);
+    padding: 28px 32px;
+    margin-top: 32px;
+  }
+  .assignment ol { margin: 16px 0 0 22px; }
+  .assignment ol li {
+    margin-bottom: 14px;
+    color: var(--ink-soft); font-size: 15px; line-height: 1.6;
+  }
+  .assignment ol li strong { color: var(--navy); }
+
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule);
+  }
+
+  .signature {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;color:#59616e;
+  }
+  .signature .left { color: var(--gold); font-weight: 700; }
+
+  .hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px; color: var(--red); margin-top: 6px;
+  }
+
+  /* show/hide for model-specific content — toggled via JS .hidden class */
+  .onetime-only, .recurring-only { display: none; }
+  .onetime-only.show, .recurring-only.show { display: block; }
+  .onetime-only.show.inline, .recurring-only.show.inline { display: inline; }
+
+  /* ---------- print styles ---------- */
+  @media print {
+    @page { margin: 0.6in; size: letter; }
+    body { background: white; font-size: 11pt; }
+    .frame { padding: 0; max-width: none; }
+    .panel, .progress, .progress-label, .actions, .nav, .masthead { display: none !important; }
+    .strategy { display: block !important; }
+    .strategy-title { font-size: 32pt; }
+    .panel-title, .section-title { font-size: 18pt; }
+    .formula-box, .cycle-viz, .verdict, .lever, .assignment, .script-box, .advantage-callout, .stat {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    .section { margin-bottom: 28px; }
+    .signature { page-break-inside: avoid; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+<style>
+  /* ============================================================
+     REBUILD ADDITIONS — Self-Funding Test.
+     Cash-cycle map / three levers / break-even calculator.
+     Reuses the existing palette and type tokens. */
+
+  /* Cash-cycle map */
+  .cycle-map { margin-top: 8px; }
+  .cycle-row {
+    display: grid;
+    grid-template-columns: 1fr 110px 150px;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cycle-row:last-of-type { border-bottom: none; }
+  .cycle-row .cyc-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .cycle-row input[type="text"],
+  .cycle-row input[type="number"] {
+    width: 100%;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 8px 10px;
+    outline: none;
+  }
+  .cycle-row input:focus { border-color: var(--teal); }
+  .cyc-days {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cyc-days .suffix {
+    font-size: 11px;color:#59616e;
+    letter-spacing: 0.04em;
+  }
+  .cyc-assume {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;color:#59616e;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+  }
+  .cyc-assume input { accent-color: var(--amber, #2747f5); }
+  .cycle-total {
+    margin-top: 14px;
+    padding: 14px 18px;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .cycle-total .ct-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.8;
+  }
+  .cycle-total .ct-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 30px;font-weight:800;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .cycle-total .ct-value .ct-sub {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-left: 8px;
+  }
+
+  /* Three levers */
+  .lever-rebuild {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    margin-bottom: 14px;
+  }
+  .lever-rebuild-head {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: baseline;
+    padding: 12px 18px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--rule);
+  }
+  .lever-rebuild-head .lr-num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--teal);
+  }
+  .lever-rebuild-head .lr-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .lever-rebuild-body { padding: 14px 18px; }
+  .lever-rebuild-body .lr-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+  .lever-rebuild-body textarea {
+    width: 100%;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 10px 12px;
+    outline: none;
+    resize: vertical;
+    min-height: 60px;
+  }
+  .lever-rebuild-body textarea:focus { border-color: var(--teal); }
+  .lever-rebuild-body textarea::placeholder { color: var(--slate); }
+
+  /* Break-even calculator */
+  .breakeven-box {
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    margin-top: 8px;
+  }
+  .be-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .be-input-cell {
+    padding: 16px 20px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .be-input-cell:nth-child(even) { border-right: none; }
+  .be-input-cell label {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .be-input-cell .be-help {
+    font-size: 12px;color:#59616e;
+    margin-bottom: 8px;
+    line-height: 1.45;
+  }
+  .be-input-cell input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--teal);
+    background: transparent;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    padding: 4px 0;
+    outline: none;letter-spacing:-.03em;font-style:normal;}
+  .be-result {
+    padding: 20px 22px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .be-result .ber-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.78;
+    margin-bottom: 8px;
+  }
+  .be-result .ber-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 34px;font-weight:800;
+    line-height: 1.1;letter-spacing:-.03em;font-style:normal;}
+  .be-result .ber-detail {
+    font-size: 13px;
+    opacity: 0.78;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .be-note {
+    padding: 12px 20px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+    border-top: 1px solid var(--rule);
+    background: var(--cream);
+  }
+
+  @media print {
+    .cycle-total, .lever-rebuild-head, .be-result, .breakeven-box {
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    .nav, .progress { display: none !important; }
+    .panel { display: block !important; page-break-inside: avoid; }
+  }
+  @media (max-width: 720px) {
+    .cycle-row { grid-template-columns: 1fr; gap: 6px; }
+    .be-inputs { grid-template-columns: 1fr; }
+    .be-input-cell { border-right: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#93BEDD;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">05 / Fund Your Business</span></div>
+<div class="frame">
+
+  <div class="masthead" id="masthead">
+    <div class="brand-stripe">
+      <span>Two Weeks Out</span><span>·</span><span>SELF-FUNDING WORKSHEET</span>
+    </div>
+    <h1 class="title" style="font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:40px;font-weight:800;line-height:1.1;margin:18px 0 12px;color:var(--ink);letter-spacing:-.03em;">Designing Your Business to Self-Fund</h1>
+    <p style="font-size:16px;color:var(--ink-soft);max-width:62ch;">Self-funding is not frugality — it is architecture. Map your cash cycle, work the levers that close the gap, and run the test that tells you the number you must clear before your next hire.</p>
+  </div>
+
+  <div class="progress" id="progress-wrap">
+    <span class="progress-label">01 — Your Business</span>
+    <div class="progress-step active" data-step="1"></div>
+    <span class="progress-label">02 — Cash Cycle</span>
+    <div class="progress-step" data-step="2"></div>
+    <span class="progress-label">03 — The Levers</span>
+    <div class="progress-step" data-step="3"></div>
+    <span class="progress-label">04 — The Test</span>
+    <div class="progress-step" data-step="4"></div>
+  </div>
+
+  <!-- ============ STEP 1 — YOUR BUSINESS ============ -->
+  <section class="panel active" id="panel-1">
+    <div class="panel-header">
+      <div class="panel-eyebrow">STEP ONE · YOUR BUSINESS</div>
+      <h2 class="panel-title">Tell me what you sell.</h2>
+      <p class="panel-intro">Don't have an exact number? Estimate it. A rough number you refine beats skipping the worksheet for want of a perfect one.</p>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="biz-name">Business or product name</label>
+      <p class="field-help">Used in your strategy document. Whatever you'd call it talking to a friend.</p>
+      <input type="text" id="biz-name" placeholder="e.g. the skincare line">
+    </div>
+
+    <div class="field">
+      <label class="field-label">How does your business mostly make money?</label>
+      <p class="field-help">This sets how the Self-Funding Test in Step 4 counts the volume you need. The cash-cycle map and the levers are the same for everyone.</p>
+      <div class="model-picker">
+        <label class="model-option">
+          <input type="radio" name="model" value="onetime">
+          <div class="model-option-label">One-time sales</div>
+          <div class="model-option-help">Customer pays per purchase — a product, a kit, a project, a one-off service.</div>
+        </label>
+        <label class="model-option">
+          <input type="radio" name="model" value="recurring">
+          <div class="model-option-label">Recurring / membership</div>
+          <div class="model-option-help">Customer pays a monthly fee — a gym, a SaaS app, a coaching retainer, a subscription box.</div>
+        </label>
+        <label class="model-option">
+          <input type="radio" name="model" value="mix">
+          <div class="model-option-label">A mix of both</div>
+          <div class="model-option-help">Recurring plus one-off — a gym with personal training, SaaS with setup fees, a retainer plus project work.</div>
+        </label>
+      </div>
+      <p class="hint" id="model-hint" hidden>Please pick one to continue.</p>
+    </div>
+
+    <div class="sub-card onetime-only">
+      <div class="sub-card-tag">ONE-TIME SALES</div>
+      <div class="sub-card-title">Your average transaction.</div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label" for="price-onetime">Average price per sale</label>
+          <p class="field-help">The typical order value. Product kit, project, session.</p>
+          <input type="number" id="price-onetime" placeholder="0">
+        </div>
+        <div class="field">
+          <label class="field-label" for="margin-onetime">Gross margin per sale (%)</label>
+          <p class="field-help">After the cost of delivering it — materials, fulfilment. Not net of overhead like rent.</p>
+          <input type="number" id="margin-onetime" placeholder="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-card recurring-only">
+      <div class="sub-card-tag">RECURRING REVENUE</div>
+      <div class="sub-card-title">Your recurring numbers.</div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label" for="price-monthly">Average monthly fee per customer</label>
+          <p class="field-help">Average membership, plan, or retainer.</p>
+          <input type="number" id="price-monthly" placeholder="0">
+        </div>
+        <div class="field">
+          <label class="field-label" for="margin-recurring">Gross margin per member / month (%)</label>
+          <p class="field-help">After the variable cost of serving them. Not rent or fixed payroll.</p>
+          <input type="number" id="margin-recurring" placeholder="0">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="churn-pct">Monthly churn rate (%)</label>
+        <p class="field-help">What share of members cancel each month? This nets against new sign-ups when the test counts the members you need. If unsure, estimate 5%.</p>
+        <input type="number" id="churn-pct" placeholder="5">
+      </div>
+    </div>
+
+    <div class="sub-card optional">
+      <div class="sub-card-tag" style="background:var(--ink);">YOUR FIXED COSTS</div>
+      <div class="sub-card-title">What you owe every month, no matter what.</div>
+      <p class="sub-card-help">Rent, salaried payroll, software, insurance — the costs that arrive whether or not you make a sale. Christine's worked example: when she commits to the two salespeople, that fully-loaded team cost — suppose, in the range of $8,000/month — becomes a fixed cost the moment they start.</p>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label" for="fixed-monthly">Total fixed monthly cost ($)</label>
+          <p class="field-help">Add it all up. Include your own draw if you pay yourself. Include any new team cost you are about to commit to.</p>
+          <input type="number" id="fixed-monthly" placeholder="0">
+        </div>
+        <div class="field">
+          <label class="field-label" for="reserves">Cash reserves available (optional)</label>
+          <p class="field-help">Money you'd actually use to bridge a gap. This is the window your cash cycle has to fit inside.</p>
+          <input type="number" id="reserves" placeholder="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <span></span>
+      <button class="btn btn-primary" onclick="goTo(2)">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 2 — MAP YOUR CASH CYCLE ============ -->
+  <section class="panel" id="panel-2">
+    <div class="panel-header">
+      <div class="panel-eyebrow">STEP TWO · MAP YOUR CASH CYCLE</div>
+      <h2 class="panel-title">From first dollar out to cash in hand.</h2>
+      <p class="panel-intro">The reason most businesses cannot self-fund is not thin margins — it is timing. Write down every step from the first dollar you spend to the cash actually collected, and how many days each takes. If you do not know a number, estimate it and flag it as an assumption to verify. Do not skip it.</p>
+    </div>
+
+    <div class="sub-card">
+      <div class="sub-card-tag">THE CASH CYCLE</div>
+      <div class="cycle-map" id="cycle-map">
+        <div class="cycle-row" data-cyc="0">
+          <span class="cyc-label">Day the first cost goes out — you pay to produce or prepare</span>
+          <div class="cyc-days"><input type="number" data-cyc-field="days" placeholder="0"><span class="suffix">days</span></div>
+          <label class="cyc-assume"><input type="checkbox" data-cyc-field="assume"> Assumption</label>
+        </div>
+        <div class="cycle-row" data-cyc="1">
+          <span class="cyc-label">Day the customer order is confirmed</span>
+          <div class="cyc-days"><input type="number" data-cyc-field="days" placeholder="0"><span class="suffix">days</span></div>
+          <label class="cyc-assume"><input type="checkbox" data-cyc-field="assume"> Assumption</label>
+        </div>
+        <div class="cycle-row" data-cyc="2">
+          <span class="cyc-label">Day delivery is complete — customer has what they paid for</span>
+          <div class="cyc-days"><input type="number" data-cyc-field="days" placeholder="0"><span class="suffix">days</span></div>
+          <label class="cyc-assume"><input type="checkbox" data-cyc-field="assume"> Assumption</label>
+        </div>
+        <div class="cycle-row" data-cyc="3">
+          <span class="cyc-label">Day the cash is fully collected in your account</span>
+          <div class="cyc-days"><input type="number" data-cyc-field="days" placeholder="0"><span class="suffix">days</span></div>
+          <label class="cyc-assume"><input type="checkbox" data-cyc-field="assume"> Assumption</label>
+        </div>
+      </div>
+      <p class="field-help" style="margin-top:12px;">Enter each step as days from the first dollar out (day 0). Add your own steps if your cycle has more — every business is different.</p>
+      <button class="btn btn-secondary inline" onclick="addCycleStep()" style="margin-top:10px;">+ Add a step</button>
+
+      <div class="cycle-total">
+        <span class="ct-label">Total cash cycle</span>
+        <span class="ct-value" id="cycle-total-value">— <span class="ct-sub" id="cycle-total-sub"></span></span>
+      </div>
+    </div>
+
+    <p class="field-example" id="cycle-reserve-note" style="margin-top:16px;"></p>
+
+    <div class="nav">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Back</button>
+      <button class="btn btn-primary" onclick="goTo(3)">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 3 — THE THREE LEVERS ============ -->
+  <section class="panel" id="panel-3">
+    <div class="panel-header">
+      <div class="panel-eyebrow">STEP THREE · THE LEVERS</div>
+      <h2 class="panel-title">Three levers close the gap.</h2>
+      <p class="panel-intro">A cash-timing gap is not a fact you accept — it is something you design around. For each lever, write the one specific move you can make in your business. Start with the first; it is the one owners resist most and almost always the fastest win.</p>
+    </div>
+
+    <div class="lever-rebuild">
+      <div class="lever-rebuild-head">
+        <span class="lr-num">LEVER 01</span>
+        <span class="lr-title">Accelerate collection</span>
+      </div>
+      <div class="lever-rebuild-body">
+        <p class="lr-desc">Move customers toward faster payment, or offer a small early-payment discount. Most owners never run the math on what the timing improvement is worth — run it before you decide a customer would say no.</p>
+        <textarea id="lever-1" placeholder="The one move you can make to collect faster — and what the timing improvement is worth."></textarea>
+      </div>
+    </div>
+
+    <div class="lever-rebuild">
+      <div class="lever-rebuild-head">
+        <span class="lr-num">LEVER 02</span>
+        <span class="lr-title">Delay cost until revenue is confirmed</span>
+      </div>
+      <div class="lever-rebuild-body">
+        <p class="lr-desc">Some costs are fixed — limited room there. But others can move from "paid up front" to "paid once the sale is real." Christine's example: structuring manufacturer orders so product is produced against confirmed orders, not carried on faith — often one conversation with a supplier.</p>
+        <textarea id="lever-2" placeholder="Which cost can you shift from up-front to paid-once-the-sale-is-real, and how?"></textarea>
+      </div>
+    </div>
+
+    <div class="lever-rebuild">
+      <div class="lever-rebuild-head">
+        <span class="lr-num">LEVER 03</span>
+        <span class="lr-title">Increase margin per transaction</span>
+      </div>
+      <div class="lever-rebuild-body">
+        <p class="lr-desc">Not necessarily by raising price. Channel mix moves the blended margin on its own — a direct channel carries a different margin than a wholesale or referral one, and as the mix shifts, the self-funding math gets easier without touching price at all.</p>
+        <textarea id="lever-3" placeholder="What shifts your blended margin up — mix, channel, packaging — without raising price?"></textarea>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-secondary" onclick="goTo(2)">← Back</button>
+      <button class="btn btn-primary" onclick="goTo(4)">Continue →</button>
+    </div>
+  </section>
+
+  <!-- ============ STEP 4 — THE SELF-FUNDING TEST ============ -->
+  <section class="panel" id="panel-4">
+    <div class="panel-header">
+      <div class="panel-eyebrow">STEP FOUR · THE SELF-FUNDING TEST</div>
+      <h2 class="panel-title">The number that is your floor.</h2>
+      <p class="panel-intro">The Self-Funding Test is simple: the cost of your fixed obligations must be covered by the gross margin on the sales you generate — collected within a window your cash reserves can sustain. The calculator below works it out from what you entered. Everything below this number is a gap you are funding from somewhere else.</p>
+    </div>
+
+    <div class="sub-card">
+      <div class="sub-card-tag">THE BREAK-EVEN</div>
+      <div class="sub-card-title onetime-only">How many sales per month cover your fixed costs?</div>
+      <div class="sub-card-title recurring-only">How many active members cover your fixed costs?</div>
+      <div class="breakeven-box">
+        <div class="be-inputs" id="be-inputs"></div>
+        <div class="be-result">
+          <div class="ber-label onetime-only">Sales per month to break even</div>
+          <div class="ber-label recurring-only">Active members to break even</div>
+          <div class="ber-value" id="be-value">—</div>
+          <div class="ber-detail" id="be-detail">Fill in Step 1 to calculate your floor.</div>
+        </div>
+        <div class="be-note" id="be-note">This number is your floor. Set your team's milestone as orders closed and collected — not conversations had.</div>
+      </div>
+    </div>
+
+    <div class="panel-header" style="margin-top:36px;">
+      <div class="panel-eyebrow">THE DIAGNOSTIC</div>
+      <h2 class="panel-title">Can your model actually get there?</h2>
+      <p class="panel-intro">Three questions. All three yes, and you have a self-funding business. One no is usually a fixable structural problem. Two or three no, and you are building a business that needs outside capital — a legitimate choice, but it should be deliberate, not a surprise in month six.</p>
+    </div>
+
+    <div class="diag-question">
+      <div class="diag-q-num">Question 01 · Margin</div>
+      <div class="diag-q-text">Does your margin generate enough cash per sale to actually matter?</div>
+      <p class="diag-q-example" id="diag-ex-1">A sale's margin contribution has to make a real dent in fixed cost. If the break-even count above is far beyond what you can realistically reach, the answer is no.</p>
+      <div class="diag-options">
+        <label><input type="radio" name="q1" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="q1" value="no"><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="diag-question">
+      <div class="diag-q-num">Question 02 · Timing</div>
+      <div class="diag-q-text">Are your payment terms short enough that cash arrives before the next cost cycle?</div>
+      <p class="diag-q-example" id="diag-ex-2">Compare your total cash cycle from Step 2 against how often your fixed costs fall — payroll every two weeks, rent monthly. If you spend in week one and collect in week twelve, the answer is probably no, even if margins look fine.</p>
+      <div class="diag-options">
+        <label><input type="radio" name="q2" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="q2" value="no"><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="diag-question">
+      <div class="diag-q-num">Question 03 · Volume</div>
+      <div class="diag-q-text">Is there a realistic path to the volume that covers your fixed costs before reserves run out?</div>
+      <p class="diag-q-example" id="diag-ex-3">"Realistic" means with your current capacity, channels, and pipeline — not "if everything goes great." For recurring revenue, realistic means net of churn.</p>
+      <div class="diag-options">
+        <label><input type="radio" name="q3" value="yes"><span>Yes</span></label>
+        <label><input type="radio" name="q3" value="no"><span>No</span></label>
+      </div>
+    </div>
+
+    <div class="verdict" id="verdict" hidden>
+      <div class="verdict-label">THE VERDICT</div>
+      <div class="verdict-headline" id="verdict-headline"></div>
+      <div class="verdict-body" id="verdict-body"></div>
+    </div>
+
+    <div class="assignment" style="margin-top:28px;padding-top:18px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-soft);font-style:italic;">
+      Design it — don't discover it. Know your break-even floor before you make your next hiring or investment decision. Make the next hire only after the current structure has proven it can fund itself.
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-secondary" onclick="goTo(3)">← Back</button>
+      <button class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+  </section>
+
+  <div style="margin-top:32px;text-align:center;">
+    <button class="btn btn-secondary inline" onclick="if(confirm('Clear all entries?')) clearAll()">Clear All</button>
+  </div>
+
+</div>
+
+<script>
+  // ---------------- State ----------------
+  let state = {
+    step: 1,
+    model: "",
+    bizName: "",
+    priceOnetime: "", marginOnetime: "",
+    priceMonthly: "", marginRecurring: "", churn: "",
+    fixedMonthly: "", reserves: "",
+    cycle: [
+      { days: "", assume: false },
+      { days: "", assume: false },
+      { days: "", assume: false },
+      { days: "", assume: false },
+    ],
+    levers: ["", "", ""],
+    diag: { q1: "", q2: "", q3: "" },
+  };
+
+  // ---------------- Utilities ----------------
+  function num(v) {
+    if (v === "" || v == null) return 0;
+    const n = parseFloat(String(v).replace(/[$,\s%]/g, ""));
+    return isNaN(n) ? 0 : n;
+  }
+  function fmtMoney(n) {
+    if (!isFinite(n)) return "$0";
+    return "$" + Math.round(n).toLocaleString();
+  }
+
+  // ---------------- Model visibility (the branching) ----------------
+  function applyModelVisibility() {
+    const m = state.model;
+    document.querySelectorAll(".onetime-only").forEach(el => {
+      el.style.display = (m === "onetime" || m === "mix") ? "" : "none";
+    });
+    document.querySelectorAll(".recurring-only").forEach(el => {
+      el.style.display = (m === "recurring" || m === "mix") ? "" : "none";
+    });
+  }
+
+  // ---------------- Navigation ----------------
+  function goTo(step) {
+    if (step > state.step) {
+      if (state.step === 1 && !state.model) {
+        document.getElementById("model-hint").hidden = false;
+        return;
+      }
+    }
+    state.step = step;
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    document.getElementById("panel-" + step).classList.add("active");
+    document.querySelectorAll(".progress-step").forEach(s => {
+      const n = parseInt(s.dataset.step, 10);
+      s.classList.toggle("active", n === step);
+      s.classList.toggle("done", n < step);
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (step === 4) { renderBreakeven(); renderDiagExamples(); }
+    if (step === 2) renderCycle();
+  }
+
+  // ---------------- Cash cycle ----------------
+  function renderCycle() {
+    const days = state.cycle.map(c => num(c.days));
+    const total = days.length ? Math.max(...days) : 0;
+    const anyAssume = state.cycle.some(c => c.assume);
+    const el = document.getElementById("cycle-total-value");
+    const sub = document.getElementById("cycle-total-sub");
+    if (total > 0) {
+      el.firstChild.textContent = total + " days ";
+      const weeks = (total / 7);
+      sub.textContent = "≈ " + weeks.toFixed(1).replace(/\.0$/, "") + " weeks"
+        + (anyAssume ? " · contains assumptions to verify" : "");
+    } else {
+      el.firstChild.textContent = "— ";
+      sub.textContent = "";
+    }
+    // Reserve note
+    const note = document.getElementById("cycle-reserve-note");
+    const reserves = num(state.reserves);
+    if (total > 0 && reserves > 0) {
+      const fixed = num(state.fixedMonthly);
+      const dailyBurn = fixed / 30;
+      const coverDays = dailyBurn > 0 ? reserves / dailyBurn : 0;
+      if (coverDays > 0 && coverDays < total) {
+        note.innerHTML = "Your cash cycle of <strong>" + total + " days</strong> is longer than the <strong>"
+          + Math.round(coverDays) + " days</strong> your reserves can cover at your current fixed burn. "
+          + "That gap is what the levers in the next step exist to close.";
+      } else if (coverDays > 0) {
+        note.innerHTML = "Your reserves cover roughly <strong>" + Math.round(coverDays)
+          + " days</strong> of fixed cost — wider than your " + total + "-day cycle. Workable, but the levers still tighten it.";
+      } else {
+        note.textContent = "";
+      }
+    } else {
+      note.textContent = "";
+    }
+  }
+
+  function addCycleStep() {
+    state.cycle.push({ days: "", assume: false });
+    const map = document.getElementById("cycle-map");
+    const idx = state.cycle.length - 1;
+    const row = document.createElement("div");
+    row.className = "cycle-row";
+    row.dataset.cyc = idx;
+    row.innerHTML =
+      '<input type="text" data-cyc-field="label" placeholder="Describe this step" '
+      + 'style="font-size:14px;">'
+      + '<div class="cyc-days"><input type="number" data-cyc-field="days" placeholder="0"><span class="suffix">days</span></div>'
+      + '<label class="cyc-assume"><input type="checkbox" data-cyc-field="assume"> Assumption</label>';
+    map.appendChild(row);
+  }
+
+  // ---------------- Break-even (the Self-Funding Test) ----------------
+  function marginContribution() {
+    // returns { contrib, basis } — cash margin per unit, and what a "unit" is
+    if (state.model === "recurring") {
+      const fee = num(state.priceMonthly);
+      const mgn = num(state.marginRecurring) / 100;
+      return { contrib: fee * mgn, basis: "member" };
+    }
+    // onetime or mix → use one-time sale economics for the headline count
+    const price = num(state.priceOnetime);
+    const mgn = num(state.marginOnetime) / 100;
+    return { contrib: price * mgn, basis: "sale" };
+  }
+
+  function renderBreakeven() {
+    const inputsEl = document.getElementById("be-inputs");
+    const m = state.model;
+    const mc = marginContribution();
+    const fixed = num(state.fixedMonthly);
+
+    // Build the input echo cells (read-only echoes of Step 1, model-aware)
+    let cells = "";
+    cells += '<div class="be-input-cell"><label>Fixed Cost / Month</label>'
+      + '<p class="be-help">From Step 1 — everything you owe regardless of sales.</p>'
+      + '<input type="number" id="be-fixed" value="' + (state.fixedMonthly || "") + '" placeholder="0"></div>';
+    if (m === "recurring") {
+      cells += '<div class="be-input-cell"><label>Margin per Member / Month</label>'
+        + '<p class="be-help">Monthly fee × gross margin %.</p>'
+        + '<input type="text" value="' + (mc.contrib > 0 ? fmtMoney(mc.contrib) : "—") + '" readonly></div>';
+      cells += '<div class="be-input-cell"><label>Monthly Churn %</label>'
+        + '<p class="be-help">From Step 1 — members lost each month.</p>'
+        + '<input type="number" id="be-churn" value="' + (state.churn || "") + '" placeholder="5"></div>';
+      cells += '<div class="be-input-cell"><label>Reserves Window</label>'
+        + '<p class="be-help">The cash runway the cycle must fit inside.</p>'
+        + '<input type="number" id="be-reserves" value="' + (state.reserves || "") + '" placeholder="0"></div>';
+    } else {
+      cells += '<div class="be-input-cell"><label>Cash Margin per Sale</label>'
+        + '<p class="be-help">Average price × gross margin %.</p>'
+        + '<input type="text" value="' + (mc.contrib > 0 ? fmtMoney(mc.contrib) : "—") + '" readonly></div>';
+    }
+    inputsEl.innerHTML = cells;
+
+    // Compute the break-even count
+    const valueEl = document.getElementById("be-value");
+    const detailEl = document.getElementById("be-detail");
+    if (fixed <= 0 || mc.contrib <= 0) {
+      valueEl.textContent = "—";
+      detailEl.textContent = "Fill in your fixed cost and your "
+        + (m === "recurring" ? "monthly fee and margin" : "price and margin") + " to calculate your floor.";
+      return;
+    }
+    let count = fixed / mc.contrib;
+    if (m === "recurring") {
+      // active members to cover fixed cost; churn note added separately
+      valueEl.textContent = Math.ceil(count).toLocaleString() + " members";
+      const churn = num(state.churn) / 100;
+      let churnNote = "";
+      if (churn > 0) {
+        const replace = Math.ceil(count * churn);
+        churnNote = " To hold that level you must also replace about <strong>"
+          + replace + " members per month</strong> lost to churn — that is the real acquisition floor.";
+      }
+      detailEl.innerHTML = "It takes <strong>" + Math.ceil(count) + " active members</strong> at "
+        + fmtMoney(mc.contrib) + " margin each to cover " + fmtMoney(fixed)
+        + " of fixed cost." + churnNote;
+    } else {
+      valueEl.textContent = Math.ceil(count).toLocaleString() + " sales / mo";
+      detailEl.innerHTML = "It takes <strong>" + Math.ceil(count) + " sales per month</strong> at "
+        + fmtMoney(mc.contrib) + " cash margin each to cover " + fmtMoney(fixed)
+        + " of fixed cost — collected on time, before your own draw and before overhead beyond what you entered."
+        + (m === "mix" ? " Your recurring revenue offsets this; treat the count as the one-time-sales share of the floor." : "");
+    }
+  }
+
+  function renderDiagExamples() {
+    // Make Q2 example reference the actual cycle total if present
+    const total = Math.max(0, ...state.cycle.map(c => num(c.days)));
+    const ex2 = document.getElementById("diag-ex-2");
+    if (total > 0) {
+      ex2.innerHTML = "Your total cash cycle is <strong>" + total + " days</strong>. Compare that against how often your fixed costs fall — payroll every two weeks, rent monthly. If costs cycle faster than cash arrives, the answer is probably no, even if margins look fine.";
+    }
+  }
+
+  // ---------------- Diagnostic verdict ----------------
+  function renderVerdict() {
+    const d = state.diag;
+    if (!d.q1 || !d.q2 || !d.q3) {
+      document.getElementById("verdict").hidden = true;
+      return;
+    }
+    const noes = [d.q1, d.q2, d.q3].filter(v => v === "no").length;
+    const v = document.getElementById("verdict");
+    const h = document.getElementById("verdict-headline");
+    const b = document.getElementById("verdict-body");
+    v.hidden = false;
+    if (noes === 0) {
+      h.textContent = "You have a self-funding business.";
+      b.textContent = "All three hold. Design the cash timing deliberately, know your break-even at every team size, and make the next hire only after the current structure has proven it can fund itself.";
+    } else if (noes === 1) {
+      h.textContent = "One structural problem — usually fixable.";
+      b.textContent = "A single no is most often something you can design around using the three levers. Work that lever, re-run the test, and confirm the floor before your next hiring decision.";
+    } else {
+      h.textContent = "This model needs outside capital as planned.";
+      b.textContent = "Two or three no answers means the business, at the scale you are building toward, cannot fund itself on its current structure. That is a legitimate choice — but make it deliberately now, not as a surprise in month six.";
+    }
+  }
+
+  // ---------------- Events ----------------
+  document.addEventListener("change", (e) => {
+    const t = e.target;
+    if (t.name === "model") {
+      state.model = t.value;
+      document.getElementById("model-hint").hidden = true;
+      applyModelVisibility();
+      return;
+    }
+    if (t.name === "q1" || t.name === "q2" || t.name === "q3") {
+      state.diag[t.name] = t.value;
+      renderVerdict();
+      return;
+    }
+    if (t.dataset && t.dataset.cycField) {
+      const row = t.closest(".cycle-row");
+      const idx = parseInt(row.dataset.cyc, 10);
+      if (!state.cycle[idx]) state.cycle[idx] = { days: "", assume: false };
+      if (t.dataset.cycField === "assume") state.cycle[idx].assume = t.checked;
+      else if (t.dataset.cycField === "days") state.cycle[idx].days = t.value;
+      else if (t.dataset.cycField === "label") state.cycle[idx].label = t.value;
+      renderCycle();
+      return;
+    }
+  });
+
+  document.addEventListener("input", (e) => {
+    const t = e.target;
+    const map = {
+      "biz-name": "bizName",
+      "price-onetime": "priceOnetime", "margin-onetime": "marginOnetime",
+      "price-monthly": "priceMonthly", "margin-recurring": "marginRecurring",
+      "churn-pct": "churn",
+      "fixed-monthly": "fixedMonthly", "reserves": "reserves",
+    };
+    if (map[t.id]) {
+      state[map[t.id]] = t.value;
+      if (t.id === "fixed-monthly" || t.id === "reserves") renderCycle();
+      return;
+    }
+    if (t.id === "lever-1") { state.levers[0] = t.value; return; }
+    if (t.id === "lever-2") { state.levers[1] = t.value; return; }
+    if (t.id === "lever-3") { state.levers[2] = t.value; return; }
+    // Break-even live inputs
+    if (t.id === "be-fixed") { state.fixedMonthly = t.value; renderBreakeven(); return; }
+    if (t.id === "be-churn") { state.churn = t.value; renderBreakeven(); return; }
+    if (t.id === "be-reserves") { state.reserves = t.value; renderBreakeven(); return; }
+    if (t.dataset && t.dataset.cycField === "days") {
+      const row = t.closest(".cycle-row");
+      const idx = parseInt(row.dataset.cyc, 10);
+      if (!state.cycle[idx]) state.cycle[idx] = { days: "", assume: false };
+      state.cycle[idx].days = t.value;
+      renderCycle();
+      return;
+    }
+  });
+
+  // ---------------- Clear ----------------
+  function clearAll() {
+    state = {
+      step: 1, model: "", bizName: "",
+      priceOnetime: "", marginOnetime: "",
+      priceMonthly: "", marginRecurring: "", churn: "",
+      fixedMonthly: "", reserves: "",
+      cycle: [
+        { days: "", assume: false }, { days: "", assume: false },
+        { days: "", assume: false }, { days: "", assume: false },
+      ],
+      levers: ["", "", ""],
+      diag: { q1: "", q2: "", q3: "" },
+    };
+    document.querySelectorAll("input[type=text], input[type=number]").forEach(i => i.value = "");
+    document.querySelectorAll("input[type=radio], input[type=checkbox]").forEach(i => i.checked = false);
+    document.querySelectorAll("textarea").forEach(t => t.value = "");
+    // remove extra cycle rows beyond the first four
+    document.querySelectorAll('#cycle-map .cycle-row').forEach((r, i) => { if (i > 3) r.remove(); });
+    document.getElementById("verdict").hidden = true;
+    applyModelVisibility();
+    renderCycle();
+    goTo(1);
+  }
+
+  // ---------------- Init ----------------
+  (function init() {
+    applyModelVisibility();   // all model-specific blocks hidden until a model is picked
+    renderCycle();
+  })();
+</script>
+</body></html>

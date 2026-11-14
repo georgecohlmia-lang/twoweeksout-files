@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your Social and Community Plan — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a; --ink-soft:#10131a; --muted:#59616e; --muted-soft:#9ba3af;
+    --border:#e9ecf5; --border-soft:#e9ecf5;
+    --bg:#ffffff; --bg-soft:#fbfaf6;
+    --green:#2747f5; --bright:#2747f5; --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5; --amber:#7d5300;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--bg-soft);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+    background: var(--bg);
+  }
+  header.brand {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 34px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--green);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin: 0;
+  }
+  .step {
+    margin: 38px 0 0;
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+  }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .step-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 28px;font-weight:800;
+    color: var(--bright);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 4px 0 18px;
+    font-style: italic;
+  }
+  label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .field-def {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.45;
+    margin-bottom: 7px;
+  }
+  .field-example {
+    font-size: 12px;color:#59616e;
+    line-height: 1.45;
+    margin-top: 6px;
+    padding-left: 2px;
+  }
+  .field-example .ex-tag {
+    color: var(--bright);
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-right: 6px;
+  }
+  input[type="text"], input[type="number"], textarea, select {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 9px 11px;
+    width: 100%;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--em-soft);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.5;
+  }
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  .block-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .block-card.green-edge {
+    border-left: 4px solid var(--green);
+  }
+  .block-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .block-prompt {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 12px;
+  }
+  .input-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .input-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+  /* Live preview card */
+  .preview-card {
+    background: var(--em-soft);
+    border-left: 4px solid var(--green);
+    border-radius:0;
+    padding: 14px 18px;
+    margin-top: 14px;
+  }
+  .preview-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: var(--green);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .preview-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+    min-height: 24px;
+  }
+  .preview-body.empty {color:#59616e;
+    font-style: italic;
+  }
+
+  /* Engagement list rows */
+  .engagement-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 1.5fr 28px;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .engagement-row .num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--green);
+    font-weight: 600;
+    text-align: right;
+  }
+  .engagement-row .remove-btn {
+    border: none;
+    background: transparent;color:#59616e;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius:0;
+  }
+  .engagement-row .remove-btn:hover {
+    background: var(--bg-soft);
+    color: var(--amber);
+  }
+  .add-row-btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    color: var(--green);
+    background: var(--em-soft);
+    border: 1px dashed var(--green);
+    border-radius:0;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .add-row-btn:hover { background: #e9ecf5; }
+  .list-count {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .list-count.under { color: var(--amber); }
+  .list-count.good { color: var(--green); }
+
+  /* Community rows */
+  .community-row {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: var(--bg-soft);
+    position: relative;
+  }
+  .community-row .remove-community-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;color:#59616e;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius:0;
+  }
+  .community-row .remove-community-btn:hover {
+    background: var(--em-soft);
+    color: var(--amber);
+  }
+  .community-row .row-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-right: 30px;
+  }
+
+  /* Sub-block within step */
+  .sub-block {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--border);
+  }
+  .sub-block-title {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .sub-block-prompt {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 14px;
+  }
+
+  /* Output */
+  .output-section {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 3px solid var(--ink);
+  }
+  .output-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;font-weight:800;
+    color: var(--ink);
+    margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+    font-style: italic;
+  }
+  .strategy-doc {
+    border: 2px solid var(--ink);
+    border-radius:0;
+    padding: 32px 36px;
+    background: white;
+    page-break-inside: avoid;
+  }
+  .strategy-block {
+    margin-bottom: 28px;
+    page-break-inside: avoid;
+  }
+  .strategy-block:last-child { margin-bottom: 0; }
+  .strategy-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .platform-hero {
+    background: var(--green);
+    color: white;
+    border-radius:0;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+  }
+  .platform-hero .platform-tag {
+    font-size: 10px;color:#ffffff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .platform-hero .platform-name {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;font-weight:800;
+    line-height: 1.1;
+    margin-bottom: 8px;letter-spacing:-.03em;font-style:normal;}
+  .platform-hero .platform-reason {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.92);
+    font-style: italic;
+  }
+  .platform-tradeoff {
+    background: var(--cream-soft);
+    border-left: 3px solid var(--amber);
+    padding: 10px 14px;
+    border-radius:0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .engagement-output {
+    columns: 2;
+    column-gap: 24px;
+    margin-top: 8px;
+  }
+  .engagement-output .item {
+    padding: 6px 0;
+    break-inside: avoid;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .engagement-output .item:last-child { border-bottom: none; }
+  .engagement-output .pnum {
+    color: var(--bright);
+    font-weight: 600;
+    margin-right: 6px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  .engagement-output .pname {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .engagement-output .pwhy {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 2px;
+    margin-left: 18px;
+  }
+  .commenting-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .commenting-card {
+    background: var(--bg-soft);
+    border-left: 3px solid var(--green);
+    padding: 12px 16px;
+    border-radius:0;
+  }
+  .commenting-card .ctag {
+    font-size: 10px;
+    color: var(--green);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+  }
+  .commenting-card .cbody {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  .commenting-negative {
+    background: var(--cream-soft);
+    border-left: 3px solid var(--amber);
+    padding: 12px 16px;
+    border-radius:0;
+  }
+  .commenting-negative .ctag {
+    font-size: 10px;
+    color: var(--amber);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+  }
+  .commenting-negative .cbody {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.45;font-style:normal;
+  }
+  .community-output-row {
+    background: var(--bg-soft);
+    border-left: 3px solid var(--green);
+    padding: 12px 16px;
+    border-radius:0;
+    margin-bottom: 10px;
+  }
+  .community-output-row:last-child { margin-bottom: 0; }
+  .community-output-row .ctag {
+    font-size: 10px;
+    color: var(--green);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+  }
+  .community-output-row .cname {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .community-output-row .cwhy {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.45;
+  }
+  .observation {
+    margin-top: 24px;
+    padding: 14px 18px;
+    background: var(--em-soft);
+    border-radius:0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .observation strong { color: var(--green); }
+  .empty-output {
+    padding: 36px;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius:0;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius:0;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--ink-soft);
+  }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary {
+    background: var(--green);
+    color: white;border-color:#ffffff;
+  }
+  .btn-primary:hover { background: #1b36c9; }
+  .btn-example {
+    background: var(--cream-soft);
+    color: var(--amber);
+    border-color: var(--cream-soft);
+    font-weight: 600;
+  }
+  .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 28px 24px; }
+    .toolbar { display: none; }
+    .add-row-btn { display: none; }
+    .remove-btn, .remove-community-btn { display: none; }
+    .step { page-break-inside: avoid; }
+    .strategy-doc { page-break-inside: avoid; }
+    input, textarea, select {
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius:0;
+      padding: 4px 0;
+      background: transparent;
+    }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#D596FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">07 / Find Your Customers</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Marketing for Bootstrapped Ventures</p>
+  <h1>Your Social and Community Plan</h1>
+  <p class="lede">One platform, where your audience already gathers. A 25-person engagement list and a commenting plan that respects the discipline of silence. Two or three communities you'll be present in — not build.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<!-- Step 1 — Platform -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">01</span>
+    <span class="step-title">Pick your one platform</span>
+  </div>
+  <p class="step-sub">Not your favorite. Not where you have an account. The intersection of where your audience already gathers and what motion you can sustain authentically.</p>
+
+  <div class="block-card green-edge">
+    <div class="field">
+      <label for="audience-where">Where does your audience already gather? (Audit it — don't guess)</label>
+      <div class="field-def">Run the audit, don't assume. Three evidence sources: (1) where the writers, editors, and operators in your category already post and argue; (2) where your existing readers actually came from; (3) ask three people who match your ideal customer where they read about your category professionally. Record what the evidence says, not where you'd prefer to be.</div>
+      <input type="text" id="audience-where" placeholder="The platform the evidence points to…" oninput="updatePreviews()">
+      <div class="field-example"><span class="ex-tag">Example</span>LinkedIn — the food retail / business-of-food audience consolidates there. Editors, operators, brand owners, trade-press writers all read and comment there as their default professional space.</div>
+    </div>
+
+    <div class="field">
+      <label for="motion-sustain">What motion can you sustain authentically?</label>
+      <div class="field-def">LinkedIn rewards thoughtful long-form commentary. Twitter rewards reactive wit. Instagram rewards visual consistency. TikTok rewards vulnerability and pace. Which one is actually you — not which one you wish was you?</div>
+      <input type="text" id="motion-sustain" placeholder="Your natural voice and pace…" oninput="updatePreviews()">
+      <div class="field-example"><span class="ex-tag">Example</span>Long-form thoughtful commentary. The same depth my anchor pieces produce — the platform doesn't punish me for being a slow writer.</div>
+    </div>
+
+    <div class="input-grid-2">
+      <div class="field" style="margin-bottom: 0;">
+        <label for="platform-pick">Your one platform</label>
+        <select id="platform-pick" onchange="updatePreviews()">
+          <option value="">Select…</option>
+          <option>LinkedIn</option>
+          <option>Twitter / X</option>
+          <option>Instagram</option>
+          <option>TikTok</option>
+          <option>YouTube</option>
+          <option>Substack (with social engagement)</option>
+          <option>Reddit</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label for="platform-custom">If 'Other', name it</label>
+        <input type="text" id="platform-custom" placeholder="Platform name…">
+      </div>
+    </div>
+
+    <div class="field" style="margin-top: 14px; margin-bottom: 0;">
+      <label for="platform-tradeoff">Honest trade-off, if audience and motion don't fully align</label>
+      <div class="field-def">If your audience is somewhere your natural motion isn't, name that explicitly. The lesson's guidance: pick where the audience is, then think about how to make the motion work.</div>
+      <textarea id="platform-tradeoff" placeholder="Or leave blank if both align naturally."></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>None significant — both align on LinkedIn for me. If you're a B2C owner whose audience is on Instagram but who writes long-form, the trade-off might be: pick Instagram, accept that you'll need to translate your long-form thinking into visual carousels and short captions, and budget more time for that translation.</div>
+    </div>
+
+    <div class="preview-card">
+      <div class="preview-label">Your platform choice — composed</div>
+      <div class="preview-body empty" id="platform-preview">Your platform choice will compose here as you write.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 2 — Engagement list + Commenting plan -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">02</span>
+    <span class="step-title">Build your engagement list — and your commenting plan</span>
+  </div>
+  <p class="step-sub">Two parts of the same practice. The 25-person list names who you're paying attention to. The commenting plan names how you'll engage with them — and what you won't do. You won't finish this list in one sitting; plan to revisit over a week or two as more names surface.</p>
+
+  <!-- Block 2a — Engagement list -->
+  <div class="block-card green-edge">
+    <div class="block-name">The 25-person engagement list</div>
+    <p class="block-prompt">The editors, owners, operators, writers whose orbit is your audience's orbit — the most relevant voices, not the biggest accounts. <strong>Where to source the names:</strong> the authors of pieces you've cited, the central voices your platform audit surfaced, the comment sections your audience gathers in, and the peers you already know. <strong>Qualify each with one test:</strong> would a substantive comment from you, on this person's post, reach people you want to reach? If yes, they belong. If you just admire them but their audience isn't yours, they don't.</p>
+    <div id="engagement-list">
+      <!-- rows added dynamically -->
+    </div>
+    <button class="add-row-btn" type="button" onclick="addEngagement()">+ Add another person</button>
+    <div class="list-count" id="engagement-count">0 people — aim for 15 to 25.</div>
+    <div class="field-example" style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
+      <span class="ex-tag">Examples</span>Editor at a food retail trade publication — covers the supermarket category you write about · Owner of an independent natural foods brand — frequent posts on retail dynamics · Writer at an industry analyst firm — publishes regular essays on category trends · Operator at a specialty grocery chain — posts about merchandising decisions
+    </div>
+  </div>
+
+  <!-- Block 2b — Commenting plan -->
+  <div class="block-card green-edge">
+    <div class="block-name">Your commenting plan</div>
+    <p class="block-prompt">A 25-person list without a commenting practice is just a list. Here's where you decide what you'll engage with, when, and what you won't do.</p>
+
+    <div class="field">
+      <label for="selection-filter">Your selection filter</label>
+      <div class="field-def">What test will you use to decide whether to comment on a given post? Of the people you follow, several will post on any given morning. You can't engage with all of them. What's the criterion that gets you to "comment" vs. "read and move on"?</div>
+      <input type="text" id="selection-filter" placeholder="Your test for whether to comment…">
+      <div class="field-example"><span class="ex-tag">Example</span>Does my insider experience change the conversation? If yes, comment. If I can only add agreement or a generic point, read and move on.</div>
+    </div>
+
+    <div class="input-grid-2">
+      <div class="field" style="margin-bottom: 0;">
+        <label for="commenting-minutes">Minutes per day</label>
+        <select id="commenting-minutes">
+          <option value="">Select…</option>
+          <option>5 minutes</option>
+          <option>10 minutes</option>
+          <option>15 minutes</option>
+          <option>20 minutes</option>
+          <option>30 minutes</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label for="commenting-when">When (the time block that's actually realistic)</label>
+        <input type="text" id="commenting-when" placeholder="When will this happen?…">
+      </div>
+    </div>
+    <div class="field-example" style="margin-top: 6px; margin-bottom: 14px;"><span class="ex-tag">Example</span>10-15 minutes · Most mornings, first thing — before the inbox opens.</div>
+
+    <div class="field" style="margin-bottom: 0;">
+      <label for="negative-space">What you won't do</label>
+      <div class="field-def">The corporate instinct is to engage broadly and supportively — to be "active" on social. The lesson's discipline is the opposite: stay silent more often than you speak. Name what you'll avoid, so the discipline is explicit.</div>
+      <textarea id="negative-space" placeholder="The kinds of comments and engagement you'll avoid…"></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>No "great point!" or other generic-agreement comments. No redirecting conversations to my own work or product. No commenting on posts where I have nothing specific to add. No posting about topics I don't actually have a view on, just to maintain presence.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 3 — Communities -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">03</span>
+    <span class="step-title">Identify two or three communities</span>
+  </div>
+  <p class="step-sub">Not communities you would build. Communities that already exist. The function they serve is intelligence — where your audience tells you, in their own language, what they're struggling with and what they're considering.</p>
+
+  <div class="block-card green-edge">
+    <div class="block-name">How to find them</div>
+    <p class="block-prompt"><strong>The finding method:</strong> ask your 25-person list and your best customers where they talk shop — the private Slacks, Discords, Substack comment sections, in-person dinners. Search your category terms plus "community," "Slack," or "forum." Watch where the writers you respect mention gathering. <strong>Then qualify ruthlessly:</strong> a community earns your time only if your actual audience is in it and the conversation is substantive. Two or three is the right number — enough for signal, few enough to be genuinely present in.</p>
+    <div id="community-list">
+      <!-- rows added dynamically -->
+    </div>
+    <button class="add-row-btn" type="button" onclick="addCommunity()">+ Add another community</button>
+    <div class="field-example" style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
+      <span class="ex-tag">Example</span>A ~40-person Slack of clean-label food owners · The comments section of a food-policy Substack where my audience consolidates · A quarterly in-person food entrepreneur dinner series in New York
+    </div>
+  </div>
+
+  <div class="block-card green-edge">
+    <div class="block-name">The non-promotional discipline</div>
+    <p class="block-prompt">The fastest way to be removed from a community — and to be remembered for the wrong reason — is to treat it as a distribution channel. Name what you'll commit to NOT doing in your communities.</p>
+    <div class="field" style="margin-bottom: 0;">
+      <label for="community-discipline">What you won't do in communities</label>
+      <textarea id="community-discipline" placeholder="The behaviors you'll avoid — promotional, broadcast, self-referential…"></textarea>
+      <div class="field-example"><span class="ex-tag">Example</span>I won't broadcast my anchor pieces in communities that didn't ask for them. I won't pitch my product or service. I won't redirect conversations to my own work. I'll comment, ask questions, offer specific help when relevant — and stay silent the rest of the time.</div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTPUT -->
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Social and Community Plan</h2>
+    <p>The operating doc for your social and community practice. Two to three hours a week, total — compounding over twelve months.</p>
+  </div>
+
+  <div id="output-section">
+    <div class="empty-output">Complete the steps above and click Generate to produce your plan.</div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+// =============================================================================
+// EXAMPLE — Priya's social/community plan from the lesson
+// =============================================================================
+const EXAMPLE = {
+  audienceWhere: "LinkedIn \u2014 the food retail and business-of-food audience consolidates there. Editors, operators, brand owners, trade-press writers all read and comment there as their default professional space.",
+  motionSustain: "Long-form thoughtful commentary. The same depth my anchor pieces produce \u2014 the platform doesn't punish me for being a slow writer.",
+  platformPick: "LinkedIn",
+  platformCustom: "",
+  platformTradeoff: "None significant \u2014 both align on LinkedIn for me. I'm mildly skeptical of the platform's broader culture, but the specific audience I need is there and the motion suits how I write.",
+  engagementList: [
+    { name: "Editor, food retail trade publication", why: "Covers the supermarket category I write about" },
+    { name: "Owner, independent natural foods brand", why: "Frequent posts on retail dynamics" },
+    { name: "Writer, industry analyst firm", why: "Publishes regular essays on category trends" },
+    { name: "Operator at a specialty grocery chain", why: "Posts about merchandising decisions" },
+    { name: "Editor, clean-label business publication", why: "Has been corresponding with me for ~4 months" },
+    { name: "Owner, regenerative agriculture brand", why: "Adjacent category, audience overlaps" },
+    { name: "Podcast host, food-business podcast", why: "Engaged with her newsletter for ~6 months" },
+    { name: "Writer, consumer trends newsletter", why: "Covers the food space I write in" },
+    { name: "VP of merchandising, regional grocery chain", why: "Posts I quoted in my own writing" },
+    { name: "Owner, condiment subscription brand", why: "Adjacent business model" },
+    { name: "Trade-press journalist, supermarket industry", why: "Sources I cite in my essays" },
+    { name: "Co-packer industry consultant", why: "Posts about production-side dynamics" },
+    { name: "Owner, snack brand acquired by major CPG", why: "Operational perspective post-acquisition" },
+    { name: "Researcher, food retail at university", why: "Publishes about category economics" },
+    { name: "Editor, hospitality and food magazine", why: "Adjacent audience, occasional crossover topics" },
+    { name: "Owner, ingredient sourcing platform", why: "Posts about supply chain dynamics" },
+    { name: "Operator, online specialty grocer", why: "Different retail model, useful contrast" },
+    { name: "Writer, business of food newsletter", why: "Frequently surfaces questions my audience asks" },
+    { name: "Owner, beverage brand in similar stage", why: "Peer at comparable scale" },
+    { name: "Buyer, regional specialty chain", why: "Insider view on category decisions" },
+    { name: "Owner, pantry-staples brand", why: "Direct competitor-adjacent perspective" },
+    { name: "Industry consultant, retail strategy", why: "Macro view on the category" },
+    { name: "Writer, food-policy Substack", why: "Audience consolidates in her comments section" },
+    { name: "Owner, clean-label dressing brand", why: "Most direct peer in my category" },
+    { name: "Operator, owner-led acquisition target", why: "Posts about the buy-side dynamics" },
+  ],
+  selectionFilter: "Does my insider experience change the conversation? If yes, comment. If I can only add agreement or a generic point, read and move on.",
+  commentingMinutes: "15 minutes",
+  commentingWhen: "Most mornings, first thing \u2014 before the inbox opens.",
+  negativeSpace: "No \u201Cgreat point!\u201D or other generic-agreement comments. No redirecting conversations to my own work or product. No commenting on posts where I have nothing specific to add. No posting about topics I don't actually have a view on, just to maintain presence.",
+  communities: [
+    { name: "Clean-label food owners Slack", type: "Slack", why: "Where peer owners talk about co-packer issues, retail dynamics, and the specific operational questions my audience asks." },
+    { name: "Food-policy publication comments", type: "Substack comments", why: "Where my audience consolidates around specific writers' pieces \u2014 the questions surface in their comments." },
+    { name: "Quarterly NY food entrepreneur dinners", type: "In-person", why: "Six to eight people per dinner, invitation-based. Relationships that turn into earned distribution when the moment comes." },
+  ],
+  communityDiscipline: "I won't broadcast my anchor pieces in communities that didn't ask for them. I won't pitch my product or service. I won't redirect conversations to my own work. I'll comment, ask questions, offer specific help when relevant \u2014 and stay silent the rest of the time.",
+};
+
+function useExample() {
+  const hasContent = !!val("audience-where") || !!val("motion-sustain") || getEngagementValues().length > 0;
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+
+  setEl("audience-where", EXAMPLE.audienceWhere);
+  setEl("motion-sustain", EXAMPLE.motionSustain);
+  setEl("platform-pick", EXAMPLE.platformPick);
+  setEl("platform-custom", EXAMPLE.platformCustom);
+  setEl("platform-tradeoff", EXAMPLE.platformTradeoff);
+
+  // Engagement list
+  document.getElementById("engagement-list").innerHTML = "";
+  engagementCounter = 0;
+  EXAMPLE.engagementList.forEach(p => addEngagement(p));
+
+  // Commenting plan
+  setEl("selection-filter", EXAMPLE.selectionFilter);
+  setEl("commenting-minutes", EXAMPLE.commentingMinutes);
+  setEl("commenting-when", EXAMPLE.commentingWhen);
+  setEl("negative-space", EXAMPLE.negativeSpace);
+
+  // Communities
+  document.getElementById("community-list").innerHTML = "";
+  communityCounter = 0;
+  EXAMPLE.communities.forEach(c => addCommunity(c));
+
+  setEl("community-discipline", EXAMPLE.communityDiscipline);
+
+  updatePreviews();
+  updateEngagementCount();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================================================
+// HELPERS
+// =============================================================================
+function val(id) { return (document.getElementById(id)?.value || "").toString().trim(); }
+function setEl(id, v) { const e = document.getElementById(id); if (e) e.value = v == null ? "" : v; }
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+// =============================================================================
+// ENGAGEMENT LIST DYNAMICS
+// =============================================================================
+let engagementCounter = 0;
+
+function addEngagement(initial) {
+  if (engagementCounter >= 30) return;
+  engagementCounter += 1;
+  const list = document.getElementById("engagement-list");
+  const row = document.createElement("div");
+  row.className = "engagement-row";
+  row.innerHTML = `
+    <span class="num">${list.children.length + 1}.</span>
+    <input type="text" class="eng-name" placeholder="Name or role…" oninput="updateEngagementCount()">
+    <input type="text" class="eng-why" placeholder="Would a comment from you, on their post, reach people you want?…">
+    <button class="remove-btn" type="button" onclick="removeEngagement(this)" title="Remove">\u00D7</button>
+  `;
+  if (initial) {
+    row.querySelector(".eng-name").value = initial.name || "";
+    row.querySelector(".eng-why").value = initial.why || "";
+  }
+  list.appendChild(row);
+  renumberEngagement();
+  updateEngagementCount();
+}
+
+function removeEngagement(btn) {
+  btn.closest(".engagement-row").remove();
+  renumberEngagement();
+  updateEngagementCount();
+}
+
+function renumberEngagement() {
+  document.querySelectorAll("#engagement-list .engagement-row").forEach((row, i) => {
+    row.querySelector(".num").textContent = (i + 1) + ".";
+  });
+}
+
+function getEngagementValues() {
+  return Array.from(document.querySelectorAll("#engagement-list .engagement-row")).map(row => ({
+    name: row.querySelector(".eng-name").value.trim(),
+    why: row.querySelector(".eng-why").value.trim(),
+  })).filter(p => p.name);
+}
+
+function updateEngagementCount() {
+  const vals = getEngagementValues();
+  const count = vals.length;
+  const el = document.getElementById("engagement-count");
+  el.classList.remove("under", "good");
+  if (count === 0) {
+    el.textContent = "0 people \u2014 aim for 15 to 25.";
+  } else if (count < 15) {
+    el.textContent = `${count} people \u2014 aim for at least 15. Keep building over a week or two.`;
+    el.classList.add("under");
+  } else if (count <= 25) {
+    el.textContent = `${count} people \u2014 you're in the target range.`;
+    el.classList.add("good");
+  } else {
+    el.textContent = `${count} people \u2014 over the target. Consider trimming to the 25 strongest.`;
+  }
+}
+
+// =============================================================================
+// COMMUNITY LIST DYNAMICS
+// =============================================================================
+let communityCounter = 0;
+
+function addCommunity(initial) {
+  if (communityCounter >= 5) return;
+  communityCounter += 1;
+  const list = document.getElementById("community-list");
+  const row = document.createElement("div");
+  row.className = "community-row";
+  row.innerHTML = `
+    <button class="remove-community-btn" type="button" onclick="removeCommunity(this)" title="Remove">\u00D7</button>
+    <div class="row-top">
+      <div class="field" style="margin-bottom: 0;">
+        <label>Community name</label>
+        <input type="text" class="comm-name" placeholder="What it's called…">
+      </div>
+      <div class="field" style="margin-bottom: 0;">
+        <label>Type</label>
+        <select class="comm-type">
+          <option value="">Select…</option>
+          <option>Slack</option>
+          <option>Discord</option>
+          <option>Substack comments</option>
+          <option>Reddit community</option>
+          <option>Forum / message board</option>
+          <option>LinkedIn group</option>
+          <option>In-person (regular)</option>
+          <option>In-person (one-off / quarterly)</option>
+          <option>Mailing list / private email group</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom: 0;">
+      <label>What you'll get from being there</label>
+      <input type="text" class="comm-why" placeholder="The function it serves \u2014 intelligence, not distribution…">
+    </div>
+  `;
+  if (initial) {
+    row.querySelector(".comm-name").value = initial.name || "";
+    row.querySelector(".comm-type").value = initial.type || "";
+    row.querySelector(".comm-why").value = initial.why || "";
+  }
+  list.appendChild(row);
+}
+
+function removeCommunity(btn) {
+  btn.closest(".community-row").remove();
+}
+
+function getCommunityValues() {
+  return Array.from(document.querySelectorAll("#community-list .community-row")).map(row => ({
+    name: row.querySelector(".comm-name").value.trim(),
+    type: row.querySelector(".comm-type").value,
+    why: row.querySelector(".comm-why").value.trim(),
+  })).filter(c => c.name);
+}
+
+// =============================================================================
+// LIVE PREVIEWS
+// =============================================================================
+function updatePreviews() {
+  const where = val("audience-where");
+  const motion = val("motion-sustain");
+  const platform = val("platform-pick") === "Other" ? val("platform-custom") : val("platform-pick");
+  const previewEl = document.getElementById("platform-preview");
+  if (platform || where || motion) {
+    const parts = [];
+    if (platform) parts.push(`<strong>${escapeHtml(platform)}</strong>.`);
+    if (where) parts.push(`Audience: ${escapeHtml(where.length > 100 ? where.slice(0, 100) + "\u2026" : where)}`);
+    if (motion) parts.push(`Motion: ${escapeHtml(motion.length > 100 ? motion.slice(0, 100) + "\u2026" : motion)}`);
+    previewEl.innerHTML = parts.join(" ");
+    previewEl.classList.remove("empty");
+  } else {
+    previewEl.textContent = "Your platform choice will compose here as you write.";
+    previewEl.classList.add("empty");
+  }
+}
+
+// =============================================================================
+// GENERATE OUTPUT
+// =============================================================================
+function generate() {
+  const out = document.getElementById("output-section");
+  const audienceWhere = val("audience-where");
+  const motionSustain = val("motion-sustain");
+  const platformPick = val("platform-pick");
+  const platformCustom = val("platform-custom");
+  const platform = platformPick === "Other" ? platformCustom : platformPick;
+  const platformTradeoff = val("platform-tradeoff");
+  const engagement = getEngagementValues();
+  const selectionFilter = val("selection-filter");
+  const commentingMinutes = val("commenting-minutes");
+  const commentingWhen = val("commenting-when");
+  const negativeSpace = val("negative-space");
+  const communities = getCommunityValues();
+  const communityDiscipline = val("community-discipline");
+
+  // Minimum required: platform + audience-where + at least 5 engagement entries + selection filter + at least 1 community
+  if (!platform || !audienceWhere || engagement.length < 5 || !selectionFilter || communities.length < 1) {
+    out.innerHTML = '<div class="empty-output">To generate your plan, fill in at minimum: your platform choice, where your audience gathers, at least 5 engagement-list entries, your selection filter, and at least 1 community.</div>';
+    out.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  let html = '<div class="strategy-doc">';
+
+  // Platform block
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">YOUR PLATFORM</div>
+      <div class="platform-hero">
+        <div class="platform-tag">ONE PLATFORM, DEEPLY</div>
+        <div class="platform-name">${escapeHtml(platform)}</div>
+        <div class="platform-reason">${escapeHtml(audienceWhere)} ${motionSustain ? "&nbsp; \u00B7 &nbsp; " + escapeHtml(motionSustain) : ""}</div>
+      </div>
+      ${platformTradeoff ? `<div class="platform-tradeoff"><strong>Trade-off acknowledged:</strong> ${escapeHtml(platformTradeoff)}</div>` : ""}
+    </div>
+  `;
+
+  // Engagement list
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">ENGAGEMENT LIST  \u00B7  ${engagement.length} ${engagement.length === 1 ? "PERSON" : "PEOPLE"}</div>
+      <div class="engagement-output">
+        ${engagement.map((p, i) => `
+          <div class="item">
+            <span class="pnum">${i + 1}.</span><span class="pname">${escapeHtml(p.name)}</span>
+            ${p.why ? `<div class="pwhy">${escapeHtml(p.why)}</div>` : ""}
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+
+  // Commenting plan
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">COMMENTING PLAN</div>
+      <div class="commenting-grid">
+        <div class="commenting-card">
+          <div class="ctag">SELECTION FILTER</div>
+          <div class="cbody">${escapeHtml(selectionFilter)}</div>
+        </div>
+        <div class="commenting-card">
+          <div class="ctag">CADENCE</div>
+          <div class="cbody">${commentingMinutes ? escapeHtml(commentingMinutes) : "Cadence not set"}${commentingWhen ? ` \u00B7 ${escapeHtml(commentingWhen)}` : ""}</div>
+        </div>
+      </div>
+      ${negativeSpace ? `
+      <div class="commenting-negative">
+        <div class="ctag">WHAT I WON'T DO</div>
+        <div class="cbody">${escapeHtml(negativeSpace)}</div>
+      </div>` : ""}
+    </div>
+  `;
+
+  // Communities
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">COMMUNITIES  \u00B7  ${communities.length} ${communities.length === 1 ? "PLACE" : "PLACES"}</div>
+      ${communities.map(c => `
+        <div class="community-output-row">
+          <div class="ctag">${c.type ? escapeHtml(c.type.toUpperCase()) : "COMMUNITY"}</div>
+          <div class="cname">${escapeHtml(c.name)}</div>
+          ${c.why ? `<div class="cwhy">${escapeHtml(c.why)}</div>` : ""}
+        </div>
+      `).join("")}
+      ${communityDiscipline ? `
+      <div class="commenting-negative" style="margin-top: 12px;">
+        <div class="ctag">NON-PROMOTIONAL DISCIPLINE</div>
+        <div class="cbody">${escapeHtml(communityDiscipline)}</div>
+      </div>` : ""}
+    </div>
+  `;
+
+  html += '</div>'; // strategy-doc
+
+  // Observations
+  const observations = buildObservations({ engagement, selectionFilter, commentingMinutes, negativeSpace, communities, communityDiscipline, platformTradeoff });
+  observations.forEach(o => { html += `<div class="observation">${o}</div>`; });
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function buildObservations(d) {
+  const obs = [];
+
+  // Engagement list too short
+  if (d.engagement.length < 15) {
+    obs.push(`<strong>You have ${d.engagement.length} people on your engagement list.</strong> The lesson's target is 25, and the practice doesn't really work below about 15 \u2014 you need enough names that two or three of them post on any given morning. Keep building over the next week. Watch for the editors, owners, and operators whose work surfaces the questions your audience asks.`);
+  }
+
+  // No "why" stated for most entries
+  const withoutWhy = d.engagement.filter(p => !p.why).length;
+  if (d.engagement.length >= 5 && withoutWhy / d.engagement.length > 0.4) {
+    obs.push(`<strong>${withoutWhy} of your ${d.engagement.length} entries don't have a 'why' stated.</strong> The 'why' is the test: if you can't articulate why their orbit overlaps with your audience's, they may not belong on the list. The list works because the people on it are the people whose work surfaces the questions your audience is asking \u2014 not just popular accounts.`);
+  }
+
+  // No cadence set
+  if (!d.commentingMinutes) {
+    obs.push(`<strong>You haven't set a commenting cadence.</strong> Without a time block, the practice becomes irregular \u2014 and irregular practice doesn't produce the recognition the lesson is aiming for. Pick a number of minutes (10\u201315 is what the lesson shows). Pick a time. Make it the same time every day.`);
+  }
+
+  // No negative space stated
+  if (!d.negativeSpace || d.negativeSpace.length < 40) {
+    obs.push(`<strong>Your 'what I won't do' is brief or unstated.</strong> The lesson's discipline is silence. The corporate instinct will pull you toward broad supportive engagement \u2014 "great point!" comments, redirecting to your own work, posting to maintain presence. Naming what you won't do explicitly makes the discipline easier to keep when you're tempted in the moment.`);
+  }
+
+  // Fewer than 2 communities
+  if (d.communities.length < 2) {
+    obs.push(`<strong>You have ${d.communities.length} ${d.communities.length === 1 ? "community" : "communities"}.</strong> The lesson's target is two or three. Below two, the search-intent map doesn't get the variety of input it needs. The communities don't have to be impressive \u2014 a small Slack and a thoughtful Substack comments section can do real work.`);
+  }
+
+  // Community discipline missing
+  if (!d.communityDiscipline || d.communityDiscipline.length < 40) {
+    obs.push(`<strong>Your non-promotional discipline isn't named.</strong> The fastest way to be removed from a community is to treat it as a distribution channel \u2014 and the temptation is real, especially when you have an anchor piece you're proud of. Naming the discipline explicitly makes it easier to hold when the moment comes.`);
+  }
+
+  // Communities framed as distribution rather than intelligence
+  const distributionLanguage = d.communities.filter(c =>
+    c.why && /reach|grow|audience build|promote|share my|distribute|get my (work|writing|content)/i.test(c.why)
+  );
+  if (distributionLanguage.length > 0) {
+    obs.push(`<strong>One or more of your community 'whys' is framed in distribution language.</strong> The lesson is explicit: community is an intelligence function, not a distribution channel. If you're entering communities to reach new audiences with your work, you're entering them for the wrong reason \u2014 and the community members will notice. Reframe in terms of what you'll learn there.`);
+  }
+
+  return obs;
+}
+
+function clearAll() {
+  if (!confirm("Clear all entries and start over?")) return;
+  document.querySelectorAll("input[type='text'], textarea, select").forEach(el => el.value = "");
+  document.getElementById("engagement-list").innerHTML = "";
+  document.getElementById("community-list").innerHTML = "";
+  engagementCounter = 0;
+  communityCounter = 0;
+  for (let i = 0; i < 5; i++) addEngagement();
+  for (let i = 0; i < 2; i++) addCommunity();
+  updatePreviews();
+  updateEngagementCount();
+  document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your plan.</div>';
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// INIT — seed empty rows
+for (let i = 0; i < 5; i++) addEngagement();
+for (let i = 0; i < 2; i++) addCommunity();
+updatePreviews();
+updateEngagementCount();
+</script>
+</body>
+</html>

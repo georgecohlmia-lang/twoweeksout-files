@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapid Prototyping Worksheet · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+
+:root{
+  --ink:#10131a; --paper:#fbfaf6; --white:#ffffff; --cobalt:#2747f5; --cobalt2:#1b36c9; --signal:#ff5a1f;
+  --slate:#59616e; --fog:#9ba3af; --sky:#93abff; --mist:#e9ecf5; --line:#d5d9e4; --inkline:#2c313c; --onink:#c9ced8;
+  --good:#0d6b4c; --good-tint:#e2f5ea; --warn:#7d5300; --warn-tint:#fff3cd; --danger:#b3261e; --danger-tint:#fde9e7;
+  --module:#F986DD;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+  --text:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--module);border-bottom:2px solid var(--ink)}
+.two-wm{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.two-mod{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header.top{padding:52px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.deck{font-size:18px;color:var(--slate);max-width:700px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.btn{border:2px solid var(--ink);background:var(--white);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.btn.primary:hover{background:var(--cobalt2);border-color:var(--cobalt2)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.ink:hover{background:var(--inkline)}
+.btn.quiet{border-color:var(--line);color:var(--slate);font-weight:500}
+.saved{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);margin-left:auto}
+.meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:22px}
+.meta label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date],select,textarea{width:100%;background:var(--white);border:1px solid var(--line);border-bottom:2px solid var(--ink);padding:10px 12px;border-radius:0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--mist)}
+textarea{resize:vertical;min-height:64px;line-height:1.5;overflow:hidden}
+::placeholder{color:#8a919c}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-top:28px}
+.progress .wrap{display:flex;gap:6px;padding:12px 24px;flex-wrap:wrap}
+.step-pill{flex:1 1 180px;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--white);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--slate);text-decoration:none}
+.step-pill b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog)}
+.step-pill.done{border-color:var(--good);color:var(--good);background:var(--good-tint)}
+.step-pill.done b{color:var(--good)}
+
+section.step{padding:52px 0 8px}
+.step-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.step-num{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--cobalt)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);line-height:1.05;letter-spacing:-.035em}
+.intro{color:var(--slate);max-width:720px;margin:10px 0 22px}
+.group-label{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px;display:flex;gap:12px;align-items:center}
+.group-label::after{content:"";flex:1;height:2px;background:var(--ink)}
+.group-note{font-size:14px;color:var(--slate);margin:-4px 0 14px;max-width:720px}
+
+.box{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:12px}
+.box.money{border-left-color:var(--cobalt)}
+.box-top{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-bottom:12px}
+.box-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.box-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.box-q{grid-column:2;font-size:14px;color:var(--slate)}
+.box-q b{color:var(--ink);font-weight:600}
+.len{font-size:12px;color:var(--fog);margin-top:6px;min-height:18px}
+.len.long{color:var(--warn)}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.marks .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark:hover{border-color:var(--ink)}
+.mark[aria-pressed=true][data-m=known]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=assumed]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.mark[aria-pressed=true][data-m=unknown]{background:var(--mist);border-color:var(--ink);color:var(--ink)}
+.evidence{margin-top:12px;display:none}
+.evidence.show{display:block}
+.evidence label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.evidence label span{font-weight:400;color:var(--slate)}
+.flag{font-size:13px;margin-top:8px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.flag.show{display:block}
+
+.callout{background:var(--ink);color:var(--paper);padding:22px 26px;margin:6px 0 18px}
+.callout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.callout p{color:var(--onink);font-size:15px}
+.callout p b{color:#fff}
+
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 14px}
+.tally div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.tally .v{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.tally .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.tally .known .v{color:var(--good)} .tally .assumed .v{color:var(--warn)}
+.read{padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:760px}
+.read.alert{border-left-color:var(--danger);background:var(--danger-tint)}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pick label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.pick label:hover{border-color:var(--ink)}
+.pick input{margin-top:3px;accent-color:var(--cobalt)}
+.pick label.on{border:2px solid var(--signal);padding:11px 13px}
+.pick small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.pick small.known{color:var(--good)} .pick small.assumed{color:var(--warn)} .pick small.unknown{color:var(--slate)}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.field .help{font-size:13px;color:var(--slate);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:grid;gap:8px;margin:6px 0 4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--white);border:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--good)}
+.reopen{display:flex;flex-wrap:wrap;gap:8px}
+.reopen label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:7px 12px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.reopen input{accent-color:var(--cobalt)}
+
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.summary div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.summary h5{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.summary p{font-size:14.5px;white-space:pre-wrap}
+.next{margin:44px 0 70px;padding:24px 26px;border:2px solid var(--ink);background:var(--white)}
+.next .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px}
+.next p{color:var(--slate)}
+.print-only{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;display:none;z-index:50}
+.toast.show{display:block}
+@media print{input[type=date]::-webkit-calendar-picker-indicator{display:none}select{background-image:none}}
+
+.hidden{display:none!important}
+.note{font-size:14px;padding:12px 16px;border-left:4px solid var(--cobalt);background:var(--mist);margin:4px 0 14px;max-width:800px}
+.note.alert{border-left-color:var(--warn);background:var(--warn-tint);color:#5c3d00}
+.note.danger{border-left-color:var(--danger);background:var(--danger-tint);color:#7a1a14}
+.note.good{border-left-color:var(--good);background:var(--good-tint);color:#0a4f38}
+.ex-note{display:none;margin:0 0 16px;padding:12px 16px;background:var(--warn-tint);color:var(--warn);font-size:14px;max-width:800px}
+.ex-note.show{display:block}
+.claimbox{background:var(--white);border:2px solid var(--ink);padding:20px 22px;margin-bottom:14px}
+.claimbox .lbl,.lblm{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.claimbox textarea{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em;line-height:1.3;min-height:60px}
+.levels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 14px}
+.levels label{display:flex;flex-direction:column;gap:6px;padding:14px 16px;background:var(--white);border:1px solid var(--line);cursor:pointer;position:relative}
+.levels label.on{border:2px solid var(--signal);padding:13px 15px}
+.levels label.below{opacity:.55}
+.levels input{position:absolute;opacity:0;pointer-events:none}
+.levels .lv{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--cobalt)}
+.levels b{font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-.02em;line-height:1.15}
+.levels small{font-size:13px;color:var(--slate);line-height:1.4}
+.levels .cost{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-top:auto}
+.rec{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rec .field input{font-family:var(--display);font-weight:800;font-size:24px}
+.cost-head,.cline{display:grid;grid-template-columns:1.6fr 1.3fr 90px 90px 34px;gap:8px;align-items:center}
+.cost-head{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);padding:0 0 6px}
+.cline{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:10px 12px;margin-bottom:8px}
+.cline.fixed{border-left-color:var(--good)}
+.cline input,.cline select{padding:8px 9px;font-size:14px}
+.ibtn{border:1px solid var(--line);background:var(--paper);min-width:34px;height:34px;padding:0 8px;font-size:13px;font-weight:600;cursor:pointer}
+.ibtn:hover{border-color:var(--ink)}
+.counter{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 4px}
+.counter .count{font-size:14px;color:var(--slate)}
+.piles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.pile{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.pile h4{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.pile.mult h4{color:var(--ink)} .pile.fix h4{color:var(--good)}
+.pile .v{font-family:var(--display);font-weight:800;font-size:34px;letter-spacing:-.03em;line-height:1}
+.pile p{font-size:13px;color:var(--slate);margin-top:6px}
+.answers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 12px}
+.answers label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.answers label.on{border:2px solid var(--signal);padding:11px 13px}
+.answers input{margin-top:4px;accent-color:var(--signal)}
+.answers b{display:block;font-size:15px}
+.answers small{display:block;font-size:12.5px;color:var(--slate);margin-top:2px}
+.arith{background:var(--ink);color:#fff;padding:22px 24px;margin:14px 0}
+.arith .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:10px}
+.arith .eq{font-family:var(--display);font-weight:800;font-size:clamp(24px,4vw,36px);letter-spacing:-.03em;line-height:1.15}
+.arith .eq em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.arith p{color:var(--onink);font-size:15px;margin-top:10px}
+.arith p b{color:#fff}
+.fixline{margin-top:12px;padding-top:12px;border-top:1px solid var(--inkline);font-size:14px;color:var(--onink)}
+.fixline b{color:#fff}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+/* output */
+.ocard{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--ink);border:2px solid var(--ink)}
+.ocard > div{background:var(--white);padding:12px 14px}
+.ocard .wide{grid-column:span 3}
+.ocard .two{grid-column:span 2}
+.ocard h5{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:5px}
+.ocard p{font-size:13.5px;white-space:pre-wrap}
+.ocard .big{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em;line-height:1.25}
+.ocard .dark{background:var(--ink);color:#fff}
+.ocard .dark h5{color:var(--sky)}
+.otbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.otbl th{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:5px 6px;border-bottom:2px solid var(--ink)}
+.otbl td{padding:5px 6px;border-bottom:1px solid var(--line)}
+.e{color:var(--fog)}
+@media (max-width:760px){
+  .meta,.grid2,.summary,.levels,.rec,.piles,.answers,.g3,.ocard{grid-template-columns:1fr}
+  .ocard .wide,.ocard .two{grid-column:auto}
+  .cost-head{display:none}
+  .cline{grid-template-columns:1fr 1fr;}
+  .cline > input:first-child{grid-column:1/-1}
+  .cline select{grid-column:1/-1}
+  .cline .ibtn{justify-self:end}
+  .progress{position:static}
+}
+@media print{
+  @page{size:letter landscape;margin:.4in}
+  body{background:#fff;font-size:10pt}
+  .two-band,.toolbar,.progress,section.step,.next,.toast,.saved,.no-print{display:none!important}
+  header.top{padding:0 0 8px;border-bottom:2px solid #000}
+  h1{font-size:18pt;margin:2px 0}
+  .eyebrow{font-size:8pt}
+  .deck{display:none}
+  .meta{margin-top:6px}
+  .meta label{font-size:7pt;margin-bottom:2px}
+  .meta input{border:none;border-bottom:1px solid #999;padding:2px 0}
+  #out{display:block!important;padding-top:8px}
+  #out h2{font-size:13pt;margin-bottom:4px}
+  .ocard > div{padding:7px 10px}.ocard p{font-size:8.5pt}.ocard .big{font-size:12pt}
+  .otbl{font-size:8pt}
+  .ocard,.ocard > div,.ocard .dark{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ocard{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">06 / Build What Customers Want</span></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Worksheet · Rapid Prototyping and User Testing</div>
+  <h1>A prototype is <em>a rehearsal.</em></h1>
+  <p class="deck">A test can pass on demand and fail on delivery. Perform the work, roughly, for real people at a real price, and keep two records: what the customer does, and what it costs you. Then do the arithmetic most people never do.</p>
+  <div class="toolbar">
+    <button class="btn primary" id="useExample" type="button">Use the lesson’s example</button>
+    <button class="btn ink" id="printBtn" type="button">Print / Save as PDF</button>
+    <button class="btn" id="xlsxBtn" type="button">Download to Excel</button>
+    <button class="btn quiet" id="clearBtn" type="button">Clear all</button>
+    <span class="saved" id="saved">Saves automatically in this browser</span>
+  </div>
+  <div class="meta">
+    <div><label for="bizName">Business</label><input type="text" id="bizName" data-k="bizName" placeholder="Your business, or the one you’re planning"></div>
+    <div><label for="concept">The concept</label><input type="text" id="concept" data-k="concept" placeholder="What you’re testing"></div>
+    <div><label for="rDate">Date</label><input type="date" id="rDate" data-k="rDate"></div>
+  </div>
+</header>
+</div>
+
+<nav class="progress" aria-label="Progress">
+  <div class="wrap">
+    <a class="step-pill" id="p1" href="#s1"><b>01</b><span>Claim and level</span></a>
+    <a class="step-pill" id="p2" href="#s2"><b>02</b><span>What the yes costs</span></a>
+    <a class="step-pill" id="p3" href="#s3"><b>03</b><span>Two records <span id="p3n"></span></span></a>
+    <a class="step-pill" id="p4" href="#s4"><b>04</b><span>Show the arithmetic</span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section class="step" id="s1">
+  <div class="step-head"><span class="step-num">STEP 01</span></div>
+  <h2>Write the claim. Pick how real the test has to be.</h2>
+  <p class="intro">Four levels. Go only as far up as your claim requires, because each costs more than the last.</p>
+  <div class="ex-note" id="exNote">From the lessons: the claim Upstream wrote in MVP Scoping, its level-three test of the longevity program, the four parts, the enrollment numbers, and the hours and scheduling from the cost record. The lessons don’t say which answer Upstream chose for the bottleneck, so that’s left for you. They also don’t say how many hours the trainer or the diet review took, so the log holds only the physician hours the lesson gives.</div>
+  <div class="claimbox">
+    <span class="lbl">The claim · one sentence</span>
+    <textarea id="claim" data-k="claim" placeholder="e.g., We can deliver a monthly bookkeeping close for $900 without a new hire."></textarea>
+  </div>
+  <div class="checks" style="margin-bottom:14px"><label><input type="checkbox" data-k="deliver"> The claim is about whether we can deliver it, not just whether people want it.</label></div>
+  <div class="note alert hidden" id="floorNote">Your claim is about delivery, so level three is the floor. Levels one and two can’t teach you anything about delivering the work.</div>
+  <div class="levels" id="levels">
+    <label id="lv1"><input type="radio" name="level" data-k="level" value="1"><span class="lv">LEVEL 1</span><b>A conversation</b><small>Describe it and ask what they’d expect. Tells you whether people understand the offer. Nothing more.</small><span class="cost">Yes costs: time and attention</span></label>
+    <label id="lv2"><input type="radio" name="level" data-k="level" value="2"><span class="lv">LEVEL 2</span><b>Something to look at</b><small>A page, a sample report, a mock-up of what they’d receive.</small><span class="cost">Yes costs: time and attention</span></label>
+    <label id="lv3"><input type="radio" name="level" data-k="level" value="3"><span class="lv">LEVEL 3</span><b>The real thing, by hand</b><small>For a few people. No new systems, no new staff. The first level that teaches you about delivering. Where most service businesses should test.</small><span class="cost">Yes costs: the full price</span></label>
+    <label id="lv4"><input type="radio" name="level" data-k="level" value="4"><span class="lv">LEVEL 4</span><b>The real thing, with systems</b><small>For a defined group. Only worth it once level three has stopped surprising you.</small><span class="cost">Yes costs: the full price</span></label>
+  </div>
+  <div class="note alert hidden" id="l4Note">Has level three stopped surprising you? If not, you’re paying for systems before you know what they need to do.</div>
+  <div class="field"><label for="parts">What’s in the test</label><p class="help">The parts you’ll deliver, one per line.</p><textarea id="parts" data-k="parts" placeholder="One per line"></textarea></div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head"><span class="step-num">STEP 02</span></div>
+  <h2>Decide what the yes costs. Check they get the real outcome.</h2>
+  <div id="lowCost">
+    <div class="field"><label for="yesTime">What the yes costs them</label><p class="help">At levels one and two, a yes costs time and attention.</p><input type="text" id="yesTime" data-k="yesTime" placeholder="e.g., Thirty minutes walking through a sample report"></div>
+  </div>
+  <div id="highCost">
+    <div class="grid2">
+      <div class="field"><label for="price">The price</label><p class="help">The full price, because they receive the real outcome.</p><input type="text" id="price" data-k="price" placeholder="e.g., $1,200 for the year"></div>
+      <div class="field"><label for="invited">Who’s invited</label><p class="help">The people the claim is about.</p><input type="text" id="invited" data-k="invited" placeholder="e.g., Twelve clients past their first year"></div>
+    </div>
+    <div class="checks">
+      <label><input type="checkbox" data-k="c1"> It’s the full price.</label>
+      <label><input type="checkbox" data-k="c2"> What reaches them is the real outcome, not a trial version.</label>
+      <label><input type="checkbox" data-k="c3"> I haven’t told them it’s an experiment. I’m selling the thing and delivering the thing.</label>
+      <label><input type="checkbox" data-k="c4"> The decision about whether to continue stays on our side of the table.</label>
+    </div>
+  </div>
+  <div class="group-label" style="margin-top:30px">Protect the reading</div>
+  <div class="checks">
+    <label><input type="checkbox" data-k="same"> Same description, same questions, same order for everyone.</label>
+  </div>
+  <div class="field" style="margin-top:12px"><label for="noter">Someone in the room who isn’t selling</label><p class="help">The person delivering hears agreement. The person taking notes hears hesitation.</p><input type="text" id="noter" data-k="noter" placeholder="Who takes notes"></div>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head"><span class="step-num">STEP 03</span></div>
+  <h2>Keep two records. What they do, and what it costs you.</h2>
+  <div class="group-label">Record one · what the customer does</div>
+  <div class="rec">
+    <div class="field"><label for="nInv">Invited</label><input type="text" inputmode="numeric" id="nInv" data-k="nInv" placeholder="12"></div>
+    <div class="field"><label for="nYes">Said yes and paid</label><input type="text" inputmode="numeric" id="nYes" data-k="nYes" placeholder="8"></div>
+    <div class="field"><label for="nBar">The bar you set before</label><input type="text" inputmode="numeric" id="nBar" data-k="nBar" placeholder="5"></div>
+  </div>
+  <div class="grid2">
+    <div class="field"><label for="back">Did they come back?</label><textarea id="back" data-k="back" placeholder="Booked the next one, renewed, asked for more"></textarea></div>
+    <div class="field"><label for="asked">What they asked for that you hadn’t offered</label><textarea id="asked" data-k="asked"></textarea></div>
+  </div>
+  <div class="field"><label for="skipped">What they quietly skipped</label><p class="help">People don’t complain. They stop.</p><textarea id="skipped" data-k="skipped"></textarea></div>
+
+  <div class="group-label" style="margin-top:30px">Record two · what it costs you</div>
+  <p class="group-note">The record everybody skips. Log your own hours per customer, visible work and preparation separately. Then sort each line: does it get more expensive with each customer, or doesn’t it?</p>
+  <div class="field" style="max-width:360px"><label for="assumed">Hours per customer you assumed going in</label><input type="text" inputmode="decimal" id="assumed" data-k="assumed" placeholder="e.g., 2"></div>
+  <div class="cost-head"><span>Line</span><span>Sort it</span><span>Visible hrs</span><span>Prep hrs</span><span></span></div>
+  <div id="lines"></div>
+  <div class="counter"><button class="btn" type="button" id="addLine">+ Add a line</button><span class="count" id="lineNote"></span></div>
+  <div class="piles">
+    <div class="pile mult"><h4>Multiplies with each customer</h4><div class="v" id="vMult">0 h</div><p>Per customer: visible <span id="vVis">0</span> h + preparation <span id="vPrep">0</span> h</p></div>
+    <div class="pile fix"><h4>Doesn’t multiply</h4><div class="v" id="vFix">0 h</div><p>For the whole group. A room doesn’t cost more when more people walk in. This pile is where the profit comes from.</p></div>
+  </div>
+  <div class="note hidden" id="assumeNote"></div>
+
+  <div class="group-label" style="margin-top:30px">The bottleneck</div>
+  <p class="group-note">The input nobody costed. Name it, and name the answer you’re choosing. What you can’t do is call it a scheduling problem and try harder.</p>
+  <div class="grid2">
+    <div class="field"><label for="bn">What it is</label><textarea id="bn" data-k="bn" placeholder="e.g., Three people in one room at once"></textarea></div>
+    <div class="field"><label for="bnEv">What the log shows</label><textarea id="bnEv" data-k="bnEv" placeholder="Numbers: attempts, delays, who dropped off"></textarea></div>
+  </div>
+  <div class="answers" id="ansPick">
+    <label id="an-remove"><input type="radio" name="bnAns" data-k="bnAns" value="remove"><span><b>Remove it</b><small>e.g., batch the reviews into one afternoon a month and book the outside person once.</small></span></label>
+    <label id="an-design"><input type="radio" name="bnAns" data-k="bnAns" value="design"><span><b>Design around it</b><small>e.g., two people in the room, and the third sends notes.</small></span></label>
+    <label id="an-price"><input type="radio" name="bnAns" data-k="bnAns" value="price"><span><b>Price it</b><small>e.g., keep all three and charge what three calendars cost.</small></span></label>
+  </div>
+  <div class="field"><label for="bnHow">How, specifically</label><input type="text" id="bnHow" data-k="bnHow" placeholder="What changes"></div>
+</section>
+
+<section class="step" id="s4">
+  <div class="step-head"><span class="step-num">STEP 04</span></div>
+  <h2>Show the arithmetic. Out loud.</h2>
+  <p class="intro">Multiply the first pile by every customer you’d eventually have. Eight people happily paying tells you nothing about whether you can serve eight hundred.</p>
+  <div class="g3">
+    <div class="field"><label for="eventual">Customers you’d eventually have</label><input type="text" inputmode="numeric" id="eventual" data-k="eventual" placeholder="e.g., 400"></div>
+    <div class="field"><label for="fte">Hours one full-time person works a year</label><input type="text" inputmode="numeric" id="fte" data-k="fte" placeholder="2000"></div>
+    <div class="field"><label for="who">Who delivers it, and how many of them</label><input type="text" id="who" data-k="who" placeholder="e.g., 4 physicians"></div>
+  </div>
+  <div class="arith" id="arith"></div>
+  <div class="field"><label for="verdict">So what can and can’t be offered</label><p class="help">Usually not “it works” or “it doesn’t.” It’s what works at this shape, to this many people, with these people.</p><textarea id="verdict" data-k="verdict" placeholder="e.g., The program works. What can’t be offered is the program at this shape, to everyone, with our current team."></textarea></div>
+
+  <div class="group-label" style="margin-top:30px">The trap · the demo that becomes a pitch</div>
+  <p class="group-note">Someone hesitates, you handle the objection, and now you’re measuring your close rate. The tell is your own behavior.</p>
+  <div class="checks">
+    <label><input type="checkbox" data-k="t1"> When someone hesitated, I asked what was behind it, then was quiet.</label>
+    <label><input type="checkbox" data-k="t2"> I didn’t explain why a concern doesn’t apply.</label>
+  </div>
+</section>
+
+<section id="out" class="step">
+  <div class="step-head"><span class="step-num">YOUR PROTOTYPE</span></div>
+  <h2 id="outTitle">Your prototype, on one page</h2>
+  <div class="ocard">
+    <div class="two"><h5>The claim</h5><p class="big" id="oClaim">Not written yet.</p></div>
+    <div><h5>Level and price</h5><p id="oLevel"></p></div>
+    <div><h5>What’s in it</h5><p id="oParts"></p></div>
+    <div><h5>Record one · what they did</h5><p id="oRec1"></p></div>
+    <div><h5>Bottleneck and answer</h5><p id="oBn"></p></div>
+    <div class="two"><h5>Record two · hours</h5><div id="oLines"></div></div>
+    <div><h5>Two piles</h5><p id="oPiles"></p></div>
+    <div class="wide dark"><h5>The arithmetic</h5><p class="big" id="oArith" style="color:#fff">Fill in step four.</p><p id="oVerdict" style="color:var(--onink);margin-top:4px"></p></div>
+  </div>
+</section>
+
+<div class="next no-print">
+  <div class="k">Next session</div>
+  <p><b style="color:var(--ink)">Learning While You Run It.</b> A finished test becomes a weekly habit of listening and changing one thing at a time.</p>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY='two_proto_v1';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  var savedEl=document.getElementById('saved'),t0,tt;
+  function flash(s){savedEl.textContent=s;clearTimeout(t0);t0=setTimeout(function(){savedEl.textContent='Saves automatically in this browser'},1200)}
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));flash('Saved')}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function plusDays(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+  function nice(s){if(!s)return '';var p=s.split('-');if(p.length!==3)return s;var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1];return m+' '+(+p[2])+', '+p[0]}
+  function toast(s){var el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2800)}
+  function t(v){return String(v==null?'':v).trim()}
+  function bindStatic(){
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var k=el.dataset.k,v=state[k];
+      if(el.type==='checkbox') el.checked=!!v;
+      else if(el.type==='radio') el.checked=(v===el.value);
+      else el.value=v!=null?v:'';
+    });
+  }
+  function onField(e){
+    var el=e.target,k=el.dataset&&el.dataset.k;
+    if(!k)return false;
+    if(el.type==='radio'){if(!el.checked)return true;state[k]=el.value}
+    else state[k]=el.type==='checkbox'?el.checked:el.value;
+    persist();render();return true;
+  }
+  function fileName(base,suffix){return ((t(state.bizName)||base).replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||base)+(suffix||'')+'.xlsx'}
+  function sheet(rows,cols){var ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=cols.map(function(w){return{wch:w}});return ws}
+  function grow(el){if(el.offsetParent===null)return;el.style.height='auto';el.style.height=(el.scrollHeight+3)+'px'}
+  function growAll(){document.querySelectorAll('textarea').forEach(grow)}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target)});
+  var rzT;window.addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(growAll,120)});
+  setTimeout(growAll,0);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(growAll);
+  function wire(opts){
+    document.getElementById('useExample').addEventListener('click',function(){
+      if(opts.hasData()&&!confirm('Replace what you’ve entered with the lesson’s example? Your current answers will be cleared.'))return;
+      state=opts.example();opts.rebuild();persist();render();growAll();toast('The lesson’s example is loaded. Edit anything to make it yours.');
+    });
+    document.getElementById('clearBtn').addEventListener('click',function(){
+      if(!confirm('Clear every answer on this worksheet? This can’t be undone.'))return;
+      try{localStorage.removeItem(KEY)}catch(e){}
+      state=opts.fresh();opts.rebuild();persist();render();growAll();
+    });
+    document.getElementById('printBtn').addEventListener('click',function(){render();window.print()});
+    document.getElementById('xlsxBtn').addEventListener('click',function(){
+      if(typeof XLSX==='undefined'){toast('The Excel export couldn’t load. Check your connection and try again.');return}
+      opts.xlsx();
+    });
+  }
+
+  var ANS={remove:'Remove it',design:'Design around it',price:'Price it'};
+  function num(v){var n=parseFloat(String(v==null?'':v).replace(/[^0-9.]/g,''));return isNaN(n)?null:n}
+  function fmt(n){return (Math.round(n*100)/100).toLocaleString()}
+  function line(){return{name:'',sort:'mult',vis:'',prep:''}}
+  function fresh(){return{rDate:iso(new Date()),fte:'2000',lines:[line(),line()]}}
+  var EXAMPLE=function(){return{bizName:'Upstream Medicine (the lesson’s example)',concept:'A longevity program for members',rDate:iso(new Date()),ex:true,
+    claim:'Members already with us will pay extra, on top of membership, for a longevity program run by their own doctor.',deliver:false,level:'3',
+    parts:'A biomarker panel through our existing lab partner\nA diet-led review\nA fitness-led review, run jointly with a trainer we already refer to\nOne live online hour a month on a single longevity topic',
+    price:'$2,995 for the year',invited:'Twelve members, all past their first year with the practice',c1:true,c2:true,
+    nInv:'12',nYes:'8',nBar:'5',skipped:'Two of the eight never got all three people together for the fitness review and saw the trainer alone. Neither complained.',
+    assumed:'2',
+    lines:[{name:'Physician time per member: in the room, and preparation (reading a sixty-marker panel against fifteen years of history)',sort:'mult',vis:'3',prep:'2'},
+           {name:'Live online hour, once a month, one topic, everyone on the call (ninety days)',sort:'fixed',vis:'3',prep:''}],
+    bn:'The fitness review needs three people in a room at once: the member, a physician and the trainer.',
+    bnEv:'The diet review took an average of one and a half attempts to schedule. The fitness review took four. Two of the eight never got all three together.',
+    bnAns:'',bnHow:'',eventual:'400',fte:'2000',who:'4 physicians',
+    verdict:'The program works. What can’t be offered is the program at this shape, to this many people, with these four physicians. Four hundred members still need ordinary care, and there’s no fifth doctor.'}};
+  if(!state.lines){var f=fresh();Object.keys(f).forEach(function(k){if(state[k]==null)state[k]=f[k]})}
+  var lEl=document.getElementById('lines');
+  function lineHTML(l,i){
+    return '<div class="cline'+(l.sort==='fixed'?' fixed':'')+'" id="cl'+i+'"><input type="text" data-l="'+i+'" data-f="name" value="'+esc(l.name)+'" placeholder="e.g., Results review, in the room" aria-label="Line">'+
+      '<select data-l="'+i+'" data-f="sort" aria-label="Sort"><option value="mult"'+(l.sort==='mult'?' selected':'')+'>Multiplies: hours per customer</option><option value="fixed"'+(l.sort==='fixed'?' selected':'')+'>Doesn’t: hours for the whole group</option></select>'+
+      '<input type="text" inputmode="decimal" data-l="'+i+'" data-f="vis" value="'+esc(l.vis)+'" placeholder="Visible" aria-label="Visible hours">'+
+      '<input type="text" inputmode="decimal" data-l="'+i+'" data-f="prep" value="'+esc(l.prep)+'" placeholder="Prep" aria-label="Preparation hours">'+
+      '<button type="button" class="ibtn" data-ldel="'+i+'" aria-label="Remove">✕</button></div>';
+  }
+  function build(){lEl.innerHTML=state.lines.map(lineHTML).join('')}
+  function rebuild(){bindStatic();build()}
+  lEl.addEventListener('input',function(e){var el=e.target;if(el.dataset.l==null)return;var l=state.lines[+el.dataset.l];l[el.dataset.f]=el.value;if(el.dataset.f==='sort')document.getElementById('cl'+el.dataset.l).classList.toggle('fixed',el.value==='fixed');persist();render()});
+  lEl.addEventListener('click',function(e){var b=e.target.closest('[data-ldel]');if(!b)return;state.lines.splice(+b.dataset.ldel,1);build();persist();render()});
+  document.getElementById('addLine').addEventListener('click',function(){state.lines.push(line());build();persist();render()});
+  document.addEventListener('input',function(e){if(e.target.closest('#lines'))return;if(e.target.type==='checkbox'||e.target.type==='radio')return;onField(e)});
+  document.addEventListener('change',function(e){if(e.target.closest('#lines'))return;if(e.target.type==='checkbox'||e.target.type==='radio')onField(e)});
+
+  function totals(){var vis=0,prep=0,fix=0;state.lines.forEach(function(l){var v=num(l.vis)||0,p=num(l.prep)||0;if(l.sort==='fixed')fix+=v+p;else{vis+=v;prep+=p}});return{vis:vis,prep:prep,mult:vis+prep,fix:fix}}
+  function arith(){
+    var T=totals(),N=num(state.eventual),F=num(state.fte)||2000;
+    if(!T.mult||!N)return null;
+    var H=T.mult*N;return{per:T.mult,N:N,H:H,F:F,fte:H/F,fix:T.fix,yes:num(state.nYes)};
+  }
+  function render(){
+    var lv=+state.level||0;
+    for(var i=1;i<=4;i++){var l=document.getElementById('lv'+i);l.classList.toggle('on',lv===i);l.classList.toggle('below',!!state.deliver&&i<3)}
+    document.getElementById('floorNote').classList.toggle('hidden',!(state.deliver&&lv&&lv<3));
+    document.getElementById('l4Note').classList.toggle('hidden',lv!==4);
+    document.getElementById('exNote').classList.toggle('show',!!state.ex);
+    document.getElementById('lowCost').classList.toggle('hidden',lv>=3);
+    document.getElementById('highCost').classList.toggle('hidden',lv>0&&lv<3);
+    ['remove','design','price'].forEach(function(k){document.getElementById('an-'+k).classList.toggle('on',state.bnAns===k)});
+    var T=totals();
+    document.getElementById('vMult').textContent=fmt(T.mult)+' h';document.getElementById('vVis').textContent=fmt(T.vis);document.getElementById('vPrep').textContent=fmt(T.prep);document.getElementById('vFix').textContent=fmt(T.fix)+' h';
+    var hasPrep=state.lines.some(function(l){return l.sort==='mult'&&num(l.prep)});
+    document.getElementById('lineNote').textContent=T.mult&&!hasPrep?'No preparation hours logged. The preparation nobody sees is usually where the surprise is.':'';
+    var an=document.getElementById('assumeNote'),as=num(state.assumed);
+    if(as&&T.mult){an.textContent='You assumed '+fmt(as)+' hours per customer. It ran '+fmt(T.mult)+'.'+(T.mult>as?' That’s '+fmt(T.mult/as)+' times what you planned for.':'');an.className='note '+(T.mult>as*1.2?'alert':'good')}else an.className='note hidden';
+    var A=arith(),ar=document.getElementById('arith');
+    if(A){
+      var fx='';
+      if(A.fix){fx='<div class="fixline">The other pile: <b>'+fmt(A.fix)+' hours</b> for the whole group'+(A.yes?', '+fmt(A.fix/A.yes)+' h per customer at '+A.yes+' customers':'')+'. At '+A.N.toLocaleString()+' customers it’s still '+fmt(A.fix)+' hours: '+fmt(A.fix/A.N)+' h each. It gets cheaper as you grow.</div>'}
+      ar.innerHTML='<div class="k">The number most people never calculate</div><div class="eq">'+fmt(A.per)+' h × '+A.N.toLocaleString()+' customers = <em>'+Math.round(A.H).toLocaleString()+' hours</em></div>'+
+        '<p>That’s <b>'+fmt(A.fte)+' full-time '+(Math.abs(A.fte-1)<0.005?'person':'people')+'</b> at '+A.F.toLocaleString()+' hours a year, doing nothing else.'+(t(state.who)?' You have '+esc(state.who)+'.':'')+'</p>'+fx;
+    }else ar.innerHTML='<div class="k">The number most people never calculate</div><p>Log hours on at least one line that multiplies, and enter how many customers you’d eventually have.</p>';
+    var rec2=state.lines.some(function(l){return num(l.vis)||num(l.prep)}),rec1=!!(num(state.nYes)!=null&&t(state.nYes));
+    [['p1',!!(t(state.claim)&&lv&&!(state.deliver&&lv<3))],['p2',lv>=3?!!(t(state.price)&&state.c2):!!t(state.yesTime)&&lv>0],['p3',rec1&&rec2],['p4',!!A]].forEach(function(p){document.getElementById(p[0]).classList.toggle('done',p[1])});
+    document.getElementById('p3n').textContent=(rec1?1:0)+(rec2?1:0)+'/2';
+    // output
+    var biz=t(state.bizName),con=t(state.concept);document.getElementById('outTitle').textContent=(con||'Your prototype')+(biz?' · '+biz:'');
+    function put(id,v,e){var el=document.getElementById(id);el.textContent=v||e;el.classList.toggle('e',!v)}
+    put('oClaim',t(state.claim),'Not written yet.');
+    put('oLevel',lv?('Level '+lv+': '+['','A conversation','Something to look at','The real thing, by hand','The real thing, with systems'][lv]+'\n'+(lv>=3?(t(state.price)||'No price set'):(t(state.yesTime)||''))):'','Not chosen.');
+    put('oParts',t(state.parts).split(/\n+/).filter(Boolean).map(function(s){return '· '+s.trim()}).join('\n'),'Not listed.');
+    put('oRec1',[t(state.nInv)?'Invited: '+t(state.nInv):'',t(state.nYes)?'Paid: '+t(state.nYes):'',t(state.nBar)?'Bar set before: '+t(state.nBar):'',t(state.skipped)?'Skipped: '+t(state.skipped):''].filter(Boolean).join('\n'),'Not logged.');
+    put('oBn',(t(state.bn)?t(state.bn):'')+(state.bnAns?'\nAnswer: '+ANS[state.bnAns]+(t(state.bnHow)?'. '+t(state.bnHow):''):(t(state.bn)?'\nAnswer: not chosen yet.':'')),'Not named.');
+    var L=state.lines.filter(function(l){return t(l.name)||num(l.vis)||num(l.prep)});
+    document.getElementById('oLines').innerHTML=L.length?'<table class="otbl"><thead><tr><th>Line</th><th>Pile</th><th>Visible</th><th>Prep</th></tr></thead><tbody>'+L.map(function(l){return '<tr><td>'+esc(l.name)+'</td><td>'+(l.sort==='fixed'?'Doesn’t multiply':'Multiplies')+'</td><td>'+esc(l.vis)+'</td><td>'+esc(l.prep)+'</td></tr>'}).join('')+'</tbody></table>':'<p class="e">Not logged.</p>';
+    put('oPiles','Multiplies: '+fmt(T.mult)+' h per customer'+(as?' (assumed '+fmt(as)+')':'')+'\nDoesn’t: '+fmt(T.fix)+' h for the group','');
+    put('oArith',A?fmt(A.per)+' h × '+A.N.toLocaleString()+' = '+Math.round(A.H).toLocaleString()+' hours a year ≈ '+fmt(A.fte)+' full-time '+(Math.abs(A.fte-1)<0.005?'person':'people'):'','Fill in step four.');
+    document.getElementById('oArith').style.color=A?'#fff':'';
+    document.getElementById('oVerdict').textContent=t(state.verdict);
+  }
+  function hasData(){return !!(t(state.bizName)||t(state.claim)||state.level||state.lines.some(function(l){return t(l.name)||t(l.vis)}))}
+  function xlsx(){
+    var wb=XLSX.utils.book_new(),T=totals(),A=arith(),lv=+state.level||0;
+    var a=[['Two Weeks Out · Rapid Prototyping and User Testing'],['Business',state.bizName||''],['Concept',state.concept||''],['Date',state.rDate||''],[],
+      ['The claim',state.claim||''],['About whether we can deliver it',state.deliver?'Yes':'No'],['Level',lv?'Level '+lv:''],['What’s in the test',state.parts||''],[],
+      ['What the yes costs (levels 1–2)',state.yesTime||''],['Price (level 3+)',state.price||''],['Who’s invited',state.invited||''],['Full price',state.c1?'Yes':'No'],['Real outcome, not a trial version',state.c2?'Yes':'No'],['Not told it’s an experiment',state.c3?'Yes':'No'],['Decision to continue stays with us',state.c4?'Yes':'No'],['Same description and questions for everyone',state.same?'Yes':'No'],['Note-taker who isn’t selling',state.noter||''],[],
+      ['RECORD ONE · WHAT THEY DO'],['Invited',state.nInv||''],['Said yes and paid',state.nYes||''],['Bar set before',state.nBar||''],['Came back',state.back||''],['Asked for that we hadn’t offered',state.asked||''],['Quietly skipped',state.skipped||''],[],
+      ['Bottleneck',state.bn||''],['What the log shows',state.bnEv||''],['Answer chosen',ANS[state.bnAns]||''],['How',state.bnHow||''],[],['When they hesitated, asked what was behind it, then was quiet',state.t1?'Yes':'No'],['Didn’t explain away concerns',state.t2?'Yes':'No']];
+    XLSX.utils.book_append_sheet(wb,sheet(a,[40,100]),'Claim and records');
+    var b=[['RECORD TWO · WHAT IT COSTS'],['Hours per customer assumed',num(state.assumed)==null?'':num(state.assumed)],[],['Line','Pile','Visible hours','Preparation hours','Total']];
+    state.lines.forEach(function(l){var v=num(l.vis)||0,p=num(l.prep)||0;b.push([l.name||'',l.sort==='fixed'?'Doesn’t multiply (whole group)':'Multiplies (per customer)',num(l.vis)==null?'':v,num(l.prep)==null?'':p,v+p])});
+    b.push([],['Per customer, multiplies',T.mult],['Whole group, doesn’t multiply',T.fix],[],['THE ARITHMETIC'],['Customers you’d eventually have',A?A.N:''],['Hours a full-time person works a year',num(state.fte)||2000],['Total hours (per customer × customers)',A?Math.round(A.H):''],['Full-time people needed',A?Math.round(A.fte*100)/100:''],['Who delivers it',state.who||''],['What can and can’t be offered',state.verdict||'']);
+    XLSX.utils.book_append_sheet(wb,sheet(b,[44,30,14,16,10]),'Hours and arithmetic');
+    XLSX.writeFile(wb,fileName('Prototype','_Prototype'));
+  }
+  wire({hasData:hasData,example:EXAMPLE,fresh:fresh,rebuild:rebuild,xlsx:xlsx});
+  rebuild();render();
+})();
+</script>
+</body>
+</html>

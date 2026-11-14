@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>24-Month Financial Roadmap — Owner Worksheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --ink:#10131a;
+    --ink-2:#10131a;
+    --ink-soft:#59616e;
+    --ink-muted:#59616e;
+    --paper:#fbfaf6;
+    --paper-2:#e9ecf5;
+    --paper-3:#d5d9e4;
+    --rule:#9ba3af;
+    --rule-soft:#d5d9e4;
+
+    --indigo:#2c313c;
+    --indigo-2:#1b36c9;
+    --indigo-soft:#e9ecf5;
+    --copper:#2747f5;
+    --copper-soft:#d5d9e4;
+    --copper-2:#2747f5;
+
+    --phase-1:#d5d9e4;   /* validation — warm */
+    --phase-2:#e9ecf5;   /* traction — cool */
+    --phase-3:#d5d9e4;   /* durability — indigo-ish */
+
+    --good:#0d6b4c;
+    --warn:#7d5300;
+    --focus:#fff3cd;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    min-height: 100vh;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 60px 80px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 20px;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 56px;
+    line-height: 0.98;
+    margin: 0 0 12px;letter-spacing:-.03em;font-style:normal;}
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--indigo);
+  }
+  .tagline {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 64ch;
+    line-height: 1.5;
+  }
+  .meta {
+    text-align: right;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+  .meta strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- Phase legend strip ---------- */
+  .phase-strip {
+    display: grid;
+    grid-template-columns: 6fr 6fr 12fr;
+    border: 1px solid var(--ink);
+    margin-bottom: 36px;
+  }
+  .phase-cell {
+    padding: 10px 18px;
+    border-right: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .phase-cell:last-child { border-right: none; }
+  .phase-cell.p1 { background: var(--phase-1); }
+  .phase-cell.p2 { background: var(--phase-2); }
+  .phase-cell.p3 { background: var(--phase-3); }
+  .phase-range {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  .phase-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .phase-desc {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-left: auto;
+  }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 12px 18px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+  }
+  .btn {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--copper);border-color:#ffffff; }
+  .btn-excel { background: var(--indigo);border-color:#c9ced8; color: var(--paper); }
+  .btn-excel:hover { background: var(--indigo-2);border-color:#ffffff; }
+  .btn-ghost { border-color: var(--rule); color: var(--ink-soft); background: transparent; }
+  .toolbar-note {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-left: auto;
+  }
+
+  /* ---------- Section structure ---------- */
+  section.chapter { margin-bottom: 52px; }
+  .chapter-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .chapter-num {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--indigo);
+    padding: 4px 10px;
+    border: 1px solid var(--indigo);
+    border-radius:0;
+    align-self: center;
+  }
+  .chapter-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;
+    font-size: 28px;
+    margin: 0;letter-spacing:-.03em;
+    line-height: 1.15;font-style:normal;}
+  .chapter-caption {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+  .chapter-intro {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 72ch;
+    margin: -4px 0 24px;
+    line-height: 1.55;
+  }
+
+  /* ---------- Setup grid ---------- */
+  .setup-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--ink);
+  }
+  .setup-field {
+    padding: 18px 22px;
+    border-right: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .setup-field:last-child { border-right: none; }
+  .field-label {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+    margin: 0 0 4px;
+  }
+  .field-hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin: 0 0 10px;
+    line-height: 1.4;
+  }
+  .field-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--ink);
+    background: transparent;
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 20px;font-weight:800;
+    color: var(--ink);
+    padding: 4px 0;
+    outline: none;letter-spacing:-.03em;font-style:normal;}
+  .field-input:focus { background: var(--focus); }
+  .field-input::placeholder { color: var(--ink-muted); font-style: italic; font-weight: 400; opacity: 0.7; }
+  .field-suffix {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-left: 4px;
+  }
+
+  /* ---------- Offers table ---------- */
+  .offers-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+  .offers-table thead th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 12px 14px;
+    text-align: left;
+    border-right: 1px solid #10131a;
+  }
+  .offers-table thead th:last-child { border-right: none; }
+  .offers-table thead th.num { text-align: right; }
+  .offers-table tbody tr { border-bottom: 1px solid var(--rule-soft); }
+  .offers-table tbody tr:last-child { border-bottom: none; }
+  .offers-table td {
+    padding: 0;
+    border-right: 1px solid var(--rule-soft);
+    vertical-align: middle;
+  }
+  .offers-table td:last-child { border-right: none; }
+  .offers-table input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 12px 14px;
+    outline: none;
+  }
+  .offers-table td.num input {
+    text-align: right;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 13px;
+  }
+  .offers-table input:focus { background: var(--focus); }
+  .offers-table input::placeholder { color: var(--ink-muted); font-style: italic; opacity: 0.6; }
+  .offer-starting-revenue {
+    padding: 12px 14px;
+    text-align: right;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--indigo);
+    background: var(--indigo-soft);
+  }
+  .delete-offer {
+    background: none; border: none;
+    color: var(--ink-muted);
+    cursor: pointer;
+    padding: 12px;
+    font-size: 16px;
+    opacity: 0;
+    line-height: 1;
+  }
+  .offers-table tr:hover .delete-offer { opacity: 1; }
+  .delete-offer:hover { color: var(--warn); }
+
+  .add-offer-row {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+  }
+  .add-offer-row .summary {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .add-offer-row .summary strong {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 18px;
+    color: var(--indigo);
+    margin-left: 8px;
+    font-weight: 500;
+  }
+
+  /* ---------- Roadmap grid (24-month) ---------- */
+  .roadmap-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+  .roadmap-wrap::-webkit-scrollbar { height: 10px; }
+  .roadmap-wrap::-webkit-scrollbar-track { background: var(--paper-2); }
+  .roadmap-wrap::-webkit-scrollbar-thumb { background: var(--ink-muted); }
+
+  table.roadmap {
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    min-width: 1900px;
+  }
+  table.roadmap thead th {
+    position: sticky; top: 0; z-index: 2;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 6px;
+    text-align: right;
+    border-right: 1px solid #10131a;
+    white-space: nowrap;
+    min-width: 72px;
+  }
+  table.roadmap thead th:first-child {
+    text-align: left;
+    min-width: 240px;
+    padding-left: 16px;
+    position: sticky; left: 0; z-index: 3;
+    background: var(--ink);
+  }
+  table.roadmap thead th .m-num {
+    display: block;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--paper);
+  }
+  table.roadmap thead th .m-phase {
+    display: block;
+    height: 3px;
+    margin-top: 4px;
+  }
+  table.roadmap thead th.phase-1 .m-phase { background: var(--phase-1); }
+  table.roadmap thead th.phase-2 .m-phase { background: var(--phase-2); }
+  table.roadmap thead th.phase-3 .m-phase { background: var(--phase-3); }
+
+  table.roadmap tbody tr { border-bottom: 1px solid var(--rule-soft); }
+  table.roadmap tbody td {
+    padding: 0;
+    border-right: 1px solid var(--rule-soft);
+    text-align: right;
+    vertical-align: middle;
+    min-width: 72px;
+  }
+  table.roadmap tbody td:first-child {
+    padding: 10px 14px;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    color: var(--ink);
+    text-align: left;
+    background: var(--paper-2);
+    border-right: 1px solid var(--rule);
+    position: sticky; left: 0; z-index: 1;
+    white-space: nowrap;
+  }
+  table.roadmap tbody td input,
+  table.roadmap tbody td select {
+    border: none;
+    background: transparent;
+    width: 100%;
+    padding: 7px 6px;
+    text-align: right;
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 11px;
+    color: var(--ink);
+    outline: none;
+  }
+  table.roadmap tbody td select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 6px;
+    cursor: pointer;
+    color: var(--copper);
+    font-weight: 600;
+    text-align: center;
+  }
+  table.roadmap tbody td select:hover { background: var(--copper-soft); }
+  table.roadmap tbody td input:focus,
+  table.roadmap tbody td select:focus { background: var(--focus); }
+
+  /* Section headers inside the roadmap */
+  table.roadmap tbody tr.offer-header td {
+    background: var(--indigo-soft) !important;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--indigo-2);
+    padding: 8px 14px;
+    letter-spacing: -0.01em;
+    border-top: 1px solid var(--indigo);
+    border-bottom: 1px solid var(--indigo);
+  }
+  table.roadmap tbody tr.offer-header td:first-child {
+    background: var(--indigo-soft) !important;
+    position: sticky; left: 0; z-index: 1;
+  }
+
+  /* Row types */
+  table.roadmap .row-customers td,
+  table.roadmap .row-units td {
+    color: var(--ink-2);
+  }
+  table.roadmap .row-pipeline td {
+    background: #e9ecf5;
+    font-weight: 500;
+  }
+  table.roadmap .row-pipeline td:first-child {
+    background: #d5d9e4 !important;
+    font-weight: 500;
+  }
+  table.roadmap .row-close td { color: var(--copper-2); }
+  table.roadmap .row-weighted td {
+    background: #e9ecf5;
+    font-weight: 600;
+    color: var(--good);
+  }
+  table.roadmap .row-weighted td:first-child {
+    background: #d5d9e4 !important;
+    color: var(--good);
+    font-weight: 600;
+  }
+
+  /* Totals rows (aggregate across offers) */
+  table.roadmap tbody tr.total-row td {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px;
+  }
+  table.roadmap tbody tr.total-row td:first-child {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-right: 1px solid #10131a;
+    position: sticky; left: 0; z-index: 1;
+  }
+  table.roadmap tbody tr.total-row.weighted td {
+    background: var(--copper);
+    color: #ffffff;
+  }
+  table.roadmap tbody tr.total-row.weighted td:first-child {
+    background: var(--copper);
+    color: #ffffff;
+  }
+
+  /* ---------- Summary tally ---------- */
+  .tally {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--ink);
+    margin-top: 24px;
+    background: var(--paper);
+  }
+  .tally-cell {
+    padding: 18px 22px;
+    border-right: 1px solid var(--rule);
+    text-align: left;
+  }
+  .tally-cell:last-child { border-right: none; }
+  .tally-label {
+    font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+    margin: 0 0 6px;
+  }
+  .tally-value {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 28px;font-weight:800;
+    color: var(--ink);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .tally-value.indigo { color: var(--indigo); }
+  .tally-value.copper { color: var(--copper); }
+  .tally-suffix {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+  }
+
+  /* ---------- Critical assumptions ---------- */
+  .assumptions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .assumption-card {
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .assumption-head {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .assumption-head .num {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 22px;
+    color: var(--copper-soft);
+    font-weight: 400;
+    line-height: 1;
+  }
+  .assumption-head .prompt {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  .assumption-body { padding: 16px 20px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .assumption-hint {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin: 0 0 4px;
+    line-height: 1.5;
+  }
+  .assumption-input {
+    border: none;
+    border-bottom: 1.5px solid var(--ink);
+    background: transparent;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    padding: 6px 0;
+    outline: none;
+    width: 100%;
+  }
+  .assumption-input:focus { background: var(--focus); }
+  .assumption-input::placeholder { color: var(--ink-muted); font-style: italic; font-weight: 400; opacity: 0.65; }
+  .assumption-notes {
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    padding: 10px 12px;
+    resize: vertical;
+    min-height: 70px;
+    outline: none;
+  }
+  .assumption-notes:focus { background: var(--focus); border-color: var(--ink); }
+  .assumption-notes::placeholder { color: var(--ink-muted); font-style: italic; opacity: 0.65; }
+
+  /* ---------- Print ---------- */
+  @media print {
+    @page { size: letter landscape; margin: 0.4in; }
+    body { background: white; }
+    .page { padding: 0; max-width: none; }
+    .toolbar { display: none !important; }
+    .delete-offer { display: none !important; }
+    .masthead { margin-bottom: 12px; padding-bottom: 12px; }
+    h1 { font-size: 30px; }
+    .tagline { font-size: 11px; }
+    .phase-strip { margin-bottom: 18px; }
+    .phase-cell { padding: 6px 12px; gap: 8px; }
+    .phase-range { font-size: 9px; }
+    .phase-label { font-size: 11px; }
+    .phase-desc { font-size: 10px; }
+    section.chapter { margin-bottom: 18px; page-break-inside: avoid; }
+    .chapter-title { font-size: 18px; }
+    .chapter-intro { font-size: 11px; margin-bottom: 12px; }
+    .setup-grid { grid-template-columns: 1.2fr 1fr 1fr 1fr; }
+    .setup-field { padding: 8px 12px; }
+    .field-input { font-size: 13px; }
+    .offers-table { font-size: 11px; }
+    .offers-table input { padding: 6px 10px; font-size: 11px; }
+    .offers-table td.num input { font-size: 11px; }
+    .roadmap-wrap { overflow: visible; border: 1px solid black; }
+    table.roadmap { font-size: 8px; min-width: 0; width: 100%; }
+    table.roadmap thead th { padding: 4px 3px; font-size: 7px; min-width: 0; }
+    table.roadmap thead th .m-num { font-size: 9px; }
+    table.roadmap thead th:first-child { min-width: 150px; }
+    table.roadmap tbody td:first-child { padding: 4px 8px; font-size: 9px; white-space: normal; }
+    table.roadmap tbody td input,
+    table.roadmap tbody td select { padding: 3px 3px; font-size: 8px; }
+    table.roadmap tbody tr.offer-header td { font-size: 10px; padding: 4px 8px; }
+    table.roadmap tbody tr.total-row td { padding: 4px; font-size: 9px; }
+    .tally { margin-top: 14px; }
+    .tally-cell { padding: 10px 12px; }
+    .tally-value { font-size: 18px; }
+    .tally-suffix { font-size: 10px; }
+    .assumptions-grid { gap: 10px; }
+    .assumption-head { padding: 6px 12px; }
+    .assumption-head .num { font-size: 16px; }
+    .assumption-head .prompt { font-size: 11px; }
+    .assumption-body { padding: 10px 12px; }
+    .assumption-hint { font-size: 10px; }
+    .assumption-input { font-size: 13px; }
+    .assumption-notes { min-height: 40px; font-size: 10px; padding: 6px 8px; }
+    input, textarea, select {
+      background: transparent !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .phase-cell, .assumption-head, table.roadmap thead th, table.roadmap tbody tr.total-row td,
+    table.roadmap tbody tr.offer-header td, table.roadmap .row-pipeline td,
+    table.roadmap .row-weighted td, .tally, .chapter-num, .offer-starting-revenue {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .page { padding: 24px; }
+    h1 { font-size: 36px; }
+    .masthead { grid-template-columns: 1fr; }
+    .meta { text-align: left; }
+    .phase-strip { grid-template-columns: 1fr; }
+    .phase-cell { border-right: none; border-bottom: 1px solid var(--ink); }
+    .phase-cell:last-child { border-bottom: none; }
+    .setup-grid { grid-template-columns: 1fr; }
+    .setup-field { border-right: none; border-bottom: 1px solid var(--rule); }
+    .setup-field:last-child { border-bottom: none; }
+    .tally { grid-template-columns: 1fr 1fr; }
+    .tally-cell:nth-child(2) { border-right: none; }
+    .tally-cell:nth-child(1), .tally-cell:nth-child(2) { border-bottom: 1px solid var(--rule); }
+    .assumptions-grid { grid-template-columns: 1fr; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#3CCB7F;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">02 / Know Your Numbers</span></div>
+<div class="page">
+
+  <div class="masthead">
+    <div>
+      <p class="eyebrow">Two Weeks Out Playbook</p>
+      <h1>24-Month Financial <em>Roadmap</em></h1>
+      <p class="tagline">Not a spreadsheet to show a bank. A thinking tool that tells you how many customers you need, at what price, and by when — built from your actual offer, not a template.</p>
+    </div>
+    <div class="meta">
+      <div>Company <strong id="companyMeta">—</strong></div>
+      <div>Built <strong id="reviewedMeta">—</strong></div>
+      <div>Horizon <strong>24 months</strong></div>
+    </div>
+  </div>
+
+  <!-- Phase legend strip -->
+  <div class="phase-strip">
+    <div class="phase-cell p1">
+      <span class="phase-range">M1–M6</span>
+      <span class="phase-label">Validation</span>
+      <span class="phase-desc">Signal over revenue. Can you close the first one?</span>
+    </div>
+    <div class="phase-cell p2">
+      <span class="phase-range">M7–M12</span>
+      <span class="phase-label">Traction</span>
+      <span class="phase-desc">Pattern emerges. Reference clients. Predictable.</span>
+    </div>
+    <div class="phase-cell p3">
+      <span class="phase-range">M13–M24</span>
+      <span class="phase-label">Durability</span>
+      <span class="phase-desc">Does the math work with real costs and owner draw?</span>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn btn-excel" onclick="exportExcel()">Download to Excel</button>
+    <button class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
+    <button class="btn btn-ghost" onclick="if(confirm('Clear all entries?')) clearAll()">Clear All</button>
+    <span class="toolbar-note">Don't optimize it. Get a first version on paper.</span>
+  </div>
+
+  <!-- Section 0: Setup -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">00</span>
+      <h2 class="chapter-title">Setup</h2>
+      <span class="chapter-caption">Company · start date · growth assumption</span>
+    </div>
+    <div class="setup-grid">
+      <div class="setup-field">
+        <p class="field-label">Company</p>
+        <p class="field-hint">As it appears on your plan.</p>
+        <input class="field-input" type="text" id="company" placeholder="Company name" />
+      </div>
+      <div class="setup-field">
+        <p class="field-label">Month 1 Start</p>
+        <p class="field-hint">First month of the roadmap.</p>
+        <input class="field-input" type="month" id="startMonth" />
+      </div>
+      <div class="setup-field">
+        <p class="field-label">Monthly Growth Rate</p>
+        <p class="field-hint">Applied to customer counts starting in Month 2. Compounds monthly.</p>
+        <input class="field-input" type="number" id="growthRate" placeholder="10" step="0.5" min="0" max="100" value="10" />
+        <span class="field-suffix">% per month</span>
+      </div>
+      <div class="setup-field">
+        <p class="field-label">Default Close Likelihood</p>
+        <p class="field-hint">Applied to all months as a starting point — adjust per month in the grid.</p>
+        <select class="field-input" id="defaultClose" style="font-family: 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace; font-size: 18px;">
+          <option value="10">10%</option>
+          <option value="25">25%</option>
+          <option value="50" selected>50%</option>
+          <option value="75">75%</option>
+          <option value="100">100%</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: Offers -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">01</span>
+      <h2 class="chapter-title">Your Offers</h2>
+      <span class="chapter-caption">Offer · price · starting customers · units per customer</span>
+    </div>
+    <p class="chapter-intro">Three things — your offer, your target customer, and your price. One sentence each. This is the foundation everything else stands on. If you need more than one row, you have more than one offer.</p>
+
+    <table class="offers-table" id="offersTable">
+      <thead>
+        <tr>
+          <th style="width: 26%">Offer Name</th>
+          <th class="num" style="width: 14%">Price per Unit</th>
+          <th class="num" style="width: 14%">Starting Customer Pipeline</th>
+          <th class="num" style="width: 14%">Units / Customer / Month</th>
+          <th class="num" style="width: 18%">Starting Monthly Pipeline</th>
+          <th style="width: 40px"></th>
+        </tr>
+      </thead>
+      <tbody id="offersBody"></tbody>
+    </table>
+    <div class="add-offer-row">
+      <button class="btn btn-ghost" onclick="addOffer()">+ Add offer</button>
+      <div class="summary">Month 1 Revenue (all offers): <strong id="offersTotal">$0</strong></div>
+    </div>
+  </section>
+
+  <!-- Section 2: Roadmap grid -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">02</span>
+      <h2 class="chapter-title">The 24-Month Roadmap</h2>
+      <span class="chapter-caption">Pipeline · close likelihood · weighted revenue</span>
+    </div>
+    <p class="chapter-intro">Customer counts grow from your starting figures by the monthly rate you set above, applied starting in Month 2. Pipeline = customers × units × price. Adjust close likelihood per month to reflect what you actually believe — your sales cycle is almost certainly longer than you think.</p>
+
+    <div class="roadmap-wrap">
+      <table class="roadmap" id="roadmapTable">
+        <thead>
+          <tr id="roadmapHeader"></tr>
+        </thead>
+        <tbody id="roadmapBody"></tbody>
+      </table>
+    </div>
+
+    <div class="tally">
+      <div class="tally-cell">
+        <p class="tally-label">Total Pipeline · 24 mo</p>
+        <div class="tally-value indigo" id="tallyPipeline">$0</div>
+        <div class="tally-suffix">unweighted gross</div>
+      </div>
+      <div class="tally-cell">
+        <p class="tally-label">Weighted Revenue · 24 mo</p>
+        <div class="tally-value copper" id="tallyWeighted">$0</div>
+        <div class="tally-suffix">close-probability adjusted</div>
+      </div>
+      <div class="tally-cell">
+        <p class="tally-label">Month 12 Weighted</p>
+        <div class="tally-value" id="tallyM12">$0</div>
+        <div class="tally-suffix">what does month 12 look like?</div>
+      </div>
+      <div class="tally-cell">
+        <p class="tally-label">Month 24 Weighted</p>
+        <div class="tally-value" id="tallyM24">$0</div>
+        <div class="tally-suffix">durability check</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Critical assumptions -->
+  <section class="chapter">
+    <div class="chapter-head">
+      <span class="chapter-num">03</span>
+      <h2 class="chapter-title">The Three Critical Assumptions</h2>
+      <span class="chapter-caption">Name them before the math buries them</span>
+    </div>
+    <p class="chapter-intro">Every projection rests on two or three core assumptions. Everything else is math. Name them explicitly. If any one breaks, the model breaks — so you need to know which numbers you're most exposed on.</p>
+
+    <div class="assumptions-grid">
+      <div class="assumption-card">
+        <div class="assumption-head">
+          <span class="num">01</span>
+          <span class="prompt">New Customers per Month by M6</span>
+        </div>
+        <div class="assumption-body">
+          <p class="assumption-hint">The number. Then ask honestly: can your pipeline and network produce this?</p>
+          <input class="assumption-input" type="text" id="a1" placeholder="e.g. 4 new customers / month" />
+          <textarea class="assumption-notes" id="a1_notes" placeholder="What needs to be true for this to happen? Where will these customers come from?"></textarea>
+        </div>
+      </div>
+
+      <div class="assumption-card">
+        <div class="assumption-head">
+          <span class="num">02</span>
+          <span class="prompt">Average Revenue per Customer</span>
+        </div>
+        <div class="assumption-body">
+          <p class="assumption-hint">Are you modeling the high end of what the market will pay? If so, your model is fragile.</p>
+          <input class="assumption-input" type="text" id="a2" placeholder="e.g. $4,500 / month per retainer client" />
+          <textarea class="assumption-notes" id="a2_notes" placeholder="Which end of your pricing range are you working from, and why?"></textarea>
+        </div>
+      </div>
+
+      <div class="assumption-card">
+        <div class="assumption-head">
+          <span class="num">03</span>
+          <span class="prompt">Sales Cycle Length</span>
+        </div>
+        <div class="assumption-body">
+          <p class="assumption-hint">The assumption that bites hardest. If you assume two weeks and actual is eight, your cash timing is off by months.</p>
+          <input class="assumption-input" type="text" id="a3" placeholder="e.g. 6 weeks from first conversation to signed" />
+          <textarea class="assumption-notes" id="a3_notes" placeholder="Evidence for this number — past deals, comparable sales, conversations?"></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // ---------------- Constants ----------------
+  const MONTHS = 24;
+  const CLOSE_OPTIONS = [10, 25, 50, 75, 100];
+  const DEFAULT_OFFERS = [
+    { name: "Offer 1", price: "", customers: "", units: "1" },
+  ];
+
+  function phaseFor(m) {
+    // m is 1-based month
+    if (m <= 6) return 1;
+    if (m <= 12) return 2;
+    return 3;
+  }
+
+  // ---------------- State ----------------
+  let state = {
+    company: "",
+    startMonth: "",
+    growthRate: 10,
+    defaultClose: 50,
+    offers: DEFAULT_OFFERS.map(o => ({ ...o })),
+    // Per-offer, per-month close likelihoods: {offerIdx: {monthIdx: value}}
+    closeLikelihoods: {},
+    a1: "", a1_notes: "",
+    a2: "", a2_notes: "",
+    a3: "", a3_notes: "",
+  };
+
+  // ---------------- Utilities ----------------
+  function escapeHtml(s) {
+    return String(s || "").replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+  function parseNum(v) {
+    if (v === "" || v == null) return 0;
+    const n = parseFloat(String(v).replace(/[$,\s]/g, ""));
+    return isNaN(n) ? 0 : n;
+  }
+  function fmt(n, dash = "$0") {
+    if (n === 0 || !isFinite(n)) return dash;
+    const sign = n < 0 ? "-" : "";
+    return sign + "$" + Math.round(Math.abs(n)).toLocaleString();
+  }
+  function fmtCompact(n) {
+    if (!isFinite(n) || n === 0) return "$0";
+    const sign = n < 0 ? "-" : "";
+    const abs = Math.abs(n);
+    if (abs >= 1000000) return sign + "$" + (abs / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
+    if (abs >= 1000) return sign + "$" + (abs / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+    return sign + "$" + Math.round(abs).toLocaleString();
+  }
+  function fmtNum(n) {
+    if (!isFinite(n) || n === 0) return "—";
+    return Math.round(n).toLocaleString();
+  }
+  function monthLabel(startMonthStr, m) {
+    // m is 1-based
+    if (!startMonthStr) return "";
+    const parts = startMonthStr.split("-");
+    if (parts.length < 2) return "";
+    const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1 + (m - 1), 1);
+    if (isNaN(d)) return "";
+    return d.toLocaleString("en-US", { month: "short", year: "2-digit" });
+  }
+
+  // ---------------- Offers table ----------------
+  function renderOffers() {
+    const tbody = document.getElementById("offersBody");
+    tbody.innerHTML = "";
+    state.offers.forEach((o, idx) => {
+      const price = parseNum(o.price);
+      const customers = parseNum(o.customers);
+      const units = parseNum(o.units);
+      const startingRev = price * customers * units;
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input type="text" value="${escapeHtml(o.name)}" data-offer-idx="${idx}" data-field="name" placeholder="e.g. Retainer · Strategy consulting" /></td>
+        <td class="num"><input type="number" value="${escapeHtml(o.price)}" data-offer-idx="${idx}" data-field="price" placeholder="0" step="50" /></td>
+        <td class="num"><input type="number" value="${escapeHtml(o.customers)}" data-offer-idx="${idx}" data-field="customers" placeholder="0" step="1" /></td>
+        <td class="num"><input type="number" value="${escapeHtml(o.units)}" data-offer-idx="${idx}" data-field="units" placeholder="1" step="0.5" /></td>
+        <td class="offer-starting-revenue">${fmt(startingRev, "$0")}</td>
+        <td><button class="delete-offer" data-delete-offer="${idx}" title="Remove offer">×</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // ---------------- Roadmap grid ----------------
+  function renderRoadmapHeader() {
+    const row = document.getElementById("roadmapHeader");
+    row.innerHTML = '<th>Line Item</th>';
+    for (let m = 1; m <= MONTHS; m++) {
+      const th = document.createElement("th");
+      th.className = `phase-${phaseFor(m)}`;
+      th.innerHTML = `<span class="m-num">M${m}</span><span class="m-sub" style="font-size:8px;color:rgba(233,236,245,0.55);font-weight:400;letter-spacing:0.05em;">${monthLabel(state.startMonth, m) || '\u00A0'}</span><span class="m-phase"></span>`;
+      row.appendChild(th);
+    }
+  }
+
+  function computeMonth(offer, m) {
+    // Apply compound growth starting at month 2
+    const growthFactor = 1 + (parseNum(state.growthRate) / 100);
+    const startingCustomers = parseNum(offer.customers);
+    const customers = startingCustomers * Math.pow(growthFactor, m - 1);
+    const units = parseNum(offer.units);
+    const price = parseNum(offer.price);
+    const pipelineUnits = customers * units;
+    const pipeline = pipelineUnits * price;
+    return { customers, pipelineUnits, pipeline };
+  }
+
+  function getCloseFor(offerIdx, monthIdx) {
+    // 0-based offerIdx, 0-based monthIdx
+    if (state.closeLikelihoods[offerIdx] && state.closeLikelihoods[offerIdx][monthIdx] != null) {
+      return state.closeLikelihoods[offerIdx][monthIdx];
+    }
+    return parseNum(state.defaultClose);
+  }
+
+  function renderRoadmapBody() {
+    const tbody = document.getElementById("roadmapBody");
+    tbody.innerHTML = "";
+
+    // For each offer: 5 rows (customers, pipeline units, pipeline $, close %, weighted $)
+    state.offers.forEach((offer, offerIdx) => {
+      // Offer header row: sticky first cell with offer name + merged second cell describing price/units
+      const head = document.createElement("tr");
+      head.className = "offer-header";
+      const price = Math.round(parseNum(offer.price)).toLocaleString();
+      const units = parseNum(offer.units) || 0;
+      head.innerHTML = `<td>${escapeHtml(offer.name || `Offer ${offerIdx + 1}`)}</td>` +
+        `<td colspan="${MONTHS}" style="text-align:left;padding-left:14px;font-family:'Inter',serif;font-style:italic;font-size:12px;color:var(--ink-2);">$${price}/unit · ${units} units per customer per month</td>`;
+      tbody.appendChild(head);
+
+      // Customers row
+      const custRow = document.createElement("tr");
+      custRow.className = "row-customers";
+      custRow.innerHTML = `<td>↳ Customer Pipeline</td>` + Array.from({ length: MONTHS }, (_, i) => {
+        const { customers } = computeMonth(offer, i + 1);
+        return `<td id="cust-${offerIdx}-${i}">${fmtNum(customers)}</td>`;
+      }).join("");
+      tbody.appendChild(custRow);
+
+      // Pipeline units row
+      const unitRow = document.createElement("tr");
+      unitRow.className = "row-units";
+      unitRow.innerHTML = `<td>↳ Pipeline Units</td>` + Array.from({ length: MONTHS }, (_, i) => {
+        const { pipelineUnits } = computeMonth(offer, i + 1);
+        return `<td id="pu-${offerIdx}-${i}">${fmtNum(pipelineUnits)}</td>`;
+      }).join("");
+      tbody.appendChild(unitRow);
+
+      // Pipeline $ row
+      const pipeRow = document.createElement("tr");
+      pipeRow.className = "row-pipeline";
+      pipeRow.innerHTML = `<td>↳ Pipeline $</td>` + Array.from({ length: MONTHS }, (_, i) => {
+        const { pipeline } = computeMonth(offer, i + 1);
+        return `<td id="pipe-${offerIdx}-${i}">${fmtCompact(pipeline)}</td>`;
+      }).join("");
+      tbody.appendChild(pipeRow);
+
+      // Close % row (dropdowns)
+      const closeRow = document.createElement("tr");
+      closeRow.className = "row-close";
+      closeRow.innerHTML = `<td>↳ Close Likelihood</td>` + Array.from({ length: MONTHS }, (_, i) => {
+        const val = getCloseFor(offerIdx, i);
+        const options = CLOSE_OPTIONS.map(v =>
+          `<option value="${v}"${v === val ? " selected" : ""}>${v}%</option>`
+        ).join("");
+        return `<td><select data-close-offer="${offerIdx}" data-close-month="${i}">${options}</select></td>`;
+      }).join("");
+      tbody.appendChild(closeRow);
+
+      // Weighted row
+      const wRow = document.createElement("tr");
+      wRow.className = "row-weighted";
+      wRow.innerHTML = `<td>↳ Weighted Revenue</td>` + Array.from({ length: MONTHS }, (_, i) => {
+        const { pipeline } = computeMonth(offer, i + 1);
+        const weighted = pipeline * (getCloseFor(offerIdx, i) / 100);
+        return `<td id="w-${offerIdx}-${i}">${fmtCompact(weighted)}</td>`;
+      }).join("");
+      tbody.appendChild(wRow);
+    });
+
+    // Aggregate total rows across all offers
+    const totalPipeRow = document.createElement("tr");
+    totalPipeRow.className = "total-row";
+    totalPipeRow.innerHTML = `<td>TOTAL PIPELINE</td>` + Array.from({ length: MONTHS }, (_, i) => {
+      let t = 0;
+      state.offers.forEach(o => { t += computeMonth(o, i + 1).pipeline; });
+      return `<td id="totalPipe-${i}">${fmtCompact(t)}</td>`;
+    }).join("");
+    tbody.appendChild(totalPipeRow);
+
+    const totalWRow = document.createElement("tr");
+    totalWRow.className = "total-row weighted";
+    totalWRow.innerHTML = `<td>TOTAL WEIGHTED REVENUE</td>` + Array.from({ length: MONTHS }, (_, i) => {
+      let t = 0;
+      state.offers.forEach((o, idx) => {
+        const { pipeline } = computeMonth(o, i + 1);
+        t += pipeline * (getCloseFor(idx, i) / 100);
+      });
+      return `<td id="totalW-${i}">${fmtCompact(t)}</td>`;
+    }).join("");
+    tbody.appendChild(totalWRow);
+
+    updateTally();
+  }
+
+  function updateTally() {
+    let totalPipe = 0, totalW = 0, m12W = 0, m24W = 0;
+    let offersMonth1Rev = 0;
+    state.offers.forEach((o, idx) => {
+      const p = parseNum(o.price);
+      const c = parseNum(o.customers);
+      const u = parseNum(o.units);
+      offersMonth1Rev += p * c * u;
+      for (let m = 1; m <= MONTHS; m++) {
+        const { pipeline } = computeMonth(o, m);
+        const w = pipeline * (getCloseFor(idx, m - 1) / 100);
+        totalPipe += pipeline;
+        totalW += w;
+        if (m === 12) m12W += w;
+        if (m === 24) m24W += w;
+      }
+    });
+    document.getElementById("offersTotal").textContent = fmt(offersMonth1Rev, "$0");
+    document.getElementById("tallyPipeline").textContent = fmtCompact(totalPipe);
+    document.getElementById("tallyWeighted").textContent = fmtCompact(totalW);
+    document.getElementById("tallyM12").textContent = fmtCompact(m12W);
+    document.getElementById("tallyM24").textContent = fmtCompact(m24W);
+  }
+
+  function recalcAll() {
+    // Fast path: just update numeric cells without re-rendering dropdowns
+    state.offers.forEach((offer, offerIdx) => {
+      for (let i = 0; i < MONTHS; i++) {
+        const { customers, pipelineUnits, pipeline } = computeMonth(offer, i + 1);
+        setText(`cust-${offerIdx}-${i}`, fmtNum(customers));
+        setText(`pu-${offerIdx}-${i}`, fmtNum(pipelineUnits));
+        setText(`pipe-${offerIdx}-${i}`, fmtCompact(pipeline));
+        const weighted = pipeline * (getCloseFor(offerIdx, i) / 100);
+        setText(`w-${offerIdx}-${i}`, fmtCompact(weighted));
+      }
+    });
+    for (let i = 0; i < MONTHS; i++) {
+      let tp = 0, tw = 0;
+      state.offers.forEach((o, idx) => {
+        const { pipeline } = computeMonth(o, i + 1);
+        tp += pipeline;
+        tw += pipeline * (getCloseFor(idx, i) / 100);
+      });
+      setText(`totalPipe-${i}`, fmtCompact(tp));
+      setText(`totalW-${i}`, fmtCompact(tw));
+    }
+    updateTally();
+  }
+
+  function setText(id, v) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = v;
+  }
+
+  // ---------------- Events ----------------
+  document.addEventListener("input", (e) => {
+    const t = e.target;
+
+    // Top-level fields
+    if (t.id === "company") { state.company = t.value; updateMeta(); return; }
+    if (t.id === "startMonth") { state.startMonth = t.value; renderRoadmapHeader(); return; }
+    if (t.id === "growthRate") { state.growthRate = t.value; recalcAll(); return; }
+    if (t.id === "a1" || t.id === "a1_notes" || t.id === "a2" || t.id === "a2_notes" ||
+        t.id === "a3" || t.id === "a3_notes") {
+      state[t.id] = t.value;
+      return;
+    }
+
+    // Offer inputs
+    if (t.dataset && t.dataset.offerIdx != null) {
+      const idx = parseInt(t.dataset.offerIdx, 10);
+      state.offers[idx][t.dataset.field] = t.value;
+      // Recompute: offer name change → re-render offer header row; numeric → recalc
+      if (t.dataset.field === "name") {
+        // Just re-render roadmap so offer header text updates; offers table starting rev is handled below
+        renderRoadmapBody();
+      } else {
+        // Update offer starting revenue cell + roadmap numbers
+        const offer = state.offers[idx];
+        const startingRev = parseNum(offer.price) * parseNum(offer.customers) * parseNum(offer.units);
+        const row = t.closest("tr");
+        const revCell = row ? row.querySelector(".offer-starting-revenue") : null;
+        if (revCell) revCell.textContent = fmt(startingRev, "$0");
+        recalcAll();
+      }
+      return;
+    }
+  });
+
+  document.addEventListener("change", (e) => {
+    const t = e.target;
+
+    if (t.id === "defaultClose") {
+      state.defaultClose = t.value;
+      // Apply default to any month that doesn't have a per-cell override only if user wants? 
+      // For simplicity: treat as the fallback for untouched cells. No automatic overwrite.
+      // But we should re-render dropdowns since getCloseFor reads the default.
+      renderRoadmapBody();
+      return;
+    }
+
+    if (t.tagName === "SELECT" && t.dataset && t.dataset.closeOffer != null) {
+      const offerIdx = parseInt(t.dataset.closeOffer, 10);
+      const monthIdx = parseInt(t.dataset.closeMonth, 10);
+      if (!state.closeLikelihoods[offerIdx]) state.closeLikelihoods[offerIdx] = {};
+      state.closeLikelihoods[offerIdx][monthIdx] = parseInt(t.value, 10);
+      recalcAll();
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (e.target.dataset && e.target.dataset.deleteOffer != null) {
+      const idx = parseInt(e.target.dataset.deleteOffer, 10);
+      if (state.offers.length <= 1) { alert("Keep at least one offer."); return; }
+      state.offers.splice(idx, 1);
+      // Also shift the close likelihoods map
+      const newMap = {};
+      Object.keys(state.closeLikelihoods).forEach(k => {
+        const oldIdx = parseInt(k, 10);
+        if (oldIdx < idx) newMap[oldIdx] = state.closeLikelihoods[oldIdx];
+        else if (oldIdx > idx) newMap[oldIdx - 1] = state.closeLikelihoods[oldIdx];
+      });
+      state.closeLikelihoods = newMap;
+      renderOffers();
+      renderRoadmapBody();
+    }
+  });
+
+  function addOffer() {
+    state.offers.push({ name: `Offer ${state.offers.length + 1}`, price: "", customers: "", units: "1" });
+    renderOffers();
+    renderRoadmapBody();
+  }
+
+  function updateMeta() {
+    document.getElementById("companyMeta").textContent = state.company || "—";
+    const today = new Date();
+    document.getElementById("reviewedMeta").textContent = today.toLocaleDateString("en-US",
+      { year: "numeric", month: "short", day: "numeric" });
+  }
+
+  function clearAll() {
+    state = {
+      company: "",
+      startMonth: "",
+      growthRate: 10,
+      defaultClose: 50,
+      offers: [{ name: "Offer 1", price: "", customers: "", units: "1" }],
+      closeLikelihoods: {},
+      a1: "", a1_notes: "",
+      a2: "", a2_notes: "",
+      a3: "", a3_notes: "",
+    };
+    document.getElementById("company").value = "";
+    document.getElementById("startMonth").value = "";
+    document.getElementById("growthRate").value = 10;
+    document.getElementById("defaultClose").value = 50;
+    ["a1","a1_notes","a2","a2_notes","a3","a3_notes"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = "";
+    });
+    renderOffers();
+    renderRoadmapHeader();
+    renderRoadmapBody();
+    updateMeta();
+  }
+
+  // ---------------- Excel export ----------------
+  function exportExcel() {
+    const wb = XLSX.utils.book_new();
+
+    // Sheet 1: Setup + Offers
+    const setupRows = [
+      ["24-MONTH FINANCIAL ROADMAP"],
+      [`${state.company || "[Company]"} · Two Weeks Out`],
+      [""],
+      ["Start Month:", state.startMonth || ""],
+      ["Monthly Growth Rate:", `${state.growthRate || 0}%`],
+      ["Default Close Likelihood:", `${state.defaultClose || 0}%`],
+      [""],
+      ["— OFFERS —"],
+      ["Offer", "Price/Unit", "Starting Customer Pipeline", "Units per Customer", "Starting Monthly Pipeline"],
+      ...state.offers.map(o => {
+        const rev = parseNum(o.price) * parseNum(o.customers) * parseNum(o.units);
+        return [o.name, parseNum(o.price), parseNum(o.customers), parseNum(o.units), rev];
+      }),
+    ];
+    const wsSetup = XLSX.utils.aoa_to_sheet(setupRows);
+    wsSetup["!cols"] = [{ wch: 32 }, { wch: 16 }, { wch: 20 }, { wch: 20 }, { wch: 24 }];
+    XLSX.utils.book_append_sheet(wb, wsSetup, "Setup");
+
+    // Sheet 2: Roadmap — one big table
+    const monthHeaders = Array.from({ length: MONTHS }, (_, i) => {
+      const lbl = monthLabel(state.startMonth, i + 1);
+      return `M${i + 1}${lbl ? ` (${lbl})` : ""}`;
+    });
+    const roadmapRows = [
+      ["24-MONTH ROADMAP"],
+      [""],
+      ["", ...monthHeaders],
+    ];
+
+    state.offers.forEach((offer, offerIdx) => {
+      roadmapRows.push([`— ${offer.name || `Offer ${offerIdx + 1}`} · $${parseNum(offer.price)}/unit · ${parseNum(offer.units)} units —`]);
+      const custData = [], puData = [], pipeData = [], closeData = [], wData = [];
+      for (let m = 1; m <= MONTHS; m++) {
+        const { customers, pipelineUnits, pipeline } = computeMonth(offer, m);
+        const close = getCloseFor(offerIdx, m - 1);
+        const w = pipeline * (close / 100);
+        custData.push(Math.round(customers));
+        puData.push(Math.round(pipelineUnits));
+        pipeData.push(Math.round(pipeline));
+        closeData.push(`${close}%`);
+        wData.push(Math.round(w));
+      }
+      roadmapRows.push(["Customer Pipeline", ...custData]);
+      roadmapRows.push(["Pipeline Units", ...puData]);
+      roadmapRows.push(["Pipeline $", ...pipeData]);
+      roadmapRows.push(["Close Likelihood", ...closeData]);
+      roadmapRows.push(["Weighted Revenue", ...wData]);
+      roadmapRows.push([""]);
+    });
+
+    // Totals
+    const totalPipe = [], totalW = [];
+    for (let m = 1; m <= MONTHS; m++) {
+      let tp = 0, tw = 0;
+      state.offers.forEach((o, idx) => {
+        const { pipeline } = computeMonth(o, m);
+        tp += pipeline;
+        tw += pipeline * (getCloseFor(idx, m - 1) / 100);
+      });
+      totalPipe.push(Math.round(tp));
+      totalW.push(Math.round(tw));
+    }
+    roadmapRows.push(["TOTAL PIPELINE", ...totalPipe]);
+    roadmapRows.push(["TOTAL WEIGHTED REVENUE", ...totalW]);
+
+    const wsRoadmap = XLSX.utils.aoa_to_sheet(roadmapRows);
+    wsRoadmap["!cols"] = [{ wch: 26 }, ...Array(MONTHS).fill({ wch: 13 })];
+    XLSX.utils.book_append_sheet(wb, wsRoadmap, "Roadmap");
+
+    // Sheet 3: Critical assumptions
+    const assumpRows = [
+      ["THE THREE CRITICAL ASSUMPTIONS"],
+      [""],
+      ["01 · New Customers per Month by M6"],
+      ["Your number:", state.a1 || ""],
+      ["What needs to be true:", state.a1_notes || ""],
+      [""],
+      ["02 · Average Revenue per Customer"],
+      ["Your number:", state.a2 || ""],
+      ["Which end of the range & why:", state.a2_notes || ""],
+      [""],
+      ["03 · Sales Cycle Length"],
+      ["Your number:", state.a3 || ""],
+      ["Evidence for this number:", state.a3_notes || ""],
+    ];
+    const wsAssump = XLSX.utils.aoa_to_sheet(assumpRows);
+    wsAssump["!cols"] = [{ wch: 36 }, { wch: 80 }];
+    XLSX.utils.book_append_sheet(wb, wsAssump, "Assumptions");
+
+    const stamp = new Date().toISOString().slice(0, 10);
+    const safeName = (state.company || "company").replace(/[^a-z0-9]+/gi, "_").toLowerCase();
+    XLSX.writeFile(wb, `${safeName}_24mo_roadmap_${stamp}.xlsx`);
+  }
+
+  // ---------------- Init ----------------
+  (function init() {
+    // Default start month: current month
+    const today = new Date();
+    const iso = today.toISOString().slice(0, 7);
+    state.startMonth = iso;
+    document.getElementById("startMonth").value = iso;
+
+    renderOffers();
+    renderRoadmapHeader();
+    renderRoadmapBody();
+    updateMeta();
+  })();
+</script>
+</body>
+</html>

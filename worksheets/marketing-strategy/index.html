@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your One-Page Strategy — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10131a; --ink-soft:#10131a; --muted:#59616e; --muted-soft:#9ba3af;
+    --border:#e9ecf5; --border-soft:#e9ecf5;
+    --bg:#ffffff; --bg-soft:#fbfaf6;
+    --green:#2747f5; --bright:#2747f5; --em-soft:#e9ecf5;
+    --cream-soft:#e9ecf5; --amber:#7d5300;
+    --danger:#b3261e; --danger-soft:#fde9e7;
+    --font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color: var(--ink);
+    background: var(--bg-soft);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+    background: var(--bg);
+  }
+  header.brand {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 34px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: var(--green);
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin: 0;
+  }
+  .step {
+    margin: 38px 0 0;
+    padding-top: 26px;
+    border-top: 1px solid var(--border);
+  }
+  .step:first-of-type { border-top: none; padding-top: 0; }
+  .step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .step-num {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 28px;font-weight:800;
+    color: var(--bright);
+    line-height: 1;letter-spacing:-.03em;font-style:normal;}
+  .step-title {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 22px;font-weight:800;
+    color: var(--ink);
+    line-height: 1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 4px 0 18px;
+    font-style: italic;
+  }
+  label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"], input[type="number"], textarea {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 9px 11px;
+    width: 100%;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--em-soft);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.5;
+  }
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  .block-card {
+    border: 1px solid var(--border);
+    border-radius:0;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: white;
+  }
+  .block-card.green-edge {
+    border-left: 4px solid var(--green);
+  }
+  .block-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .block-prompt {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0 0 12px;
+  }
+  .input-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* Live preview */
+  .preview-card {
+    background: var(--em-soft);
+    border-left: 4px solid var(--green);
+    border-radius:0;
+    padding: 14px 18px;
+    margin-top: 10px;
+  }
+  .preview-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: var(--green);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .preview-body {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.5;font-style:normal;
+    min-height: 24px;
+  }
+  .preview-body.empty {color:#59616e;
+    font-style: italic;
+  }
+
+  /* Allocation live calc */
+  .hours-display {
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: var(--bg-soft);
+    border-radius:0;
+    border-left: 3px solid var(--bright);
+  }
+  .hours-bar {
+    display: flex;
+    height: 32px;
+    margin-top: 10px;
+    border-radius:0;
+    overflow: hidden;
+    background: var(--border-soft);
+  }
+  .hours-bar-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .hours-bar-segment.primary { background: var(--green); }
+  .hours-bar-segment.supporting { background: var(--bright); }
+  .hours-bar-segment.buffer { background: var(--muted-soft); }
+  .hours-legend {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    gap: 12px;
+  }
+  .hours-legend span { white-space: nowrap; }
+  .hours-empty {color:#59616e;
+    font-size: 13px;
+    font-style: italic;
+    text-align: center;
+    padding: 12px;
+  }
+
+  /* Output */
+  .output-section {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 3px solid var(--ink);
+  }
+  .output-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .output-header .eyebrow { color: var(--bright); }
+  .output-header h2 {
+    font-family: 'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+    font-size: 26px;font-weight:800;
+    color: var(--ink);
+    margin: 4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+    font-style: italic;
+  }
+  .strategy-doc {
+    border: 2px solid var(--ink);
+    border-radius:0;
+    padding: 32px 36px;
+    background: white;
+    page-break-inside: avoid;
+  }
+  .strategy-block {
+    margin-bottom: 28px;
+    page-break-inside: avoid;
+  }
+  .strategy-block:last-child { margin-bottom: 0; }
+  .strategy-label {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .strategy-statement {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .strategy-statement.audience {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  .strategy-subtle {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .test-reminder {
+    background: var(--cream-soft);
+    border-left: 4px solid var(--amber);
+    padding: 10px 14px;
+    border-radius:0;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .test-reminder strong { color: var(--amber); }
+  .channel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .channel-card {
+    background: var(--bg-soft);
+    border-radius:0;
+    padding: 12px 16px;
+  }
+  .channel-card.primary { border-left: 3px solid var(--green); }
+  .channel-card.supporting { border-left: 3px solid var(--bright); }
+  .channel-tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .channel-card.primary .channel-tag { color: var(--green); }
+  .channel-card.supporting .channel-tag { color: var(--bright); }
+  .channel-name {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .channel-why {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .observation {
+    margin-top: 24px;
+    padding: 14px 18px;
+    background: var(--em-soft);
+    border-radius:0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .observation strong { color: var(--green); }
+  .empty-output {
+    padding: 36px;
+    background: var(--bg-soft);
+    border: 1px dashed var(--border);
+    border-radius:0;
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    font-family: 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius:0;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--ink-soft);
+  }
+  .btn:hover { background: var(--bg-soft); }
+  .btn-primary {
+    background: var(--green);
+    color: white;border-color:#ffffff;
+  }
+  .btn-primary:hover { background: #1b36c9; }
+  .btn-example {
+    background: var(--cream-soft);
+    color: var(--amber);
+    border-color: var(--cream-soft);
+    font-weight: 600;
+  }
+  .btn-example:hover { background: #d5d9e4; }
+  .btn-ghost { color: var(--muted); }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .sheet { max-width: none; padding: 28px 24px; }
+    .toolbar { display: none; }
+    .step { page-break-inside: avoid; }
+    .strategy-doc { page-break-inside: avoid; }
+    input, textarea {
+      border: none;
+      border-bottom: 1px solid var(--border);
+      border-radius:0;
+      padding: 4px 0;
+      background: transparent;
+    }
+    .empty-output { display: none; }
+  }
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#D596FF;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* contrast on dark and tinted blocks */
+div.hours-bar-segment.buffer{color:#10131a}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">07 / Find Your Customers</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Marketing for Bootstrapped Ventures</p>
+  <h1>Your One-Page Strategy</h1>
+  <p class="lede">Three things in order: a positioning sentence with the exclusion in it, a single audience narrow enough to picture, and a channel-and-hours allocation you can actually execute.</p>
+  <div style="margin-top: 14px;">
+    <button class="btn btn-example" type="button" onclick="useExample()">Use a worked example to start</button>
+  </div>
+</header>
+
+<!-- Step 1 — Positioning -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">01</span>
+    <span class="step-title">Positioning, with the exclusion</span>
+  </div>
+  <p class="step-sub">Two halves of a sentence: who you're specifically for, and what you're specifically against. The 'against' is the part most owners skip.</p>
+
+  <div class="block-card green-edge">
+    <div class="field">
+      <label for="pos-for">Who specifically are you for?</label>
+      <input type="text" id="pos-for" placeholder="e.g., the food-conscious cook who refuses to choose between convenience and integrity" oninput="updatePreviews()">
+    </div>
+    <div class="field" style="margin-bottom: 0;">
+      <label for="pos-against">What specifically are you against?</label>
+      <input type="text" id="pos-against" placeholder="e.g., the supermarket markup on clean-label products, and the category claims that don't deliver on them" oninput="updatePreviews()">
+    </div>
+
+    <div class="preview-card">
+      <div class="preview-label">Live preview</div>
+      <div class="preview-body empty" id="pos-preview">Your positioning sentence will compose here as you write.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 2 — Audience -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">02</span>
+    <span class="step-title">Single audience, narrow enough to picture</span>
+  </div>
+  <p class="step-sub">Not the segmentation. The single audience. Describe someone specifically enough that you can picture their daily routines, the sources they consume, the people they recommend things to, and the language they use to describe what they want.</p>
+
+  <div class="block-card green-edge">
+    <div class="field">
+      <label for="audience-desc">Describe your single audience</label>
+      <textarea id="audience-desc" placeholder="e.g., The home cook in their thirties or forties who follows two or three serious food publications, has at least one specialty ingredient subscription already, and reads ingredient labels reflexively." oninput="updatePreviews()"></textarea>
+    </div>
+    <div class="field" style="margin-bottom: 0;">
+      <label for="audience-size">Rough size estimate (no precision needed)</label>
+      <input type="text" id="audience-size" placeholder="e.g., ~2 million in the US">
+    </div>
+  </div>
+</section>
+
+<!-- Step 3 — Channel & Allocation -->
+<section class="step">
+  <div class="step-head">
+    <span class="step-num">03</span>
+    <span class="step-title">Channels and hours, honestly</span>
+  </div>
+  <p class="step-sub">One primary channel that does the heavy lifting. One supporting channel. Everything else explicitly excluded. Then your real weekly hours and the 60/30/10 split that produces them.</p>
+
+  <div class="block-card green-edge">
+    <div class="field">
+      <label for="primary-channel">Primary channel (the one that does the acquisition work)</label>
+      <input type="text" id="primary-channel" placeholder="e.g., Owner-led content distributed through high-credibility food publications and a Substack">
+    </div>
+    <div class="input-grid-2">
+      <div class="field">
+        <label for="primary-type">Channel type</label>
+        <select id="primary-type">
+          <option value="">Select…</option>
+          <option>Content marketing (writing, video, podcasting)</option>
+          <option>SEO / organic search</option>
+          <option>Email marketing</option>
+          <option>Social media (organic)</option>
+          <option>Paid advertising</option>
+          <option>Strategic partnerships &amp; co-marketing</option>
+          <option>Referrals &amp; word-of-mouth programs</option>
+          <option>Owner-led sales / outbound</option>
+          <option>Community building</option>
+          <option>Events &amp; speaking</option>
+          <option>PR / earned media</option>
+          <option>Affiliate / influencer</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="primary-distribution">Distribution mechanism</label>
+        <select id="primary-distribution">
+          <option value="">Select…</option>
+          <option>Own website / blog</option>
+          <option>Own newsletter / Substack</option>
+          <option>Third-party publications (guest writing)</option>
+          <option>Third-party podcasts (guesting)</option>
+          <option>LinkedIn</option>
+          <option>Instagram / TikTok / YouTube</option>
+          <option>Search engines (organic)</option>
+          <option>Paid ad platforms</option>
+          <option>Partner channels (their audience, their list)</option>
+          <option>Direct outreach (cold email, LinkedIn DMs)</option>
+          <option>Industry events / conferences</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label for="primary-why">Why this channel? (what makes it executable for you)</label>
+      <textarea id="primary-why" placeholder="e.g., Writing is a real skill of mine, the audience consumes long-form food media, and credibility is what overcomes paid-acquisition unit-economics problems."></textarea>
+    </div>
+  </div>
+
+  <div class="block-card green-edge">
+    <div class="field">
+      <label for="supporting-channel">Supporting channel (converts or retains what the primary brings in)</label>
+      <input type="text" id="supporting-channel" placeholder="e.g., Email marketing — lifecycle automation and subscriber retention">
+    </div>
+    <div class="input-grid-2">
+      <div class="field">
+        <label for="supporting-type">Channel type</label>
+        <select id="supporting-type">
+          <option value="">Select…</option>
+          <option>Content marketing (writing, video, podcasting)</option>
+          <option>SEO / organic search</option>
+          <option>Email marketing</option>
+          <option>Social media (organic)</option>
+          <option>Paid advertising</option>
+          <option>Strategic partnerships &amp; co-marketing</option>
+          <option>Referrals &amp; word-of-mouth programs</option>
+          <option>Owner-led sales / outbound</option>
+          <option>Community building</option>
+          <option>Events &amp; speaking</option>
+          <option>PR / earned media</option>
+          <option>Affiliate / influencer</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="supporting-distribution">Distribution mechanism</label>
+        <select id="supporting-distribution">
+          <option value="">Select…</option>
+          <option>Own website / blog</option>
+          <option>Own newsletter / Substack</option>
+          <option>Third-party publications (guest writing)</option>
+          <option>Third-party podcasts (guesting)</option>
+          <option>LinkedIn</option>
+          <option>Instagram / TikTok / YouTube</option>
+          <option>Search engines (organic)</option>
+          <option>Paid ad platforms</option>
+          <option>Partner channels (their audience, their list)</option>
+          <option>Direct outreach (cold email, LinkedIn DMs)</option>
+          <option>Industry events / conferences</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label for="supporting-why">Why this channel? (what makes it the right pair with the primary)</label>
+      <textarea id="supporting-why" placeholder="e.g., I already have the CRM and email skill set, and the audience the content brings in needs nurture before they convert to a subscription."></textarea>
+    </div>
+  </div>
+
+  <div class="block-card green-edge">
+    <div class="field">
+      <label for="weekly-hours">Honest weekly hours available for marketing execution (not strategy, not meetings — production)</label>
+      <input type="number" id="weekly-hours" placeholder="10" min="0" step="0.5" oninput="updatePreviews()">
+    </div>
+
+    <div class="hours-display" id="hours-display">
+      <div class="hours-empty">Enter your weekly hours above to see your 60/30/10 split.</div>
+    </div>
+
+    <div class="field" style="margin-top: 14px; margin-bottom: 0;">
+      <label for="viability">What would a credible result look like with these hours?</label>
+      <textarea id="viability" placeholder="e.g., One serious essay per month placed in a credible food publication, plus weekly Substack pieces. Email nurture sequences for new subscribers reviewed quarterly. By end of Q2, see the first three placements convert measurably to new subscriptions."></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- OUTPUT -->
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your One-Page Strategy</h2>
+    <p>The artifact you'll defend, sharpen, and run against. Print it, share it with a trusted advisor, return to it monthly.</p>
+  </div>
+
+  <div id="output-section">
+    <div class="empty-output">Complete the steps above and click Generate to produce your one-page strategy.</div>
+  </div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+
+<script>
+// =============================================================================
+// EXAMPLE — Priya's translated strategy from the lesson
+// =============================================================================
+const EXAMPLE = {
+  posFor: "the food-conscious cook who refuses to choose between convenience and integrity",
+  posAgainst: "the supermarket markup on clean-label products, and the category claims that don't deliver on them",
+  audienceDesc: "The home cook in their thirties or forties who follows two or three serious food publications (Bon App\u00e9tit, Eater, Cherry Bombe), has at least one specialty ingredient subscription already, and reads ingredient labels reflexively. Lives in or near a metro area. Cooks four or more nights a week. The kind of person who quotes Samin Nosrat in casual conversation and would rather pay more for fewer, better ingredients than less for many compromised ones.",
+  audienceSize: "~2 million in the US",
+  primaryChannel: "Owner-led content writing about the intersection of specialty food retail, ingredient sourcing, and the broken economics of the supermarket markup. Distributed through a small set of credible food publications and my own Substack.",
+  primaryType: "Content marketing (writing, video, podcasting)",
+  primaryDistribution: "Third-party publications (guest writing)",
+  primaryWhy: "Writing is a real skill of mine \u2014 eleven years of brand and CRM work gave me the voice. The audience consumes long-form food media regularly. And credibility-built audiences convert at fundamentally better unit economics than paid-acquired ones, which is the only path that solves my CAC problem.",
+  supportingChannel: "Email marketing \u2014 lifecycle automation, subscriber nurture, and retention sequences for both content subscribers and product subscribers.",
+  supportingType: "Email marketing",
+  supportingDistribution: "Own newsletter / Substack",
+  supportingWhy: "Email is what I know best (years of CRM work) and what the business needs least \u2014 it's already underbuilt despite being easy for me. The content channel brings in audience; email is what converts them and keeps them.",
+  weeklyHours: 10,
+  viability: "One serious essay per month placed in a credible food publication, plus weekly Substack pieces (700\u20131,200 words each). Email nurture sequences for new content subscribers reviewed and refined quarterly. By end of Q2: see the first three publication placements convert measurably to new product subscriptions. By end of Q4: content channel producing more new subscriptions than paid acquisition was at peak, at a fraction of the CAC."
+};
+
+function useExample() {
+  const hasContent = !!val("pos-for") || !!val("audience-desc") || !!val("primary-channel");
+  if (hasContent && !confirm("This will replace what you've entered with a fully worked example. Continue?")) return;
+
+  setEl("pos-for", EXAMPLE.posFor);
+  setEl("pos-against", EXAMPLE.posAgainst);
+  setEl("audience-desc", EXAMPLE.audienceDesc);
+  setEl("audience-size", EXAMPLE.audienceSize);
+  setEl("primary-channel", EXAMPLE.primaryChannel);
+  setEl("primary-type", EXAMPLE.primaryType);
+  setEl("primary-distribution", EXAMPLE.primaryDistribution);
+  setEl("primary-why", EXAMPLE.primaryWhy);
+  setEl("supporting-channel", EXAMPLE.supportingChannel);
+  setEl("supporting-type", EXAMPLE.supportingType);
+  setEl("supporting-distribution", EXAMPLE.supportingDistribution);
+  setEl("supporting-why", EXAMPLE.supportingWhy);
+  setEl("weekly-hours", EXAMPLE.weeklyHours);
+  setEl("viability", EXAMPLE.viability);
+  updatePreviews();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// =============================================================================
+// HELPERS
+// =============================================================================
+function val(id) { return (document.getElementById(id)?.value || "").toString().trim(); }
+function num(id) { const v = val(id); if (!v) return null; const n = parseFloat(v); return isNaN(n) ? null : n; }
+function setEl(id, v) { const e = document.getElementById(id); if (e) e.value = v; }
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+// =============================================================================
+// LIVE PREVIEWS
+// =============================================================================
+function updatePreviews() {
+  // Positioning preview
+  const posFor = val("pos-for");
+  const posAgainst = val("pos-against");
+  const posEl = document.getElementById("pos-preview");
+  if (posFor && posAgainst) {
+    posEl.innerHTML = `We are for ${escapeHtml(posFor)} \u2014 and against ${escapeHtml(posAgainst)}.`;
+    posEl.classList.remove("empty");
+  } else if (posFor || posAgainst) {
+    posEl.innerHTML = posFor
+      ? `We are for ${escapeHtml(posFor)} \u2014 and against <em style="color: var(--muted-soft);">(name the opposition)</em>.`
+      : `We are for <em style="color: var(--muted-soft);">(name who)</em> \u2014 and against ${escapeHtml(posAgainst)}.`;
+    posEl.classList.remove("empty");
+  } else {
+    posEl.textContent = "Your positioning sentence will compose here as you write.";
+    posEl.classList.add("empty");
+  }
+
+  // Hours allocation
+  const hours = num("weekly-hours");
+  const display = document.getElementById("hours-display");
+  if (hours != null && hours > 0) {
+    const primary = (hours * 0.6).toFixed(1);
+    const supporting = (hours * 0.3).toFixed(1);
+    const buffer = (hours * 0.1).toFixed(1);
+    display.innerHTML = `
+      <div style="font-size: 13px; color: var(--ink-soft); font-weight: 500;">Your 60 / 30 / 10 split, in hours per week:</div>
+      <div class="hours-bar">
+        <div class="hours-bar-segment primary" style="width: 60%;">${primary}h</div>
+        <div class="hours-bar-segment supporting" style="width: 30%;">${supporting}h</div>
+        <div class="hours-bar-segment buffer" style="width: 10%;">${buffer}h</div>
+      </div>
+      <div class="hours-legend">
+        <span style="color: var(--green);">Primary (${primary}h)</span>
+        <span style="color: var(--bright);">Supporting (${supporting}h)</span>
+        <span style="color: var(--muted);">Buffer (${buffer}h)</span>
+      </div>
+    `;
+  } else {
+    display.innerHTML = '<div class="hours-empty">Enter your weekly hours above to see your 60/30/10 split.</div>';
+  }
+}
+
+// =============================================================================
+// GENERATE OUTPUT
+// =============================================================================
+function generate() {
+  const out = document.getElementById("output-section");
+
+  const posFor = val("pos-for");
+  const posAgainst = val("pos-against");
+  const audienceDesc = val("audience-desc");
+  const audienceSize = val("audience-size");
+  const primaryChannel = val("primary-channel");
+  const primaryType = val("primary-type");
+  const primaryDistribution = val("primary-distribution");
+  const primaryWhy = val("primary-why");
+  const supportingChannel = val("supporting-channel");
+  const supportingType = val("supporting-type");
+  const supportingDistribution = val("supporting-distribution");
+  const supportingWhy = val("supporting-why");
+  const weeklyHours = num("weekly-hours");
+  const viability = val("viability");
+
+  // Minimum required: positioning + audience + primary channel + hours
+  if (!posFor || !posAgainst || !audienceDesc || !primaryChannel || weeklyHours == null) {
+    out.innerHTML = '<div class="empty-output">To generate your strategy, fill in at minimum: who you\u2019re for, what you\u2019re against, your audience description, your primary channel, and your weekly hours.</div>';
+    out.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  const positioningSentence = `We are for ${posFor} \u2014 and against ${posAgainst}.`;
+  const primaryHours = (weeklyHours * 0.6).toFixed(1);
+  const supportingHours = (weeklyHours * 0.3).toFixed(1);
+  const bufferHours = (weeklyHours * 0.1).toFixed(1);
+
+  let html = '<div class="strategy-doc">';
+
+  // Positioning
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">POSITIONING</div>
+      <div class="strategy-statement">${escapeHtml(positioningSentence)}</div>
+      <div class="test-reminder"><strong>The test:</strong> could a competitor paste this on their site without contradiction? If yes, sharpen it.</div>
+    </div>
+  `;
+
+  // Audience
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">SINGLE AUDIENCE</div>
+      <div class="strategy-statement audience">${escapeHtml(audienceDesc)}</div>
+      ${audienceSize ? `<div class="strategy-subtle">Approximate size: ${escapeHtml(audienceSize)}</div>` : ""}
+    </div>
+  `;
+
+  // Channels
+  function channelMeta(type, dist) {
+    const bits = [];
+    if (type) bits.push(escapeHtml(type));
+    if (dist) bits.push(escapeHtml(dist));
+    if (bits.length === 0) return "";
+    return `<div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.3px;">${bits.join("  ·  ")}</div>`;
+  }
+  html += `
+    <div class="strategy-block">
+      <div class="strategy-label">CHANNELS</div>
+      <div class="channel-grid">
+        <div class="channel-card primary">
+          <div class="channel-tag">PRIMARY  ·  ${primaryHours}h/week</div>
+          <div class="channel-name">${escapeHtml(primaryChannel)}</div>
+          ${channelMeta(primaryType, primaryDistribution)}
+          ${primaryWhy ? `<div class="channel-why">${escapeHtml(primaryWhy)}</div>` : ""}
+        </div>
+        ${supportingChannel ? `
+        <div class="channel-card supporting">
+          <div class="channel-tag">SUPPORTING  ·  ${supportingHours}h/week</div>
+          <div class="channel-name">${escapeHtml(supportingChannel)}</div>
+          ${channelMeta(supportingType, supportingDistribution)}
+          ${supportingWhy ? `<div class="channel-why">${escapeHtml(supportingWhy)}</div>` : ""}
+        </div>` : `
+        <div class="channel-card" style="border-left: 3px solid var(--border); color: var(--muted-soft); font-style: italic; display: flex; align-items: center;">
+          <div>Supporting channel not yet named.</div>
+        </div>`}
+      </div>
+      <div class="strategy-subtle"><strong>Honest weekly hours: ${weeklyHours}</strong> &nbsp; \u00b7 &nbsp; ${primaryHours}h primary, ${supportingHours}h supporting, ${bufferHours}h buffer. Everything not named above is explicitly excluded.</div>
+    </div>
+  `;
+
+  // Viability
+  if (viability) {
+    html += `
+      <div class="strategy-block">
+        <div class="strategy-label">CREDIBLE RESULT WITH THESE HOURS</div>
+        <div class="strategy-statement" style="font-size: 15px; font-style: italic; color: var(--ink-soft);">${escapeHtml(viability)}</div>
+      </div>
+    `;
+  }
+
+  html += '</div>'; // strategy-doc
+
+  // Observations
+  const observations = buildObservations({ posFor, posAgainst, audienceDesc, primaryChannel, supportingChannel, primaryWhy, supportingWhy, weeklyHours, viability });
+  observations.forEach(o => { html += `<div class="observation">${o}</div>`; });
+
+  out.innerHTML = html;
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function buildObservations(d) {
+  const obs = [];
+
+  // Positioning sharpness check — if "against" reads like description rather than opposition
+  const weakAgainst = d.posAgainst.length < 25;
+  if (weakAgainst) {
+    obs.push(`<strong>Your 'against' is short.</strong> The competitor-website test is the discipline: could a competitor in your category paste your full positioning sentence on their site without contradiction? If your 'against' is generic, the answer is yes \u2014 and the positioning isn't doing work.`);
+  }
+
+  // Audience narrowness check
+  const audienceWordCount = d.audienceDesc.split(/\s+/).length;
+  if (audienceWordCount < 25) {
+    obs.push(`<strong>Your audience description is brief.</strong> The lesson's test: could two people on your team read this and picture the same person? If your description is mostly demographic, it probably can't pass that test. Add the habits, the publications, the daily textures that make the person specific.`);
+  }
+
+  // Primary channel rationale check
+  if (!d.primaryWhy || d.primaryWhy.length < 30) {
+    obs.push(`<strong>Your 'why this channel' for the primary is thin.</strong> The lesson's selection logic isn't just where the audience consumes media \u2014 it's which channel you can personally execute well. If you can't articulate the executable-by-you reasoning in a sentence or two, the channel choice may be wishful.`);
+  }
+
+  // Hours sanity check
+  if (d.weeklyHours > 20) {
+    obs.push(`<strong>Twenty-plus weekly hours is rare.</strong> The lesson's framing: for most solo owners, the honest number is 5 to 15. Twenty-five and up almost never holds. If your number is high, double-check that it's production hours \u2014 not strategy, meetings, or reading.`);
+  } else if (d.weeklyHours < 5) {
+    obs.push(`<strong>Fewer than five weekly hours is structurally hard.</strong> At this allocation, sustaining a primary channel becomes very difficult. The honest move may be to name the help you need before the strategy goes live, rather than after.`);
+  }
+
+  // Viability check
+  if (!d.viability) {
+    obs.push(`<strong>No credible-result statement.</strong> The viability check is the discipline that separates a strategy you can run from one that just sounds good. If you can't describe what success looks like with these specific hours, the strategy may be aspirational. Write the success picture.`);
+  }
+
+  // Supporting channel missing
+  if (!d.supportingChannel) {
+    obs.push(`<strong>No supporting channel named.</strong> The framework calls for one primary plus one supporting \u2014 the supporting channel converts or retains what the primary brings in. Without it, primary-channel audience may not convert at the rate the math needs.`);
+  }
+
+  return obs;
+}
+
+function clearAll() {
+  if (!confirm("Clear all entries and start over?")) return;
+  document.querySelectorAll("input[type='text'], input[type='number'], select, textarea").forEach(el => el.value = "");
+  updatePreviews();
+  document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your one-page strategy.</div>';
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// INIT
+updatePreviews();
+</script>
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go-to-Market Worksheet · Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+
+:root{
+  --ink:#10131a; --paper:#fbfaf6; --white:#ffffff; --cobalt:#2747f5; --cobalt2:#1b36c9; --signal:#ff5a1f;
+  --slate:#59616e; --fog:#9ba3af; --sky:#93abff; --mist:#e9ecf5; --line:#d5d9e4; --inkline:#2c313c; --onink:#c9ced8;
+  --good:#0d6b4c; --good-tint:#e2f5ea; --warn:#7d5300; --warn-tint:#fff3cd; --danger:#b3261e; --danger-tint:#fde9e7;
+  --module:#F986DD;
+  --display:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;
+  --text:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--module);border-bottom:2px solid var(--ink)}
+.two-wm{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.two-mod{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+header.top{padding:52px 0 30px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1;letter-spacing:-.04em;margin:14px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(var(--signal),var(--signal)) left calc(100% - .04em)/100% .09em no-repeat}
+.deck{font-size:18px;color:var(--slate);max-width:700px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.btn{border:2px solid var(--ink);background:var(--white);padding:11px 18px;font-weight:600;font-size:14px;cursor:pointer;line-height:1.2}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.btn.primary:hover{background:var(--cobalt2);border-color:var(--cobalt2)}
+.btn.ink{background:var(--ink);color:#fff}
+.btn.ink:hover{background:var(--inkline)}
+.btn.quiet{border-color:var(--line);color:var(--slate);font-weight:500}
+.saved{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);margin-left:auto}
+.meta{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-top:22px}
+.meta label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date],select,textarea{width:100%;background:var(--white);border:1px solid var(--line);border-bottom:2px solid var(--ink);padding:10px 12px;border-radius:0;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cobalt);box-shadow:0 0 0 3px var(--mist)}
+textarea{resize:vertical;min-height:64px;line-height:1.5;overflow:hidden}
+::placeholder{color:#8a919c}
+
+/* progress */
+.progress{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);margin-top:28px}
+.progress .wrap{display:flex;gap:6px;padding:12px 24px;flex-wrap:wrap}
+.step-pill{flex:1 1 180px;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--white);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--slate);text-decoration:none}
+.step-pill b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog)}
+.step-pill.done{border-color:var(--good);color:var(--good);background:var(--good-tint)}
+.step-pill.done b{color:var(--good)}
+
+section.step{padding:52px 0 8px}
+.step-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px}
+.step-num{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--cobalt)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);line-height:1.05;letter-spacing:-.035em}
+.intro{color:var(--slate);max-width:720px;margin:10px 0 22px}
+.group-label{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:30px 0 12px;display:flex;gap:12px;align-items:center}
+.group-label::after{content:"";flex:1;height:2px;background:var(--ink)}
+.group-note{font-size:14px;color:var(--slate);margin:-4px 0 14px;max-width:720px}
+
+.box{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--ink);padding:20px 22px;margin-bottom:12px}
+.box.money{border-left-color:var(--cobalt)}
+.box-top{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-bottom:12px}
+.box-n{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--fog)}
+.box-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1}
+.box-q{grid-column:2;font-size:14px;color:var(--slate)}
+.box-q b{color:var(--ink);font-weight:600}
+.len{font-size:12px;color:var(--fog);margin-top:6px;min-height:18px}
+.len.long{color:var(--warn)}
+.marks{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.marks .lbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.mark{border:1px solid var(--line);background:var(--paper);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.mark:hover{border-color:var(--ink)}
+.mark[aria-pressed=true][data-m=known]{background:var(--good-tint);border-color:var(--good);color:var(--good)}
+.mark[aria-pressed=true][data-m=assumed]{background:var(--warn-tint);border-color:var(--warn);color:var(--warn)}
+.mark[aria-pressed=true][data-m=unknown]{background:var(--mist);border-color:var(--ink);color:var(--ink)}
+.evidence{margin-top:12px;display:none}
+.evidence.show{display:block}
+.evidence label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.evidence label span{font-weight:400;color:var(--slate)}
+.flag{font-size:13px;margin-top:8px;padding:8px 12px;background:var(--warn-tint);color:var(--warn);display:none}
+.flag.show{display:block}
+
+.callout{background:var(--ink);color:var(--paper);padding:22px 26px;margin:6px 0 18px}
+.callout .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.callout p{color:var(--onink);font-size:15px}
+.callout p b{color:#fff}
+
+.tally{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 14px}
+.tally div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.tally .v{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
+.tally .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-top:6px}
+.tally .known .v{color:var(--good)} .tally .assumed .v{color:var(--warn)}
+.read{padding:14px 18px;border-left:4px solid var(--cobalt);background:var(--mist);font-size:15px;max-width:760px}
+.read.alert{border-left-color:var(--danger);background:var(--danger-tint)}
+
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pick label{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;background:var(--white);border:1px solid var(--line);cursor:pointer;font-size:14px;font-weight:600}
+.pick label:hover{border-color:var(--ink)}
+.pick input{margin-top:3px;accent-color:var(--cobalt)}
+.pick label.on{border:2px solid var(--signal);padding:11px 13px}
+.pick small{display:block;font-weight:500;font-size:12px;margin-top:2px}
+.pick small.known{color:var(--good)} .pick small.assumed{color:var(--warn)} .pick small.unknown{color:var(--slate)}
+.field{margin-bottom:16px}
+.field > label{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.field .help{font-size:13px;color:var(--slate);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.checks{display:grid;gap:8px;margin:6px 0 4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--white);border:1px solid var(--line);padding:10px 12px;cursor:pointer}
+.checks input{margin-top:3px;accent-color:var(--good)}
+.reopen{display:flex;flex-wrap:wrap;gap:8px}
+.reopen label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:7px 12px;background:var(--white);border:1px solid var(--line);cursor:pointer}
+.reopen input{accent-color:var(--cobalt)}
+
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.summary div{background:var(--white);border:1px solid var(--line);padding:16px 18px}
+.summary h5{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.summary p{font-size:14.5px;white-space:pre-wrap}
+.next{margin:44px 0 70px;padding:24px 26px;border:2px solid var(--ink);background:var(--white)}
+.next .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px}
+.next p{color:var(--slate)}
+.print-only{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;display:none;z-index:50}
+.toast.show{display:block}
+@media print{input[type=date]::-webkit-calendar-picker-indicator{display:none}select{background-image:none}}
+
+.meta{grid-template-columns:2fr 1fr}
+.hidden{display:none!important}
+.note{font-size:14px;padding:12px 16px;border-left:4px solid var(--cobalt);background:var(--mist);margin:4px 0 14px;max-width:800px}
+.note.alert{border-left-color:var(--warn);background:var(--warn-tint);color:#5c3d00}
+.note.danger{border-left-color:var(--danger);background:var(--danger-tint);color:#7a1a14}
+.note.good{border-left-color:var(--good);background:var(--good-tint);color:#0a4f38}
+.ex-note{display:none;margin:0 0 16px;padding:12px 16px;background:var(--warn-tint);color:var(--warn);font-size:14px;max-width:800px}
+.ex-note.show{display:block}
+.pre{display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600;margin:0 0 16px}
+.pre input{accent-color:var(--cobalt)}
+.ten{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 14px;margin:6px 0 12px}
+.ten div{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:center}
+.ten span{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--fog)}
+.ten input{padding:8px 10px;font-size:14px}
+.tally{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
+.tally .tg{background:var(--white);border:1px solid var(--line);padding:8px 12px;font-size:13.5px;font-weight:600}
+.tally .tg b{font-family:var(--display);font-weight:800;font-size:18px;margin-right:6px}
+.tally .tg.top{border:2px solid var(--signal);padding:7px 11px}
+.rod{background:var(--white);border:2px solid var(--ink);padding:20px 22px;margin-bottom:14px}
+.rod .lbl{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.rod input.big{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.025em}
+.plan{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chlist .ch{display:grid;grid-template-columns:28px 1fr 34px;gap:8px;align-items:center;margin-bottom:8px}
+.chlist span{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--fog)}
+.chlist input{padding:8px 10px;font-size:14px}
+.ibtn{border:1px solid var(--line);background:var(--paper);min-width:34px;height:34px;padding:0 8px;font-size:13px;font-weight:600;cursor:pointer}
+.ibtn:hover{border-color:var(--ink)}
+.counter{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 4px}
+.counter .count{font-size:14px;color:var(--slate)}
+.numbox{background:var(--ink);color:#fff;padding:20px 22px;margin-bottom:14px}
+.numbox label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);margin-bottom:8px}
+.numbox select{background:#1b1f28;color:#fff;border-color:var(--inkline);border-bottom-color:var(--signal)}
+.numbox input{background:#1b1f28;color:#fff;border-color:var(--inkline);border-bottom-color:var(--signal)}
+.numbox .row{display:grid;grid-template-columns:2fr 110px 1fr;gap:10px;align-items:end}
+.numbox small{display:block;color:var(--onink);font-size:12.5px;margin-bottom:4px}
+.numbox .hint{margin-top:10px;font-size:13px;padding:8px 12px;background:var(--warn-tint);color:var(--warn)}
+.team .tm{display:grid;grid-template-columns:28px 1fr 130px 34px;gap:8px;align-items:center;margin-bottom:8px}
+.team span{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--fog)}
+.team .share{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cobalt)}
+.team input{padding:8px 10px;font-size:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.judge{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);margin:4px 0 12px}
+.judge b{color:var(--ink)}
+.log .lg{display:grid;grid-template-columns:150px 100px 1fr 34px;gap:8px;align-items:center;margin-bottom:8px}
+.log input{padding:8px 10px;font-size:14px}
+.prog{background:var(--white);border:1px solid var(--line);padding:16px 18px;margin-top:10px}
+.prog .bar{height:18px;background:var(--mist);position:relative;margin:8px 0}
+.prog .fill{position:absolute;left:0;top:0;bottom:0;background:var(--cobalt)}
+.prog .pace{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--signal)}
+.prog p{font-size:13.5px;color:var(--slate)}
+.prog p b{color:var(--ink)}
+/* output */
+.ocard{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--ink);border:2px solid var(--ink)}
+.ocard > div{background:var(--white);padding:12px 14px}
+.ocard .two{grid-column:span 2}.ocard .wide{grid-column:span 3}
+.ocard h5{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:5px}
+.ocard p{font-size:13.5px;white-space:pre-wrap}
+.ocard .big{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.025em;line-height:1.2}
+.ocard .dark{background:var(--ink);color:#fff}.ocard .dark h5{color:var(--sky)}
+.e{color:var(--fog)}
+@media (max-width:760px){
+  .meta,.grid2,.summary,.ten,.plan,.g3,.ocard{grid-template-columns:1fr}
+  .ocard .two,.ocard .wide{grid-column:auto}
+  .numbox .row{grid-template-columns:1fr}
+  .rod input.big{font-size:19px}
+  .team .tm{grid-template-columns:28px 1fr 34px}.team .share{grid-column:2}
+  .log .lg{grid-template-columns:1fr 90px 34px}.log .lg input[data-f=note]{grid-column:1/3}
+  .progress{position:static}
+}
+@media print{
+  @page{size:letter landscape;margin:.4in}
+  body{background:#fff;font-size:10pt}
+  .two-band,.toolbar,.progress,section.step,.next,.toast,.saved,.no-print{display:none!important}
+  header.top{padding:0 0 8px;border-bottom:2px solid #000}
+  h1{font-size:18pt;margin:2px 0}
+  .eyebrow{font-size:8pt}
+  .deck{display:none}
+  .meta{margin-top:6px}
+  .meta label{font-size:7pt;margin-bottom:2px}
+  .meta input{border:none;border-bottom:1px solid #999;padding:2px 0}
+  #out{display:block!important;padding-top:8px}
+  #out h2{font-size:13pt;margin-bottom:4px}
+  .ocard > div{padding:8px 11px}.ocard p{font-size:9pt}.ocard .big{font-size:14pt}
+  .ocard,.ocard > div,.ocard .dark{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ocard{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">06 / Build What Customers Want</span></div>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Worksheet · Go-to-Market</div>
+  <h1>One rod, <em>watched closely.</em></h1>
+  <p class="deck">Nine rods in the water, none baited properly, none watched, and when nothing bites you can’t tell which spot was wrong. Go where your best customers came from, pick one channel, and decide how you’ll judge it before you start.</p>
+  <div class="toolbar">
+    <button class="btn primary" id="useExample" type="button">Use the lesson’s example</button>
+    <button class="btn ink" id="printBtn" type="button">Print / Save as PDF</button>
+    <button class="btn" id="xlsxBtn" type="button">Download to Excel</button>
+    <button class="btn quiet" id="clearBtn" type="button">Clear all</button>
+    <span class="saved" id="saved">Saves automatically in this browser</span>
+  </div>
+  <div class="meta">
+    <div><label for="bizName">Business</label><input type="text" id="bizName" data-k="bizName" placeholder="Your business, or the one you’re planning"></div>
+    <div><label for="gDate">Date</label><input type="date" id="gDate" data-k="gDate"></div>
+  </div>
+</header>
+</div>
+
+<nav class="progress" aria-label="Progress">
+  <div class="wrap">
+    <a class="step-pill" id="p1" href="#s1"><b>01</b><span>How the best ones got to you</span></a>
+    <a class="step-pill" id="p2" href="#s2"><b>02</b><span>One channel, written down</span></a>
+    <a class="step-pill" id="p3" href="#s3"><b>03</b><span>One number, one date</span></a>
+    <a class="step-pill" id="p4" href="#s4"><b>04</b><span>Track it</span></a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<section class="step" id="s1">
+  <div class="step-head"><span class="step-num">STEP 01</span></div>
+  <h2>Look at your best customers. Write down how they got to you.</h2>
+  <p class="intro">Don’t start with the channel. Start with the group from the last session, the one the business really works for. Ask one question: how did they get to you? Where were they the week before they showed up?</p>
+  <label class="pre"><input type="checkbox" data-k="pre"> I’m pre-launch</label>
+  <div class="note hidden" id="preNote">Ask the people you interviewed and your test group where they’d go looking for something like yours.</div>
+  <div class="ex-note" id="exNote">From the lessons: Upstream’s physician-referred group, the plan exactly as the lesson describes it, and the target of two a month for each of the four physicians, judged across a quarter. The lesson doesn’t list Upstream’s last ten customers or say whether the rules check was done, so those are left for you. Only Aaron is named, so the other partners are listed by number.</div>
+  <div class="grid2">
+    <div class="field"><label for="group">My best group</label><p class="help">From Product-Market Fit: where both numbers were strongest.</p><input type="text" id="group" data-k="group" placeholder="e.g., Clients referred by their accountant"></div>
+    <div class="field"><label for="how" id="howLbl">How they got to you</label><p class="help" id="howHelp">The route, in plain words.</p><textarea id="how" data-k="how" placeholder="e.g., Their accountant suggested us when the books fell behind"></textarea></div>
+  </div>
+  <div class="field"><label for="before" id="beforeLbl">Where they were the week before they showed up</label><textarea id="before" data-k="before" placeholder="Who they were talking to, what they were reading, what had just happened"></textarea></div>
+
+  <div class="group-label" style="margin-top:28px">Your last ten customers · which rod caught them?</div>
+  <p class="group-note">Owners eight months into the nine-rod version often can’t say. Write how each of your last ten got to you, in a few words. Matching words get counted together.</p>
+  <div class="ten" id="ten"></div>
+  <div class="tally" id="tally"></div>
+</section>
+
+<section class="step" id="s2">
+  <div class="step-head"><span class="step-num">STEP 02</span></div>
+  <h2>Pick one channel. Write what you’ll do, how often, and who answers.</h2>
+  <p class="intro">If they came because a professional they trust suggested you, your channel is that professional. If they came because they read something you wrote at eleven at night, your channel is your writing. One. Just one.</p>
+  <div class="rod">
+    <span class="lbl">The one channel</span>
+    <input type="text" class="big" id="channel" data-k="channel" placeholder="e.g., Local accountants">
+  </div>
+  <div class="plan">
+    <div class="field"><label for="what">What you’ll do</label><textarea id="what" data-k="what" placeholder="The specific thing, written so someone else could do it"></textarea></div>
+    <div class="field"><label for="toWhom">To whom, and how many</label><textarea id="toWhom" data-k="toWhom" placeholder="e.g., Forty accountants, by name"></textarea></div>
+    <div class="field"><label for="often">How often</label><input type="text" id="often" data-k="often" placeholder="e.g., Every quarter"></div>
+    <div class="field"><label for="cost">What it costs</label><input type="text" id="cost" data-k="cost" placeholder="Money and hours"></div>
+  </div>
+  <div class="field"><label for="answer">Who answers when someone responds, and how fast</label><p class="help">The channel isn’t only what goes out. It’s what happens when somebody picks up the phone.</p><textarea id="answer" data-k="answer" placeholder="e.g., One number, answered by me, within four hours"></textarea></div>
+
+  <div class="group-label" style="margin-top:28px">What you’ve decided not to do</div>
+  <p class="group-note">If you can’t say what you’ve decided not to do, you’re back to nine rods.</p>
+  <div class="field"><textarea id="notDo" data-k="notDo" aria-label="What we’ve decided not to do" placeholder="e.g., No ads, no events, no cold outreach this quarter"></textarea></div>
+  <div class="field">
+    <label>Anything else still running</label>
+    <p class="help">Every channel you’re still doing besides the one above. Be honest.</p>
+    <div class="chlist" id="chlist"></div>
+    <div class="counter"><button class="btn" type="button" id="addCh">+ Add one</button></div>
+  </div>
+  <div class="note alert hidden" id="rodsNote"></div>
+  <div class="checks" style="margin-top:6px"><label><input type="checkbox" data-k="rules"> If my channel is referrals between professionals, I’ve checked the rules in my field about what I may offer in return.</label></div>
+</section>
+
+<section class="step" id="s3">
+  <div class="step-head"><span class="step-num">STEP 03</span></div>
+  <h2>Pick the one number you’ll count, and the date you’ll judge it.</h2>
+  <p class="intro">Decide how you’ll judge it before you start, or you’ll drop it on a feeling in about six weeks. One number, something people did, with a target on it.</p>
+  <div class="numbox">
+    <div class="row">
+      <div><label for="metric">The one number · something people did</label><input type="text" id="metric" data-k="metric" placeholder="e.g., New referrals from accountants"></div>
+      <div><label for="target">Target</label><input type="text" inputmode="numeric" id="target" data-k="target" placeholder="8"></div>
+      <div><label for="per">Per</label><select id="per" data-k="per"><option value="month">month</option><option value="week">week</option><option value="quarter">quarter</option></select></div>
+    </div>
+    <div class="hint hidden" id="metricHint"></div>
+  </div>
+  <div class="field">
+    <label>If you have a sales team, split the target</label>
+    <p class="help">One salesperson or ten, everyone gets their share of the number, and everyone works the same channel.</p>
+    <div class="team" id="team"></div>
+    <div class="counter"><button class="btn" type="button" id="addTm">+ Add a person</button><span class="count" id="teamNote"></span></div>
+  </div>
+  <div class="g3">
+    <div class="field"><label for="start">Starts</label><input type="date" id="start" data-k="start"></div>
+    <div class="field"><label for="weeks">Run it for (weeks)</label><input type="text" inputmode="numeric" id="weeks" data-k="weeks" placeholder="13"></div>
+    <div class="field"><label for="decideW">How long customers take to decide (weeks)</label><p class="help" style="margin-top:-2px">From your journey map.</p><input type="text" inputmode="numeric" id="decideW" data-k="decideW" placeholder="e.g., 6"></div>
+  </div>
+  <div class="judge" id="judgeLine"></div>
+  <div class="note alert hidden" id="windowNote"></div>
+  <div class="callout">
+    <div class="k">Hold it</div>
+    <p>Around week three, somebody will want to add a second channel because things are quiet. Early weeks usually are. <b>That isn’t the answer yet.</b></p>
+  </div>
+</section>
+
+<section class="step" id="s4">
+  <div class="step-head"><span class="step-num">STEP 04 · WHILE IT RUNS</span></div>
+  <h2>Count it. Against the whole window, not week by week.</h2>
+  <div class="log" id="log"></div>
+  <div class="counter"><button class="btn" type="button" id="addLog">+ Add an entry</button></div>
+  <div class="prog" id="prog"></div>
+</section>
+
+<section id="out" class="step">
+  <div class="step-head"><span class="step-num">YOUR PLAN</span></div>
+  <h2 id="outTitle">Your go-to-market plan</h2>
+  <div class="ocard">
+    <div><h5>Best group</h5><p id="oGroup"></p></div>
+    <div class="two"><h5>How they got to us</h5><p id="oHow"></p></div>
+    <div class="wide dark"><h5>The one channel</h5><p class="big" id="oChannel" style="color:#fff">Not picked yet.</p></div>
+    <div><h5>What we do</h5><p id="oWhat"></p></div>
+    <div><h5>To whom · how often · cost</h5><p id="oTo"></p></div>
+    <div><h5>Who answers</h5><p id="oAnswer"></p></div>
+    <div><h5>The number</h5><p class="big" id="oNum">Not set.</p><p id="oTeam" style="margin-top:4px"></p></div>
+    <div><h5>Judged on</h5><p id="oJudge"></p></div>
+    <div><h5>So far</h5><p id="oSoFar"></p></div>
+    <div class="wide"><h5>Decided not to do</h5><p id="oNot"></p></div>
+  </div>
+</section>
+
+<div class="next no-print">
+  <div class="k">Next session</div>
+  <p><b style="color:var(--ink)">What It Takes to Be a Great Product Manager.</b> Which of all this only you can do.</p>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY='two_gtm_v1';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  var savedEl=document.getElementById('saved'),t0,tt;
+  function flash(s){savedEl.textContent=s;clearTimeout(t0);t0=setTimeout(function(){savedEl.textContent='Saves automatically in this browser'},1200)}
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));flash('Saved')}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function plusDays(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+  function nice(s){if(!s)return '';var p=s.split('-');if(p.length!==3)return s;var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1];return m+' '+(+p[2])+', '+p[0]}
+  function toast(s){var el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){el.classList.remove('show')},2800)}
+  function t(v){return String(v==null?'':v).trim()}
+  function bindStatic(){
+    document.querySelectorAll('[data-k]').forEach(function(el){
+      var k=el.dataset.k,v=state[k];
+      if(el.type==='checkbox') el.checked=!!v;
+      else if(el.type==='radio') el.checked=(v===el.value);
+      else el.value=v!=null?v:'';
+    });
+  }
+  function onField(e){
+    var el=e.target,k=el.dataset&&el.dataset.k;
+    if(!k)return false;
+    if(el.type==='radio'){if(!el.checked)return true;state[k]=el.value}
+    else state[k]=el.type==='checkbox'?el.checked:el.value;
+    persist();render();return true;
+  }
+  function fileName(base,suffix){return ((t(state.bizName)||base).replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||base)+(suffix||'')+'.xlsx'}
+  function sheet(rows,cols){var ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=cols.map(function(w){return{wch:w}});return ws}
+  function grow(el){if(el.offsetParent===null)return;el.style.height='auto';el.style.height=(el.scrollHeight+3)+'px'}
+  function growAll(){document.querySelectorAll('textarea').forEach(grow)}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target)});
+  var rzT;window.addEventListener('resize',function(){clearTimeout(rzT);rzT=setTimeout(growAll,120)});
+  setTimeout(growAll,0);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(growAll);
+  function wire(opts){
+    document.getElementById('useExample').addEventListener('click',function(){
+      if(opts.hasData()&&!confirm('Replace what you’ve entered with the lesson’s example? Your current answers will be cleared.'))return;
+      state=opts.example();opts.rebuild();persist();render();growAll();toast('The lesson’s example is loaded. Edit anything to make it yours.');
+    });
+    document.getElementById('clearBtn').addEventListener('click',function(){
+      if(!confirm('Clear every answer on this worksheet? This can’t be undone.'))return;
+      try{localStorage.removeItem(KEY)}catch(e){}
+      state=opts.fresh();opts.rebuild();persist();render();growAll();
+    });
+    document.getElementById('printBtn').addEventListener('click',function(){render();window.print()});
+    document.getElementById('xlsxBtn').addEventListener('click',function(){
+      if(typeof XLSX==='undefined'){toast('The Excel export couldn’t load. Check your connection and try again.');return}
+      opts.xlsx();
+    });
+  }
+
+  function num(v){var n=parseFloat(String(v==null?'':v).replace(/[^0-9.]/g,''));return isNaN(n)?null:n}
+  function addDays(s,n){if(!s)return '';var p=s.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);d.setDate(d.getDate()+n);return iso(d)}
+  var PERW={week:1,month:52/12,quarter:13};
+  function fresh(){return{gDate:iso(new Date()),start:iso(new Date()),per:'month',weeks:'',ten:['','','','','','','','','',''],others:[],team:[],log:[]}}
+  var EXAMPLE=function(){return{bizName:'Upstream Medicine (the lesson’s example)',gDate:iso(new Date()),ex:true,start:iso(new Date()),
+    group:'Members referred by another physician',
+    how:'Another doctor sent them, usually one who’d run out of options for a patient. Not the website. Not advertising.',
+    before:'Each one had a single problem that three or four specialists hadn’t solved. That told us exactly who to reach: the specialists.',
+    ten:['','','','','','','','','',''],
+    channel:'Local specialists who refer patients',
+    what:'A short note describing one case in detail and how it turned out, with identifying details removed.',
+    toWhom:'Sixty local specialists, by name.',often:'Every quarter',cost:'Nothing',
+    answer:'One number. A specialist who wants to refer someone speaks to a physician, not a receptionist. Whichever partner is on that week answers within four hours, and says on that call whether the practice can help.',
+    notDo:'Anything else. It’s the only thing we’re doing.',others:[],
+    metric:'New referrals from outside doctors',target:'8',per:'month',
+    team:[{name:'Aaron',share:'2'},{name:'Partner 2',share:'2'},{name:'Partner 3',share:'2'},{name:'Partner 4',share:'2'}],
+    weeks:'13',decideW:'',log:[]}};
+  if(!state.ten){var f=fresh();Object.keys(f).forEach(function(k){if(state[k]==null)state[k]=f[k]})}
+  ['others','team','log'].forEach(function(k){if(!state[k])state[k]=[]});
+  var tenEl=document.getElementById('ten'),chEl=document.getElementById('chlist'),tmEl=document.getElementById('team'),lgEl=document.getElementById('log');
+  function build(){
+    tenEl.innerHTML=state.ten.map(function(v,i){return '<div><span>'+String(i+1).padStart(2,'0')+'</span><input type="text" data-arr="ten" data-i="'+i+'" value="'+esc(v)+'" placeholder="How they got to you" aria-label="Customer '+(i+1)+'"></div>'}).join('');
+    chEl.innerHTML=state.others.map(function(v,i){return '<div class="ch"><span>'+String(i+1).padStart(2,'0')+'</span><input type="text" data-arr="others" data-i="'+i+'" value="'+esc(v)+'" placeholder="e.g., Instagram posts" aria-label="Other channel"><button type="button" class="ibtn" data-del="others" data-i="'+i+'" aria-label="Remove">✕</button></div>'}).join('');
+    tmEl.innerHTML=state.team.map(function(m,i){return '<div class="tm"><span>'+String(i+1).padStart(2,'0')+'</span><input type="text" data-obj="team" data-i="'+i+'" data-f="name" value="'+esc(m.name)+'" placeholder="Name" aria-label="Name"><span class="share" id="sh'+i+'"></span><button type="button" class="ibtn" data-del="team" data-i="'+i+'" aria-label="Remove">✕</button></div>'}).join('');
+    lgEl.innerHTML=state.log.map(function(l,i){return '<div class="lg"><input type="date" data-obj="log" data-i="'+i+'" data-f="date" value="'+esc(l.date)+'" aria-label="Date"><input type="text" inputmode="numeric" data-obj="log" data-i="'+i+'" data-f="n" value="'+esc(l.n)+'" placeholder="Count" aria-label="Count"><input type="text" data-obj="log" data-i="'+i+'" data-f="note" value="'+esc(l.note)+'" placeholder="Who, from where" aria-label="Note"><button type="button" class="ibtn" data-del="log" data-i="'+i+'" aria-label="Remove">✕</button></div>'}).join('')||'<p class="help">No entries yet. Add one each time the number moves.</p>';
+  }
+  function rebuild(){bindStatic();build()}
+  document.addEventListener('input',function(e){
+    var el=e.target;
+    if(el.dataset.arr){state[el.dataset.arr][+el.dataset.i]=el.value;persist();render();return}
+    if(el.dataset.obj){state[el.dataset.obj][+el.dataset.i][el.dataset.f]=el.value;persist();render();return}
+    if(el.type==='checkbox'||el.tagName==='SELECT')return;onField(e);
+  });
+  document.addEventListener('change',function(e){if(e.target.dataset.arr||e.target.dataset.obj)return;if(e.target.type==='checkbox'||e.target.tagName==='SELECT')onField(e)});
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-del]');if(!b)return;state[b.dataset.del].splice(+b.dataset.i,1);build();persist();render()});
+  document.getElementById('addCh').addEventListener('click',function(){state.others.push('');build();persist();render()});
+  document.getElementById('addTm').addEventListener('click',function(){state.team.push({name:''});build();persist();render()});
+  document.getElementById('addLog').addEventListener('click',function(){state.log.push({date:iso(new Date()),n:'',note:''});build();persist();render()});
+
+  function norm(s){return t(s).toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\b(a|an|the|my|our|from|by|via|through)\b/g,'').replace(/\s+/g,' ').trim()}
+  function window_(){var w=num(state.weeks);if(!state.start||!w)return null;return{end:addDays(state.start,Math.round(w*7)),w:w}}
+  function render(){
+    document.getElementById('preNote').classList.toggle('hidden',!state.pre);
+    document.getElementById('howLbl').textContent=state.pre?'Where they’d go looking':'How they got to you';
+    document.getElementById('beforeLbl').textContent=state.pre?'What they did last time they had this problem':'Where they were the week before they showed up';
+    document.getElementById('exNote').classList.toggle('show',!!state.ex);
+    // tally
+    var c={},label={};state.ten.forEach(function(v){var k=norm(v);if(!k)return;c[k]=(c[k]||0)+1;label[k]=label[k]||t(v)});
+    var keys=Object.keys(c).sort(function(a,b){return c[b]-c[a]}),filled=state.ten.filter(function(v){return t(v)}).length;
+    document.getElementById('tally').innerHTML=keys.length?keys.map(function(k,i){return '<span class="tg'+(i===0&&c[k]>1?' top':'')+'"><b>'+c[k]+'</b>'+esc(label[k])+'</span>'}).join('')+(filled<10?'<span class="tg" style="color:var(--fog)">'+(10-filled)+' not known</span>':''):'';
+    // rods
+    var others=state.others.filter(function(v){return t(v)}).length,total=(t(state.channel)?1:0)+others,rn=document.getElementById('rodsNote');
+    if(total>2||(t(state.channel)&&!t(state.notDo))){rn.textContent=total>2?'Your plan has '+total+' channels in it. That’s back to nine rods: nothing gets done well enough to get a fair test, and when customers show up you won’t know which rod caught them.':'You haven’t written what you’ve decided not to do. Without that, it’s easy to drift back to nine rods.';rn.classList.remove('hidden')}else rn.classList.add('hidden');
+    // metric hint
+    var m=t(state.metric),mh=document.getElementById('metricHint');
+    if(m&&/\b(open|opens|opened|click|clicks|like|likes|liked|view|views|impressions?|followers?|reach|engagement|visits?|traffic|downloads?)\b/i.test(m)){mh.textContent='That counts attention, not action. Count something people did: referred, booked, bought, signed.';mh.classList.remove('hidden')}else mh.classList.add('hidden');
+    // team shares
+    var tg=num(state.target),n=state.team.length;
+    state.team.forEach(function(p,i){var el=document.getElementById('sh'+i);if(el)el.textContent=tg&&n?(Math.round(tg/n*10)/10)+' per '+(state.per||'month'):''});
+    document.getElementById('teamNote').textContent=n&&tg?'Everyone works the same channel. If each person quietly picks a favorite rod, you’re back to nine without anyone deciding it.':'';
+    // window
+    var W=window_(),dw=num(state.decideW);
+    document.getElementById('judgeLine').innerHTML=W?'Judge it on <b>'+esc(nice(W.end))+'</b>, across all '+W.w+' weeks'+(tg?', against <b>'+tg+' per '+(state.per||'month')+'</b>':''):'Set a start date and how many weeks to run it.';
+    var wn=document.getElementById('windowNote');
+    if(W&&dw&&W.w<dw){wn.textContent='Your window is shorter than the time customers take to decide. Give it at least '+dw+' weeks, or you’ll judge it before anyone could have said yes.';wn.classList.remove('hidden')}else wn.classList.add('hidden');
+    // progress log
+    var got=state.log.reduce(function(s,l){return s+(num(l.n)||0)},0),pg=document.getElementById('prog');
+    if(W&&tg){
+      var goal=tg*(W.w/(PERW[state.per||'month'])),now=new Date(),st=state.start.split('-'),sd=new Date(+st[0],+st[1]-1,+st[2]),el=Math.max(0,Math.min(1,(now-sd)/(W.w*7*864e5)));
+      pg.innerHTML='<p>Counted so far: <b>'+got+'</b> of <b>'+Math.round(goal)+'</b> across the whole window.</p><div class="bar"><div class="fill" style="width:'+Math.min(100,got/goal*100)+'%"></div><div class="pace" style="left:'+(el*100)+'%" title="Time elapsed"></div></div><p>The orange line is how much of the window has passed ('+Math.round(el*100)+'%). Judge it on the date, not before.'+(el<0.35&&got<goal*el?' Early weeks are usually quiet.':'')+'</p>';
+    }else pg.innerHTML='<p>Set the number, the target and the window in step three to track progress here.</p>';
+    [['p1',!!(t(state.group)&&t(state.how))],['p2',!!(t(state.channel)&&t(state.what)&&t(state.often)&&t(state.answer))],['p3',!!(m&&tg&&W)],['p4',state.log.some(function(l){return t(l.n)})]].forEach(function(p){document.getElementById(p[0]).classList.toggle('done',p[1])});
+    // output
+    var biz=t(state.bizName);document.getElementById('outTitle').textContent=biz?biz+': go-to-market plan':'Your go-to-market plan';
+    function put(id,v,e){var el=document.getElementById(id);el.textContent=v||e;el.classList.toggle('e',!v)}
+    put('oGroup',t(state.group),'Not named.');put('oHow',[t(state.how),t(state.before)].filter(Boolean).join('\n'),'Not written.');
+    document.getElementById('oChannel').textContent=t(state.channel)||'Not picked yet.';
+    put('oWhat',t(state.what),'Not written.');put('oTo',[t(state.toWhom),t(state.often),t(state.cost)?'Cost: '+t(state.cost):''].filter(Boolean).join('\n'),'Not written.');
+    put('oAnswer',t(state.answer),'Not written.');
+    put('oNum',m?(m+(tg?': '+tg+' per '+(state.per||'month'):'')):'','Not set.');
+    document.getElementById('oTeam').textContent=n&&tg?state.team.map(function(p){return (t(p.name)||'—')+': '+(Math.round(tg/n*10)/10)}).join(' · '):'';
+    put('oJudge',W?nice(state.start)+' to '+nice(W.end)+' ('+W.w+' weeks)'+(dw?'\nCustomers take '+dw+' weeks to decide':''):'','Not set.');
+    put('oSoFar',state.log.length?got+' counted'+(W&&tg?' of '+Math.round(tg*(W.w/PERW[state.per||'month'])):''):'','Not started.');
+    put('oNot',[t(state.notDo),others?'Still running besides it: '+state.others.filter(function(v){return t(v)}).join(', '):''].filter(Boolean).join('\n'),'Not written.');
+  }
+  function hasData(){return !!(t(state.bizName)||t(state.group)||t(state.channel)||t(state.metric)||state.ten.some(function(v){return t(v)}))}
+  function xlsx(){
+    var wb=XLSX.utils.book_new(),W=window_(),tg=num(state.target);
+    var a=[['Two Weeks Out · Go-to-Market'],['Business',state.bizName||''],['Date',state.gDate||''],['Pre-launch',state.pre?'Yes':'No'],[],
+      ['Best group',state.group||''],[state.pre?'Where they’d go looking':'How they got to us',state.how||''],[state.pre?'What they did last time':'Where they were the week before',state.before||''],[],['Last ten customers: how each got to us']];
+    state.ten.forEach(function(v,i){a.push(['Customer '+(i+1),v||''])});
+    a=a.concat([[],['The one channel',state.channel||''],['What we do',state.what||''],['To whom, how many',state.toWhom||''],['How often',state.often||''],['Cost',state.cost||''],['Who answers, how fast',state.answer||''],['Decided not to do',state.notDo||''],['Still running besides it',state.others.filter(function(v){return t(v)}).join(', ')],['Checked referral rules in my field',state.rules?'Yes':'No']]);
+    XLSX.utils.book_append_sheet(wb,sheet(a,[38,100]),'Channel');
+    var b=[['The one number',state.metric||''],['Target',tg==null?'':tg],['Per',state.per||'month'],['Starts',state.start||''],['Weeks',num(state.weeks)==null?'':num(state.weeks)],['Judge on',W?W.end:''],['Customers take to decide (weeks)',num(state.decideW)==null?'':num(state.decideW)],[],['Team','Share of target']];
+    state.team.forEach(function(p){b.push([p.name||'',tg&&state.team.length?Math.round(tg/state.team.length*10)/10:''])});
+    b.push([],['Log date','Count','Note']);state.log.forEach(function(l){b.push([l.date||'',num(l.n)==null?'':num(l.n),l.note||''])});
+    XLSX.utils.book_append_sheet(wb,sheet(b,[36,18,50]),'Number and log');
+    XLSX.writeFile(wb,fileName('Go_To_Market','_GTM'));
+  }
+  wire({hasData:hasData,example:EXAMPLE,fresh:fresh,rebuild:rebuild,xlsx:xlsx});
+  rebuild();render();
+})();
+</script>
+</body>
+</html>

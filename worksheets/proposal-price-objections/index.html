@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tighten Your Proposal Move — Two Weeks Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#10131a;--ink-soft:#10131a;--muted:#59616e;--muted-soft:#9ba3af;--border:#e9ecf5;--border-soft:#e9ecf5;--bg:#ffffff;--bg-soft:#fbfaf6;--green:#2747f5;--bright:#2747f5;--em-soft:#e9ecf5;--cream-soft:#e9ecf5;--amber:#7d5300;--font-display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  *{box-sizing:border-box;}html,body{margin:0;padding:0;}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg-soft);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .sheet{max-width:880px;margin:0 auto;padding:56px 48px 80px;background:var(--bg);}
+  header.brand{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:34px;}
+  .eyebrow{font-size:11px;letter-spacing:2.5px;color:var(--green);font-weight:600;text-transform:uppercase;margin:0 0 6px;}
+  h1{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:32px;line-height:1.2;color:var(--ink);margin:0 0 8px;font-weight:800;letter-spacing:-.03em;font-style:normal;}
+  .lede{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-style:normal;color:var(--ink-soft);font-size:16px;margin:0;}
+  .step{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--border);}
+  .step:first-of-type{border-top:none;padding-top:0;}
+  .step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .step-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:28px;font-weight:800;color:var(--bright);line-height:1;letter-spacing:-.03em;font-style:normal;}
+  .step-title{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:22px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.03em;font-style:normal;}
+  .step-sub{color:var(--muted);font-size:14px;margin:4px 0 18px;font-style:italic;}
+  label{font-size:13px;color:var(--ink-soft);font-weight:500;display:block;margin-bottom:5px;}
+  .field-def{font-size:12px;color:var(--muted);font-style:italic;line-height:1.45;margin-bottom:7px;}
+  input[type="text"],textarea,select{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);background:white;border:1px solid var(--border);border-radius:0;padding:9px 11px;width:100%;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--em-soft);}
+  textarea{resize:vertical;min-height:64px;line-height:1.5;}
+  .field{margin-bottom:14px;}
+  .block-card{border:1px solid var(--border);border-radius:0;padding:16px 18px;margin-bottom:12px;background:white;}
+  .block-card.green-edge{border-left:4px solid var(--green);}
+  .block-card.amber-edge{border-left:4px solid var(--amber);}
+  /* Four-part proposal anatomy */
+  .anatomy{display:grid;grid-template-columns:60px 1fr;gap:10px;margin-bottom:10px;align-items:start;}
+  .anatomy .a-num{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:24px;font-weight:800;color:white;background:var(--green);border-radius:0;text-align:center;padding:8px 0;letter-spacing:-.03em;font-style:normal;}
+  .anatomy .a-content label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;color:var(--ink);font-weight:600;margin-bottom:2px;}
+  .anatomy .a-content .field-def{margin-bottom:5px;}
+  /* Practice toggle */
+  .practice-row{display:grid;grid-template-columns:1fr 60px;gap:10px;align-items:center;border:1px solid var(--border);border-radius:0;padding:9px 12px;margin-bottom:6px;background:white;}
+  .practice-row label{margin:0;font-size:13px;color:var(--ink-soft);cursor:pointer;}
+  .practice-row input[type="checkbox"]{justify-self:end;width:18px;height:18px;accent-color:var(--green);cursor:pointer;}
+  /* Objection picker */
+  .obj-radio-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+  .obj-radio{border:1px solid var(--border);border-radius:0;padding:11px 13px;background:white;cursor:pointer;font-size:13px;color:var(--ink-soft);display:flex;align-items:center;gap:8px;}
+  .obj-radio input{accent-color:var(--green);cursor:pointer;}
+  .obj-radio:hover{border-color:var(--green);background:var(--em-soft);}
+  .obj-radio.selected{border-color:var(--green);background:var(--em-soft);font-weight:600;color:var(--ink);}
+  /* Output */
+  .output-section{margin-top:48px;padding-top:36px;border-top:3px solid var(--ink);}
+  .output-header{text-align:center;margin-bottom:28px;}
+  .output-header .eyebrow{color:var(--bright);}
+  .output-header h2{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--ink);margin:4px 0 6px;letter-spacing:-.03em;font-style:normal;line-height:1.04;}
+  .output-header p{color:var(--muted);font-size:14px;margin:0;font-style:italic;}
+  .strategy-doc{border:2px solid var(--ink);border-radius:0;padding:32px 36px;background:white;}
+  .strategy-block{margin-bottom:28px;}
+  .strategy-block:last-child{margin-bottom:0;}
+  .strategy-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .proposal-out{display:grid;grid-template-columns:50px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-soft);}
+  .proposal-out:last-of-type{border-bottom:none;}
+  .proposal-out .po-num{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:18px;font-weight:600;color:var(--green);}
+  .proposal-out .po-content{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;color:var(--ink);line-height:1.55;}
+  .proposal-out .po-content .po-name{font-weight:600;display:block;margin-bottom:3px;}
+  .proposal-out .po-content .po-val{color:var(--ink-soft);font-style:italic;}
+  .proposal-out .po-content .po-val.empty{color:#59616e;}
+  .obj-response-out{background:var(--em-soft);border-left:4px solid var(--green);padding:14px 18px;border-radius:0;}
+  .obj-response-out .or-label{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);margin-bottom:6px;}
+  .obj-response-out .or-obj{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;color:var(--ink);font-style:normal;margin-bottom:10px;}
+  .obj-response-out .or-pattern{display:grid;grid-template-columns:90px 1fr;gap:10px;padding:6px 0;border-bottom:1px dashed var(--border);}
+  .obj-response-out .or-pattern:last-child{border-bottom:none;}
+  .obj-response-out .or-pattern .or-key{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);font-weight:600;padding-top:3px;}
+  .obj-response-out .or-pattern .or-val{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;color:var(--ink-soft);line-height:1.5;}
+  .practice-summary{padding:14px 18px;background:var(--bg-soft);border:1px solid var(--border);border-radius:0;font-size:13px;color:var(--ink-soft);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  .practice-summary strong{color:var(--green);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;}
+  .observation{margin-top:24px;padding:14px 18px;background:var(--em-soft);border-radius:0;font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .observation strong{color:var(--green);}
+  .observation.warn{background:var(--cream-soft);}
+  .observation.warn strong{color:var(--amber);}
+  .empty-output{padding:36px;background:var(--bg-soft);border:1px dashed var(--border);border-radius:0;text-align:center;color:var(--muted);font-style:italic;}
+  .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-top:36px;padding-top:22px;border-top:1px solid var(--border);}
+  .btn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:0;cursor:pointer;border:1px solid var(--border);background:white;color:var(--ink-soft);}
+  .btn:hover{background:var(--bg-soft);}
+  .btn-primary{background:var(--green);color:white;border-color:#ffffff;}
+  .btn-primary:hover{background:#1b36c9;}
+  .btn-example{background:var(--cream-soft);color:var(--amber);border-color:var(--cream-soft);}
+  .btn-example:hover{background:#d5d9e4;}
+  .btn-ghost{color:var(--muted);}
+  @media print{body{background:white;}.sheet{max-width:none;padding:28px 24px;}.toolbar{display:none;}input,textarea,select{border:none;border-bottom:1px solid var(--border);border-radius:0;padding:4px 0;background:transparent;}.empty-output{display:none;}.step,.strategy-doc{page-break-inside:avoid;}}
+
+/* Two Weeks Out module band, October 2026 system */
+.two-band{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:space-between;align-items:center;padding:12px 24px;background:#FF7C98;color:#10131a;border-bottom:2px solid #10131a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.two-band .two-wm{font-family:'Bricolage Grotesque','Arial Narrow',system-ui,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1;color:#10131a}
+.two-band .two-mod{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;color:#10131a}
+body{-webkit-font-smoothing:antialiased}
+@media print{.two-band{display:none !important}}
+/* shared touches, October 2026 system */
+button,select,optgroup,option{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#2747f5}
+h1 em,h1 i{font-style:normal !important;font-weight:inherit !important;color:inherit !important;background:linear-gradient(#ff5a1f,#ff5a1f) left calc(100% - .04em)/100% .09em no-repeat;padding-bottom:.02em;-webkit-box-decoration-break:clone;box-decoration-break:clone;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style>
+</head>
+<body>
+<div class="two-band"><span class="two-wm">Two Weeks Out</span><span class="two-mod">08 / Turn Interest Into Revenue</span></div>
+<div class="sheet">
+
+<header class="brand">
+  <p class="eyebrow">The Owner's Operating System  ·  Sales Strategy and Execution Excellence</p>
+  <h1>Tighten Your Proposal Move</h1>
+  <p class="lede">Build the four-part shape. Practice the silence. Design the response pattern for the objection you hear most.</p>
+  <div style="margin-top:14px;"><button class="btn btn-example" type="button" onclick="useExample()">Use Marcus's example to start</button></div>
+</header>
+
+<!-- STEP 1 — Four-part proposal -->
+<section class="step">
+  <div class="step-head"><span class="step-num">01</span><span class="step-title">Build the four-part shape</span></div>
+  <p class="step-sub">For a specific prospect you're currently working with. If you currently propose options, force yourself to pick the ONE.</p>
+  <div class="block-card green-edge">
+    <div class="field">
+      <label for="prospect-name">The prospect (so this isn't hypothetical)</label>
+      <input type="text" id="prospect-name" placeholder="Who is this proposal for?">
+    </div>
+    <div class="anatomy"><div class="a-num">1</div><div class="a-content">
+      <label for="situation">The situation</label>
+      <p class="field-def">Played back in their words, not yours. What you actually heard them describe in discovery.</p>
+      <textarea id="situation" placeholder="Their words. What's actually going on for them."></textarea>
+    </div></div>
+    <div class="anatomy"><div class="a-num">2</div><div class="a-content">
+      <label for="recommendation">The recommendation</label>
+      <p class="field-def">ONE. Not a menu. The specific thing you propose, based on what you heard.</p>
+      <textarea id="recommendation" placeholder="The one thing you recommend for THIS prospect."></textarea>
+    </div></div>
+    <div class="anatomy"><div class="a-num">3</div><div class="a-content">
+      <label for="price">What it costs</label>
+      <p class="field-def">Stated once. Clearly. No hedge, no "but," no softener.</p>
+      <input type="text" id="price" placeholder="The number. As you'll say it out loud.">
+    </div></div>
+    <div class="anatomy" style="margin-bottom:0;"><div class="a-num">4</div><div class="a-content">
+      <label for="next-step">The next step</label>
+      <p class="field-def">What happens if they say yes — today, not eventually.</p>
+      <textarea id="next-step" placeholder="The concrete action that follows their yes."></textarea>
+    </div></div>
+  </div>
+</section>
+
+<!-- STEP 2 — Silence practice -->
+<section class="step">
+  <div class="step-head"><span class="step-num">02</span><span class="step-title">Practice presenting price</span></div>
+  <p class="step-sub">State the price, then count to seven silently before you say anything else. Five times before your next proposal call. Check each rep as you do it.</p>
+  <div class="block-card green-edge">
+    <p class="field-def" style="margin-bottom:14px;">It will feel artificial the first time. That's the muscle being built.</p>
+    <div id="practice-list">
+      <div class="practice-row"><label for="rep-1">Rep 1 — state the price, count to 7, hold the silence</label><input type="checkbox" id="rep-1"></div>
+      <div class="practice-row"><label for="rep-2">Rep 2 — state the price, count to 7, hold the silence</label><input type="checkbox" id="rep-2"></div>
+      <div class="practice-row"><label for="rep-3">Rep 3 — state the price, count to 7, hold the silence</label><input type="checkbox" id="rep-3"></div>
+      <div class="practice-row"><label for="rep-4">Rep 4 — state the price, count to 7, hold the silence</label><input type="checkbox" id="rep-4"></div>
+      <div class="practice-row"><label for="rep-5">Rep 5 — state the price, count to 7, hold the silence</label><input type="checkbox" id="rep-5"></div>
+    </div>
+    <div class="field" style="margin-top:14px;margin-bottom:0;">
+      <label for="silence-note">What you noticed about the silence (after a few reps)</label>
+      <textarea id="silence-note" placeholder="How long did 7 seconds actually feel? Where did you want to break and start talking?"></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 3 — Objection response pattern -->
+<section class="step">
+  <div class="step-head"><span class="step-num">03</span><span class="step-title">Design your response pattern</span></div>
+  <p class="step-sub">Pick the objection you hear most often. Write your response — acknowledge, ask a clarifying question, name what you're listening for underneath.</p>
+  <div class="block-card green-edge">
+    <p class="field-def" style="margin-bottom:8px;">Which objection do you hear most often?</p>
+    <div class="obj-radio-group" id="obj-picker">
+      <label class="obj-radio"><input type="radio" name="obj-type" value="price-shock"> Price-shock — "That's more than I was expecting"</label>
+      <label class="obj-radio"><input type="radio" name="obj-type" value="timing"> Timing — "I need to think about it"</label>
+      <label class="obj-radio"><input type="radio" name="obj-type" value="authority"> Authority — "I need to discuss with my spouse / partner / board"</label>
+      <label class="obj-radio"><input type="radio" name="obj-type" value="competition"> Competition — "I'm talking to a few other people"</label>
+    </div>
+    <div class="field">
+      <label for="obj-acknowledge">Your acknowledge line</label>
+      <p class="field-def">Short. Validates their statement without conceding anything. NOT "you're right" — usually closer to "I hear you" or "that makes sense."</p>
+      <input type="text" id="obj-acknowledge" placeholder='e.g., "I hear you. That’s a fair concern."'>
+    </div>
+    <div class="field">
+      <label for="obj-question">Your clarifying question</label>
+      <p class="field-def">Turns the objection into information. Asks WHAT or WHO or WHEN — not "why."</p>
+      <input type="text" id="obj-question" placeholder='e.g., "What were you expecting?"'>
+    </div>
+    <div class="field" style="margin-bottom:0;">
+      <label for="obj-listen">What you're listening for underneath</label>
+      <p class="field-def">What does their answer to your question tell you? What pattern would tell you the objection is real vs. a softer "I'm not sure yet"?</p>
+      <textarea id="obj-listen" placeholder="The signal you're listening for in their next words."></textarea>
+    </div>
+  </div>
+</section>
+
+<section class="output-section">
+  <div class="output-header">
+    <p class="eyebrow">YOUR RESULT</p>
+    <h2>Your Proposal Move</h2>
+    <p>The four-part shape. The silence reps. The response pattern.</p>
+  </div>
+  <div id="output-section"><div class="empty-output">Build the four-part shape and click Generate.</div></div>
+</section>
+
+<div class="toolbar">
+  <button class="btn btn-ghost" type="button" onclick="clearAll()">Clear all</button>
+  <button class="btn btn-example" type="button" onclick="useExample()">Use example</button>
+  <button class="btn" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <button class="btn btn-primary" type="button" onclick="generate()">Generate result</button>
+</div>
+
+</div>
+<script>
+const EXAMPLE={
+  prospectName:"Sarah M. — new prospect at the Topeka PT-led location",
+  situation:"You've been carrying lower-back pain for about 18 months and it's started keeping you out of your son's soccer games \u2014 you can't get through one without sitting down. Your doctor told you at your last physical that you're pre-diabetic. You've tried a big-box gym membership twice and quit both within six weeks because nobody knew you were there.",
+  recommendation:"Our 12-week Foundation PT program with Marcus G. as your trainer \u2014 2 sessions a week, programming designed around the back issue, and a nutrition consult at week 4 to address the pre-diabetes piece. We'll start with mobility and progress to strength as your back tolerates it.",
+  price:"$2,400 for the 12 weeks, paid in three installments.",
+  nextStep:"You sign the agreement today, we book your first session with Marcus for Wednesday, and you get a welcome email tonight with the intake forms.",
+  silenceNote:"7 seconds felt like 15 the first time. Wanted to add 'and we have a payment plan' after rep 2. Got easier by rep 4 \u2014 started trusting that the prospect was actually thinking, not judging.",
+  objType:"price-shock",
+  objAcknowledge:"I hear you. The number lands differently for different people.",
+  objQuestion:"What were you expecting it to be?",
+  objListen:"If they name a different price tier ($800/mo for a gym membership, etc.) they were anchoring on the wrong category \u2014 I correct the anchor. If they go quiet or say 'I just thought it would be less,' that's usually a soft 'I'm not sure yet' \u2014 different response needed.",
+};
+
+function val(id){return (document.getElementById(id)?.value||"").toString().trim();}
+function checked(id){return !!document.getElementById(id)?.checked;}
+function setEl(id,v){const e=document.getElementById(id);if(e)e.value=v==null?"":v;}
+function setCheck(id,v){const e=document.getElementById(id);if(e)e.checked=!!v;}
+function setRadio(name,v){const e=document.querySelector(`input[name="${name}"][value="${v}"]`);if(e){e.checked=true;updateObjPicker();}}
+function escapeHtml(s){if(s==null)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+function updateObjPicker(){
+  document.querySelectorAll(".obj-radio").forEach(lab=>{
+    const input=lab.querySelector('input[type="radio"]');
+    lab.classList.toggle("selected", input.checked);
+  });
+}
+document.addEventListener("change", e=>{
+  if(e.target.matches('input[name="obj-type"]')) updateObjPicker();
+});
+
+function useExample(){
+  const has=val("prospect-name")||val("situation")||val("obj-acknowledge");
+  if(has&&!confirm("This will replace what you've entered with a worked example. Continue?"))return;
+  setEl("prospect-name",EXAMPLE.prospectName);
+  setEl("situation",EXAMPLE.situation);
+  setEl("recommendation",EXAMPLE.recommendation);
+  setEl("price",EXAMPLE.price);
+  setEl("next-step",EXAMPLE.nextStep);
+  setEl("silence-note",EXAMPLE.silenceNote);
+  ["rep-1","rep-2","rep-3","rep-4","rep-5"].forEach(id=>setCheck(id,true));
+  setRadio("obj-type",EXAMPLE.objType);
+  setEl("obj-acknowledge",EXAMPLE.objAcknowledge);
+  setEl("obj-question",EXAMPLE.objQuestion);
+  setEl("obj-listen",EXAMPLE.objListen);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function getObjType(){
+  const r=document.querySelector('input[name="obj-type"]:checked');
+  return r?r.value:"";
+}
+function objLabel(v){
+  return {"price-shock":"Price-shock","timing":"Timing","authority":"Authority","competition":"Competition"}[v]||"";
+}
+function objQuote(v){
+  return {"price-shock":"\u201CThat\u2019s more than I was expecting.\u201D","timing":"\u201CI need to think about it.\u201D","authority":"\u201CI need to discuss this with my spouse / partner / board.\u201D","competition":"\u201CI\u2019m talking to a few other people.\u201D"}[v]||"";
+}
+
+function generate(){
+  const out=document.getElementById("output-section");
+  const data={
+    prospectName:val("prospect-name"),situation:val("situation"),recommendation:val("recommendation"),price:val("price"),nextStep:val("next-step"),
+    silenceNote:val("silence-note"),
+    objType:getObjType(),objAcknowledge:val("obj-acknowledge"),objQuestion:val("obj-question"),objListen:val("obj-listen"),
+  };
+  const reps=["rep-1","rep-2","rep-3","rep-4","rep-5"].filter(checked).length;
+
+  // Need at least the proposal shape to generate
+  if(!data.situation && !data.recommendation && !data.price){
+    out.innerHTML='<div class="empty-output">Build at least part of the four-part shape to generate the result.</div>';
+    out.scrollIntoView({behavior:"smooth",block:"start"});return;
+  }
+
+  let html='<div class="strategy-doc">';
+
+  // The proposal
+  html+=`<div class="strategy-block"><div class="strategy-label">Your tight proposal\u2014${data.prospectName?escapeHtml(data.prospectName):'for the prospect you named'}</div>`;
+  const parts=[
+    {n:"1",name:"The situation",val:data.situation},
+    {n:"2",name:"The recommendation",val:data.recommendation},
+    {n:"3",name:"What it costs",val:data.price},
+    {n:"4",name:"The next step",val:data.nextStep},
+  ];
+  parts.forEach(pt=>{
+    html+=`<div class="proposal-out"><span class="po-num">${pt.n}</span><div class="po-content"><span class="po-name">${escapeHtml(pt.name)}</span><span class="po-val ${pt.val?'':'empty'}">${pt.val?escapeHtml(pt.val):'\u2014 not yet defined'}</span></div></div>`;
+  });
+  html+=`</div>`;
+
+  // Silence practice
+  if(reps>0||data.silenceNote){
+    html+=`<div class="strategy-block"><div class="strategy-label">Silence practice</div>`;
+    html+=`<div class="practice-summary"><strong>${reps} of 5 reps completed.</strong>`;
+    if(data.silenceNote)html+=` <br><br>${escapeHtml(data.silenceNote)}`;
+    html+=`</div></div>`;
+  }
+
+  // Response pattern
+  if(data.objType||data.objAcknowledge||data.objQuestion||data.objListen){
+    html+=`<div class="strategy-block"><div class="strategy-label">Your response pattern</div>`;
+    html+=`<div class="obj-response-out">`;
+    if(data.objType){
+      html+=`<div class="or-label">When you hear: ${escapeHtml(objLabel(data.objType))}</div>`;
+      html+=`<div class="or-obj">${escapeHtml(objQuote(data.objType))}</div>`;
+    }
+    if(data.objAcknowledge)html+=`<div class="or-pattern"><span class="or-key">Acknowledge</span><span class="or-val">"${escapeHtml(data.objAcknowledge)}"</span></div>`;
+    if(data.objQuestion)html+=`<div class="or-pattern"><span class="or-key">Ask</span><span class="or-val">"${escapeHtml(data.objQuestion)}"</span></div>`;
+    if(data.objListen)html+=`<div class="or-pattern"><span class="or-key">Listen for</span><span class="or-val">${escapeHtml(data.objListen)}</span></div>`;
+    html+=`</div></div>`;
+  }
+
+  html+='</div>';
+
+  // Teaching detectors
+  const obs=[];
+
+  // Detector 1: Recommendation contains "or" / multiple options / "either"
+  if(data.recommendation){
+    const optionsRegex=/\b(or |either |option 1|option 2|tier|package a|package b|basic|standard|premium|level [123])\b/i;
+    if(optionsRegex.test(data.recommendation)){
+      obs.push({warn:true,text:`<strong>Your recommendation reads like a menu, not a single offer.</strong> The whole point of this session: ONE recommendation, not a list. If discovery genuinely supports two paths, you don't have enough discovery yet. Pick the one that fits this specific prospect \u2014 if you can't, go back and run more discovery.`});
+    }
+  }
+
+  // Detector 2: Price contains hedges
+  if(data.price){
+    const hedgeRegex=/\b(but |however |we can work|flexible|negotiable|starting at|approximately|around|or so|range|usually|typically|depends on|let\u2019s see|let\u2019s discuss)\b/i;
+    if(hedgeRegex.test(data.price)){
+      obs.push({warn:true,text:`<strong>Your price line has a hedge in it.</strong> "Starting at," "approximately," "we can work with you," "negotiable" \u2014 every one of these signals you're not sure the price is right. State the number. Stop talking. The whole silence rule depends on the number landing clean.`});
+    }
+  }
+
+  // Detector 3: Situation paragraph is in your voice, not theirs
+  if(data.situation){
+    const yourVoiceRegex=/\b(we offer|we provide|our (program|service|approach|method)|i recommend|i think|the solution is|our team)\b/i;
+    if(yourVoiceRegex.test(data.situation)){
+      obs.push({warn:true,text:`<strong>The situation paragraph is in your voice, not theirs.</strong> Part 1 is supposed to be what THEY told you, played back. If "we" or "our" or "I recommend" appears, you're already pitching. Re-write it as if you were quoting them \u2014 use the "you" form, name what they said.`});
+    }
+  }
+
+  // Detector 4: Silence practice reps
+  if(reps===5){
+    obs.push(`<strong>5 of 5 silence reps done.</strong> The muscle is built. The next proposal call is where you test it for real \u2014 with a live prospect, the silence will feel longer than it did in practice. That's expected. Hold it anyway.`);
+  } else if(reps>0 && reps<5){
+    obs.push(`<strong>${reps} of 5 silence reps done.</strong> Keep going. The first two feel artificial; the third starts to feel like a real beat; by the fifth you stop noticing the count. That's when it's actually a habit.`);
+  } else if(reps===0 && (data.situation||data.recommendation)){
+    obs.push({warn:true,text:`<strong>Silence practice not yet started.</strong> The proposal shape and the silence are inseparable \u2014 a tight proposal still falls apart if you keep talking after stating the price. Do the five reps before your next call.`});
+  }
+
+  // Detector 5: Response question starts with "Why"
+  if(data.objQuestion){
+    if(/^why\b/i.test(data.objQuestion)){
+      obs.push({warn:true,text:`<strong>Your clarifying question starts with "Why."</strong> "Why" questions feel like interrogation \u2014 they push your buyer into defending their position. WHAT, WHO, and WHEN questions get information; WHY questions trigger justification. Rewrite as "What\u2026" or "When\u2026" or "Who\u2026".`});
+    }
+  }
+
+  // Detector 6: Response acknowledge contains "you're right" (concedes too much)
+  if(data.objAcknowledge){
+    if(/\byou\u2019re right\b|\byoure right\b|\byou are right\b/i.test(data.objAcknowledge)){
+      obs.push({warn:true,text:`<strong>"You're right" concedes too much.</strong> Acknowledging the objection is not the same as conceding it. "I hear you" or "that makes sense" validates the statement without giving away the position. Save the concession for when you actually want to concede.`});
+    }
+  }
+
+  // Detector 7: All four parts filled = good baseline
+  const partsFilled=parts.filter(pt=>pt.val).length;
+  if(partsFilled===4){
+    obs.push(`<strong>All four parts of the proposal shape are filled.</strong> Read it back out loud. If any part feels generic, that's the part to rewrite \u2014 specifically the situation (was that really their words?) and the recommendation (did it come from what they said in discovery, or from your default offer set?).`);
+  } else if(partsFilled<4){
+    obs.push({warn:true,text:`<strong>${partsFilled} of 4 parts complete.</strong> The shape doesn't work without all four. The most-skipped part is usually #4 (the next step) \u2014 owners treat the proposal as ending at the price, but the next step is what turns a yes into a booked engagement. Fill the gap.`});
+  }
+
+  obs.forEach(o=>{
+    if(typeof o==="string")html+=`<div class="observation">${o}</div>`;
+    else html+=`<div class="observation ${o.warn?'warn':''}">${o.text}</div>`;
+  });
+
+  out.innerHTML=html;
+  out.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function clearAll(){
+  if(!confirm("Clear all entries and start over?"))return;
+  ["prospect-name","situation","recommendation","price","next-step","silence-note","obj-acknowledge","obj-question","obj-listen"].forEach(id=>setEl(id,""));
+  ["rep-1","rep-2","rep-3","rep-4","rep-5"].forEach(id=>setCheck(id,false));
+  document.querySelectorAll('input[name="obj-type"]').forEach(r=>r.checked=false);
+  updateObjPicker();
+  document.getElementById("output-section").innerHTML='<div class="empty-output">Build the four-part shape and click Generate.</div>';
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
