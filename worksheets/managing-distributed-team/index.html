@@ -354,5 +354,6 @@ function resetAllFields() { document.querySelectorAll("input[type='text'], selec
 function clearAll() { if (!confirm("Clear all entries and start over?")) return; resetAllFields(); document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your playbook.</div>'; window.scrollTo({ top: 0, behavior: "smooth" }); }
 toggleMultiLocation();
 </script>
+<script src="/persistence-autosave-v1.js"></script>
 </body>
 </html>
