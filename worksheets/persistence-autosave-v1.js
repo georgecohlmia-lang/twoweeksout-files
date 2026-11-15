@@ -136,12 +136,21 @@
   document.addEventListener("click", function (e) {
     if (restoring) return;
     var button = e.target.closest && e.target.closest("button");
-    if (button) {
-      if (isResetAction(button)) actions = [];
-      else if (isStructureAction(button) && actions.length < MAX_ACTIONS) actions.push(buttonRecord(button));
+    if (button && (isResetAction(button) || isStructureAction(button))) {
+      var wasReset = isResetAction(button);
+      var before = JSON.stringify(readFields());
+      var record = buttonRecord(button);
+      // Capture after the worksheet handler. A canceled confirmation should
+      // not erase saved history or replay an operation that never happened.
+      setTimeout(function () {
+        var changed = JSON.stringify(readFields()) !== before;
+        if (changed && wasReset) actions = [];
+        else if (changed && !wasReset && actions.length < MAX_ACTIONS) actions.push(record);
+        scheduleSave();
+      }, 0);
+    } else {
+      scheduleSave();
     }
-    // Save after the worksheet's original click handler has updated its DOM.
-    scheduleSave();
   }, true);
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", restore);
