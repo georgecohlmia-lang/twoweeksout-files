@@ -192,7 +192,7 @@
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
         cache: "no-store",
-        body: JSON.stringify({ snapshot, message, history: history.slice(-8), coachingStyle: coachingStyle.value, ...(cashPilot ? {} : { worksheetId, narrativeConsent: consent.checked }) })
+        body: JSON.stringify({ snapshot, message, history: history.slice(-8).map(h => ({ role: h.role, content: h.content.slice(0, 1500) })), coachingStyle: coachingStyle.value, ...(cashPilot ? {} : { worksheetId, narrativeConsent: consent.checked }) })
       });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) throw Error(response.status === 503 ? "The Coach connection is not enabled in this environment yet." : (result.error || "The Coach is temporarily unavailable."));
