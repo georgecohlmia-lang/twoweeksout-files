@@ -104,7 +104,12 @@
 
   async function ask(message) {
     if (busy) return;
-    const snapshot = readSnapshot();
+    let snapshot;
+    try { snapshot = readSnapshot(); }
+    catch (error) {
+      addMessage("assistant", error.message || "Unable to read the forecast.");
+      return;
+    }
     if (!snapshot.openingProvided || snapshot.entered === 0) {
       addMessage("assistant", "Start by entering your opening bank balance and some expected cash receipts or payments. Then I can challenge your actual forecast.");
       return;
