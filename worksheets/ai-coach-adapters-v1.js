@@ -120,6 +120,29 @@ if(extra==="pipeline-forecasting"){for(let i=1;i<=4;i++)for(const field of ["cou
 if(extra==="cash-timing-diagnostic"){let inflows=Array(8).fill(0),outflows=Array(8).fill(0),entries=0;for(const el of document.querySelectorAll('input[data-section][data-week]')){const w=Number(el.dataset.week),v=el.value.trim(),section=el.dataset.section;if(!v||!Number.isInteger(w)||w<0||w>7||!["inflows","outflows"].includes(section))continue;const n=Number(v);if(!Number.isFinite(n))throw Error("Correct invalid cash amounts.");(section==="inflows"?inflows:outflows)[w]+=n;entries++;}values.weeklyInflows=inflows;values.weeklyOutflows=outflows;values.entries=entries;}
 if(extra==="two-estimating-revenue"){for(const k of ["hypTraffic","hypConv","hypAOV","consvPct","upsidePct","survivalLine"]){const el=document.getElementById(k);if(el&&el.value.trim()){const n=Number(el.value.replace(/[$,%\s,]/g,""));values[k]=Number.isFinite(n)?n:null;}}}
 if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!==""&&v!==0))return null;return {kind:"batch1-"+extra,values};}},
+"two-building-sales-process":{
+ title:"Building Your Sales Process",
+ objective:"Test whether four sales stages represent verifiable buyer progression and whether a new hire could execute the process without founder intervention.",
+ prompts:{
+  risk:"Which stage creates the greatest risk of a misleading pipeline?",
+  assumptions:"Challenge whether my stages measure buyer progress rather than sales activity.",
+  options:"What should I change before hiring another salesperson?",
+  habit:"What evidence should I review weekly to improve this process?"
+ },
+ snapshot(){
+  const values={motionType:document.querySelector('input[name="motion-type"]:checked')?.value||"",motionName:text("motion-name",160)};
+  for(let i=1;i<=4;i++){
+   values["s"+i+"Entry"]=text("s"+i+"-entry",300);
+   values["s"+i+"Exit"]=text("s"+i+"-exit",300);
+   values["s"+i+"Artifact"]=text("s"+i+"-artifact",300);
+  }
+  for(let i=1;i<=5;i++)values["inherit"+i]=document.getElementById("inh-"+i)?.checked===true?"yes":"no";
+  values.biggestGap=text("biggest-gap",300);
+  values.gapAction=text("gap-action",300);
+  if(!values.motionType&&!values.motionName&&!values.biggestGap&&!values.gapAction&&![1,2,3,4].some(i=>values["s"+i+"Entry"]||values["s"+i+"Exit"]||values["s"+i+"Artifact"]))return null;
+  return {kind:"batch2-two-building-sales-process",values};
+ }
+},
 "affordability-test":{
  title:"Hire Affordability Test",
  objective:"Evaluate the full cost, ramp exposure, cash cushion and timing of a proposed hire; distinguish affordability from desirability.",
