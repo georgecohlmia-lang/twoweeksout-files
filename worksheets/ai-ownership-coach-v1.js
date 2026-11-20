@@ -8,13 +8,13 @@
   const style = document.createElement("style");
   style.textContent = `
     #two-coach-launch {position:fixed;right:22px;bottom:22px;z-index:9998;background:#2747f5;color:#fff;border:0;border-radius:999px;padding:14px 20px;font:700 14px Inter,Arial,sans-serif;box-shadow:0 8px 28px #10131a35;cursor:pointer}
-    #two-coach-panel {position:fixed;right:22px;bottom:78px;width:min(420px,calc(100vw - 32px));height:min(570px,calc(100dvh - 110px));z-index:9999;background:#fbfaf6;color:#10131a;border:1px solid #d5d9e4;border-radius:16px;box-shadow:0 18px 55px #10131a40;display:none;flex-direction:column;font:14px Inter,Arial,sans-serif;overflow:hidden}
+    #two-coach-panel {position:fixed;right:22px;bottom:78px;width:min(580px,calc(100vw - 32px));height:min(760px,calc(100dvh - 100px));z-index:9999;background:#fbfaf6;color:#10131a;border:1px solid #d5d9e4;border-radius:16px;box-shadow:0 18px 55px #10131a40;display:none;flex-direction:column;font:14px Inter,Arial,sans-serif;overflow:hidden}
     #two-coach-panel[data-open="true"]{display:flex}
     #two-coach-panel header {display:flex;align-items:center;justify-content:space-between;padding:17px 19px;margin:0;background:#10131a;color:white;border:0}
     #two-coach-panel h2{font-size:17px;line-height:1.2;margin:0;color:white;font-weight:750}
     #two-coach-close{background:transparent;color:white;border:0;font-size:24px;cursor:pointer}
     #two-coach-intro{font-size:12px;color:#59616e;padding:11px 18px;border-bottom:1px solid #d5d9e4}
-    #two-coach-log{flex:1;overflow:auto;padding:17px;display:flex;flex-direction:column;gap:12px}
+    #two-coach-log{flex:1;min-height:180px;overflow-y:auto;padding:17px;display:flex;flex-direction:column;gap:12px}
     .two-coach-msg{padding:11px 13px;border-radius:11px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
     .two-coach-msg.user{background:#e9ecf5;align-self:flex-end;max-width:90%}
     .two-coach-msg.assistant{background:#fff;border:1px solid #d5d9e4;align-self:flex-start;max-width:100%}
@@ -32,7 +32,7 @@
     #two-coach-style{min-height:42px}
     #two-coach-question{font-size:16px}
     #two-coach-log{min-height:0;overscroll-behavior:contain}
-    @media(max-width:600px){
+    @media(min-width:601px) and (max-height:650px){#two-coach-panel{height:calc(100dvh - 92px);bottom:76px}}\n    @media(max-width:600px){
       #two-coach-launch{right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));padding:13px 16px;font-size:13px;max-width:calc(100vw - 24px)}
       #two-coach-panel{position:fixed;inset:0;width:100%;height:100%;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none}
       #two-coach-panel header{padding:12px max(16px,env(safe-area-inset-right)) 12px max(16px,env(safe-area-inset-left));flex-shrink:0}
