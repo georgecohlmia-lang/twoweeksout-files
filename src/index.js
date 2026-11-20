@@ -156,6 +156,40 @@ export default {
       return json({ error: "Invalid coach request" }, 400);
     }
 
+    // Server-calculated first-price economics. unitCost is the worksheet's
+    // fully loaded total; overheadAllocation is already included in it.
+    if (body.worksheetId === "setting-first-price") {
+      const v = body.snapshot.values;
+      const price = v.gutPrice, cost = v.unitCost, discount = v.discountPct, targetMargin = v.targetMargin;
+      const validMoney = n => typeof n === "number" && Number.isFinite(n) && n >= 0;
+      const round = n => Math.round((n + Number.EPSILON) * 100) / 100;
+      if (validMoney(price) && price > 0 && validMoney(cost)) {
+        v.calculatedMarginPct = round((price - cost) / price * 100);
+        v.calculatedUnitProfit = round(price - cost);
+        if (validMoney(discount) && discount <= 100) {
+          const discountedPrice = round(price * (1 - discount / 100));
+          v.calculatedDiscountedPrice = discountedPrice;
+          v.calculatedDiscountedUnitProfit = round(discountedPrice - cost);
+          v.calculatedDiscountedMarginPct = discountedPrice > 0
+            ? round((discountedPrice - cost) / discountedPrice * 100) : null;
+        }
+        if (validMoney(targetMargin) && targetMargin < 100) {
+          v.calculatedTargetPrice = round(cost / (1 - targetMargin / 100));
+        }
+        const calculated = [
+          "SERVER-VERIFIED PRICING FACTS (use these exact values; do not recalculate):",
+          "The worksheet's unitCost already INCLUDES overheadAllocation; NEVER add overheadAllocation again.",
+          "Price: $" + price + "; fully loaded unit cost: $" + cost + ".",
+          "Margin at proposed price: " + v.calculatedMarginPct + "%.",
+          "Unit contribution after worksheet costs: $" + v.calculatedUnitProfit + ".",
+          v.calculatedDiscountedPrice == null ? "" : "Price after stated discount: $" + v.calculatedDiscountedPrice + "; margin: " + (v.calculatedDiscountedMarginPct == null ? "undefined at zero price" : v.calculatedDiscountedMarginPct + "%") + "; unit contribution: $" + v.calculatedDiscountedUnitProfit + ".",
+          v.calculatedTargetPrice == null ? "" : "Price to meet target margin: $" + v.calculatedTargetPrice + ".",
+          "These are fully loaded worksheet-cost margins, not necessarily accounting gross margins. Cost assumptions remain unverified."
+        ].filter(Boolean).join("\\n");
+        body.message = calculated + "\\n\\nOWNER QUESTION: " + body.message;
+      }
+    }
+
     try {
       const target = new URL(request.url);
       target.pathname = "/";
