@@ -160,6 +160,18 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-two-sales-motions",values};
  }
 },
+"two-discovery-conversation":{
+ title:"The Discovery Conversation",
+ objective:"Distinguish substantive buyer discovery from superficial questioning and premature pitching; examine stakes, underlying cause, playback and transition.",
+ prompts:{risk:"Where does my discovery conversation fail to uncover the real buying problem?",assumptions:"Challenge my assumption that asking many questions means I have done discovery.",options:"What should I change in the conversation?",habit:"What should I verify in my next discovery call?"},
+ snapshot(){
+  const ids=["map-open","map-count","map-style","map-pitch","design-open","q-opener","q-peeler","q-stakes","q-success","design-playback","design-transition","layer-1","layer-2","layer-3","layer-4"];
+  const values={};
+  ids.forEach(id=>{const key=id.replace(/-([a-z0-9])/g,(_,c)=>c.toUpperCase());values[key]=text(id,300)});
+  if(!Object.values(values).some(v=>v))return null;
+  return {kind:"batch2-two-discovery-conversation",values};
+ }
+},
 "affordability-test":{
  title:"Hire Affordability Test",
  objective:"Evaluate the full cost, ramp exposure, cash cushion and timing of a proposed hire; distinguish affordability from desirability.",
