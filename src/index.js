@@ -66,6 +66,7 @@ const worksheetSchemas = {
   "pipeline-forecasting": {kind:"batch1-pipeline-forecasting",keys:["kind","values"],batch1:true},
   "two-building-sales-process": {kind:"batch2-two-building-sales-process",keys:["kind","values"],batch1:true},
   "two-sales-motions": {kind:"batch2-two-sales-motions",keys:["kind","values"],batch1:true},
+  "two-discovery-conversation": {kind:"batch2-two-discovery-conversation",keys:["kind","values"],batch1:true},
   "affordability-test": {
     kind: "hire-affordability",
     keys: ["kind", "salary", "loadingFactor", "rampMonths", "cashOnHand", "monthlyNetBurn", "hasRampReasoning", "hasTimingPlan"],
