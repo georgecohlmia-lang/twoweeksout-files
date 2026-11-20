@@ -52,6 +52,60 @@ async function verifyAccess(request, env) {
   } catch { return false; }
 }
 
+// Server-owned worksheet schemas. Legacy 13-week requests remain unchanged.
+const allowedStyles = new Set(["balanced", "direct", "socratic"]);
+const worksheetSchemas = {
+  "affordability-test": {
+    kind: "hire-affordability",
+    keys: ["kind", "salary", "loadingFactor", "rampMonths", "cashOnHand", "monthlyNetBurn", "hasRampReasoning", "hasTimingPlan"],
+    numeric: ["salary", "loadingFactor", "rampMonths", "cashOnHand", "monthlyNetBurn"],
+    boolean: ["hasRampReasoning", "hasTimingPlan"]
+  },
+  "business-model-canvas": {
+    kind: "business-model-canvas",
+    keys: ["kind", "test", "riskRationale", "hasResults"],
+    boolean: ["hasResults"]
+  },
+  "recruiting-talent": {
+    kind: "recruiting-plan",
+    keys: ["kind", "fields"]
+  }
+};
+const safeKeys = (obj, keys) => obj && typeof obj === "object" && !Array.isArray(obj) &&
+  Object.keys(obj).every(k => keys.includes(k));
+const boundedText = (v, max) => typeof v === "string" && v.length <= max;
+function validWorksheetRequest(body) {
+  if (!body || typeof body !== "object" || Array.isArray(body)) return false;
+  if (!boundedText(body.message, 1500) || !body.message.trim()) return false;
+  if (body.coachingStyle != null && !allowedStyles.has(body.coachingStyle)) return false;
+  if (body.history != null && (!Array.isArray(body.history) || body.history.length > 8 ||
+    !body.history.every(h => safeKeys(h, ["role", "content"]) &&
+      ["user", "assistant"].includes(h.role) && boundedText(h.content, 1500)))) return false;
+  if (body.worksheetId == null) {
+    // Backward-compatible cash-flow pilot.
+    return Array.isArray(body.snapshot?.weeks) && body.snapshot.weeks.length === 13;
+  }
+  const schema = worksheetSchemas[body.worksheetId], snap = body.snapshot;
+  if (!schema || !safeKeys(body, ["worksheetId", "snapshot", "message", "history", "coachingStyle", "narrativeConsent"])) return false;
+  if (!safeKeys(snap, schema.keys) || snap.kind !== schema.kind) return false;
+  if (body.worksheetId === "affordability-test") {
+    return schema.numeric.every(k => snap[k] === null || (typeof snap[k] === "number" &&
+      Number.isFinite(snap[k]) && snap[k] >= 0 && snap[k] <= 1000000000)) &&
+      snap.loadingFactor !== 0 && schema.boolean.every(k => typeof snap[k] === "boolean");
+  }
+  if (body.narrativeConsent !== true) return false;
+  if (body.worksheetId === "business-model-canvas") {
+    return safeKeys(snap.test, ["who", "action", "rejectionCriterion", "dueDate"]) &&
+      boundedText(snap.test.who, 400) && boundedText(snap.test.action, 400) &&
+      boundedText(snap.test.rejectionCriterion, 400) && boundedText(snap.test.dueDate, 20) &&
+      boundedText(snap.riskRationale, 600) && typeof snap.hasResults === "boolean";
+  }
+  return safeKeys(snap.fields, ["lever_scope", "lever_proximity", "lever_speed", "lever_stake",
+    "pitch_owns", "pitch_90", "pitch_2y", "fit_norms", "fit_complement"]) &&
+    Object.values(snap.fields).every(v => boundedText(v, 500)) &&
+    Object.keys(snap.fields).length === 9;
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -84,8 +138,7 @@ export default {
     }
     let body;
     try { body = await request.json(); } catch { return json({ error: "Invalid JSON" }, 400); }
-    if (!body || typeof body !== "object" || !Array.isArray(body.snapshot?.weeks) ||
-        body.snapshot.weeks.length !== 13 || typeof body.message !== "string") {
+    if (!validWorksheetRequest(body)) {
       return json({ error: "Invalid coach request" }, 400);
     }
 
