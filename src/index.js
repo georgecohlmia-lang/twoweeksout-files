@@ -190,6 +190,33 @@ export default {
       }
     }
 
+    // Estimating Revenue: force separation of evidence and hypotheses in the test coach.
+    // The backend is a separate Worker, so reference lesson instructions in this repo
+    // are not automatically applied to its prompts.
+    if (body.worksheetId === "two-estimating-revenue") {
+      const v = body.snapshot.values;
+      const n = k => typeof v[k] === "number" && Number.isFinite(v[k]) && v[k] >= 0 ? v[k] : null;
+      const traffic = n("hypTraffic"), conv = n("hypConv"), aov = n("hypAOV");
+      const hypotheticalOrders = traffic != null && conv != null ? traffic * conv / 100 : null;
+      const hypotheticalMonthlyRevenue = hypotheticalOrders != null && aov != null ? hypotheticalOrders * aov : null;
+      const evidence = [
+        "ESTIMATING REVENUE — REQUIRED COACHING DISCIPLINE:",
+        "Treat the no-signal channel's traffic, conversion rate and order value as an UNVALIDATED HYPOTHESIS, never as booked revenue, proven demand, or a reliable forecast.",
+        "Explicitly distinguish identified weighted pipeline opportunities (if supplied) from untested channel assumptions; stage-weighted opportunities are estimates, not guaranteed receipts.",
+        "Challenge the basis of the conversion rate, whether traffic means qualified prospects versus impressions/visits, acquisition cost, sales-cycle timing, and capacity to sell and fulfill.",
+        "If an attractive three-point range or survival-line result relies heavily on unvalidated digital assumptions, say it cannot establish survival or justify fixed spending.",
+        "Recommend a small, capped acquisition experiment with measurable qualified leads, actual conversion, acquisition economics, cash collection and fulfillment throughput BEFORE scaling advertising or permanent hiring.",
+        "Do not assume the worksheet snapshot contains pipeline details, client counts, or capacity metrics unless they are actually supplied.",
+        traffic == null ? "" : "Hypothetical monthly traffic/reach input: " + traffic + ".",
+        conv == null ? "" : "Unvalidated assumed conversion: " + conv + "%.",
+        aov == null ? "" : "Assumed average order value: $" + aov + ".",
+        hypotheticalMonthlyRevenue == null ? "" : "Mathematical hypothetical monthly revenue (NOT validated): $" + Math.round(hypotheticalMonthlyRevenue * 100) / 100 + ".",
+        n("weightedPipelineTotal") == null ? "" : "Identified opportunity weighted pipeline total (NOT cash collected): $" + n("weightedPipelineTotal") + ".",
+        "Use the actual owner question to select the most consequential risk; avoid a generic checklist."
+      ].filter(Boolean).join("\\n");
+      body.message = evidence + "\\n\\nOWNER QUESTION: " + body.message;
+    }
+
     try {
       const target = new URL(request.url);
       target.pathname = "/";
