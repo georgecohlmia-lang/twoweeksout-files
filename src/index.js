@@ -217,6 +217,29 @@ export default {
       body.message = evidence + "\\n\\nOWNER QUESTION: " + body.message;
     }
 
+    if (body.worksheetId === "pipeline-forecasting") {
+      const v = body.snapshot.values;
+      const n = k => typeof v[k] === "number" && Number.isFinite(v[k]) && v[k] >= 0 ? v[k] : null;
+      const buckets = [["Committed","committed"],["Best-case","bestCase"],["Pipeline","pipeline"],["Does not fit","dontFit"]];
+      const lines = buckets.map(([label,key]) =>
+        label + ": $" + (n(key+"Total") ?? "unknown") +
+        "; valid deals: " + (n(key+"Count") ?? "unknown") +
+        "; invalid amount entries: " + (n(key+"InvalidCount") ?? "unknown") +
+        "; listed deals: " + (v[key+"Deals"] || "none captured"));
+      const committed = n("committedTotal"), best = n("bestCaseTotal");
+      const discipline = [
+        "PIPELINE FORECASTING — REQUIRED COACHING DISCIPLINE:",
+        "The following figures are WORKSHEET BUCKET TOTALS, not confirmed receipts. Treat committed as pending signature/payment, not banked cash; best-case is not guaranteed.",
+        ...lines,
+        committed != null && best != null ? "Committed plus best-case ceiling, IF every best-case deal closes: $" + (committed + best) + "." : "",
+        "When the owner states a closing target and horizon, explicitly compare it with committed and committed-plus-best-case totals. If the target exceeds the latter, quantify the shortfall and explain that it requires additional uncommitted deals or new opportunities; never describe the best-case sum as an expected forecast.",
+        "Do not invent a closing target if none is supplied. If any invalid deal amounts exist, acknowledge incomplete totals.",
+        "Question unsupported stage conversion estimates, deal age, stalled prospects, buyer evidence, decision dates, and cash collection timing. Prioritize the strongest specific contradiction before general pipeline hygiene.",
+        "Recommend an evidence-based 60-day deal-by-deal forecast before irreversible hiring decisions."
+      ].filter(Boolean).join("\\n");
+      body.message = discipline + "\\n\\nOWNER QUESTION: " + body.message;
+    }
+
     try {
       const target = new URL(request.url);
       target.pathname = "/";
