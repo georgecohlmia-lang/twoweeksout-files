@@ -55,6 +55,19 @@ async function verifyAccess(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/connection-test") {
+      if (request.method !== "GET") return json({ error: "Method not allowed" }, 405);
+      if (!(await verifyAccess(request, env))) return json({ error: "Unauthorized" }, 401);
+      if (!env.AI_COACH) return json({ connected: false, error: "Service binding missing" }, 503);
+      try {
+        const response = await env.AI_COACH.fetch(
+          "https://two-ai-ownership-coach.georgecohlmia.workers.dev/"
+        );
+        return json({ authenticated: true, connected: response.status === 405, targetStatus: response.status });
+      } catch {
+        return json({ connected: false, error: "Connection failed" }, 502);
+      }
+    }
     if (url.pathname !== "/api/coach") return env.ASSETS.fetch(request);
     if (request.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
