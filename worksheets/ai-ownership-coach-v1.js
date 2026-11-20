@@ -17,7 +17,9 @@
     .two-coach-msg.assistant{background:#fff;border:1px solid #d5d9e4;align-self:flex-start;max-width:100%}
     #two-coach-prompts{display:flex;flex-wrap:wrap;gap:6px;padding:9px 14px}
     #two-coach-prompts button{background:#e9ecf5;border:1px solid #d5d9e4;border-radius:16px;padding:7px 10px;cursor:pointer;font:12px Inter,Arial,sans-serif}
-    #two-coach-style-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid #d5d9e4;font-size:12px}\n    #two-coach-style{flex:1;min-width:0;padding:8px;border:1px solid #a9afbb;border-radius:8px;background:#fff;color:#10131a}\n    #two-coach-form{display:flex;gap:8px;padding:12px 14px 16px;border-top:1px solid #d5d9e4}
+    #two-coach-style-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid #d5d9e4;font-size:12px}
+    #two-coach-style{flex:1;min-width:0;padding:8px;border:1px solid #a9afbb;border-radius:8px;background:#fff;color:#10131a}
+    #two-coach-form{display:flex;gap:8px;padding:12px 14px 16px;border-top:1px solid #d5d9e4}
     #two-coach-question{flex:1;min-width:0;border:1px solid #a9afbb;border-radius:8px;padding:10px;font:14px Inter,Arial,sans-serif}
     #two-coach-send{background:#2747f5;color:white;border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}
     #two-coach-send:disabled{opacity:.5;cursor:wait}
