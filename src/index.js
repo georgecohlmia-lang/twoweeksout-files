@@ -68,6 +68,7 @@ const worksheetSchemas = {
   "two-sales-motions": {kind:"batch2-two-sales-motions",keys:["kind","values"],batch1:true},
   "two-discovery-conversation": {kind:"batch2-two-discovery-conversation",keys:["kind","values"],batch1:true},
   "prospecting-without-cold-calling": {kind:"batch2-prospecting-without-cold-calling",keys:["kind","values"],batch1:true},
+  "proposal-price-objections": {kind:"batch2-proposal-price-objections",keys:["kind","values"],batch1:true},
   "affordability-test": {
     kind: "hire-affordability",
     keys: ["kind", "salary", "loadingFactor", "rampMonths", "cashOnHand", "monthlyNetBurn", "hasRampReasoning", "hasTimingPlan"],
