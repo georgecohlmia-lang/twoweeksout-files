@@ -95,7 +95,7 @@
       ? "The Coach receives salary, loading, ramp, cash and burn figures, plus whether you entered timing notes. No role name or notes are sent."
       : worksheetId === "business-model-canvas"
       ? "The Coach receives your riskiest-box rationale and proposed customer test. Written answers may contain confidential information. Business name and nine canvas boxes are excluded."
-      : "The Coach receives written role, pitch, outcomes and fit answers. These may contain confidential information. Candidate names and contact lists are excluded.";
+      : worksheetId === "recruiting-talent" ? "The Coach receives written role, pitch, outcomes and fit answers. These may contain confidential information. Candidate names and contact lists are excluded." : "The Coach receives selected figures, choices and written worksheet answers. Some entries may contain confidential or personal information. Review your entries before consenting.";
     consentRow.hidden = false;
     panel.querySelectorAll("[data-coach-prompt]").forEach(button => {
       button.textContent = adapter.prompts[button.dataset.coachPrompt];
