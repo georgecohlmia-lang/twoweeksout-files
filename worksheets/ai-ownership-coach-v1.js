@@ -50,7 +50,8 @@
       <button type="button" data-coach-prompt="options">Explore options</button>
       <button type="button" data-coach-prompt="habit">Monday review</button>
     </div>
-    <div id="two-coach-style-row"><label for="two-coach-style">Coaching style</label><select id="two-coach-style"><option value="balanced">Balanced (default)</option><option value="direct">Direct and demanding</option><option value="socratic">Question-led</option></select></div>\n    <form id="two-coach-form">
+    <div id="two-coach-style-row"><label for="two-coach-style">Coaching style</label><select id="two-coach-style"><option value="balanced">Balanced (default)</option><option value="direct">Direct and demanding</option><option value="socratic">Question-led</option></select></div>
+    <form id="two-coach-form">
       <input id="two-coach-question" maxlength="1500" aria-label="Question for the Coach" placeholder="Ask about your cash decisions…" required>
       <button id="two-coach-send" type="submit">Ask</button>
     </form>`;
@@ -59,7 +60,8 @@
   const log = panel.querySelector("#two-coach-log");
   const form = panel.querySelector("#two-coach-form");
   const question = panel.querySelector("#two-coach-question");
-  const send = panel.querySelector("#two-coach-send");\n  const coachingStyle = panel.querySelector("#two-coach-style");
+  const send = panel.querySelector("#two-coach-send");
+  const coachingStyle = panel.querySelector("#two-coach-style");
   const history = [];
   let busy = false;
 
