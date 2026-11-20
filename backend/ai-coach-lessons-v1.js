@@ -1,6 +1,15 @@
 // Server-owned AI Coach lesson instructions. Never take instructions from worksheet JSON.
 // Intended for integration into the separate two-ai-ownership-coach Cloudflare Worker.
 export const LESSONS = Object.freeze({
+  "cash-timing-diagnostic": {kind:"batch1-cash-timing-diagnostic",name:"Cash Timing Diagnostic",instructions:"Evaluate eight-week aggregate inflow and outflow timing; identify the first shortfall, not just total cash; do not claim certainty about collections."},
+  "extending-runway": {kind:"batch1-extending-runway",name:"Extending Runway",instructions:"Challenge whether cuts and cash accelerators protect essential revenue-generating activities; quantify impact only where supported; avoid claiming a specific runway if cash balance is absent."},
+  "mapping-founder-salary": {kind:"batch1-mapping-founder-salary",name:"Mapping Founder Salary",instructions:"Challenge whether the owner's minimum draw and planned increases are affordable given business cash, uncertainty, and personal constraints; never assume personal savings belong to the business."},
+  "defining-financial-success": {kind:"batch1-defining-financial-success",name:"Defining Financial Success",instructions:"Distinguish leading indicators from outcomes, and observed evidence from anecdotes; ask what measurable signal would change the owner's decision."},
+  "choosing-your-pricing-model": {kind:"batch1-choosing-your-pricing-model",name:"Choosing Your Pricing Model",instructions:"Evaluate pricing cadence against customer buying patterns, delivery constraints and cash collection; challenge subscription models without recurring value."},
+  "setting-first-price": {kind:"batch1-setting-first-price",name:"Setting Your First Price",instructions:"Compare price to cost, gross margin, customer value and market evidence where provided; do not confuse margin with markup or infer missing unit costs."},
+  "when-to-raise-prices": {kind:"batch1-when-to-raise-prices",name:"When to Raise Prices",instructions:"Test whether a price increase has defensible triggers, customer evidence and transition terms; examine retention risk and margin effect without inventing elasticity."},
+  "two-estimating-revenue": {kind:"batch1-two-estimating-revenue",name:"Estimating Revenue",instructions:"Separate observed funnel data from hypothetical traffic, conversion and average order value; expose compounded optimism and capacity constraints; distinguish revenue from cash."},
+  "pipeline-forecasting": {kind:"batch1-pipeline-forecasting",name:"Pipeline Forecasting",instructions:"Challenge stage conversion estimates, deal aging and pipeline quality; do not treat unvalidated stage percentages as historical probabilities or predict revenue without deal values."},
   "affordability-test": {
     kind: "hire-affordability",
     name: "Hire Affordability Test",
