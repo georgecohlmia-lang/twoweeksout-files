@@ -101,7 +101,7 @@ for(const [bucket,key] of [["committed","committed"],["best-case","bestCase"],["
     const name=(row.querySelector('[data-role="name"]')?.value||"").trim();
     const raw=(row.querySelector('[data-role="value"]')?.value||"").trim();
     if(!name&&!raw)continue;
-    const match=raw.replace(/[$,\\s]/g,"").match(/^(\\d+(?:\\.\\d+)?)([kKmM])?$/);
+    const match=raw.replace(/[$,\s]/g,"").match(/^(\d+(?:\.\d+)?)([kKmM])?$/);
     const amount=match?Number(match[1])*(match[2]?.toLowerCase()==="k"?1000:match[2]?.toLowerCase()==="m"?1000000:1):NaN;
     if(!Number.isFinite(amount)||amount<0){invalid++;continue;}
     total+=amount;count++;
