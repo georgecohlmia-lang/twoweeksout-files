@@ -205,6 +205,18 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-proposal-price-objections",values};
  }
 },
+"handling-pricing-conversations":{
+ title:"Handling Pricing Conversations",
+ objective:"Assess whether the owner communicates a specific value anchor and confident price, substantiates competitive positioning, and diagnoses objections without inventing ROI or discounting automatically.",
+ prompts:{risk:"What is the biggest weakness in my pricing conversation?",assumptions:"Challenge my assumptions about how buyers interpret our price.",options:"How should I respond to a request for a lower price?",habit:"What evidence should I gather before revising price?"},
+ snapshot(){
+  const ids=["biz-name","what-sold","price","price-context","anchor","delivery-sentence","market-range","diagnose-question","think-response"];
+  const values={};
+  ids.forEach(id=>{values[id.replace(/-([a-z0-9])/g,(_,c)=>c.toUpperCase())]=text(id,300)});
+  if(!Object.values(values).some(v=>v))return null;
+  return {kind:"batch2-handling-pricing-conversations",values};
+ }
+},
 "affordability-test":{
  title:"Hire Affordability Test",
  objective:"Evaluate the full cost, ramp exposure, cash cushion and timing of a proposed hire; distinguish affordability from desirability.",
