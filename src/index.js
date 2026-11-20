@@ -227,10 +227,22 @@ export default {
         "; invalid amount entries: " + (n(key+"InvalidCount") ?? "unknown") +
         "; listed deals: " + (v[key+"Deals"] || "none captured"));
       const committed = n("committedTotal"), best = n("bestCaseTotal");
+      const ownerQuestion = body.message;
+      const targetMatch = ownerQuestion.match(/(?:\\$\\s*)([\\d,]+(?:\\.\\d+)?)(?:\\s*([kKmM]))?/);
+      const target = targetMatch ? Number(targetMatch[1].replace(/,/g,"")) * (targetMatch[2]?.toLowerCase()==="k"?1000:targetMatch[2]?.toLowerCase()==="m"?1000000:1) : null;
+      const ageLines = [1,2,3,4].map(i => {
+        const raw = String(v["p"+i+"_age"] ?? "").trim();
+        const m = raw.match(/^(\\d+(?:\\.\\d+)?)\\s*(d|days?|w|weeks?)$/i);
+        return "Stage "+i+" age: "+(m ? m[1]+" "+(/^(d|days?)$/i.test(m[2])?"days":"weeks") : raw ? raw+" (unit not verified)" : "not provided")+".";
+      });
       const discipline = [
         "PIPELINE FORECASTING — REQUIRED COACHING DISCIPLINE:",
         "The following figures are WORKSHEET BUCKET TOTALS, not confirmed receipts. Treat committed as pending signature/payment, not banked cash; best-case is not guaranteed.",
         ...lines,
+        ...ageLines,
+        "AGE UNIT INTEGRITY: d means DAYS, w means WEEKS. Never change a supplied day figure into weeks. If unit is absent or ambiguous, say so rather than inventing it.",
+        target != null && committed != null && best != null ?
+          "OWNER'S STATED CLOSING TARGET: $" + target + "; committed $" + committed + "; committed plus best-case $" + (committed+best) + "; target minus committed-plus-best-case $" + (target-committed-best) + ". State this numeric comparison explicitly near the beginning of your answer; a positive gap cannot be covered even if all best-case deals close. Do not treat best-case as guaranteed." : "",
         committed != null && best != null ? "Committed plus best-case ceiling, IF every best-case deal closes: $" + (committed + best) + "." : "",
         "When the owner states a closing target and horizon, explicitly compare it with committed and committed-plus-best-case totals. If the target exceeds the latter, quantify the shortfall and explain that it requires additional uncommitted deals or new opportunities; never describe the best-case sum as an expected forecast.",
         "Do not invent a closing target if none is supplied. If any invalid deal amounts exist, acknowledge incomplete totals.",
