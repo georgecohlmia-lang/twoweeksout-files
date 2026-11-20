@@ -1,9 +1,17 @@
+
 {
   "name": "two-weeks-out-worksheets",
+  "main": "src/index.js",
   "compatibility_date": "2026-11-14",
   "assets": {
     "directory": "./worksheets",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
-  }
+  },
+  "services": [
+    {
+      "binding": "AI_COACH",
+      "service": "two-ai-ownership-coach"
+    }
+  ]
 }
