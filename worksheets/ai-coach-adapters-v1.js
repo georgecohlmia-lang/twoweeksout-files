@@ -172,6 +172,25 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-two-discovery-conversation",values};
  }
 },
+"prospecting-without-cold-calling":{
+ title:"Prospecting Without Cold Calling",
+ objective:"Evaluate whether referral and targeted prospecting form a repeatable source of qualified conversations, not just activity; challenge unverified conversion assumptions and vague asks.",
+ prompts:{risk:"What is the biggest weakness in my prospecting engine?",assumptions:"Challenge my assumptions about referrals and lead flow.",options:"Which prospecting activity should I prioritize?",habit:"What should I measure over the next four weeks?"},
+ snapshot(){
+  const values={
+   closeRate:text("q1-close-rate",120),qualifiedConversationsPerWeek:text("q2-volume",120),
+   existingReferralInboundFlow:text("q3-existing-flow",300),
+   referralTarget:text("ask-1",300),referralValue:text("ask-2",300),referralIntroduction:text("ask-3",300),
+   narrowUnlocked:!!document.getElementById("narrow-unlock")?.checked
+  };
+  const rows=Array.from(document.querySelectorAll("#prospect-list .prospect-row")).slice(0,5);
+  values.prospectCount=rows.length;
+  rows.forEach((row,i)=>{values["prospect"+(i+1)+"Name"]=String(row.querySelector('[data-role="name"]')?.value||"").trim().slice(0,200);values["prospect"+(i+1)+"Reason"]=String(row.querySelector('[data-role="reason"]')?.value||"").trim().slice(0,300)});
+  if(!Object.entries(values).some(([k,v])=>typeof v==="string"&&v.trim()))return null;
+  values.narrowUnlocked=values.narrowUnlocked?"yes":"no";
+  return {kind:"batch2-prospecting-without-cold-calling",values};
+ }
+},
 "affordability-test":{
  title:"Hire Affordability Test",
  objective:"Evaluate the full cost, ramp exposure, cash cushion and timing of a proposed hire; distinguish affordability from desirability.",
