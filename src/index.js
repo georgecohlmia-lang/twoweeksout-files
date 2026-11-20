@@ -70,6 +70,7 @@ const worksheetSchemas = {
   "prospecting-without-cold-calling": {kind:"batch2-prospecting-without-cold-calling",keys:["kind","values"],batch1:true},
   "proposal-price-objections": {kind:"batch2-proposal-price-objections",keys:["kind","values"],batch1:true},
   "handling-pricing-conversations": {kind:"batch2-handling-pricing-conversations",keys:["kind","values"],batch1:true},
+  "go-to-market": {kind:"batch2-go-to-market",keys:["kind","values"],batch1:true},
   "affordability-test": {
     kind: "hire-affordability",
     keys: ["kind", "salary", "loadingFactor", "rampMonths", "cashOnHand", "monthlyNetBurn", "hasRampReasoning", "hasTimingPlan"],
