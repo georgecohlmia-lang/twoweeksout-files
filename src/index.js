@@ -55,6 +55,15 @@ async function verifyAccess(request, env) {
 // Server-owned worksheet schemas. Legacy 13-week requests remain unchanged.
 const allowedStyles = new Set(["balanced", "direct", "socratic"]);
 const worksheetSchemas = {
+  "cash-timing-diagnostic": {kind:"batch1-cash-timing-diagnostic",keys:["kind","values"],batch1:true},
+  "extending-runway": {kind:"batch1-extending-runway",keys:["kind","values"],batch1:true},
+  "mapping-founder-salary": {kind:"batch1-mapping-founder-salary",keys:["kind","values"],batch1:true},
+  "defining-financial-success": {kind:"batch1-defining-financial-success",keys:["kind","values"],batch1:true},
+  "choosing-your-pricing-model": {kind:"batch1-choosing-your-pricing-model",keys:["kind","values"],batch1:true},
+  "setting-first-price": {kind:"batch1-setting-first-price",keys:["kind","values"],batch1:true},
+  "when-to-raise-prices": {kind:"batch1-when-to-raise-prices",keys:["kind","values"],batch1:true},
+  "two-estimating-revenue": {kind:"batch1-two-estimating-revenue",keys:["kind","values"],batch1:true},
+  "pipeline-forecasting": {kind:"batch1-pipeline-forecasting",keys:["kind","values"],batch1:true},
   "affordability-test": {
     kind: "hire-affordability",
     keys: ["kind", "salary", "loadingFactor", "rampMonths", "cashOnHand", "monthlyNetBurn", "hasRampReasoning", "hasTimingPlan"],
@@ -88,6 +97,11 @@ function validWorksheetRequest(body) {
   const schema = worksheetSchemas[body.worksheetId], snap = body.snapshot;
   if (!schema || !safeKeys(body, ["worksheetId", "snapshot", "message", "history", "coachingStyle", "narrativeConsent"])) return false;
   if (!safeKeys(snap, schema.keys) || snap.kind !== schema.kind) return false;
+  if (schema.batch1) {
+    if (body.narrativeConsent !== true || !safeKeys(snap, ["kind","values"]) || !snap.values || typeof snap.values !== "object" || Array.isArray(snap.values)) return false;
+    const fields=Object.entries(snap.values);
+    return fields.length <= 45 && fields.every(([k,v]) => /^[a-zA-Z][a-zA-Z0-9_]{0,40}$/.test(k) && (v === null || (typeof v === "number" && Number.isFinite(v) && Math.abs(v) <= 1e9) || boundedText(v,300) || (Array.isArray(v) && v.length <= 8 && v.every(x=>typeof x==="number" && Number.isFinite(x) && Math.abs(x)<=1e9))));
+  }
   if (body.worksheetId === "affordability-test") {
     return schema.numeric.every(k => snap[k] === null || (typeof snap[k] === "number" &&
       Number.isFinite(snap[k]) && snap[k] >= 0 && snap[k] <= 1000000000)) &&
