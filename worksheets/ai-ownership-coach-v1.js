@@ -23,8 +23,27 @@
     #two-coach-question{flex:1;min-width:0;border:1px solid #a9afbb;border-radius:8px;padding:10px;font:14px Inter,Arial,sans-serif}
     #two-coach-send{background:#2747f5;color:white;border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}
     #two-coach-send:disabled{opacity:.5;cursor:wait}
+    #two-coach-close{min-width:40px;min-height:40px}
+    #two-coach-prompts button{min-height:38px}
+    #two-coach-send{min-height:44px}
+    #two-coach-style{min-height:42px}
+    #two-coach-question{font-size:16px}
+    #two-coach-log{min-height:0;overscroll-behavior:contain}
+    @media(max-width:600px){
+      #two-coach-launch{right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));padding:13px 16px;font-size:13px;max-width:calc(100vw - 24px)}
+      #two-coach-panel{position:fixed;inset:0;width:100%;height:100%;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none}
+      #two-coach-panel header{padding:12px max(16px,env(safe-area-inset-right)) 12px max(16px,env(safe-area-inset-left));flex-shrink:0}
+      #two-coach-intro{padding:9px 14px;line-height:1.35;flex-shrink:0}
+      #two-coach-log{padding:12px 14px;flex:1}
+      #two-coach-prompts{flex-wrap:nowrap;overflow-x:auto;padding:8px 12px;scrollbar-width:thin;flex-shrink:0}
+      #two-coach-prompts button{flex:0 0 auto;white-space:nowrap}
+      #two-coach-style-row{padding:7px 12px;flex-shrink:0}
+      #two-coach-form{padding:9px 12px max(12px,env(safe-area-inset-bottom));flex-shrink:0}
+      #two-coach-question{min-height:44px}
+      .two-coach-msg{font-size:14px}
+    }
+    @media(max-width:360px){#two-coach-intro{font-size:11px}#two-coach-style-row{gap:6px}#two-coach-style-row label{font-size:11px}}
     @media print {#two-coach-launch,#two-coach-panel{display:none!important}}
-    @media(max-width:550px){#two-coach-launch{right:12px;bottom:12px}#two-coach-panel{right:12px;bottom:66px}}
   `;
   document.head.appendChild(style);
 
@@ -64,6 +83,8 @@
   const coachingStyle = panel.querySelector("#two-coach-style");
   const history = [];
   let busy = false;
+  const mobileView = () => window.matchMedia("(max-width:600px)").matches;
+  let focusBeforeOpen = null;
 
   function addMessage(role, content) {
     const el = document.createElement("div");
@@ -141,20 +162,30 @@
     } finally {
       busy = false;
       send.disabled = false;
-      question.focus();
+      if (!mobileView()) question.focus();
     }
   }
 
-  launch.addEventListener("click", () => {
-    const open = panel.dataset.open !== "true";
-    panel.dataset.open = String(open);
-    launch.setAttribute("aria-expanded", String(open));
-    if (open) question.focus();
-  });
-  panel.querySelector("#two-coach-close").addEventListener("click", () => {
+  function closeCoach() {
     panel.dataset.open = "false";
     launch.setAttribute("aria-expanded", "false");
-    launch.focus();
+    document.body.style.overflow = panel.dataset.previousOverflow || "";
+    (focusBeforeOpen || launch).focus();
+  }
+  launch.addEventListener("click", () => {
+    if (panel.dataset.open === "true") { closeCoach(); return; }
+    focusBeforeOpen = document.activeElement;
+    panel.dataset.previousOverflow = document.body.style.overflow;
+    panel.dataset.open = "true";
+    launch.setAttribute("aria-expanded", "true");
+    if (mobileView()) {
+      document.body.style.overflow = "hidden";
+      panel.querySelector("#two-coach-close").focus({ preventScroll: true });
+    } else question.focus();
+  });
+  panel.querySelector("#two-coach-close").addEventListener("click", closeCoach);
+  panel.addEventListener("keydown", event => {
+    if (event.key === "Escape") { event.preventDefault(); closeCoach(); }
   });
   panel.querySelectorAll("[data-coach-prompt]").forEach(button => button.addEventListener("click", () => ask(button.dataset.coachPrompt)));
   form.addEventListener("submit", event => {
