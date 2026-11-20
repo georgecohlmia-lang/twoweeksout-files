@@ -191,6 +191,20 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-prospecting-without-cold-calling",values};
  }
 },
+"proposal-price-objections":{
+ title:"Proposal and Price Objections",
+ objective:"Test whether the proposal connects buyer-stated situation to a specific recommendation, clear price, committed next step and diagnostic objection response rather than reflexive discounting.",
+ prompts:{risk:"What is the biggest weakness in this proposal?",assumptions:"Challenge my assumption that price is the real objection.",options:"How should I handle this objection without discounting reflexively?",habit:"What should I verify before sending this proposal?"},
+ snapshot(){
+  const ids=["prospect-name","situation","recommendation","price","next-step","silence-note","obj-acknowledge","obj-question","obj-listen"];
+  const values={};
+  ids.forEach(id=>{values[id.replace(/-([a-z0-9])/g,(_,c)=>c.toUpperCase())]=text(id,300)});
+  values.objectionType=String(document.querySelector('input[name="obj-type"]:checked')?.value||"");
+  values.practiceRepetitions=[1,2,3,4,5].filter(i=>document.getElementById("rep-"+i)?.checked).length;
+  if(!Object.entries(values).some(([k,v])=>typeof v==="string"&&v.trim()))return null;
+  return {kind:"batch2-proposal-price-objections",values};
+ }
+},
 "affordability-test":{
  title:"Hire Affordability Test",
  objective:"Evaluate the full cost, ramp exposure, cash cushion and timing of a proposed hire; distinguish affordability from desirability.",
