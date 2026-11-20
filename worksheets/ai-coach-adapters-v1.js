@@ -94,6 +94,24 @@ if(extra==="cash-timing-diagnostic"){let inflows=Array(8).fill(0),outflows=Array
 if(extra==="two-estimating-revenue"){for(const k of ["hypTraffic","hypConv","hypAOV","consvPct","upsidePct","survivalLine"]){const el=document.getElementById(k);if(el&&el.value.trim()){const n=Number(el.value.replace(/[$,%\s,]/g,""));values[k]=Number.isFinite(n)?n:null;}}}
 if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!==""&&v!==0))return null;return {kind:"batch1-"+extra,values};}},
 "pipeline-forecasting":{title:"Pipeline Forecasting",objective:"Challenge stage conversion assumptions and forecast confidence.",prompts:{"risk":"What is the most consequential risk in these answers?","assumptions":"Challenge my most important assumption.","options":"Which alternative should I evaluate?","habit":"What should I verify next?"},snapshot(){const values={};values["dataGaps"]=text("data-gaps",300);values["leaveOff"]=text("leave-off",300);
+for(const [bucket,key] of [["committed","committed"],["best-case","bestCase"],["pipeline","pipeline"],["dontfit","dontFit"]]){
+  let total=0,count=0,invalid=0;
+  const names=[];
+  for(const row of document.querySelectorAll("#"+bucket+"-list .deal-row")){
+    const name=(row.querySelector('[data-role="name"]')?.value||"").trim();
+    const raw=(row.querySelector('[data-role="value"]')?.value||"").trim();
+    if(!name&&!raw)continue;
+    const match=raw.replace(/[$,\\s]/g,"").match(/^(\\d+(?:\\.\\d+)?)([kKmM])?$/);
+    const amount=match?Number(match[1])*(match[2]?.toLowerCase()==="k"?1000:match[2]?.toLowerCase()==="m"?1000000:1):NaN;
+    if(!Number.isFinite(amount)||amount<0){invalid++;continue;}
+    total+=amount;count++;
+    if(names.length<5)names.push((name||"Unnamed deal").slice(0,55)+": $"+amount);
+  }
+  values[key+"Total"]=Math.round(total*100)/100;
+  values[key+"Count"]=count;
+  values[key+"InvalidCount"]=invalid;
+  values[key+"Deals"]=names.join("; ").slice(0,300);
+}
 const extra="pipeline-forecasting";
 if(extra==="defining-financial-success"){for(const k of ["q1n","q2n","q3n","q4n","ts1","ts2","ts3"]){const el=document.querySelector('[data-key="'+k+'"]');values[k]=el?String(el.value||"").trim().slice(0,300):"";}}
 if(extra==="choosing-your-pricing-model"){for(const k of ["cadence","access"]){values[k]=document.querySelector('input[name="'+k+'"]:checked')?.value||"";}values.cap=Array.from(document.querySelectorAll('input[name="cap"]:checked')).map(x=>x.value).slice(0,5).join(",");}
