@@ -69,6 +69,22 @@ if(extra==="cash-timing-diagnostic"){let inflows=Array(8).fill(0),outflows=Array
 if(extra==="two-estimating-revenue"){for(const k of ["hypTraffic","hypConv","hypAOV","consvPct","upsidePct","survivalLine"]){const el=document.getElementById(k);if(el&&el.value.trim()){const n=Number(el.value.replace(/[$,%\s,]/g,""));values[k]=Number.isFinite(n)?n:null;}}}
 if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!==""&&v!==0))return null;return {kind:"batch1-"+extra,values};}},
 "two-estimating-revenue":{title:"Estimating Revenue",objective:"Distinguish evidenced revenue from speculative conversion assumptions and capacity.",prompts:{"risk":"What is the most consequential risk in these answers?","assumptions":"Challenge my most important assumption.","options":"Which alternative should I evaluate?","habit":"What should I verify next?"},snapshot(){const values={};values["hypTraffic"]=number("hypTraffic");values["hypConv"]=number("hypConv");values["hypAOV"]=number("hypAOV");values["consvPct"]=number("consvPct");values["upsidePct"]=number("upsidePct");values["survivalLine"]=number("survivalLine");values["noteSales"]=text("noteSales",300);values["noteFulfil"]=text("noteFulfil",300);values["noteOwner"]=text("noteOwner",300);
+values["signalChannel"]=text("signalChannel",150);
+values["nosignalChannel"]=text("nosignalChannel",150);
+// Capture the actual opportunity values and selected conversion rates from the
+// visible pipeline rows, not merely the hypothetical digital-channel inputs.
+let pipelineTotal=0,pipelineCount=0;
+for(const row of document.querySelectorAll("#pipelineBody tr")){
+  const val=row.querySelector('[data-field="value"]');
+  const rate=row.querySelector('[data-field="rate"]');
+  if(!val||!rate)continue;
+  const v=Number(val.value.replace(/[$,\\s]/g,""));
+  const p=Number(rate.value.replace(/[%,\\s]/g,""));
+  if(!Number.isFinite(v)||!Number.isFinite(p)||v<0||p<0||p>100)continue;
+  pipelineTotal+=v*p/100;pipelineCount++;
+}
+values["weightedPipelineTotal"]=Math.round(pipelineTotal*100)/100;
+values["pipelineOpportunityCount"]=pipelineCount;
 const extra="two-estimating-revenue";
 if(extra==="defining-financial-success"){for(const k of ["q1n","q2n","q3n","q4n","ts1","ts2","ts3"]){const el=document.querySelector('[data-key="'+k+'"]');values[k]=el?String(el.value||"").trim().slice(0,300):"";}}
 if(extra==="choosing-your-pricing-model"){for(const k of ["cadence","access"]){values[k]=document.querySelector('input[name="'+k+'"]:checked')?.value||"";}values.cap=Array.from(document.querySelectorAll('input[name="cap"]:checked')).map(x=>x.value).slice(0,5).join(",");}
