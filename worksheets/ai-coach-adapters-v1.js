@@ -235,6 +235,21 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-go-to-market",values};
  }
 },
+"strategic-partnerships-referrals":{
+ title:"Strategic Partnerships and Referrals",
+ objective:"Evaluate actual versus aspirational peer relationships, earned recognition from recommenders, and natural customer referral asks without confusing a network list with a functioning referral engine.",
+ prompts:{risk:"What is the biggest weakness in my partnership and referral plan?",assumptions:"Challenge which relationships are real versus aspirational.",options:"What should I prioritize to earn recommendations?",habit:"What evidence would show referrals are becoming repeatable?"},
+ snapshot(){
+  const values={};
+  const ids=["realistic-assessment","referral-line","personal-ask","refusal-why"];
+  ids.forEach(id=>{values[id.replace(/-([a-z])/g,(_,c)=>c.toUpperCase())]=text(id,300)});
+  document.querySelectorAll("#peer-list .entry-row").forEach((row,i)=>{if(i>=5)return;for(const [key,cls] of [["Name","peer-name"],["State","peer-state"],["Overlap","peer-overlap"],["Commitment","peer-commitment"]])values["peer"+(i+1)+key]=String(row.querySelector("."+cls)?.value||"").trim().slice(0,300)});
+  document.querySelectorAll("#recommender-list .entry-row").forEach((row,i)=>{if(i>=4)return;for(const [key,cls] of [["Role","rec-role"],["State","rec-state"],["Detail","rec-detail"]])values["recommender"+(i+1)+key]=String(row.querySelector("."+cls)?.value||"").trim().slice(0,300)});
+  values.declinedPrograms=Array.from(document.querySelectorAll(".refusal-checkbox:checked")).map(el=>el.dataset.item).join("; ").slice(0,300);
+  if(!Object.values(values).some(v=>v))return null;
+  return {kind:"batch2-strategic-partnerships-referrals",values};
+ }
+},
 "affordability-test":{
  title:"Hire Affordability Test",
  objective:"Evaluate the full cost, ramp exposure, cash cushion and timing of a proposed hire; distinguish affordability from desirability.",
