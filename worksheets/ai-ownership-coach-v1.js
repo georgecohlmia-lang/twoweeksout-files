@@ -1,6 +1,9 @@
 (() => {
   "use strict";
-  if (!location.pathname.includes("/two-13-week-projection")) return;
+  const worksheetId = location.pathname.split("/").filter(Boolean)[0];
+  const cashPilot = worksheetId === "two-13-week-projection";
+  const adapter = cashPilot ? null : window.TWO_COACH_ADAPTERS?.[worksheetId];
+  if (!cashPilot && !adapter) return;
 
   const style = document.createElement("style");
   style.textContent = `
@@ -61,7 +64,7 @@
   panel.dataset.open = "false";
   panel.innerHTML = `
     <header><h2>AI Ownership Coach</h2><button id="two-coach-close" type="button" aria-label="Close Coach">×</button></header>
-    <div id="two-coach-intro">Explore the decisions behind your 13-week cash forecast. Only weekly totals are shared with the Coach; no line-item names or company identifiers.</div>
+    <div id="two-coach-intro"><span id="two-coach-disclosure"></span></div>
     <div id="two-coach-log" role="log" aria-live="polite"></div>
     <div id="two-coach-prompts">
       <button type="button" data-coach-prompt="risk">Biggest cash risk</button>
@@ -69,6 +72,7 @@
       <button type="button" data-coach-prompt="options">Explore options</button>
       <button type="button" data-coach-prompt="habit">Monday review</button>
     </div>
+    <div id="two-coach-consent-row" hidden style="padding:8px 14px;font-size:12px"><label><input type="checkbox" id="two-coach-consent"> I agree to share the worksheet answers described above with the AI Coach.</label></div>
     <div id="two-coach-style-row"><label for="two-coach-style">Coaching style</label><select id="two-coach-style"><option value="balanced">Balanced (default)</option><option value="direct">Direct and demanding</option><option value="socratic">Question-led</option></select></div>
     <form id="two-coach-form">
       <input id="two-coach-question" maxlength="1500" aria-label="Question for the Coach" placeholder="Ask about your cash decisions…" required>
@@ -81,6 +85,22 @@
   const question = panel.querySelector("#two-coach-question");
   const send = panel.querySelector("#two-coach-send");
   const coachingStyle = panel.querySelector("#two-coach-style");
+  const disclosure = panel.querySelector("#two-coach-disclosure");
+  const consentRow = panel.querySelector("#two-coach-consent-row");
+  const consent = panel.querySelector("#two-coach-consent");
+  if (cashPilot) {
+    disclosure.textContent = "Explore your 13-week cash forecast. Only weekly totals are shared; no line-item names or company identifiers.";
+  } else {
+    disclosure.textContent = worksheetId === "affordability-test"
+      ? "The Coach receives salary, loading, ramp, cash and burn figures, plus whether you entered timing notes. No role name or notes are sent."
+      : worksheetId === "business-model-canvas"
+      ? "The Coach receives your riskiest-box rationale and proposed customer test. Written answers may contain confidential information. Business name and nine canvas boxes are excluded."
+      : "The Coach receives written role, pitch, outcomes and fit answers. These may contain confidential information. Candidate names and contact lists are excluded.";
+    consentRow.hidden = false;
+    panel.querySelectorAll("[data-coach-prompt]").forEach(button => {
+      button.textContent = adapter.prompts[button.dataset.coachPrompt];
+    });
+  }
   const history = [];
   let busy = false;
   const mobileView = () => window.matchMedia("(max-width:600px)").matches;
@@ -130,18 +150,27 @@
   async function ask(message) {
     if (busy) return;
     let snapshot;
-    try { snapshot = readSnapshot(); }
+    try { snapshot = cashPilot ? readSnapshot() : adapter.snapshot(); }
     catch (error) {
       addMessage("assistant", error.message || "Unable to read the forecast.");
       return;
     }
-    if (!snapshot.openingProvided || snapshot.entered === 0) {
+    if (cashPilot && (!snapshot.openingProvided || snapshot.entered === 0)) {
       addMessage("assistant", "Start by entering your opening bank balance and some expected cash receipts or payments. Then I can challenge your actual forecast.");
+      return;
+    }
+    if (!snapshot) {
+      addMessage("assistant", "Complete some worksheet fields first, then ask the Coach to review your decisions.");
+      return;
+    }
+    if (!cashPilot && !consent.checked) {
+      addMessage("assistant", "Review the data-sharing description and check the consent box before sending worksheet answers.");
       return;
     }
     busy = true;
     send.disabled = true;
-    addMessage("user", ({risk:"Where is my biggest cash risk?",assumptions:"Challenge my assumptions.",options:"What options should I evaluate?",habit:"Help me run a Monday cash review."})[message] || message);
+    const cashPrompts = {risk:"Where is my biggest cash risk?",assumptions:"Challenge my assumptions.",options:"What options should I evaluate?",habit:"Help me run a Monday cash review."};
+    addMessage("user", cashPilot ? (cashPrompts[message] || message) : (adapter.prompts[message] || message));
     const pending = addMessage("assistant", "Reviewing your forecast…");
     try {
       const response = await fetch("/api/coach", {
@@ -149,7 +178,7 @@
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
         cache: "no-store",
-        body: JSON.stringify({ snapshot, message, history: history.slice(-8), coachingStyle: coachingStyle.value })
+        body: JSON.stringify({ snapshot, message, history: history.slice(-8), coachingStyle: coachingStyle.value, ...(cashPilot ? {} : { worksheetId, narrativeConsent: consent.checked }) })
       });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) throw Error(response.status === 503 ? "The Coach connection is not enabled in this environment yet." : (result.error || "The Coach is temporarily unavailable."));
@@ -195,5 +224,5 @@
     question.value = "";
     ask(message).catch(error => addMessage("assistant", error.message || "Unable to read the forecast."));
   });
-  addMessage("assistant", "Your cash forecast is a decision tool, not a prediction. What assumption would you like to pressure-test?");
+  addMessage("assistant", cashPilot ? "Your cash forecast is a decision tool, not a prediction. What assumption would you like to pressure-test?" : "Your worksheet is a decision tool. What assumption should we challenge first?");
 })();
