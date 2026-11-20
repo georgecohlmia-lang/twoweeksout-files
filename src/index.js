@@ -228,11 +228,23 @@ export default {
         "; listed deals: " + (v[key+"Deals"] || "none captured"));
       const committed = n("committedTotal"), best = n("bestCaseTotal");
       const ownerQuestion = body.message;
-      const targetMatch = ownerQuestion.match(/(?:\\$\\s*)([\\d,]+(?:\\.\\d+)?)(?:\\s*([kKmM]))?/);
-      const target = targetMatch ? Number(targetMatch[1].replace(/,/g,"")) * (targetMatch[2]?.toLowerCase()==="k"?1000:targetMatch[2]?.toLowerCase()==="m"?1000000:1) : null;
+      // Identify a closing target by its nearby action words, never by the first dollar figure.
+      const targetPatterns = [
+        /(?:expect|project|forecast|anticipate|plan|aim|target)[^.!?\n]{0,90}?\$([\d,]+(?:\.\d+)?)\s*([kKmM])?[^.!?\n]{0,70}?\b(?:clos(?:e|ing)|collect|book)\b/i,
+        /(?:expect|project|forecast|anticipate|plan|aim|target)[^.!?\n]{0,35}?\$([\d,]+(?:\.\d+)?)\s*([kKmM])?/i,
+        /\$([\d,]+(?:\.\d+)?)\s*([kKmM])?[^.!?\n]{0,45}?\b(?:clos(?:e|ing)|collect|book)\b/i
+      ];
+      let target = null;
+      for (const pattern of targetPatterns) {
+        const m = ownerQuestion.match(pattern);
+        if (!m) continue;
+        target = Number(m[1].replace(/,/g,"")) * (m[2]?.toLowerCase()==="k"?1000:m[2]?.toLowerCase()==="m"?1000000:1);
+        if (Number.isFinite(target)) break;
+        target = null;
+      }
       const ageLines = [1,2,3,4].map(i => {
         const raw = String(v["p"+i+"_age"] ?? "").trim();
-        const m = raw.match(/^(\\d+(?:\\.\\d+)?)\\s*(d|days?|w|weeks?)$/i);
+        const m = raw.match(/^(\d+(?:\.\d+)?)\s*(days?|d|weeks?|w)$/i);
         return "Stage "+i+" age: "+(m ? m[1]+" "+(/^(d|days?)$/i.test(m[2])?"days":"weeks") : raw ? raw+" (unit not verified)" : "not provided")+".";
       });
       const discipline = [
