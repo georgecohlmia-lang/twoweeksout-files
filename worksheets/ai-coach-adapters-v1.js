@@ -217,6 +217,24 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-handling-pricing-conversations",values};
  }
 },
+"go-to-market":{
+ title:"Go-to-Market",
+ objective:"Evaluate whether the owner has chosen a buyer-evidenced acquisition channel, a repeatable outreach mechanism, a meaningful outcome metric and a realistic decision window.",
+ prompts:{risk:"What is the biggest unsupported assumption in my go-to-market plan?",assumptions:"Challenge whether this channel is actually validated by customers.",options:"What should I test before investing more in this channel?",habit:"What evidence should determine whether to continue or stop?"},
+ snapshot(){
+  const ids=["bizName","gDate","group","how","before","channel","what","toWhom","often","cost","answer","notDo","metric","target","per","start","weeks","decideW"];
+  const values={};
+  ids.forEach(id=>{values[id]=text(id,300)});
+  values.preLaunch=document.querySelector('[data-k="pre"]')?.checked?"yes":"no";
+  values.referralRulesChecked=document.querySelector('[data-k="rules"]')?.checked?"yes":"no";
+  const ten=Array.from(document.querySelectorAll('[data-arr="ten"]')).slice(0,10).map(el=>String(el.value||"").trim().slice(0,150));
+  ten.forEach((v,i)=>{values["customerSource"+(i+1)]=v});
+  const logs=Array.from(document.querySelectorAll('[data-obj="log"]')).slice(0,9);
+  values.logEntries=logs.length;
+  if(!Object.entries(values).some(([k,v])=>typeof v==="string"&&v.trim()&&!["yes","no"].includes(v)))return null;
+  return {kind:"batch2-go-to-market",values};
+ }
+},
 "affordability-test":{
  title:"Hire Affordability Test",
  objective:"Evaluate the full cost, ramp exposure, cash cushion and timing of a proposed hire; distinguish affordability from desirability.",
