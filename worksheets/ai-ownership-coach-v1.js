@@ -18,7 +18,11 @@
     .two-coach-msg{padding:11px 13px;border-radius:11px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
     .two-coach-msg.user{background:#e9ecf5;align-self:flex-end;max-width:90%}
     .two-coach-msg.assistant{background:#fff;border:1px solid #d5d9e4;align-self:flex-start;max-width:100%}
-    #two-coach-prompts{display:flex;flex-wrap:wrap;gap:6px;padding:9px 14px}
+    #two-coach-prompts{display:flex;flex-wrap:wrap;gap:6px;padding:9px 14px;max-height:125px;overflow-y:auto;flex-shrink:0}
+    #two-coach-prompts[hidden]{display:none}
+    #two-coach-prompts-toggle{align-self:flex-start;margin:5px 14px 0;padding:4px 0;border:0;background:transparent;color:#2747f5;font:600 12px Inter,Arial,sans-serif;cursor:pointer;flex-shrink:0}
+    #two-coach-log{flex:1 1 auto;min-height:160px}
+
     #two-coach-prompts button{background:#e9ecf5;border:1px solid #d5d9e4;border-radius:16px;padding:7px 10px;cursor:pointer;font:12px Inter,Arial,sans-serif}
     #two-coach-style-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid #d5d9e4;font-size:12px}
     #two-coach-style{flex:1;min-width:0;padding:8px;border:1px solid #a9afbb;border-radius:8px;background:#fff;color:#10131a}
@@ -66,6 +70,7 @@
     <header><h2>AI Ownership Coach</h2><button id="two-coach-close" type="button" aria-label="Close Coach">×</button></header>
     <div id="two-coach-intro"><span id="two-coach-disclosure"></span></div>
     <div id="two-coach-log" role="log" aria-live="polite"></div>
+    <button id="two-coach-prompts-toggle" type="button" aria-expanded="true" aria-controls="two-coach-prompts">Hide suggested questions</button>
     <div id="two-coach-prompts">
       <button type="button" data-coach-prompt="risk">Biggest cash risk</button>
       <button type="button" data-coach-prompt="assumptions">Challenge assumptions</button>
@@ -83,6 +88,14 @@
   const log = panel.querySelector("#two-coach-log");
   const form = panel.querySelector("#two-coach-form");
   const question = panel.querySelector("#two-coach-question");
+  const prompts = panel.querySelector("#two-coach-prompts");
+  const promptsToggle = panel.querySelector("#two-coach-prompts-toggle");
+  function setPromptsVisible(visible) {
+    prompts.hidden = !visible;
+    promptsToggle.setAttribute("aria-expanded", String(visible));
+    promptsToggle.textContent = visible ? "Hide suggested questions" : "Suggested questions";
+  }
+  promptsToggle.addEventListener("click", () => setPromptsVisible(prompts.hidden));
   const send = panel.querySelector("#two-coach-send");
   const coachingStyle = panel.querySelector("#two-coach-style");
   const disclosure = panel.querySelector("#two-coach-disclosure");
@@ -169,6 +182,7 @@
     }
     busy = true;
     send.disabled = true;
+    setPromptsVisible(false);
     const cashPrompts = {risk:"Where is my biggest cash risk?",assumptions:"Challenge my assumptions.",options:"What options should I evaluate?",habit:"Help me run a Monday cash review."};
     addMessage("user", cashPilot ? (cashPrompts[message] || message) : (adapter.prompts[message] || message));
     const pending = addMessage("assistant", "Reviewing your forecast…");
