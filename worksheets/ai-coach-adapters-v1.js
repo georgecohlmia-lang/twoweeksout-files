@@ -143,6 +143,23 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-two-building-sales-process",values};
  }
 },
+"two-sales-motions":{
+ title:"Choosing Your Sales Motion",
+ objective:"Test whether the selling process fits each offer's actual buyer decision cycle, decision makers and initial clarity; challenge one-size-fits-all sales motions.",
+ prompts:{risk:"Where does our selling motion most seriously conflict with buyer behavior?",assumptions:"Challenge our assumptions about how buyers make decisions.",options:"Which offer or process should we redesign first?",habit:"What buyer evidence should we collect next?"},
+ snapshot(){
+  const cards=Array.from(document.querySelectorAll("#offer-list .offer-card")).slice(0,5);
+  const values={offerCount:cards.length};
+  cards.forEach((card,i)=>{
+   const n=i+1;
+   values["offer"+n+"Name"]=String(card.querySelector(".offer-name")?.value||"").trim().slice(0,180);
+   for(const q of ["cycle","deciders","clarity"])values["offer"+n+q[0].toUpperCase()+q.slice(1)]=String(card.querySelector('.q-select[data-q="'+q+'"]')?.value||"").trim();
+   values["offer"+n+"Mismatch"]=String(card.querySelector(".offer-mismatch")?.value||"").trim().slice(0,300);
+  });
+  if(!cards.some(card=>card.querySelector(".offer-name")?.value.trim()||card.querySelector(".offer-mismatch")?.value.trim()||Array.from(card.querySelectorAll(".q-select")).some(x=>x.value)))return null;
+  return {kind:"batch2-two-sales-motions",values};
+ }
+},
 "affordability-test":{
  title:"Hire Affordability Test",
  objective:"Evaluate the full cost, ramp exposure, cash cushion and timing of a proposed hire; distinguish affordability from desirability.",
