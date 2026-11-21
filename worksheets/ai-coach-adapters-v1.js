@@ -5,6 +5,25 @@ const text=(id,max=800)=>{const el=document.getElementById(id);return el?String(
 const number=(id)=>{const el=document.getElementById(id);if(!el||String(el.value).trim()==="")return null;const n=Number(el.value);if(!Number.isFinite(n))throw Error("Correct the numeric field: "+id);return n};
 const present=(v)=>typeof v==="string"&&v.length>0;
 const specs={
+"two-email-marketing":{
+ title:"Email Marketing",
+ objective:"Build a sustainable email publication and opt-in funnel, a useful welcome sequence, and a measured reply-based learning habit without unnecessary automation.",
+ prompts:{risk:"What is the weakest part of my email marketing plan?",assumptions:"Challenge my biggest unproven assumption.",options:"Where should I concentrate my next effort?",habit:"What should I learn from subscriber replies before adding automation?"},
+ snapshot(){
+  const ids=["pub-cadence","pub-format","eop-ask","magnet-name","magnet-piece","magnet-why","refusal-why","reply-baseline","reply-sends","reply-action"];
+  const names=["cadence","format","endOfPieceAsk","magnetName","magnetSource","magnetRationale","automationRefusalRationale","measuredReplyRate","measurementWindow","replyBasedAdjustment"];
+  const values={};ids.forEach((id,i)=>{const v=text(id,300);if(v)values[names[i]]=v});
+  Array.from(document.querySelectorAll(".subject-input")).slice(0,3).forEach((el,i)=>{const v=String(el.value||"").trim();if(v)values["subject"+(i+1)]=v.slice(0,300)});
+  Array.from(document.querySelectorAll(".email-subject")).slice(0,3).forEach((el,i)=>{const v=String(el.value||"").trim();if(v)values["welcomeSubject"+(i+1)]=v.slice(0,300)});
+  Array.from(document.querySelectorAll(".email-body")).slice(0,3).forEach((el,i)=>{const v=String(el.value||"").trim();if(v)values["welcomeBody"+(i+1)]=v.slice(0,300)});
+  const channels=Array.from(document.querySelectorAll(".channel-checkbox")).filter(el=>el.checked).map(el=>String(el.dataset.item||"").trim());
+  const refusals=Array.from(document.querySelectorAll(".refusal-checkbox")).filter(el=>el.checked).map(el=>String(el.dataset.item||"").trim());
+  values.optInChannels=channels.join("; ").slice(0,300);
+  values.automationNotPlanned=refusals.join("; ").slice(0,300);
+  if(!values.cadence&&!values.endOfPieceAsk&&!values.magnetName)return null;
+  return {kind:"batch3-two-email-marketing",values};
+ }
+},
 "social-media-community":{
  title:"Social Media & Community",
  objective:"Choose one sustainable platform, engage selectively with relevant people, and participate in communities to learn and build trust rather than broadcast.",
