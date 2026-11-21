@@ -5,6 +5,38 @@ const text=(id,max=800)=>{const el=document.getElementById(id);return el?String(
 const number=(id)=>{const el=document.getElementById(id);if(!el||String(el.value).trim()==="")return null;const n=Number(el.value);if(!Number.isFinite(n))throw Error("Correct the numeric field: "+id);return n};
 const present=(v)=>typeof v==="string"&&v.length>0;
 const specs={
+"prototyping":{
+ title:"Prototyping",
+ objective:"Use actual prototype delivery and customer behavior to find the operational bottleneck, distinguish demand from deliverability, and test whether service hours can scale.",
+ prompts:{risk:"What is the biggest delivery risk this prototype exposed?",assumptions:"Challenge my assumptions about the hours and people needed to deliver this.",options:"What is the simplest change to test before scaling?",habit:"What should I measure in the next delivery run?"},
+ snapshot(){
+  const fields=["claim","deliver","level","parts","price","c1","c2","c3","c4","same","nInv","nYes","nBar","back","asked","skipped","assumed","bn","bnEv","bnAns","bnHow","eventual","fte","verdict","t1","t2"];
+  const values={};
+  for(const k of fields){
+    const radio=document.querySelectorAll('input[type="radio"][data-k="'+k+'"]');
+    const el=radio.length?Array.from(radio).find(x=>x.checked):document.querySelector('[data-k="'+k+'"]');
+    values[k]=el?(el.type==="checkbox"?(el.checked?"yes":"no"):String(el.value||"").trim().slice(0,300)):"";
+  }
+  // Include only aggregate hours by category; exclude staff names, business identity and full service line descriptions.
+  let per=0,fixed=0,hasHours=false;
+  document.querySelectorAll('#lines [data-l][data-f="sort"]').forEach(el=>{
+    const row=el.closest('.cline');if(!row)return;
+    const vis=row.querySelector('[data-f="vis"]')?.value?.trim()||"";
+    const prep=row.querySelector('[data-f="prep"]')?.value?.trim()||"";
+    if(vis===""&&prep==="")return;
+    const a=Number(vis),b=Number(prep);
+    if(!Number.isFinite(a)||!Number.isFinite(b)||a<0||b<0)return;
+    hasHours=true;
+    if(el.value==="fixed")fixed+=a+b;else per+=a+b;
+  });
+  values.hoursPerCustomer=hasHours?per:null;
+  values.fixedGroupHours=hasHours?fixed:null;
+  // No names, customer identifiers, staff roster, or localStorage transmitted.
+  if(!["claim","bn","bnEv","skipped","verdict"].some(k=>present(values[k]))&&!present(values.nYes))return null;
+  return {kind:"batch3-prototyping",values};
+ }
+},
+
 "mvp-scoping":{
  title:"Minimum Viable Product Scoping",
  objective:"Determine whether the MVP isolates one falsifiable customer claim, removes nonessential scope, targets the right buyers, charges a meaningful price and commits to an observable kill criterion before results arrive.",
