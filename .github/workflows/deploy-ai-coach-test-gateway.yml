@@ -1,0 +1,38 @@
+name: Deploy AI Coach test gateway (manual)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-coach-test-gateway-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out integration branch
+        uses: actions/checkout@v4
+        with:
+          ref: ai-coach-integration
+          persist-credentials: false
+
+      - name: Validate test gateway and adapter
+        shell: bash
+        run: |
+          test -s src/index.js
+          test -s worksheets/ai-coach-adapters-v1.js
+          node --check src/index.js
+          node --check worksheets/ai-coach-adapters-v1.js
+          grep -q '"name": "two-ai-coach-integration-test"' deploy/ai-coach-pilot/wrangler.jsonc
+
+      - name: Deploy test gateway and worksheet assets
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
+          command: deploy --config deploy/ai-coach-pilot/wrangler.jsonc
