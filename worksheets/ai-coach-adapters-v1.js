@@ -12,7 +12,7 @@ const specs={
  snapshot(){
   const ids=["pos-for","pos-against","audience-desc","audience-size","primary-channel","primary-type","primary-distribution","primary-why","supporting-channel","supporting-type","supporting-distribution","supporting-why","weekly-hours","viability"];
   const names=["positionFor","positionAgainst","audience","audienceSize","primaryChannel","primaryType","primaryDistribution","primaryWhy","supportingChannel","supportingType","supportingDistribution","supportingWhy","weeklyHours","viability"];
-  const values={};ids.forEach((id,i)=>{const value=text(id,i===13?650:450);if(value)values[names[i]]=value});
+  const values={};ids.forEach((id,i)=>{const value=text(id,300);if(value)values[names[i]]=value});
   if(!values.positionFor&&!values.audience&&!values.primaryChannel)return null;
   return {kind:"batch3-marketing-strategy",values};
  }
