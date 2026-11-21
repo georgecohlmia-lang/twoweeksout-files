@@ -333,6 +333,31 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-strategic-partnerships-referrals",values};
  }
 },
+"learning-while-running":{
+ title:"Learning While You Run It",
+ objective:"Turn direct customer feedback into a repeatable learning habit and one-change experiments with evidence-based keep, fix or stop decisions.",
+ prompts:{risk:"What is the weakest part of my learning loop?",assumptions:"Challenge what I think these customer responses prove.",options:"What single change should I test next?",habit:"How can I make this learning habit stick?"},
+ snapshot(){
+  const get=k=>String(document.querySelector('[data-k="'+k+'"]')?.value||"").trim().slice(0,160);
+  const values={moment:get("moment"),when:get("when"),question:get("question"),behaviorMeasure:get("number"),reviewDay:get("day"),reviewMinutes:get("mins"),calendarBooked:document.querySelector('[data-k="onCal"]')?.checked?"yes":"no"};
+  const themes=Array.from(document.querySelectorAll("#themes .theme")).slice(0,4).map(row=>{
+   const fields=row.querySelectorAll('[data-f="text"],[data-f="note"]');
+   const n=Number(row.querySelector(".tally .v")?.textContent||0);
+   return [String(fields[0]?.value||"").trim().slice(0,95),"mentions "+(Number.isFinite(n)?n:0),String(fields[1]?.value||"").trim().slice(0,80)].filter(Boolean).join(" | ");
+  });
+  const tests=Array.from(document.querySelectorAll("#tests .test")).slice(0,4).map(row=>{
+   const f=k=>String(row.querySelector('[data-f="'+k+'"]')?.value||"").trim().slice(0,110);
+   const decision=Array.from(row.querySelectorAll('[data-xd][aria-pressed="true"]')).map(x=>x.dataset.d).join("");
+   return ["change "+f("change"),"measure "+(f("number")||"not recorded"),"decision "+(decision||"pending"),"result "+(f("result")||"not recorded")].join(" | ");
+  });
+  values.themeCount=document.querySelectorAll("#themes .theme").length;
+  values.testCount=document.querySelectorAll("#tests .test").length;
+  values.themeEvidence=themes.join("; ").slice(0,300);
+  values.testEvidence=tests.join("; ").slice(0,300);
+  if(!values.question&&!values.themeCount&&!values.testCount)return null;
+  return {kind:"batch3-learning-while-running",values};
+ }
+},
 "roadmapping":{
  title:"Lean Roadmap",
  objective:"Separate committed work from untested priorities, challenge premature dates and dependencies, and protect focus when stakeholders push new ideas.",
