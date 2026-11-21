@@ -1,0 +1,37 @@
+name: Deploy AI Coach backend (manual)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-coach-backend-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out tested integration branch
+        uses: actions/checkout@v4
+        with:
+          ref: ai-coach-integration
+          persist-credentials: false
+
+      - name: Verify backend source and target
+        shell: bash
+        run: |
+          test -s backend/worker.js
+          test -s deploy/ai-coach-backend/wrangler.jsonc
+          node --check backend/worker.js
+          grep -q '"name": "two-ai-ownership-coach"' deploy/ai-coach-backend/wrangler.jsonc
+
+      - name: Deploy backend Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
+          command: deploy --config deploy/ai-coach-backend/wrangler.jsonc
