@@ -5,6 +5,18 @@ const text=(id,max=800)=>{const el=document.getElementById(id);return el?String(
 const number=(id)=>{const el=document.getElementById(id);if(!el||String(el.value).trim()==="")return null;const n=Number(el.value);if(!Number.isFinite(n))throw Error("Correct the numeric field: "+id);return n};
 const present=(v)=>typeof v==="string"&&v.length>0;
 const specs={
+"marketing-strategy":{
+ title:"Marketing Strategy Fundamentals",
+ objective:"Turn specific positioning and one identifiable audience into a focused, executable marketing strategy with a primary channel, supporting channel, realistic owner hours, and a credible outcome.",
+ prompts:{risk:"What is the weakest link in my one-page marketing strategy?",assumptions:"Challenge the most consequential unsupported assumption in my channel strategy.",options:"What should I prioritize or stop doing with the time I have?",habit:"How should I tell if this strategy is working?"},
+ snapshot(){
+  const ids=["pos-for","pos-against","audience-desc","audience-size","primary-channel","primary-type","primary-distribution","primary-why","supporting-channel","supporting-type","supporting-distribution","supporting-why","weekly-hours","viability"];
+  const names=["positionFor","positionAgainst","audience","audienceSize","primaryChannel","primaryType","primaryDistribution","primaryWhy","supportingChannel","supportingType","supportingDistribution","supportingWhy","weeklyHours","viability"];
+  const values={};ids.forEach((id,i)=>{const value=text(id,i===13?650:450);if(value)values[names[i]]=value});
+  if(!values.positionFor&&!values.audience&&!values.primaryChannel)return null;
+  return {kind:"batch3-marketing-strategy",values};
+ }
+},
 "prototyping":{
  title:"Prototyping",
  objective:"Use actual prototype delivery and customer behavior to find the operational bottleneck, distinguish demand from deliverability, and test whether service hours can scale.",
