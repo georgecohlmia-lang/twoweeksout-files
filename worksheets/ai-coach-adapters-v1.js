@@ -5,6 +5,22 @@ const text=(id,max=800)=>{const el=document.getElementById(id);return el?String(
 const number=(id)=>{const el=document.getElementById(id);if(!el||String(el.value).trim()==="")return null;const n=Number(el.value);if(!Number.isFinite(n))throw Error("Correct the numeric field: "+id);return n};
 const present=(v)=>typeof v==="string"&&v.length>0;
 const specs={
+"interviewing-for-journey":{
+ title:"Interviewing for the Journey",
+ objective:"Test whether interview evidence actually changes the customer's trigger, stall and unresolved belief, and choose a behavior-based next interview rather than relying on assumptions.",
+ prompts:{risk:"What is the biggest gap between our draft and what customers described?",assumptions:"Challenge whether the interviews support my interpretation.",options:"What should we investigate about the longest stall?",habit:"What should I verify in the next interview?"},
+ snapshot(){
+  const ids=["trigDraft","trigHeard","stallDraft","stallHeard","belief","resolve","whoRoom"];
+  const values=Object.fromEntries(ids.map(k=>[k,text(k,300)]));
+  const sit=document.querySelector('input[name="sit"]:checked')?.value||"";
+  values.situation=["book","hand","none"].includes(sit)?sit:"unspecified";
+  for(const id of ["tr1","tr2","tr3","tr4"])values[id]=!!document.getElementById(id)?.checked?"yes":"no";
+  // Never transmit business name, participant identities, interview notes, row text or localStorage.
+  if(!ids.some(k=>present(values[k])))return null;
+  return {kind:"batch3-interviewing-for-journey",values};
+ }
+},
+
 "customer-journey-map":{
  title:"Customer Journey Map",
  objective:"Distinguish assumed customer triggers from observed behavior, identify the unresolved belief behind the longest stall, and choose one interview question to test it.",
