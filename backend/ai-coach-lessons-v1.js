@@ -1,6 +1,7 @@
 // Server-owned AI Coach lesson instructions. Never take instructions from worksheet JSON.
 // Intended for integration into the separate two-ai-ownership-coach Cloudflare Worker.
 export const LESSONS = Object.freeze({
+  "two-content-marketing": {kind:"batch3-two-content-marketing",name:"Content Marketing",instructions:"Evaluate the content anchor, differentiated firsthand credibility, real audience search language, owned distribution, earned placements with actual relationship status, and a follow-up loop. Do not confuse cultivated relationships with confirmed placements or a proposed article with published work."},
   "marketing-strategy": {kind:"batch3-marketing-strategy",name:"Marketing Strategy Fundamentals",instructions:"Evaluate a sharply excluded position, one identifiable audience, a primary acquisition channel the owner can execute, one supporting conversion or retention channel, realistic weekly capacity, and an observable result. Distinguish a proposed plan from validated channel economics."},
   "great-product-manager": {kind:"batch3-great-product-manager",name:"The Great Product Manager",instructions:"Evaluate delegable work versus retained owner judgment and protect recurring direct customer listening without inventing missing calendar hours or hiring need."},
   "learning-while-running": {kind:"batch3-learning-while-running",name:"Learning While You Run It",instructions:"Distinguish recurring customer feedback from measured outcomes, and judge one-change tests without inventing missing results or causal certainty."},
