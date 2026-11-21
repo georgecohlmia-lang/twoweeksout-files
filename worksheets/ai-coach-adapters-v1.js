@@ -5,6 +5,26 @@ const text=(id,max=800)=>{const el=document.getElementById(id);return el?String(
 const number=(id)=>{const el=document.getElementById(id);if(!el||String(el.value).trim()==="")return null;const n=Number(el.value);if(!Number.isFinite(n))throw Error("Correct the numeric field: "+id);return n};
 const present=(v)=>typeof v==="string"&&v.length>0;
 const specs={
+"mvp-scoping":{
+ title:"Minimum Viable Product Scoping",
+ objective:"Determine whether the MVP isolates one falsifiable customer claim, removes nonessential scope, targets the right buyers, charges a meaningful price and commits to an observable kill criterion before results arrive.",
+ prompts:{risk:"What makes this MVP test incapable of giving us a useful answer?",assumptions:"Challenge the claim, audience and willingness-to-pay assumptions.",options:"What should we remove or change to make this a cleaner test?",habit:"What evidence should determine whether we continue or stop?"},
+ snapshot(){
+  const fields=["claim","box","boxNote","parked","scopeIn","scopeOut","audType","audN","audWho","days","afterEnd","priceType","price","killN","killOf","killWhat","killThen","agreed","abandon","can","result","line","nextQ"];
+  const values={};
+  for(const k of fields){
+    const radios=document.querySelectorAll('input[type="radio"][data-k="'+k+'"]');
+    const el=radios.length?Array.from(radios).find(x=>x.checked):document.querySelector('[data-k="'+k+'"]');
+    values[k]=el?(el.type==="checkbox"?(el.checked?"yes":"no"):String(el.value||"").trim().slice(0,300)):"";
+  }
+  for(const k of ["sc1","sc2","sc3"])values[k]=document.querySelector('input[data-k="'+k+'"]')?.checked?"yes":"no";
+  // Exclude business and concept names, named decision makers, full initial build wishlist, contact information and localStorage.
+  // Do not infer test outcomes from the example or from an empty result.
+  if(!["claim","scopeIn","audWho","killWhat","abandon","result"].some(k=>present(values[k])))return null;
+  return {kind:"batch3-mvp-scoping",values};
+ }
+},
+
 "interviewing-for-journey":{
  title:"Interviewing for the Journey",
  objective:"Test whether interview evidence actually changes the customer's trigger, stall and unresolved belief, and choose a behavior-based next interview rather than relying on assumptions.",
