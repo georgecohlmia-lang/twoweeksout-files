@@ -5,6 +5,35 @@ const text=(id,max=800)=>{const el=document.getElementById(id);return el?String(
 const number=(id)=>{const el=document.getElementById(id);if(!el||String(el.value).trim()==="")return null;const n=Number(el.value);if(!Number.isFinite(n))throw Error("Correct the numeric field: "+id);return n};
 const present=(v)=>typeof v==="string"&&v.length>0;
 const specs={
+"social-media-community":{
+ title:"Social Media & Community",
+ objective:"Choose one sustainable platform, engage selectively with relevant people, and participate in communities to learn and build trust rather than broadcast.",
+ prompts:{risk:"What is the weakest part of my social and community plan?",assumptions:"Challenge the most consequential unproven assumption in this plan.",options:"Where should I focus my limited engagement time?",habit:"How do I know whether this routine produces useful relationships and learning?"},
+ snapshot(){
+  const ids=["audience-where","motion-sustain","platform-pick","platform-custom","platform-tradeoff","selection-filter","commenting-minutes","commenting-when","negative-space","community-discipline"];
+  const names=["audienceWhere","sustainableMotion","platform","customPlatform","platformTradeoff","commentSelectionRule","dailyMinutes","commentingTime","willNotDo","communityBoundaries"];
+  const values={};ids.forEach((id,i)=>{const v=text(id,300);if(v)values[names[i]]=v});
+  const engagement=Array.from(document.querySelectorAll("#engagement-list .engagement-row"));
+  values.engagementCount=engagement.filter(row=>String(row.querySelector(".eng-name")?.value||"").trim()).length;
+  engagement.slice(0,10).forEach((row,i)=>{
+   const name=String(row.querySelector(".eng-name")?.value||"").trim();
+   const why=String(row.querySelector(".eng-why")?.value||"").trim();
+   if(name)values["person"+(i+1)]=name.slice(0,180);
+   if(why)values["person"+(i+1)+"Why"]=why.slice(0,240);
+  });
+  const communities=Array.from(document.querySelectorAll("#community-list .community-row")).slice(0,4);
+  communities.forEach((row,i)=>{
+   const name=String(row.querySelector(".comm-name")?.value||"").trim();
+   const type=String(row.querySelector(".comm-type")?.value||"").trim();
+   const why=String(row.querySelector(".comm-why")?.value||"").trim();
+   if(name)values["community"+(i+1)]=name.slice(0,180);
+   if(type)values["community"+(i+1)+"Type"]=type;
+   if(why)values["community"+(i+1)+"Why"]=why.slice(0,240);
+  });
+  if(!values.audienceWhere&&!values.platform&&!values.engagementCount)return null;
+  return {kind:"batch3-social-media-community",values};
+ }
+},
 "two-content-marketing":{
  title:"Content Marketing",
  objective:"Build a differentiated anchor piece and a distribution strategy grounded in audience questions, owned reach, and realistic earned-media relationships.",
