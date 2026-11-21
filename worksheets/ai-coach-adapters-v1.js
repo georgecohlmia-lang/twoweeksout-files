@@ -11,7 +11,7 @@ const specs={
  prompts:{risk:"What is the biggest gap between our draft and what customers described?",assumptions:"Challenge whether the interviews support my interpretation.",options:"What should we investigate about the longest stall?",habit:"What should I verify in the next interview?"},
  snapshot(){
   const ids=["trigDraft","trigHeard","stallDraft","stallHeard","belief","resolve","whoRoom"];
-  const values=Object.fromEntries(ids.map(k=>[k,text(k,300)]));
+  const values=Object.fromEntries(ids.map(k=>{const el=document.querySelector('[data-k="'+k+'"]');return [k,el?String(el.value||"").trim().slice(0,300):""];}));
   const sit=document.querySelector('input[name="sit"]:checked')?.value||"";
   values.situation=["book","hand","none"].includes(sit)?sit:"unspecified";
   for(const id of ["tr1","tr2","tr3","tr4"])values[id]=!!document.querySelector('input[data-k="'+id+'"]')?.checked?"yes":"no";
