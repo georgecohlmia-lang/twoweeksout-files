@@ -333,6 +333,28 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-strategic-partnerships-referrals",values};
  }
 },
+"great-product-manager":{
+ title:"The Great Product Manager",
+ objective:"Distinguish product judgments the owner must retain from work that can be documented and delegated, while protecting direct customer contact.",
+ prompts:{risk:"Where am I still the bottleneck?",assumptions:"Challenge what I think only I can do.",options:"What should I document or hand off first?",habit:"How do I protect regular customer contact?"},
+ snapshot(){
+  const get=k=>String(document.querySelector('[data-k="'+k+'"]')?.value||"").trim().slice(0,180);
+  const check=k=>document.querySelector('[data-k="'+k+'"]')?.checked?"yes":"no";
+  const values={week:get("week"),documentationRecipient:get("docTo"),documentationStatus:String(document.querySelector('[data-k="docSt"]:checked')?.value||""),documentationSummary:get("doc"),customerDay:get("ctDay"),customerDuration:get("ctLen"),customerWho:get("ctWho"),customerTimeBooked:check("ctCal"),writtenDown:check("written"),hireSignal1:check("sg1"),hireSignal2:check("sg2"),hireSignal3:check("sg3")};
+  const rows=Array.from(document.querySelectorAll("#cal .cal")).slice(0,8);
+  values.calendarCount=document.querySelectorAll("#cal .cal").length;
+  rows.forEach((row,i)=>{
+   const f=k=>String(row.querySelector('[data-f="'+k+'"]')?.value||"").trim().slice(0,120);
+   values["item"+(i+1)+"Name"]=f("item");
+   values["item"+(i+1)+"Hours"]=f("hrs");
+   values["item"+(i+1)+"Delegable"]=f("q");
+   values["item"+(i+1)+"Reason"]=f("why");
+   values["item"+(i+1)+"Costliest"]=row.querySelector('input[name="top"]')?.checked?"yes":"no";
+  });
+  if(!rows.some(row=>row.querySelector('[data-f="item"]')?.value?.trim())&&!values.documentationSummary)return null;
+  return {kind:"batch3-great-product-manager",values};
+ }
+},
 "learning-while-running":{
  title:"Learning While You Run It",
  objective:"Turn direct customer feedback into a repeatable learning habit and one-change experiments with evidence-based keep, fix or stop decisions.",
