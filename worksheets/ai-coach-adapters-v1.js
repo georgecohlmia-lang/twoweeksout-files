@@ -333,6 +333,26 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   return {kind:"batch2-strategic-partnerships-referrals",values};
  }
 },
+"roadmapping":{
+ title:"Lean Roadmap",
+ objective:"Separate committed work from untested priorities, challenge premature dates and dependencies, and protect focus when stakeholders push new ideas.",
+ prompts:{risk:"What is the biggest weakness in my roadmap?",assumptions:"Challenge how I have ordered Now, Next and Later.",options:"What should I change before committing?",habit:"What decision should I make next?"},
+ snapshot(){
+  const values={};
+  for(const [name,id] of [["now","itemsNow"],["next","itemsNext"],["later","itemsLater"]]){
+   const rows=Array.from(document.querySelectorAll("#"+id+" .item")).slice(0,12);
+   values[name]=rows.map(row=>{
+    const get=f=>String(row.querySelector('[data-f="'+f+'"]')?.value||"").trim().slice(0,200);
+    return {idea:get("text"),date:name==="now"?get("date"):"",decided:name==="now"?!!row.querySelector('[data-f="decided"]')?.checked:false,hurt:name==="next"?get("hurt"):"",cost:name==="next"?get("breaks"):"",reason:get("reason")};
+   }).filter(x=>x.idea);
+  }
+  values.pushedIdea=String(document.querySelector("#pushId option:checked")?.textContent||"").trim().slice(0,150);
+  values.shown=!!document.querySelector('[data-k="shown"]')?.checked;
+  values.discussionOccurred=!!String(document.querySelector('[data-k="theySaid"]')?.value||"").trim();
+  if(![...values.now,...values.next,...values.later].length)return null;
+  return {kind:"batch3-roadmapping",values};
+ }
+},
 "affordability-test":{
  title:"Hire Affordability Test",
  objective:"Evaluate the full cost, ramp exposure, cash cushion and timing of a proposed hire; distinguish affordability from desirability.",
