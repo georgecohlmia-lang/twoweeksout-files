@@ -345,15 +345,19 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
    const n=Number(row.querySelector(".tally .v")?.textContent||0);
    return [String(fields[0]?.value||"").trim().slice(0,95),"mentions "+(Number.isFinite(n)?n:0),String(fields[1]?.value||"").trim().slice(0,80)].filter(Boolean).join(" | ");
   });
-  const tests=Array.from(document.querySelectorAll("#tests .test")).slice(0,4).map(row=>{
-   const f=k=>String(row.querySelector('[data-f="'+k+'"]')?.value||"").trim().slice(0,110);
-   const decision=Array.from(row.querySelectorAll('[data-xd][aria-pressed="true"]')).map(x=>x.dataset.d).join("");
-   return ["change "+f("change"),"measure "+(f("number")||"not recorded"),"decision "+(decision||"pending"),"result "+(f("result")||"not recorded")].join(" | ");
-  });
+  const tests=Array.from(document.querySelectorAll("#tests .test")).slice(0,4);
   values.themeCount=document.querySelectorAll("#themes .theme").length;
   values.testCount=document.querySelectorAll("#tests .test").length;
   values.themeEvidence=themes.join("; ").slice(0,300);
-  values.testEvidence=tests.join("; ").slice(0,300);
+  tests.forEach((row,i)=>{
+   const f=k=>String(row.querySelector('[data-f="'+k+'"]')?.value||"").trim().slice(0,220);
+   const decision=Array.from(row.querySelectorAll('[data-xd][aria-pressed="true"]')).map(x=>x.dataset.d).join("");
+   values["test"+(i+1)+"Change"]=f("change");
+   values["test"+(i+1)+"Measure"]=f("number")||"not recorded";
+   values["test"+(i+1)+"Decision"]=decision||"pending";
+   values["test"+(i+1)+"Result"]=f("result")||"not recorded";
+   values["test"+(i+1)+"Notes"]=f("notes");
+  });
   if(!values.question&&!values.themeCount&&!values.testCount)return null;
   return {kind:"batch3-learning-while-running",values};
  }
