@@ -5,6 +5,30 @@ const text=(id,max=800)=>{const el=document.getElementById(id);return el?String(
 const number=(id)=>{const el=document.getElementById(id);if(!el||String(el.value).trim()==="")return null;const n=Number(el.value);if(!Number.isFinite(n))throw Error("Correct the numeric field: "+id);return n};
 const present=(v)=>typeof v==="string"&&v.length>0;
 const specs={
+"two-content-marketing":{
+ title:"Content Marketing",
+ objective:"Build a differentiated anchor piece and a distribution strategy grounded in audience questions, owned reach, and realistic earned-media relationships.",
+ prompts:{risk:"What is the weakest link in my content and distribution plan?",assumptions:"Which part of my content strategy is still an assumption rather than demonstrated traction?",options:"What should I prioritize before producing the full anchor piece?",habit:"How do I turn audience questions into a repeatable content and follow-up loop?"},
+ snapshot(){
+  const ids=["anchor-title","anchor-coverage","prop-credibility","prop-depth","prop-question","owned-channel","owned-context","followup-channel","followup-thread","relationships"];
+  const names=["anchorTitle","anchorCoverage","credibility","distinctiveDepth","audienceQuestion","ownedChannel","ownedContext","followupChannel","followupThread","relationships"];
+  const values={};ids.forEach((id,i)=>{const v=text(id,300);if(v)values[names[i]]=v});
+  const phrases=Array.from(document.querySelectorAll("#phrasings-list .phrasing-row input")).map(el=>String(el.value||"").trim()).filter(Boolean);
+  values.audiencePhrasingCount=phrases.length;
+  phrases.slice(0,12).forEach((v,i)=>values["audiencePhrase"+(i+1)]=v.slice(0,180));
+  const earned=Array.from(document.querySelectorAll("#earned-list .earned-row")).slice(0,5);
+  earned.forEach((row,i)=>{
+   const p=String(row.querySelector(".earned-placement")?.value||"").trim();
+   const state=String(row.querySelector(".earned-state")?.value||"").trim();
+   const detail=String(row.querySelector(".earned-relationship")?.value||"").trim();
+   if(p)values["placement"+(i+1)]=p.slice(0,240);
+   if(state)values["placement"+(i+1)+"Status"]=state;
+   if(detail)values["placement"+(i+1)+"Relationship"]=detail.slice(0,280);
+  });
+  if(!values.anchorTitle&&!values.anchorCoverage&&!values.ownedChannel)return null;
+  return {kind:"batch3-two-content-marketing",values};
+ }
+},
 "marketing-strategy":{
  title:"Marketing Strategy Fundamentals",
  objective:"Turn specific positioning and one identifiable audience into a focused, executable marketing strategy with a primary channel, supporting channel, realistic owner hours, and a credible outcome.",
