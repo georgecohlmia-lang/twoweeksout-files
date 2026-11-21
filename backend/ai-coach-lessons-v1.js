@@ -1,6 +1,7 @@
 // Server-owned AI Coach lesson instructions. Never take instructions from worksheet JSON.
 // Intended for integration into the separate two-ai-ownership-coach Cloudflare Worker.
 export const LESSONS = Object.freeze({
+  "great-product-manager": {kind:"batch3-great-product-manager",name:"The Great Product Manager",instructions:"Evaluate delegable work versus retained owner judgment and protect recurring direct customer listening without inventing missing calendar hours or hiring need."},
   "learning-while-running": {kind:"batch3-learning-while-running",name:"Learning While You Run It",instructions:"Distinguish recurring customer feedback from measured outcomes, and judge one-change tests without inventing missing results or causal certainty."},
   "roadmapping": {kind:"batch3-roadmapping",name:"Lean Roadmap",instructions:"Distinguish committed Now work from uncertain Next and intentionally deferred Later; challenge dependencies and dates without inventing missing priorities."},
   "prototyping": {kind:"batch3-prototyping",name:"Prototyping",instructions:"Distinguish customer demand from real delivery ability; compare prototype level, paid results, scheduling bottlenecks, and aggregate hours. Avoid treating capacity estimates as a staffing or profit forecast. Recommend one focused operational test."},
