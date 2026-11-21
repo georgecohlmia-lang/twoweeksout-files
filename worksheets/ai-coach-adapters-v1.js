@@ -5,6 +5,21 @@ const text=(id,max=800)=>{const el=document.getElementById(id);return el?String(
 const number=(id)=>{const el=document.getElementById(id);if(!el||String(el.value).trim()==="")return null;const n=Number(el.value);if(!Number.isFinite(n))throw Error("Correct the numeric field: "+id);return n};
 const present=(v)=>typeof v==="string"&&v.length>0;
 const specs={
+"customer-journey-map":{
+ title:"Customer Journey Map",
+ objective:"Distinguish assumed customer triggers from observed behavior, identify the unresolved belief behind the longest stall, and choose one interview question to test it.",
+ prompts:{risk:"Where is the weakest assumption in my customer journey?",assumptions:"What am I assuming about why customers begin looking?",options:"How should I investigate the longest stall?",habit:"What should I ask a customer next?"},
+ snapshot(){
+ const keys=["trigger","stallWhy","stallTime","askNext"];
+ const values=Object.fromEntries(keys.map(k=>[k,text(k,300)]));
+ values.mapStatus=document.getElementById("status")?.value==="v2"?"interview-revised":"draft";
+ values.businessStage=document.querySelector('input[name="mode"]:checked')?.value==="live"?"existing-customers":document.querySelector('input[name="mode"]:checked')?.value==="pre"?"pre-launch":"unspecified";
+ // Business name, contact information, and individual customer-row narratives are excluded.
+ if(!keys.some(k=>present(values[k])))return null;
+ return {kind:"batch3-customer-journey-map",values};
+ }
+},
+
 "cash-timing-diagnostic":{title:"Cash Timing Diagnostic",objective:"Challenge cash timing, minimum balances, and concentration of outflows.",prompts:{"risk":"What is the most consequential risk in these answers?","assumptions":"Challenge my most important assumption.","options":"Which alternative should I evaluate?","habit":"What should I verify next?"},snapshot(){const values={};values["openingBalance"]=number("openingBalance");
 const extra="cash-timing-diagnostic";
 if(extra==="defining-financial-success"){for(const k of ["q1n","q2n","q3n","q4n","ts1","ts2","ts3"]){const el=document.querySelector('[data-key="'+k+'"]');values[k]=el?String(el.value||"").trim().slice(0,300):"";}}
