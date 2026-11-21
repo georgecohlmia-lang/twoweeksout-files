@@ -341,15 +341,17 @@ if(!Object.values(values).some(v=>Array.isArray(v)?v.some(x=>x!==0):v!==null&&v!
   const values={};
   for(const [name,id] of [["now","itemsNow"],["next","itemsNext"],["later","itemsLater"]]){
    const rows=Array.from(document.querySelectorAll("#"+id+" .item")).slice(0,12);
-   values[name]=rows.map(row=>{
+   const entries=rows.map(row=>{
     const get=f=>String(row.querySelector('[data-f="'+f+'"]')?.value||"").trim().slice(0,200);
     return {idea:get("text"),date:name==="now"?get("date"):"",decided:name==="now"?!!row.querySelector('[data-f="decided"]')?.checked:false,hurt:name==="next"?get("hurt"):"",cost:name==="next"?get("breaks"):"",reason:get("reason")};
    }).filter(x=>x.idea);
+   values[name+"Count"]=rows.length;
+   values[name+"Summary"]=entries.slice(0,3).map(x=>[x.idea,x.date?"due "+x.date:"",name==="now"?(x.decided?"decision made":"decision open"):"",x.hurt?"risk "+x.hurt:"",x.cost?"cost "+x.cost:"",x.reason?"reason "+x.reason:""].filter(Boolean).join(" | ")).join("; ").slice(0,300);
   }
   values.pushedIdea=String(document.querySelector("#pushId option:checked")?.textContent||"").trim().slice(0,150);
-  values.shown=!!document.querySelector('[data-k="shown"]')?.checked;
-  values.discussionOccurred=!!String(document.querySelector('[data-k="theySaid"]')?.value||"").trim();
-  if(![...values.now,...values.next,...values.later].length)return null;
+  values.shown=document.querySelector('[data-k="shown"]')?.checked?"yes":"no";
+  values.discussionOccurred=String(document.querySelector('[data-k="theySaid"]')?.value||"").trim()?"yes":"no";
+  if(!(values.nowCount+values.nextCount+values.laterCount))return null;
   return {kind:"batch3-roadmapping",values};
  }
 },
