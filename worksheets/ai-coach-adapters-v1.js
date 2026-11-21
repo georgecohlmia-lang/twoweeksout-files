@@ -5,6 +5,30 @@ const text=(id,max=800)=>{const el=document.getElementById(id);return el?String(
 const number=(id)=>{const el=document.getElementById(id);if(!el||String(el.value).trim()==="")return null;const n=Number(el.value);if(!Number.isFinite(n))throw Error("Correct the numeric field: "+id);return n};
 const present=(v)=>typeof v==="string"&&v.length>0;
 const specs={
+"two-ai-tools-marketing":{
+ title:"AI Tools for Marketing",
+ objective:"Separate repeatable marketing production from the original judgment and perspective that make the business distinctive; choose only useful tools and define a nondelegable guardrail.",
+ prompts:{risk:"What is the weakest boundary in my AI production plan?",assumptions:"Challenge my assumptions about which marketing work AI should handle.",options:"Where can AI save time without diluting what makes my work valuable?",habit:"How can I check whether my AI workflow preserves my original perspective?"},
+ snapshot(){
+  const values={};
+  const what=text("guard-what",300),why=text("guard-why",300);
+  if(what)values.protectedWork=what;if(why)values.guardrailReason=why;
+  const rows=Array.from(document.querySelectorAll("#task-list .task-row")).slice(0,15);
+  rows.forEach((row,i)=>{
+   const name=String(row.querySelector(".task-name")?.value||"").trim();
+   const sort=String(row.querySelector(".task-sort")?.value||"").trim();
+   if(name)values["task"+(i+1)]=name.slice(0,230);
+   if(sort)values["task"+(i+1)+"Classification"]=sort;
+  });
+  Array.from(document.querySelectorAll(".cat-pick")).slice(0,8).forEach((el,i)=>{
+   const choice=String(el.value||"").trim();
+   if(choice)values["tool"+(i+1)+"Category"]=String(el.dataset.cat||"").slice(0,90);
+   if(choice)values["tool"+(i+1)+"Choice"]=choice.slice(0,250);
+  });
+  if(!what&&!rows.some(row=>String(row.querySelector(".task-name")?.value||"").trim()))return null;
+  return {kind:"batch3-two-ai-tools-marketing",values};
+ }
+},
 "two-email-marketing":{
  title:"Email Marketing",
  objective:"Build a sustainable email publication and opt-in funnel, a useful welcome sequence, and a measured reply-based learning habit without unnecessary automation.",
