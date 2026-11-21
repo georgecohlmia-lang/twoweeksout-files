@@ -14,7 +14,7 @@ const specs={
   const values=Object.fromEntries(ids.map(k=>[k,text(k,300)]));
   const sit=document.querySelector('input[name="sit"]:checked')?.value||"";
   values.situation=["book","hand","none"].includes(sit)?sit:"unspecified";
-  for(const id of ["tr1","tr2","tr3","tr4"])values[id]=!!document.getElementById(id)?.checked?"yes":"no";
+  for(const id of ["tr1","tr2","tr3","tr4"])values[id]=!!document.querySelector('input[data-k="'+id+'"]')?.checked?"yes":"no";
   // Never transmit business name, participant identities, interview notes, row text or localStorage.
   if(!ids.some(k=>present(values[k])))return null;
   return {kind:"batch3-interviewing-for-journey",values};
