@@ -1179,7 +1179,7 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 function resetAllFields() {
-  document.querySelectorAll("input[type='text'], select, textarea").forEach(el => el.value = "");
+  document.querySelectorAll("input[type='text'], select, textarea").forEach(el => { if (!el.closest("#two-coach-panel")) el.value = ""; });
   document.getElementById("ml-toggle").checked = false;
   toggleMultiLocation();
   ["keep", "change", "design", "resist", "norms"].forEach(k => {
