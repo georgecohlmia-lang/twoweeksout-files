@@ -181,6 +181,7 @@ export default {async fetch(request,env){
   if(worksheetId==="cash-timing-diagnostic" && !numeric.verifiedCashTiming) return json({error:"Enter a valid opening balance and eight-week cash figures before requesting cash timing analysis."},400,cors);
   const question=multi?(lessonPrompts[worksheetId][input]||input):(topics[input]||input);
   // Anchor follow-up guidance beside the current learner question.
+  const priorCoachReply = [...history].reverse().find(m=>m.role==='assistant')?.content || '';
   const followUpContext = priorCoachReply
     ? "\n\nTHIS IS A FOLLOW-UP, NOT A NEW FIRST ANSWER. Your previous coaching response was: " + JSON.stringify(priorCoachReply.slice(0,1200)) +
       "\nDo not repeat its calculation, risk, or action. Answer the current question with ONE distinct, worksheet-grounded consequence and ONE different next step. If payroll and support costs were already discussed, choose another material consequence such as refund liquidity, delivery timing, or permanent price-lock economics. Do not restart the original assessment."
@@ -196,7 +197,6 @@ export default {async fetch(request,env){
   const styleInstructions = styles[coachingStyle];
   // Follow-up questions must advance the conversation, not restate the last answer.
   // Apply to all worksheets, while grounding every new point in worksheet evidence.
-  const priorCoachReply = [...history].reverse().find(m=>m.role==='assistant')?.content || '';
   const followUp = Boolean(priorCoachReply);
   const followUpInstructions = followUp
     ? ' FOLLOW-UP DISCIPLINE: The learner has already received coaching in this conversation. Read the prior assistant response and answer the new question directly. If the learner says tell me more, go one level deeper: explain a new business consequence, an overlooked tradeoff, a concrete example, or how to test the earlier advice. Do NOT paraphrase the previous response, repeat its praise, or reassign the same next step. Build on what was already said; use the verified worksheet facts, label any hypothetical example clearly, and avoid inventing new facts. If the earlier advice is incomplete or wrong, correct it plainly. Keep the answer clear, practical, and concise.'
