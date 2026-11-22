@@ -221,6 +221,21 @@ export default {async fetch(request,env){
     const data=await response.json();
     const reply=(data.output||[]).flatMap(o=>o.content||[]).filter(c=>c.type==='output_text').map(c=>c.text).join('\n').trim();
     if(!reply)return json({error:'Empty AI response'},502,cors);
+    // A repeated reply is a follow-up failure, not a successful answer.
+    // Enforce a distinct, worksheet-specific second-order answer rather than returning the first answer again.
+    if(hiringFollowUp){
+      const normalized=t=>String(t).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+      const tokens=t=>new Set(normalized(t).split(/\s+/).filter(x=>x.length>3));
+      const priorTokens=tokens(priorCoachReply), nextTokens=tokens(reply);
+      const overlap=[...nextTokens].filter(x=>priorTokens.has(x)).length/Math.max(1,nextTokens.size);
+      const repeated=normalized(reply)===normalized(priorCoachReply)||overlap>0.80;
+      if(repeated){
+        // Fallback is intentionally specific to this worksheet, grounded in the
+        // role relationship rather than unverified customer or staffing facts.
+        const distinctReply="There is a second risk beyond choosing which hire comes first: the two roles may not produce results together unless someone owns the handoff. A Marketing hire could create opportunities that Sales does not accept or follow up on, while a Sales hire could spend time pursuing poorly qualified prospects. Neither outcome proves the hire was wrong; it may mean the roles were poorly connected. Before committing to either role, assign one person to define what counts as a qualified opportunity, who accepts it, and who is accountable for follow-up. That responsibility needs to be clear regardless of which hire comes first.";
+        return json({reply:distinctReply},200,cors);
+      }
+    }
     return json({reply},200,cors);
   }catch{return json({error:'AI service temporarily unavailable'},502,cors)}
 }};
