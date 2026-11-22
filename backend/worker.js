@@ -182,8 +182,8 @@ export default {async fetch(request,env){
   const question=multi?(lessonPrompts[worksheetId][input]||input):(topics[input]||input);
   // Anchor follow-up guidance beside the current learner question.
   const followUpContext = priorCoachReply
-    ? "\\n\\nTHIS IS A FOLLOW-UP, NOT A NEW FIRST ANSWER. Your previous coaching response was: " + JSON.stringify(priorCoachReply.slice(0,1200)) +
-      "\\nDo not repeat its calculation, risk, or action. Answer the current question with ONE distinct, worksheet-grounded consequence and ONE different next step. If payroll and support costs were already discussed, choose another material consequence such as refund liquidity, delivery timing, or permanent price-lock economics. Do not restart the original assessment."
+    ? "\n\nTHIS IS A FOLLOW-UP, NOT A NEW FIRST ANSWER. Your previous coaching response was: " + JSON.stringify(priorCoachReply.slice(0,1200)) +
+      "\nDo not repeat its calculation, risk, or action. Answer the current question with ONE distinct, worksheet-grounded consequence and ONE different next step. If payroll and support costs were already discussed, choose another material consequence such as refund liquidity, delivery timing, or permanent price-lock economics. Do not restart the original assessment."
     : '';
 
   // Accept only predefined style choices, never arbitrary learner instructions.
