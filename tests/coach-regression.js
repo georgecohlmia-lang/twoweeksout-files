@@ -35,6 +35,12 @@ for(const m of gatewayBlock.matchAll(/"([^"]+)":\s*\{kind:"([^"]+)",keys:\["kind
  const [_,id,kind]=m;
  report(id+' backend kind',backendKinds.includes("'"+id+"':'"+kind+"'"),'gateway kind '+kind+' must match backend batch1Kinds');
 }
+const management=read('worksheets/managing-small-team/index.html');
+const managementAdapter=section(adapter,'"managing-small-team":{','"two-building-culture":{');
+report('management coach integration',management.includes('src="/ai-coach-adapters-v1.js"')&&management.includes('src="/ai-ownership-coach-v1.js"'),'both scripts installed');
+report('management reset isolation',management.includes('if (!el.closest("#two-coach-panel")) el.value = "";'),'worked example must not erase coach style');
+report('management privacy',!managementAdapter.includes('"report-name"'),'direct report name excluded from AI snapshot');
+report('management schema bounds',managementAdapter.includes('slice(0,300)')&&backend.includes('fields.length<=45')&&backend.includes('bounded(v,300)'),'adapter fields match backend limits');
 report('culture reset regression',/if \(!el\.closest\("#two-coach-panel"\)\)/.test(read('worksheets/two-building-culture/index.html')),'worked-example reset must preserve coaching style');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
