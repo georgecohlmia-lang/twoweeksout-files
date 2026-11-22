@@ -197,11 +197,19 @@ export default {
       const fields = snap?.values && typeof snap.values === "object" && !Array.isArray(snap.values)
         ? Object.entries(snap.values) : [];
       let reason = "request_shape";
+      if (!body || typeof body !== "object" || Array.isArray(body)) reason = "invalid_body";
+      else if (!boundedText(body.message,1500) || !body.message.trim()) reason = "invalid_message";
+      else if (body.coachingStyle != null && !allowedStyles.has(body.coachingStyle)) reason = "invalid_coaching_style";
+      else if (body.history != null && (!Array.isArray(body.history) || body.history.length > 8 ||
+        !body.history.every(h => safeKeys(h, ["role","content"]) &&
+          ["user","assistant"].includes(h.role) && boundedText(h.content,1500)))) reason = "invalid_history";
+      else if (schema && !safeKeys(body, ["worksheetId","snapshot","message","history","coachingStyle","narrativeConsent"])) reason = "unexpected_request_field";
+      else if (schema && !safeKeys(snap,schema.keys)) reason = "unexpected_snapshot_field";
       if (!schema) reason = "unrecognized_worksheet";
-      else if (snap?.kind !== schema.kind) reason = "snapshot_kind_mismatch";
-      else if (body?.narrativeConsent !== true) reason = "consent_required";
-      else if (schema.batch1 && fields.length > 45) reason = "too_many_snapshot_fields";
-      else if (schema.batch1 && fields.some(([k,v]) =>
+      else if (reason === "request_shape" && snap?.kind !== schema.kind) reason = "snapshot_kind_mismatch";
+      else if (reason === "request_shape" && body?.narrativeConsent !== true) reason = "consent_required";
+      else if (reason === "request_shape" && schema.batch1 && fields.length > 45) reason = "too_many_snapshot_fields";
+      else if (reason === "request_shape" && schema.batch1 && fields.some(([k,v]) =>
         !/^[a-zA-Z][a-zA-Z0-9_]{0,40}$/.test(k) ||
         !(v === null || (typeof v === "number" && Number.isFinite(v) && Math.abs(v) <= 1e9) ||
           boundedText(v,300) || (Array.isArray(v) && v.length <= 8 &&
