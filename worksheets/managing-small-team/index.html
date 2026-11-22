@@ -340,7 +340,7 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 function resetAllFields() {
-  document.querySelectorAll("input[type='text'], select, textarea").forEach(el => el.value = "");
+  document.querySelectorAll("input[type='text'], select, textarea").forEach(el => { if (!el.closest("#two-coach-panel")) el.value = ""; });
   document.getElementById("pm-toggle").checked = false;
   togglePM();
 }
@@ -352,5 +352,7 @@ function clearAll() {
 }
 </script>
 <script src="/persistence-autosave-v1.js"></script>
+<script defer src="/ai-coach-adapters-v1.js"></script>
+<script defer src="/ai-ownership-coach-v1.js"></script>
 </body>
 </html>
