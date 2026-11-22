@@ -181,8 +181,8 @@ function distributedWorkDiagnosis(snapshot,followUp){
   const geo=[value('geo_approach'),value('geo_rationale'),value('ml_leader'),value('ml_presence')].filter(Boolean).join(' ');
   const decisions=value('found_decisions');
   const context=[geo,decisions,value('found_written'),value('found_sync')].join(' ');
-  const multipleLocations=/\\b(office|location|branch|site|expan(?:d|sion)|headquarters|hq|denver|phoenix|regional|city|cities)\\b/i.test(geo);
-  const decisionEvidence=/\\b(decision|approv|escalat|authority|dri|owner|lead|accountab|autonom|delegate)\\b/i.test(context);
+  const multipleLocations=/\b(office|location|branch|site|expan(?:d|sion)|headquarters|hq|denver|phoenix|regional|city|cities)\b/i.test(geo);
+  const decisionEvidence=/\b(decision|approv|escalat|authority|dri|owner|lead|accountab|autonom|delegate)\b/i.test(context);
   const primary=multipleLocations&&decisionEvidence?'cross_location_authority':multipleLocations?'location_operating_model':decisions?'decision_rights':'distributed_execution';
   const evidence=Object.entries(v).filter(([k,val])=>typeof val==='string'&&val.trim()&&['geo_approach','geo_rationale','ml_leader','ml_presence','found_decisions','found_written','found_sync'].includes(k)).map(([k,val])=>k+': '+val.slice(0,160)).slice(0,6);
   const guidance={
