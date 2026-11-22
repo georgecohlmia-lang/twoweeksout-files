@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const worksheetId = location.pathname.split("/").filter(Boolean)[0];
-  const cashPilot = worksheetId === "two-13-week-projection";
+  const cashPilot = false; // Migrated cash worksheet uses registered adapter; legacy gateway remains compatible.
   const adapter = cashPilot ? null : window.TWO_COACH_ADAPTERS?.[worksheetId];
   if (!cashPilot && !adapter) return;
 
