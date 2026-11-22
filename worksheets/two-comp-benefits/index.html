@@ -349,10 +349,12 @@ function generate() {
 }
 
 function escapeHtml(s) { if (s == null) return ""; return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
-function resetAllFields() { document.querySelectorAll("input[type='text'], input[type='number'], select, textarea").forEach(el => el.value = ""); recalc(); }
+function resetAllFields() { document.querySelectorAll("input[type='text'], input[type='number'], select, textarea").forEach(el => { if(!el.closest('#two-coach-panel'))el.value = "" }); recalc(); }
 function clearAll() { if (!confirm("Clear all entries and start over?")) return; resetAllFields(); document.getElementById("output-section").innerHTML = '<div class="empty-output">Complete the steps above and click Generate to produce your comp design.</div>'; window.scrollTo({ top: 0, behavior: "smooth" }); }
 recalc();
 </script>
 <script src="/persistence-autosave-v1.js"></script>
+<script defer src="/ai-coach-adapters-v1.js"></script>
+<script defer src="/ai-ownership-coach-v1.js"></script>
 </body>
 </html>
