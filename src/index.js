@@ -55,6 +55,10 @@ async function verifyAccess(request, env) {
 // Server-owned worksheet schemas. Legacy 13-week requests remain unchanged.
 const allowedStyles = new Set(["balanced", "direct", "socratic"]);
 const worksheetSchemas = {
+"managing-distributed-team":{kind:"batch9-managing-distributed-team",keys:["kind","values"],batch1:true},
+"owers-posture":{kind:"batch9-owers-posture",keys:["kind","values"],batch1:true},
+"two-comp-benefits":{kind:"batch9-two-comp-benefits",keys:["kind","values"],batch1:true},
+"two-13-week-projection":{kind:"batch9-two-13-week-projection",keys:["kind","values"],batch1:true},
  "managing-small-team":{kind:"batch8-managing-small-team",keys:["kind","values"],batch1:true},
 "two-building-culture":{kind:"batch8-two-building-culture",keys:["kind","values"],batch1:true},
 "when-whom-hire":{kind:"batch8-when-whom-hire",keys:["kind","values"],batch1:true},
