@@ -42,6 +42,17 @@ report('management reset isolation',management.includes('if (!el.closest("#two-c
 report('management privacy',!managementAdapter.includes('"report-name"'),'direct report name excluded from AI snapshot');
 report('management schema bounds',managementAdapter.includes('slice(0,300)')&&backend.includes('fields.length<=45')&&backend.includes('bounded(v,300)'),'adapter fields match backend limits');
 report('culture reset regression',/if \(!el\.closest\("#two-coach-panel"\)\)/.test(read('worksheets/two-building-culture/index.html')),'worked-example reset must preserve coaching style');
+// Exercise the deterministic diagnosis with two contrasting worksheet scenarios.
+const vm=require('node:vm');
+const diagnosticSource=section(backend,'function distributedWorkDiagnosis(snapshot,followUp){','const json = (data, status=200');
+const diagnose=vm.runInNewContext(diagnosticSource+'; distributedWorkDiagnosis');
+const expansion={values:{geo_approach:'Open a Phoenix office alongside Denver',ml_leader:'Appoint Phoenix local lead for 90 days',found_decisions:'DRIs document decisions and dissent'}};
+const singleTeam={values:{found_decisions:'A single remote team names a DRI for every customer escalation',found_sync:'Weekly meeting only for decisions'}};
+const initial=diagnose(expansion,false),followup=diagnose(expansion,true),remote=diagnose(singleTeam,false);
+report('distributed expansion diagnosis',initial.includes('cross_location_authority')&&initial.includes('contested client')&&!initial.includes('remote-work trial'),'expansion prioritizes local authority over presence');
+report('distributed follow-up differentiation',followup.includes('SECOND-ORDER')&&followup.includes('bypassing')&&!followup.includes('INITIAL DIAGNOSIS'),'follow-up explores authority bypass, not the initial challenge');
+report('distributed unrelated scenario',remote.includes('decision_rights')&&!remote.includes('cross_location_authority'),'single remote team does not inherit multi-office diagnosis');
+report('distributed prompt wiring',backend.includes('hiringModeInstruction+distributedDiagnosis'),'diagnosis included in model instructions');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
 if(warnings.length)for(const w of warnings)console.warn('WARN '+w);
