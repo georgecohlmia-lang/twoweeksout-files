@@ -191,7 +191,23 @@ export default {
     let body;
     try { body = await request.json(); } catch { return json({ error: "Invalid JSON" }, 400); }
     if (!validWorksheetRequest(body)) {
-      return json({ error: "Invalid coach request" }, 400);
+      // Safe diagnostic for worksheet integrations. Never echo learner-entered content.
+      const schema = worksheetSchemas[body?.worksheetId];
+      const snap = body?.snapshot;
+      const fields = snap?.values && typeof snap.values === "object" && !Array.isArray(snap.values)
+        ? Object.entries(snap.values) : [];
+      let reason = "request_shape";
+      if (!schema) reason = "unrecognized_worksheet";
+      else if (snap?.kind !== schema.kind) reason = "snapshot_kind_mismatch";
+      else if (body?.narrativeConsent !== true) reason = "consent_required";
+      else if (schema.batch1 && fields.length > 45) reason = "too_many_snapshot_fields";
+      else if (schema.batch1 && fields.some(([k,v]) =>
+        !/^[a-zA-Z][a-zA-Z0-9_]{0,40}$/.test(k) ||
+        !(v === null || (typeof v === "number" && Number.isFinite(v) && Math.abs(v) <= 1e9) ||
+          boundedText(v,300) || (Array.isArray(v) && v.length <= 8 &&
+            v.every(x => typeof x === "number" && Number.isFinite(x) && Math.abs(x) <= 1e9)))))
+        reason = "invalid_snapshot_field";
+      return json({ error: "Invalid coach request (" + reason + ")", code: reason, gatewayVersion: "culture-validation-20261122" }, 400);
     }
 
     // Server-calculated first-price economics. unitCost is the worksheet's
