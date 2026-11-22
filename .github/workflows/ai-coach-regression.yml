@@ -1,0 +1,30 @@
+name: AI Coach Regression
+on:
+  push:
+    branches: [ai-coach-integration]
+    paths:
+      - 'worksheets/**'
+      - 'src/**'
+      - 'backend/**'
+      - 'tests/coach-*.js'
+      - '.github/workflows/ai-coach-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check source contracts for all registered worksheets
+        run: node tests/coach-regression.js
+      - name: Install browser runner
+        run: |
+          npm install --no-save --no-package-lock playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Exercise every Coach UI and Worksheet 44 mocked requests
+        run: node tests/coach-browser-regression.js
