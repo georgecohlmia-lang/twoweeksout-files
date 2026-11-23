@@ -80,7 +80,7 @@
     <div id="two-coach-consent-row" hidden style="padding:8px 14px;font-size:12px"><label><input type="checkbox" id="two-coach-consent"> I agree to share the worksheet answers described above with the AI Coach.</label></div>
     <div id="two-coach-style-row"><label for="two-coach-style">Coaching style</label><select id="two-coach-style"><option value="balanced">Balanced (default)</option><option value="direct">Direct and demanding</option><option value="socratic">Question-led</option></select></div>
     <form id="two-coach-form">
-      <input id="two-coach-question" maxlength="1500" aria-label="Question for the Coach" placeholder="Ask about your cash decisions…" required>
+      <input id="two-coach-question" maxlength="1500" aria-label="Question for the Coach" placeholder="Ask about your business decisions…" required>
       <button id="two-coach-send" type="submit">Ask</button>
     </form>`;
   document.body.append(launch, panel);
@@ -185,7 +185,7 @@
     setPromptsVisible(false);
     const cashPrompts = {risk:"Where is my biggest cash risk?",assumptions:"Challenge my assumptions.",options:"What options should I evaluate?",habit:"Help me run a Monday cash review."};
     addMessage("user", cashPilot ? (cashPrompts[message] || message) : (adapter.prompts[message] || message));
-    const pending = addMessage("assistant", "Reviewing your forecast…");
+    const pending = addMessage("assistant", "Reviewing your worksheet…");
     try {
       const response = await fetch("/api/coach", {
         method: "POST",
