@@ -69,6 +69,9 @@ report('two decisions diagnosis wired',backend.includes('distributedDiagnosis+fi
 report('two decisions initial cash over revenue',fInitial.includes('AVAILABLE CASH')&&fInitial.includes('reject revenue growth'),'initial response prioritizes cash affordability over revenue');
 report('two decisions follow-up household runway',fFollow.includes('NET gap')&&fFollow.includes('household runway')&&!fFollow.includes('Propose ONE forward-looking business cash test'),'follow-up is a different household test');
 report('two decisions cash healthy household',fHealthy.includes('does NOT show the company cannot afford')&&fHealthy.includes('subtract other household income'),'household needs not equated with business cash weakness');
+report('two decisions no false business subsidy',fInitial.includes('NOT a transfer to the company')&&fInitial.includes('Never say the household is covering business shortfalls'),'household savings not interpreted as business deficit');
+report('two decisions follow-up topic exclusion',fFollow.includes('MANDATORY FOLLOW-UP TOPIC: household savings runway')&&fFollow.includes('DO NOT recommend monitoring company cash'),'follow-up must not repeat initial cash advice');
+report('two decisions market claim not verified',fInitial.includes('not independently verified fairness'),'market midpoint remains unverified worksheet claim');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
 if(warnings.length)for(const w of warnings)console.warn('WARN '+w);
