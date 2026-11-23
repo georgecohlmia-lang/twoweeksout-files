@@ -59,6 +59,16 @@ report('two decisions separates affordability tests',twoDecisionsRule.includes('
 report('two decisions avoids revenue and profit proxies',twoDecisionsRule.includes('not treat revenue, accounting profit, and distributable cash as interchangeable'),'draw increase requires cash evidence');
 report('two decisions household runway',twoDecisionsRule.includes('household liquid savings')&&twoDecisionsRule.includes('household deadline')&&twoDecisionsRule.includes('does NOT prove'),'household funding gap is not proof of inadequate company cash');
 report('two decisions follow-up distinct',twoDecisionsRule.includes('Recommend a different action from the initial answer'),'follow-up should advance beyond initial test');
+// Exercise the Worksheet 46 diagnosis against contrasting cash/household cases.
+const financialSource=section(backend,'function twoDecisionsDiagnosis(snapshot,followUp){','function distributedWorkDiagnosis(snapshot,followUp){');
+const diagnoseFinance=vm.runInNewContext(financialSource+'; twoDecisionsDiagnosis');
+const constrained={values:{draw_current:'75000',draw_needed:'140000',gap_context:'Spouse income and savings cover the household gap',underpaid_action:'M.J. raise of $17K to market midpoint',dec_team:'Reallocate profit share and temporarily reduce owner draw',dec_household:'Increase draw to $85K after Q3 revenue growth'}};
+const healthy={values:{draw_current:'75000',draw_needed:'140000',gap_context:'Spouse salary covers household expenses; no savings withdrawal',underpaid_action:'Market adjustment for key role',dec_team:'Business has ample cash reserves',dec_household:'No draw increase planned'}};
+const fInitial=diagnoseFinance(constrained,false),fFollow=diagnoseFinance(constrained,true),fHealthy=diagnoseFinance(healthy,true);
+report('two decisions diagnosis wired',backend.includes('distributedDiagnosis+financialDiagnosis'),'financial diagnosis passed to model instructions');
+report('two decisions initial cash over revenue',fInitial.includes('AVAILABLE CASH')&&fInitial.includes('reject revenue growth'),'initial response prioritizes cash affordability over revenue');
+report('two decisions follow-up household runway',fFollow.includes('NET gap')&&fFollow.includes('household runway')&&!fFollow.includes('Propose ONE forward-looking business cash test'),'follow-up is a different household test');
+report('two decisions cash healthy household',fHealthy.includes('does NOT show the company cannot afford')&&fHealthy.includes('subtract other household income'),'household needs not equated with business cash weakness');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
 if(warnings.length)for(const w of warnings)console.warn('WARN '+w);
