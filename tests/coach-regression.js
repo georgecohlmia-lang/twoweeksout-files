@@ -123,6 +123,10 @@ report('cash13 enforced distinct follow-up',cash13Second.includes('not the same 
 report('cash13 no invented buffer',!cash13Second.includes('$15,000 reserve')&&cash13Second.includes('existing $20,000 reserve'),'retain owner reserve');
 report('cash13 missing threshold handled',cash13Coach(cash13NoThreshold,false).includes('not entered a minimum cash reserve')&&cash13Coach(cash13NoThreshold,true).includes('do not substitute an arbitrary example'),'no arbitrary cash buffer');
 report('cash13 deterministic standard path',backend.includes('return json({reply:thirteenWeekCashCoaching(cash13,history.some'),'first response and tell me more use deterministic response');
+const cash13RoutingPattern=backend.match(/if\(cash13 && \(!priorCoachReply \|\| (\/.*?\/i)\.test\(input\.trim\(\)\)\)\)/)?.[1];
+const cash13FollowRegex=cash13RoutingPattern?vm.runInNewContext(cash13RoutingPattern):null;
+report('cash13 real follow-up recognized',cash13FollowRegex?.test('Tell me more')===true&&cash13FollowRegex?.test('tell me more.')===true&&cash13FollowRegex?.test('Go deeper')===true,'literal word boundaries must match actual frontend messages');
+report('cash13 unrelated questions stay interactive',cash13FollowRegex?.test('Which payment can I defer?')===false,'other questions must still reach AI');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
 if(warnings.length)for(const w of warnings)console.warn('WARN '+w);
