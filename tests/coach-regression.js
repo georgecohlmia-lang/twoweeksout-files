@@ -88,6 +88,33 @@ report('compensation follow-up distinct conflict',compFollow.includes('PRIORITY 
 report('compensation recognizes margin protection',compMargin.includes('margin_protection_stated=true')&&compMargin.includes('acknowledge that protection'),'do not assume missing margin safeguard');
 report('compensation distinguishes profit sharing from equity',compFollow.includes('Profit sharing based on EBITDA is NOT equity')&&compFollow.includes('Annual profit-sharing timing alone does NOT prove'),'no false equity or budgeting claims');
 report('compensation distinguishes genuine equity',compEquity.includes('equity_stated=true')&&compEquity.includes('profit_sharing_stated=false'),'genuine stock options recognized separately');
+// Worksheet 48: verified cash arithmetic and distinct ownership decisions.
+const cash13Source=section(backend,'function thirteenWeekCashAnalysis(snapshot){','function compensationDesignDiagnosis(snapshot,followUp){');
+const cash13Fns=vm.runInNewContext(cash13Source+'; ({thirteenWeekCashAnalysis,thirteenWeekCashDiagnosis})');
+const cash13Values={openingBalance:45000,threshold:20000,thresholdProvided:1,entered:4};
+let cash13Balance=45000;
+for(let w=1;w<=13;w++){
+ const receipts=w===2?8000:w===4?30000:0;
+ const payments=w===2?38000:w===4?26200:0;
+ const entries=w===2||w===4?2:0;
+ const closing=cash13Balance+receipts-payments;
+ cash13Values['week'+w]='opening '+cash13Balance+'; receipts '+receipts+'; payments '+payments+'; closing '+closing+'; populated cells '+entries;
+ cash13Balance=closing;
+}
+const cash13Valid=cash13Fns.thirteenWeekCashAnalysis({values:cash13Values});
+const cash13Initial=cash13Fns.thirteenWeekCashDiagnosis(cash13Valid,false);
+const cash13Follow=cash13Fns.thirteenWeekCashDiagnosis(cash13Valid,true);
+report('cash13 verified numeric trough',cash13Valid?.lowestWeek===2&&cash13Valid?.lowestClosing===15000&&cash13Valid?.endingBalance===18800,'week 2 trough and week 4 closing must be calculated');
+report('cash13 reserve breaches',cash13Valid?.breaches.some(b=>b.week===2&&b.shortfall===5000)&&cash13Valid?.breaches.some(b=>b.week===4&&b.shortfall===1200),'below-reserve shortfall uses explicit threshold');
+report('cash13 blank weeks distinguished',cash13Valid?.lastPopulatedWeek===4&&cash13Valid?.unpopulatedWeeks.includes(13),'missing entries not treated as proof of zero obligations');
+report('cash13 initial ownership priority',cash13Initial.includes('INITIAL PRIORITY — VERIFIED LIQUIDITY POSITION')&&cash13Initial.includes('positive cash is NOT automatically sufficient'),'first response states verified trough and reserve');
+report('cash13 follow-up distinct commitment decision',cash13Follow.includes('FOLLOW-UP PRIORITY — DISTINCT OWNER DECISION')&&cash13Follow.includes('temporary commitment gate')&&cash13Follow.includes('No invented refunds'),'second response moves to discretionary commitment discipline');
+report('cash13 wired to backend',backend.includes('numeric.verifiedCash13=cash13')&&backend.includes('compensationDiagnosis+cash13Diagnosis'),'backend passes verified analysis and instructions');
+report('cash13 threshold presence transmitted',adapter.includes('thresholdProvided:t?.value.trim()?1:0'),'missing threshold distinguishable from entered zero');
+const cash13Tampered={...cash13Values,week3:'opening 15000; receipts 0; payments 0; closing 999999; populated cells 0'};
+report('cash13 rejects inconsistent weekly arithmetic',cash13Fns.thirteenWeekCashAnalysis({values:cash13Tampered})===null,'server rejects tampered closing');
+const cash13NoThreshold=cash13Fns.thirteenWeekCashAnalysis({values:{...cash13Values,threshold:0,thresholdProvided:0}});
+report('cash13 does not invent minimum threshold',cash13NoThreshold?.threshold===null&&cash13NoThreshold?.breaches.length===0,'unset threshold must not become zero reserve');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
 if(warnings.length)for(const w of warnings)console.warn('WARN '+w);
