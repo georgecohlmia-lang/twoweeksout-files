@@ -72,6 +72,9 @@ report('two decisions cash healthy household',fHealthy.includes('does NOT show t
 report('two decisions no false business subsidy',fInitial.includes('NOT a transfer to the company')&&fInitial.includes('Never say the household is covering business shortfalls'),'household savings not interpreted as business deficit');
 report('two decisions follow-up topic exclusion',fFollow.includes('MANDATORY FOLLOW-UP TOPIC: household savings runway')&&fFollow.includes('DO NOT recommend monitoring company cash'),'follow-up must not repeat initial cash advice');
 report('two decisions market claim not verified',fInitial.includes('not independently verified fairness'),'market midpoint remains unverified worksheet claim');
+report('two decisions annual savings unit',fFollow.includes('$20K ANNUAL savings withdrawal')&&fFollow.includes('NEVER call $20K a monthly gap'),'annual withdrawal cannot be described as monthly');
+report('two decisions monthly conversion',fFollow.includes('$1,667 PER MONTH')&&fFollow.includes('$20,000 / 12')&&fFollow.includes('$833 per month'),'monthly savings figures preserve /12 conversion');
+report('two decisions runway needs savings balance',fFollow.includes('only if comfortably usable liquid savings balance is supplied')&&fFollow.includes('Never invent a savings balance or runway duration'),'runway duration not invented');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
 if(warnings.length)for(const w of warnings)console.warn('WARN '+w);
