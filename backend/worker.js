@@ -341,7 +341,7 @@ export default {async fetch(request,env){
   // Anchor follow-up guidance beside the current learner question.
   const priorCoachReply = [...history].reverse().find(m=>m.role==='assistant')?.content || '';
   // Verified standard Worksheet 48 response; keep other follow-up questions interactive.
-  if(cash13 && (!priorCoachReply || /\\b(tell me more|more detail|go deeper|expand on that|elaborate)\\b/i.test(input.trim()))) {
+  if(cash13 && (!priorCoachReply || /\b(tell me more|more detail|go deeper|expand on that|elaborate)\b/i.test(input.trim()))) {
     return json({reply:thirteenWeekCashCoaching(cash13,history.some(m=>m.role==='assistant'))},200,cors);
   }
   const followUpContext = priorCoachReply
