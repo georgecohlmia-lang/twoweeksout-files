@@ -53,6 +53,12 @@ report('distributed expansion diagnosis',initial.includes('cross_location_author
 report('distributed follow-up differentiation',followup.includes('SECOND-ORDER')&&followup.includes('bypassing')&&!followup.includes('INITIAL DIAGNOSIS'),'follow-up explores authority bypass, not the initial challenge');
 report('distributed unrelated scenario',remote.includes('decision_rights')&&!remote.includes('cross_location_authority'),'single remote team does not inherit multi-office diagnosis');
 report('distributed prompt wiring',backend.includes('hiringModeInstruction+distributedDiagnosis'),'diagnosis included in model instructions');
+// Financial reasoning guardrails for Worksheet 46 (static prompt contract, not model-quality test).
+const twoDecisionsRule=backendRules.match(/'owers-posture':"([^"]+)"/)?.[1]||'';
+report('two decisions separates affordability tests',twoDecisionsRule.includes('THREE SEPARATE tests')&&twoDecisionsRule.includes('incremental contribution profit')&&twoDecisionsRule.includes('available business cash'),'distinguish market pay, recurring company affordability and household adequacy');
+report('two decisions avoids revenue and profit proxies',twoDecisionsRule.includes('not treat revenue, accounting profit, and distributable cash as interchangeable'),'draw increase requires cash evidence');
+report('two decisions household runway',twoDecisionsRule.includes('household liquid savings')&&twoDecisionsRule.includes('household deadline')&&twoDecisionsRule.includes('does NOT prove'),'household funding gap is not proof of inadequate company cash');
+report('two decisions follow-up distinct',twoDecisionsRule.includes('Recommend a different action from the initial answer'),'follow-up should advance beyond initial test');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
 if(warnings.length)for(const w of warnings)console.warn('WARN '+w);
