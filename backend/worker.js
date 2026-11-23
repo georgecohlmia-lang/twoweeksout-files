@@ -321,7 +321,7 @@ export default {async fetch(request,env){
   const question=multi?(lessonPrompts[worksheetId][input]||input):(topics[input]||input);
   // Only the standard initial risk assessment and its immediate follow-up use the
   // deterministic 13-week decision brief; other learner questions still use AI.
-  if(cash13 && (!history.some(m=>m.role==='assistant') || /^(tell me more|more detail|go deeper)[.!? ]*$/i.test(input.trim()))) {
+  if(cash13 && (!history.some(m=>m.role==='assistant') || /\b(tell me more|more detail|go deeper|expand on that|elaborate)\b/i.test(input.trim()))) {
     return json({reply:thirteenWeekCashCoaching(cash13,history.some(m=>m.role==='assistant'))},200,cors);
   }
   // Anchor follow-up guidance beside the current learner question.
