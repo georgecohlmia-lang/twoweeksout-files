@@ -75,6 +75,19 @@ report('two decisions market claim not verified',fInitial.includes('not independ
 report('two decisions annual savings unit',fFollow.includes('$20K ANNUAL savings withdrawal')&&fFollow.includes('NEVER call $20K a monthly gap'),'annual withdrawal cannot be described as monthly');
 report('two decisions monthly conversion',fFollow.includes('$1,667 PER MONTH')&&fFollow.includes('$20,000 / 12')&&fFollow.includes('$833 per month'),'monthly savings figures preserve /12 conversion');
 report('two decisions runway needs savings balance',fFollow.includes('only if comfortably usable liquid savings balance is supplied')&&fFollow.includes('Never invent a savings balance or runway duration'),'runway duration not invented');
+// Worksheet 47: verify economic priority, separate follow-up, and compensation terminology.
+const compSource=section(backend,'function compensationDesignDiagnosis(snapshot,followUp){','function twoDecisionsDiagnosis(snapshot,followUp){');
+const diagnoseComp=vm.runInNewContext(compSource+'; compensationDesignDiagnosis');
+const compScenario={values:{role_tier:'Senior account leader',var_influence:'Account expansion',var_math:'10% on expansion revenue above $200K plus NPS quality bonus',eq_vehicle:'Annual profit sharing',eq_specifics:'Paid if company EBITDA clears threshold; employee must remain employed'}};
+const compInitial=diagnoseComp(compScenario,false),compFollow=diagnoseComp(compScenario,true);
+const compMargin=diagnoseComp({values:{var_math:'10% expansion revenue above $200K subject to minimum contribution margin of 35%',eq_vehicle:'Annual EBITDA profit sharing'}},false);
+const compEquity=diagnoseComp({values:{var_math:'Revenue expansion bonus',eq_vehicle:'Stock options'}},true);
+report('compensation diagnosis wired',backend.includes('financialDiagnosis+compensationDiagnosis'),'Worksheet 47 diagnosis passed to model instructions');
+report('compensation initial prioritizes contribution profit',compInitial.includes('PRIORITY 1 — INCENTIVE ECONOMICS')&&compInitial.includes('after delivery/support costs AND the incentive payout')&&compInitial.includes('deal-level contribution-margin'),'revenue commission tested for economic value');
+report('compensation follow-up distinct conflict',compFollow.includes('PRIORITY 2 — SECOND-ORDER INCENTIVE CONFLICT')&&compFollow.includes('Do NOT repeat the initial deal-level profitability test')&&compFollow.includes('who controls price, discounts, delivery costs and EBITDA'),'follow-up addresses incentive interaction and controllability');
+report('compensation recognizes margin protection',compMargin.includes('margin_protection_stated=true')&&compMargin.includes('acknowledge that protection'),'do not assume missing margin safeguard');
+report('compensation distinguishes profit sharing from equity',compFollow.includes('Profit sharing based on EBITDA is NOT equity')&&compFollow.includes('Annual profit-sharing timing alone does NOT prove'),'no false equity or budgeting claims');
+report('compensation distinguishes genuine equity',compEquity.includes('equity_stated=true')&&compEquity.includes('profit_sharing_stated=false'),'genuine stock options recognized separately');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
 if(warnings.length)for(const w of warnings)console.warn('WARN '+w);
