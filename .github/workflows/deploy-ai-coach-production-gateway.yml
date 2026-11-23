@@ -1,0 +1,52 @@
+name: Deploy AI Coach production worksheet gateway (manual)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: two-weeks-out-production-gateway-deploy
+  cancel-in-progress: false
+
+jobs:
+  verify-and-deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out tested AI Coach integration
+        uses: actions/checkout@v4
+        with:
+          ref: ai-coach-integration
+          persist-credentials: false
+
+      - name: Verify production target and integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s wrangler.jsonc
+          test -s src/index.js
+          test -s worksheets/ai-coach-adapters-v1.js
+          test -s worksheets/ai-ownership-coach-v1.js
+          node --check src/index.js
+          node --check worksheets/ai-coach-adapters-v1.js
+          node --check worksheets/ai-ownership-coach-v1.js
+          node -e "const fs=require('fs'); const c=JSON.parse(fs.readFileSync('wrangler.jsonc','utf8').replace(/^\\s*\/\/.*$/gm,'')); if(c.name!=='two-weeks-out-worksheets'||c.main!=='src/index.js'||c.services?.[0]?.service!=='two-ai-ownership-coach'||c.assets?.directory!=='./worksheets') process.exit(1)"
+          node tests/coach-regression.js
+
+      - name: Install browser regression dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.58.2
+          npx playwright install --with-deps chromium
+
+      - name: Run Coach browser regression
+        run: node tests/coach-browser-regression.js
+
+      - name: Deploy production worksheet gateway and assets
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
+          command: deploy --config wrangler.jsonc
