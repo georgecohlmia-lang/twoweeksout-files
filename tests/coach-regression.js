@@ -115,6 +115,14 @@ const cash13Tampered={...cash13Values,week3:'opening 15000; receipts 0; payments
 report('cash13 rejects inconsistent weekly arithmetic',cash13Fns.thirteenWeekCashAnalysis({values:cash13Tampered})===null,'server rejects tampered closing');
 const cash13NoThreshold=cash13Fns.thirteenWeekCashAnalysis({values:{...cash13Values,threshold:0,thresholdProvided:0}});
 report('cash13 does not invent minimum threshold',cash13NoThreshold?.threshold===null&&cash13NoThreshold?.breaches.length===0,'unset threshold must not become zero reserve');
+const cash13CoachingSource=section(backend,'function thirteenWeekCashCoaching(analysis,followUp){','function thirteenWeekCashDiagnosis(analysis,followUp){');
+const cash13Coach=vm.runInNewContext(cash13CoachingSource+'; thirteenWeekCashCoaching');
+const cash13First=cash13Coach(cash13Valid,false),cash13Second=cash13Coach(cash13Valid,true);
+report('cash13 enforced verified initial',cash13First.includes('$15,000')&&cash13First.includes('Week 2')&&cash13First.includes('$5,000')&&cash13First.includes('$20,000'),'initial uses exact verified trough and threshold');
+report('cash13 enforced distinct follow-up',cash13Second.includes('not the same as')&&cash13Second.includes('separate approval')&&!/refund|warranty/i.test(cash13Second),'follow-up gates discretionary commitments without invented obligations');
+report('cash13 no invented buffer',!cash13Second.includes('$15,000 reserve')&&cash13Second.includes('existing $20,000 reserve'),'retain owner reserve');
+report('cash13 missing threshold handled',cash13Coach(cash13NoThreshold,false).includes('not entered a minimum cash reserve')&&cash13Coach(cash13NoThreshold,true).includes('do not substitute an arbitrary example'),'no arbitrary cash buffer');
+report('cash13 deterministic standard path',backend.includes('return json({reply:thirteenWeekCashCoaching(cash13,history.some'),'first response and tell me more use deterministic response');
 console.log('AI Coach static regression: '+checks.filter(x=>x.ok).length+'/'+checks.length+' checks passed; '+ids.length+' adapter IDs');
 for(const e of errors)console.error('FAIL '+e);
 if(warnings.length)for(const w of warnings)console.warn('WARN '+w);
